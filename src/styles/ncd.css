@@ -3535,17 +3535,18 @@
 .lp-grid {
   display: flex;
   gap: 12px;
-  /* Hard-coded height: viewport minus header (92px) minus top gap (6px) minus bottom breathing (20px) */
-  height: calc(100dvh - 118px) !important;
-  max-height: calc(100dvh - 118px) !important;
-  flex: none !important;
-  padding: 0 14px !important;
-  align-items: stretch;
-  overflow: hidden !important;
-  margin-bottom: 20px;
+  flex: 1 !important;
+  padding: 6px 14px 0 !important;
+  align-items: flex-start !important;  /* cards size themselves, not stretched to clip */
+  overflow: visible !important;
 }
 
-/* Cap programme rows so sparse columns (HSS, NDCP) don't balloon */
+/* Cards have explicit height — never touches the overflow boundary */
+.lp-card {
+  height: calc(100dvh - 130px);
+}
+
+/* Cap programme rows so sparse columns don't balloon */
 .lp-prog {
   max-height: 88px;
 }
