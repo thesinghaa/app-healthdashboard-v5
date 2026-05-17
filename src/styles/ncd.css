@@ -3535,7 +3535,7 @@
 .lp-grid {
   display: flex;
   gap: 12px;
-  padding: 14px !important;
+  padding: 14px 14px 10px !important;
   align-items: stretch;
 }
 
