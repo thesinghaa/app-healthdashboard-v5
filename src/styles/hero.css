@@ -4,7 +4,8 @@
 
 /* ── Root — 3-layer z-index architecture ───────────────────────── */
 .home-root {
-  height: 100%;       /* fills #root which is 100% of body/html = 100vh */
+  height: 100dvh;
+  max-height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
