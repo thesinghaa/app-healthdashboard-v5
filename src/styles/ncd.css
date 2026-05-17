@@ -3537,6 +3537,7 @@
   gap: 12px;
   padding: 6px 14px 16px !important;
   align-items: stretch;
+  overflow: visible !important;
 }
 
 /* ── Division cards — 3D orange bento style ─────────────────────── */
