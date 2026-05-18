@@ -96,9 +96,10 @@
 }
 
 .glass-navbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 0;
+  gap: 24px;
   width: 100%;
   background: rgba(250,247,242,0.93);
   backdrop-filter: blur(24px) saturate(180%);
@@ -110,7 +111,7 @@
     0 8px 32px rgba(0,0,0,0.30),
     0 2px 8px rgba(0,0,0,0.20),
     0 0 20px rgba(255,85,0,0.08);
-  padding: 10px 20px 10px 24px;
+  padding: 11px 22px;
   position: relative;
   overflow: hidden;
 }
@@ -156,11 +157,6 @@
   flex-direction: column;
   gap: 4px;
   flex-shrink: 0;
-  padding-right: 22px;
-  margin-right: 20px;
-  border-right: 1px solid rgba(255,85,0,0.15);
-  align-self: stretch;
-  justify-content: center;
 }
 .home-state-name {
   font-family: 'Playfair Display', Georgia, serif;
@@ -192,14 +188,13 @@
 /* ── Summary stat bar — single connected strip ──────────────────── */
 .home-summary {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   background: rgba(255,255,255,0.45);
   border: 1px solid rgba(255,255,255,0.80);
   border-radius: 50px;
   overflow: hidden;
   flex-shrink: 0;
-  align-self: center;
-  height: 42px;
+  justify-self: center;
 }
 
 /* Each segment: number + label in a row */
@@ -260,6 +255,13 @@
 .hs-green  .hs-lbl { color: rgba(255,255,255,0.80); }
 
 /* ── Inline legend ──────────────────────────────────────────────── */
+/* ── Right column: legend + search ─────────────────────────────── */
+.home-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
 .home-legend {
   display: flex;
   flex-direction: column;

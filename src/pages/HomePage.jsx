@@ -218,21 +218,28 @@ export default function HomePage({ onSelectProgram, onSelectDivision }) {
                 <div className="hs-pill hs-yellow"><span className="hs-val">{summary.yellow}</span><span className="hs-lbl">Caution</span></div>
                 <div className="hs-pill hs-green"><span className="hs-val">{summary.green}</span><span className="hs-lbl">On Track</span></div>
               </div>
-              <div className="home-nav-search">
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" className="hns-icon">
-                  <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.7"/>
-                  <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
-                </svg>
-                <input
-                  className="hns-input"
-                  type="text"
-                  placeholder="Search here for programme…"
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                />
-                {searchQuery && (
-                  <button className="hns-clear" onClick={() => setSearchQuery('')}>×</button>
-                )}
+              <div className="home-right">
+                <div className="home-legend">
+                  <span className="hl-item"><span className="hl-dot hl-red" />Immediate Attention</span>
+                  <span className="hl-item"><span className="hl-dot hl-yellow" />Under Review</span>
+                  <span className="hl-item"><span className="hl-dot hl-green" />On Track</span>
+                </div>
+                <div className="home-nav-search">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" className="hns-icon">
+                    <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.7"/>
+                    <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
+                  </svg>
+                  <input
+                    className="hns-input"
+                    type="text"
+                    placeholder="Search here for programme…"
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                  />
+                  {searchQuery && (
+                    <button className="hns-clear" onClick={() => setSearchQuery('')}>×</button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
