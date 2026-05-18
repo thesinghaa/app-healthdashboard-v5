@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { DIVISIONS, STATUS_CONFIG } from '../data/programs';
 
@@ -81,9 +81,17 @@ const PROG_LABEL = {
   'pm-abhim':          'PM-ABHIM',
 };
 
+function matchesSearch(progId, query) {
+  if (!query) return true;
+  const q = query.toLowerCase();
+  const label = (PROG_LABEL[progId] || progId).toLowerCase();
+  return label.includes(q) || progId.toLowerCase().includes(q);
+}
+
 export default function HomePage({ onSelectProgram, onSelectDivision }) {
   const rootRef = useRef(null);
   const summary = getSummary();
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -147,6 +155,22 @@ export default function HomePage({ onSelectProgram, onSelectDivision }) {
                 <div className="hs-pill hs-yellow"><span className="hs-val">{summary.yellow}</span><span className="hs-lbl">Caution</span></div>
                 <div className="hs-pill hs-green"><span className="hs-val">{summary.green}</span><span className="hs-lbl">On Track</span></div>
               </div>
+              <div className="home-search">
+                <svg className="home-search-icon" width="13" height="13" viewBox="0 0 16 16" fill="none">
+                  <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.6"/>
+                  <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+                </svg>
+                <input
+                  className="home-search-input"
+                  type="text"
+                  placeholder="Search programme…"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                />
+                {searchQuery && (
+                  <button className="home-search-clear" onClick={() => setSearchQuery('')}>×</button>
+                )}
+              </div>
               <div className="home-legend">
                 <span className="hl-item"><span className="hl-dot hl-red" />Immediate Attention</span>
                 <span className="hl-item"><span className="hl-dot hl-yellow" />Under Review</span>
@@ -197,10 +221,12 @@ export default function HomePage({ onSelectProgram, onSelectDivision }) {
 
                 {/* Programme list */}
                 <div className="lp-progs">
-                  {div.programs.map(prog => (
+                  {div.programs.map(prog => {
+                    const matched = matchesSearch(prog.id, searchQuery);
+                    return (
                     <button
                       key={prog.id}
-                      className={`lp-prog lp-prog--${prog.status}`}
+                      className={`lp-prog lp-prog--${prog.status}${searchQuery && !matched ? ' lp-prog--dimmed' : ''}${searchQuery && matched ? ' lp-prog--highlighted' : ''}`}
                       onClick={() => onSelectProgram(prog, div)}
                     >
                       <div className="lp-prog-left">
@@ -213,7 +239,8 @@ export default function HomePage({ onSelectProgram, onSelectDivision }) {
                         {STATUS_TEXT[prog.status]}
                       </span>
                     </button>
-                  ))}
+                    );
+                  })}
                 </div>
 
               </div>
