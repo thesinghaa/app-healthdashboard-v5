@@ -204,7 +204,7 @@ export default function HomePage({ onSelectProgram, onSelectDivision }) {
                 <input
                   className="hns-input"
                   type="text"
-                  placeholder="Search programme…"
+                  placeholder="Search here for programme…"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                 />

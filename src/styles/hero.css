@@ -98,7 +98,7 @@
 .glass-navbar {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 0;
   width: 100%;
   background: rgba(250,247,242,0.93);
   backdrop-filter: blur(24px) saturate(180%);
@@ -110,7 +110,7 @@
     0 8px 32px rgba(0,0,0,0.30),
     0 2px 8px rgba(0,0,0,0.20),
     0 0 20px rgba(255,85,0,0.08);
-  padding: 11px 26px;
+  padding: 10px 20px 10px 24px;
   position: relative;
   overflow: hidden;
 }
@@ -156,6 +156,11 @@
   flex-direction: column;
   gap: 4px;
   flex-shrink: 0;
+  padding-right: 22px;
+  margin-right: 20px;
+  border-right: 1px solid rgba(255,85,0,0.15);
+  align-self: stretch;
+  justify-content: center;
 }
 .home-state-name {
   font-family: 'Playfair Display', Georgia, serif;

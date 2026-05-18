@@ -3784,26 +3784,40 @@
 .home-nav-search {
   display: flex;
   align-items: center;
-  gap: 7px;
-  background: rgba(255,255,255,0.45);
-  border: 1px solid rgba(255,255,255,0.80);
+  gap: 8px;
+  /* Orange 3D glass pill */
+  background: rgba(255, 248, 242, 0.62);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1.5px solid rgba(255, 100, 30, 0.38);
   border-radius: 50px;
-  padding: 0 14px;
-  height: 100%;
-  min-height: 38px;
-  min-width: 160px;
-  max-width: 200px;
+  padding: 0 16px;
+  height: 42px;
+  min-width: 220px;
+  max-width: 280px;
   margin-left: auto;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  position: relative;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.80),
+    inset 0 -1px 0 rgba(255, 85, 0, 0.10),
+    0 2px 8px rgba(255, 85, 0, 0.14),
+    0 4px 20px rgba(255, 85, 0, 0.10),
+    0 0 0 1px rgba(255, 85, 0, 0.06);
+  transition: border-color 0.22s, box-shadow 0.22s, background 0.22s;
 }
 .home-nav-search:focus-within {
-  border-color: rgba(232,80,10,0.45);
-  background: rgba(255,255,255,0.75);
-  box-shadow: 0 0 0 3px rgba(232,80,10,0.07);
+  border-color: rgba(255, 85, 0, 0.65);
+  background: rgba(255, 248, 242, 0.88);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.90),
+    inset 0 -1px 0 rgba(255, 85, 0, 0.14),
+    0 2px 8px rgba(255, 85, 0, 0.22),
+    0 6px 28px rgba(255, 85, 0, 0.18),
+    0 0 0 3px rgba(255, 85, 0, 0.10);
 }
 .hns-icon {
-  color: #A0622A;
-  opacity: 0.65;
+  color: #D94F00;
+  opacity: 0.75;
   flex-shrink: 0;
 }
 .hns-input {
@@ -3811,20 +3825,26 @@
   background: transparent;
   outline: none;
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  color: #1A0E06;
+  font-size: 11.5px;
+  font-weight: 400;
+  color: #2A1205;
   width: 100%;
   min-width: 0;
+  letter-spacing: 0.01em;
 }
-.hns-input::placeholder { color: #B89070; }
+.hns-input::placeholder {
+  color: rgba(180, 100, 40, 0.55);
+  font-style: italic;
+  font-size: 11px;
+}
 .hns-clear {
   border: none;
-  background: rgba(232,80,10,0.12);
-  color: #A0622A;
+  background: rgba(255, 85, 0, 0.14);
+  color: #C04000;
   border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  font-size: 11px;
+  width: 17px;
+  height: 17px;
+  font-size: 13px;
   line-height: 1;
   display: flex;
   align-items: center;
@@ -3832,7 +3852,9 @@
   cursor: pointer;
   flex-shrink: 0;
   padding: 0;
+  transition: background 0.15s;
 }
+.hns-clear:hover { background: rgba(255, 85, 0, 0.26); }
 
 /* ── Search dim / highlight ── */
 .lp-prog--dimmed {
