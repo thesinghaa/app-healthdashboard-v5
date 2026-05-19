@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, lazy, Suspense } from 'react';
 import { gsap } from 'gsap';
 import './styles/index.css';
 import LandingPage from './pages/LandingPage';
@@ -8,8 +8,10 @@ import DivisionPage from './pages/DivisionPage';
 import KDProgrammePage from './pages/KDProgrammePage';
 import HRHCadrePage from './pages/HRHCadrePage';
 import DrugsDiagnosticsPage from './pages/DrugsDiagnosticsPage';
-import KDIndicatorDetail from './pages/KDIndicatorDetail';
-import CurrentStatusDetailPage from './pages/CurrentStatusDetailPage';
+
+/* Heavy pages — Plotly only loads when these routes are visited */
+const KDIndicatorDetail      = lazy(() => import('./pages/KDIndicatorDetail'));
+const CurrentStatusDetailPage = lazy(() => import('./pages/CurrentStatusDetailPage'));
 
 export default function App() {
   const [view, setView] = useState({
@@ -163,7 +165,9 @@ export default function App() {
       </div>
       <div className="flip-stage">
         <div className="flip-page" ref={pageRef}>
-          {renderPage()}
+          <Suspense fallback={null}>
+            {renderPage()}
+          </Suspense>
         </div>
       </div>
     </>
