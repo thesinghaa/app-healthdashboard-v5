@@ -181,6 +181,8 @@ export default function HomePage({ onSelectProgram, onSelectDivision }) {
         <div className="bg-orb bg-orb--2" />
         <div className="bg-orb bg-orb--3" />
         <div className="bg-orb bg-orb--4" />
+        <div className="bg-orb bg-orb--5" />
+        <div className="bg-orb bg-orb--6" />
       </div>
       <div className="home-content">
 
