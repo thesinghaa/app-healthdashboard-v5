@@ -274,4 +274,317 @@ For continued learning, recommend auditing:
 
 ---
 
+---
+
+# Design Audit — Peterson-KFF Health System Tracker
+**URL**: https://www.healthsystemtracker.org/dashboard/  
+**Audit date**: May 2026  
+**Built by**: Peterson Center on Healthcare + Kaiser Family Foundation (KFF)  
+**Purpose**: US health system performance benchmarking — gold standard for health data editorial design
+
+---
+
+## 1. First Impressions
+
+This is the **benchmark for health data storytelling** in the non-profit/policy research space. Where Kerala eHealth is an admin portal, and V3 is a programme performance tracker, Health System Tracker is a **public-facing editorial product** — it explains health system performance to a general audience including journalists, policymakers, and researchers.
+
+The design feels like a premium magazine crossed with a data product. Every number has a sentence. Every chart has a headline. Nothing is raw — everything is interpreted.
+
+**Immediate contrast with V3:** They have more editorial polish, we have more operational depth. They explain national trends; we track programme-level targets and achievements. Different purpose, same principle: make data interpretable.
+
+---
+
+## 2. Organisation & Ownership
+
+| Property | Value |
+|---|---|
+| Organisation | Peterson Center on Healthcare + KFF (Kaiser Family Foundation) |
+| Audience | Policymakers, journalists, researchers, general public |
+| Scope | US health system — international comparisons included |
+| Data currency | 2022–2024 depending on indicator |
+| Last updated | Active — regularly updated |
+| Access | Fully public, no login required |
+
+---
+
+## 3. Information Architecture
+
+### 3.1 Top-Level Navigation
+```
+Primary nav (horizontal)
+├── Health Spending
+├── Quality of Care
+├── Access & Affordability
+└── Health & Wellbeing
+
+Secondary nav
+├── Dashboard          ← aggregated view of all 4 sections
+├── Data Tools
+└── About Us
+
+Trending topics sidebar
+├── Price Transparency
+├── Affordability
+└── Prescription Drugs
+```
+
+**Architecture observation:** The 4-section model maps to a conceptual framework of health system performance — spending → access → quality → outcomes. This is a deliberate sequencing: inputs first, outcomes last. It tells a story about causality.
+
+### 3.2 Dashboard Structure
+The dashboard is a **summary of summaries** — each of the 4 sections shows 3–5 representative indicator cards. Clicking any card goes to a dedicated deep-dive page with full datasets, methodology, and related indicators.
+
+```
+Dashboard (overview)
+└── Section (e.g. Health Spending)
+      └── Indicator Card (e.g. 18% GDP)
+            └── Full Indicator Page (charts, data, context, downloads)
+```
+
+**3 layers total** — clean and predictable. Users always know where they are.
+
+### 3.3 Indicator Count
+| Section | Total Indicators |
+|---|---|
+| Health Spending | 12 |
+| Access & Affordability | 8 |
+| Quality of Care | 22 |
+| Health & Wellbeing | 16 |
+| **Total** | **58** |
+
+Each indicator has its own URL (`/indicator/[category]/[slug]`) — deep-linkable, shareable, SEO-friendly.
+
+---
+
+## 4. Layout & Grid
+
+### Dashboard Page Layout
+```
+┌──────────────────────────────────────────────────────┐
+│  Top nav: logo + 4 categories + Dashboard/Tools/About │
+├──────────────────────────────────────────────────────┤
+│  Hero: "Health System Dashboard" title + description  │
+│         + quick anchor links to 4 sections            │
+├──────────────────────────────────────────────────────┤
+│  Section 1: Health Spending                           │
+│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐                │
+│  │ Card │ │ Card │ │ Card │ │ Card │  (3–5 per row)  │
+│  └──────┘ └──────┘ └──────┘ └──────┘                │
+│  [ View All 12 Indicators ↓ ]                        │
+├──────────────────────────────────────────────────────┤
+│  Section 2: Access & Affordability  (same pattern)   │
+│  Section 3: Quality of Care         (same pattern)   │
+│  Section 4: Health & Wellbeing      (same pattern)   │
+├──────────────────────────────────────────────────────┤
+│  Footer: newsletter + social + legal                  │
+└──────────────────────────────────────────────────────┘
+```
+
+### Indicator Card Anatomy
+```
+┌────────────────────────────────────────┐
+│  [Section icon]  Section label         │
+│                                        │
+│  Indicator title (H3, bold)            │
+│                                        │
+│  [Chart thumbnail or big number]       │
+│                                        │
+│  One-sentence insight (italicised)     │
+│                                        │
+│  View More + [N additional data points]│
+└────────────────────────────────────────┘
+```
+
+**Key UX insight:** Every card has a **headline sentence** — not just a number. "U.S. health spending has consistently outpaced economic growth" tells you the so-what before you even look at the chart. This is editorial design applied to data.
+
+**V3 learning:** Programme cards on the landing page show `keyMetric` but no interpretive sentence. Adding a one-line insight to each programme card would significantly increase comprehension for non-expert viewers.
+
+---
+
+## 5. Colour System
+
+| Usage | Description | Approx Hex |
+|---|---|---|
+| Page background | Clean white | `#ffffff` |
+| Section backgrounds | Off-white alternating | `#f7f7f7` / `#ffffff` |
+| Primary accent | Deep blue (KFF brand) | `#1a476f` |
+| Secondary accent | Teal/blue-green | `#0d6ea0` |
+| Icon backgrounds | Light blue tint | `#e8f3fb` |
+| Chart lines — primary | Blue | `#1a476f` |
+| Chart lines — comparison | Orange/red | `#c0392b` or `#e67e22` |
+| Text primary | Near-black | `#1a1a1a` |
+| Text secondary | Mid grey | `#555555` |
+| Text muted | Light grey | `#888888` |
+| Border / dividers | Very light grey | `#e0e0e0` |
+| Positive trend | Green | `#27ae60` |
+| Negative trend | Red | `#c0392b` |
+
+**Colour audit observations:**
+- Cool blue palette — authoritative, academic, trustworthy. Appropriate for policy research.
+- Restrained use of colour — most of the page is white/grey, accent used sparingly so it means something when it appears
+- Chart comparisons use blue (US) vs. orange/red (international peers) — intuitive contrast
+- No warm colours in the UI chrome — warmth only appears in data (to signal a problem)
+- Hover states are subtle — light blue fill, no dramatic transitions
+- No gradients, no glass, no depth effects — pure flat editorial
+
+**Contrast with V3:** V3's orange warmth gives urgency and character; Health System Tracker's cool blue gives credibility. Both are intentional — different audiences, different emotional registers.
+
+---
+
+## 6. Typography
+
+| Element | Font | Style | Size (est.) |
+|---|---|---|---|
+| Site title / hero | Custom or Georgia serif | Bold | 32–40px |
+| Section headers | Sans-serif (likely Lato or similar) | 700 | 22–26px |
+| Card titles | Sans-serif | 600 | 16–18px |
+| Big KPI numbers | Sans-serif | 800 | 36–48px |
+| Insight sentences | Sans-serif | 400 italic | 14–15px |
+| Body / description | Sans-serif | 400 | 14px |
+| Labels / metadata | Sans-serif | 500 caps | 11–12px |
+| Nav items | Sans-serif | 500 | 14px |
+
+**Typography observations:**
+- **Big number treatment** is excellent — KPI values are oversized (36–48px), bold, and colour-coded. They land visually before you read the label.
+- **Italic insight sentences** signal "this is interpretation, not raw data" — a smart typographic convention
+- Clear H1→H2→H3 hierarchy — section → card → detail flows naturally
+- No monospace for numbers (V3 uses JetBrains Mono — arguably more precise for data alignment)
+- Strong contrast between card titles and insight text — weight and style do the work
+
+---
+
+## 7. Data Presentation Patterns
+
+### 7.1 The Headline + Number + Chart Pattern
+Every indicator follows the same template:
+1. **Category icon** (contextual anchoring)
+2. **Indicator name** (what we're measuring)
+3. **Single headline number** (the current state)
+4. **One-sentence interpretation** (the so-what)
+5. **Chart thumbnail** (the trend)
+6. **"View More"** link (the full depth)
+
+This is the most replicable pattern from this audit. It works because it respects different users' depth needs — a skimmer gets the number + sentence, an analyst clicks through to the full chart.
+
+### 7.2 Chart Types Used
+| Chart type | Used for |
+|---|---|
+| Line chart | Trends over time (spending growth, life expectancy, teen pregnancy) |
+| Bar chart | Cross-country comparisons (employment, spending per capita) |
+| Big number / stat | Single current-state metric (8% uninsured, 18% GDP) |
+| Sparkline / thumbnail | Card-level preview of trend direction |
+| Area chart | Spending composition / stacked categories |
+
+No pie charts — consistent with best practices in data viz (pie charts are poor for precise comparison).
+
+### 7.3 Comparative Benchmarking
+A distinguishing feature — nearly every indicator shows **US vs. comparable countries** (UK, Germany, France, Canada, Australia, Japan). This benchmarking layer answers "is this good or bad?" which raw numbers alone cannot.
+
+**V3 equivalent:** Our NFHS-4 → NFHS-5 comparison and state vs. national average benchmarks serve the same function — contextualising whether AP's numbers are concerning relative to a baseline.
+
+### 7.4 Expand / Collapse Pattern
+Each section has a "View All Indicators / Hide All Indicators" toggle. The dashboard starts compact — only 3–5 cards per section — but can expand to show all 58 indicators. This is a clean information density control.
+
+**V3 learning:** The landing page 5-column layout could benefit from a similar progressive disclosure — show top 5 programmes per division, with expand to show all.
+
+---
+
+## 8. Navigation & UX Patterns
+
+### Strengths
+- **Anchor navigation**: Hero has quick-jump links to each of the 4 sections — solves the long-scroll problem
+- **Consistent card template**: Same structure for every indicator — zero learning curve
+- **Deep linking**: Every indicator has its own URL — shareable, bookmarkable, citable
+- **Search**: Header search works across all 58 indicators — type "maternal" and find the card
+- **Tutorial video**: Onboarding for new users — acknowledges that dashboards need explanation
+- **"More Info" tooltips**: Inline context without leaving the page
+- **Newsletter**: Converts passive viewers into engaged subscribers
+- **Social sharing per section**: Enables specific data points to be shared, not just the homepage
+
+### Weaknesses
+- **No filter by geography**: All data is US national — no state-level drill-down on the dashboard itself
+- **No status classification**: Like Kerala, there's no "this indicator is on track / off track" signal — you must interpret the charts yourself
+- **Slow to scan for outliers**: 58 indicators presented without priority ranking — no way to know which 5 are most concerning
+- **Time lag on data**: Some indicators are 2022 data (4 years old) — freshness is a limitation of US health survey cycles
+- **No mobile-first design**: Designed desktop-first; card grid doesn't optimise well on small screens
+
+---
+
+## 9. Interaction & Microinteractions
+
+- **Hover states**: Cards get a subtle box shadow lift on hover — signals clickability without being heavy
+- **Toggle animation**: "View All / Hide" section expands with smooth height transition
+- **Active nav state**: Current section highlighted in primary nav
+- **Chart tooltips**: Hover over chart points shows exact values with date
+- **Share buttons**: Appear in-line with minimal visual weight — not intrusive
+
+Overall microinteraction quality: **high but restrained**. Nothing flashy — every animation serves a functional purpose.
+
+---
+
+## 10. Branding & Credibility Signals
+
+- **Dual branding** (Peterson + KFF) — two credible institutions sharing ownership builds trust
+- **Data source citations** on every indicator — methodology is transparent
+- **Version / last-updated** timestamps on data — users know how fresh the information is
+- **Footer**: Newsletter, social, legal — standard but clean
+- **No ads, no clutter** — funded by foundations, not advertising
+
+**Credibility observation:** The cleanness of the design IS the brand signal. A complex, uncluttered page communicates "we have nothing to hide and no agenda to push." For PIF's dashboard, similar data transparency (source citations, NPCC reference dates) would add credibility.
+
+---
+
+## 11. Accessibility
+
+- Semantic HTML heading hierarchy (confirmed H1→H6 structure)
+- Icons paired with text labels — not icon-only
+- Social sharing buttons have descriptive text
+- Colour is not the only differentiator (trend direction also shown by chart shape and text)
+- Likely WCAG AA compliant — KFF is a public institution with strong accessibility standards
+- Print stylesheet likely present (research audience often prints reports)
+
+---
+
+## 12. Performance
+
+- Custom-built (not AdminLTE) — no template overhead
+- Charts are likely rendered as static images on the dashboard (thumbnails), with interactive versions on deep-dive pages — smart performance trade-off
+- WordPress-based likely (KFF sites commonly use WP + custom theme)
+- CDN delivery for static assets
+
+---
+
+## 13. Comparative Summary: Health System Tracker vs. PIF V3
+
+| Dimension | Health System Tracker | PIF V3 |
+|---|---|---|
+| Primary audience | Policymakers, researchers, journalists | NHM programme officers, PIF team |
+| Geographic scope | US national + international | Arunachal Pradesh — state + district |
+| Data depth | 58 indicators, 4 categories | 37 programmes, 157 KDs |
+| Editorial layer | Strong — every number has a sentence | Partial — keyMetric shown, no sentence |
+| Status signal | None — self-interpret from charts | On Track / Caution / Critical |
+| Benchmarking | US vs. comparable countries | FY target vs. achievement + NFHS baseline |
+| Visual style | Flat editorial, cool blue | Glass morphism, warm orange |
+| Typography | 2-font editorial (serif + sans) | 3-font data hierarchy |
+| Search | Full-text across all indicators | Deep KD search + aliases |
+| Deep linking | Every indicator has a URL | State-based routing (no URL per indicator) |
+| Data freshness | 2022–2024 (survey cycle lag) | NPCC April 2026 (current FY) |
+| Mobile | Desktop-first | Desktop-first |
+| Download/export | Implied (data tools section) | Not yet implemented |
+| Onboarding | Tutorial video + tooltips | None yet |
+
+---
+
+## 14. Key Learnings for V3
+
+1. **Headline sentence on every card** — "X% of pregnant women missed ANC in Q1" is more powerful than just "64.9%". Add a one-line interpretation to programme cards on the landing page.
+2. **Anchor navigation for long pages** — When V3 adds more content layers, quick-jump anchors in the navbar/header will prevent scroll fatigue.
+3. **Deep linking** — Each KD indicator page should have its own URL. Currently V3 uses state-based routing with no URL per page. Adding URL params (`?division=rch&programme=maternal-health&kd=3`) would make sharing and bookmarking possible.
+4. **Benchmark context** — Every KD already has NFHS-4 → NFHS-5 baseline. Surface the national average prominently (AP vs. India) on the KD page to contextualise whether the gap is state-specific or national.
+5. **Progressive disclosure on landing** — Show fewer items by default, expand on demand. Currently V3 shows all programmes — a division with 11 NCD programmes is crowded. A "show all" toggle per column could clean this up.
+6. **Tutorial / onboarding** — A 30-second tooltip walkthrough on first visit would dramatically improve comprehension for non-technical users (NHM programme officers seeing this for the first time).
+7. **Data citations inline** — Every chart and number on V3 should have a source note ("NPCC Apr 2026", "HMIS 2025-26"). Builds credibility instantly.
+8. **No pie charts** — Confirmed best practice. V3 correctly uses sunbursts (hierarchical), area charts, and bar charts. Avoid pies.
+
+---
+
 *This file should be updated whenever a new dashboard or design reference is audited. Keep one site per major section.*
