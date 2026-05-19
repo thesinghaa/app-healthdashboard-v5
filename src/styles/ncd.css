@@ -385,7 +385,7 @@
   background: transparent;
   transition: opacity 0.18s ease, background 0.18s ease;
 }
-.ncd-dlg-row:hover { background: rgba(255,85,0,0.05); }
+.ncd-dlg-row:hover { background: rgba(0,181,204,0.05); }
 
 .ncd-dlg-dot {
   width: 7px;
@@ -678,8 +678,8 @@
 /* ── Topbar badges / links ───────────────────────────────────────── */
 .hmis-live-badge {
   font-size: 10px; font-weight: 700; font-family: 'Inter', sans-serif;
-  background: rgba(255,85,0,0.10); color: var(--org);
-  border: 1px solid rgba(255,85,0,0.25); border-radius: 20px;
+  background: rgba(0,181,204,0.10); color: var(--org);
+  border: 1px solid rgba(0,181,204,0.25); border-radius: 20px;
   padding: 3px 10px; letter-spacing: 0.06em; text-transform: uppercase;
 }
 .hmis-error-badge {
@@ -688,11 +688,11 @@
 }
 .hmis-sheet-link {
   font-size: 11px; font-weight: 600; font-family: 'Inter', sans-serif;
-  background: rgba(255,85,0,0.09); color: var(--org);
-  border: 1px solid rgba(255,85,0,0.25); border-radius: 6px;
+  background: rgba(0,181,204,0.09); color: var(--org);
+  border: 1px solid rgba(0,181,204,0.25); border-radius: 6px;
   padding: 4px 12px; text-decoration: none; white-space: nowrap;
 }
-.hmis-sheet-link:hover { background: rgba(255,85,0,0.15); }
+.hmis-sheet-link:hover { background: rgba(0,181,204,0.15); }
 
 /* ── Category tabs ───────────────────────────────────────────────── */
 .hmis-tabs-section {
@@ -1180,7 +1180,7 @@
 /* ── Programme header card ───────────────────────────────────────── */
 .kd-prog-header {
   background: rgba(255,255,255,0.90);
-  border: 1.5px solid rgba(255,85,0,0.25);
+  border: 1.5px solid rgba(0,181,204,0.25);
   border-top: 3px solid var(--org);
   border-radius: 14px;
   padding: 22px 26px;
@@ -1271,7 +1271,7 @@
 /* ── KD indicator table ──────────────────────────────────────────── */
 .kd-table {
   background: rgba(255,255,255,0.90);
-  border: 1.5px solid rgba(255,85,0,0.18);
+  border: 1.5px solid rgba(0,181,204,0.18);
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 2px 12px rgba(26,22,16,0.07);
@@ -1399,7 +1399,7 @@
 /* ── Hero detail card ────────────────────────────────────────────── */
 .kdi-hero {
   background: rgba(255,255,255,0.92);
-  border: 1.5px solid rgba(255,85,0,0.22);
+  border: 1.5px solid rgba(0,181,204,0.22);
   border-left: 5px solid #059669;
   border-radius: 14px;
   padding: 26px 30px;
@@ -2152,7 +2152,7 @@
   align-items: baseline;
   gap: 12px;
   padding: 10px 0 4px;
-  border-bottom: 2px solid var(--org, #FF5500);
+  border-bottom: 2px solid var(--org, #00b5cc);
   margin-bottom: 16px;
   flex-wrap: wrap;
 }
@@ -2162,8 +2162,8 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--org, #FF5500);
-  background: rgba(255,85,0,0.08);
+  color: var(--org, #00b5cc);
+  background: rgba(0,181,204,0.08);
   padding: 3px 8px;
   border-radius: 4px;
   flex-shrink: 0;
@@ -2423,7 +2423,7 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 22px;
   font-weight: 700;
-  color: #FF5500;
+  color: #00b5cc;
   line-height: 1;
 }
 .cs-tb-lbl {
@@ -2550,7 +2550,7 @@
 
 /* Card gets a subtle left accent */
 .cs-nfhs-card {
-  border-left: 4px solid var(--org, #FF5500);
+  border-left: 4px solid var(--org, #00b5cc);
 }
 
 /* Big section title */
@@ -2624,7 +2624,7 @@
   flex: 1;
   min-width: 260px;
   margin-bottom: 16px;
-  border-top: 3px solid var(--org, #FF5500);
+  border-top: 3px solid var(--org, #00b5cc);
   position: relative;
 }
 .cs-plot-card--half {
@@ -2649,8 +2649,8 @@
 }
 
 @keyframes cs-dot-pulse {
-  0%, 100% { transform: scale(1);   opacity: 1; box-shadow: 0 0 0 0 rgba(255,85,0,0.5); }
-  50%       { transform: scale(1.2); opacity: 1; box-shadow: 0 0 0 4px rgba(255,85,0,0); }
+  0%, 100% { transform: scale(1);   opacity: 1; box-shadow: 0 0 0 0 rgba(0,181,204,0.5); }
+  50%       { transform: scale(1.2); opacity: 1; box-shadow: 0 0 0 4px rgba(0,181,204,0); }
 }
 
 .dv-card-footer {
@@ -2678,13 +2678,13 @@
   );
   background-size: 300% 100%;
   animation: cs-badge-shimmer 2.6s linear infinite;
-  border: 1px solid #FF5500;
+  border: 1px solid #00b5cc;
   border-radius: 20px;
   padding: 3px 9px 3px 7px;
   font-family: 'Inter', sans-serif;
   font-size: 10.5px;
   font-weight: 700;
-  color: #FF5500;
+  color: #00b5cc;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 1;
@@ -2692,7 +2692,7 @@
   position: relative;
   overflow: hidden;
   /* subtle outer glow */
-  box-shadow: 0 0 0 2px rgba(255,85,0,0.08), 0 1px 6px rgba(255,85,0,0.15);
+  box-shadow: 0 0 0 2px rgba(0,181,204,0.08), 0 1px 6px rgba(0,181,204,0.15);
 }
 
 /* live dot — pulsing orange circle */
@@ -2702,7 +2702,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #FF5500;
+  background: #00b5cc;
   flex-shrink: 0;
   animation: cs-dot-pulse 1.8s ease-in-out infinite;
 }
@@ -2714,15 +2714,15 @@
 
 .kd-cs-outer {
   border-radius: 16px;
-  border: 2.5px solid #FF5500;
+  border: 2.5px solid #00b5cc;
   overflow: hidden;
-  box-shadow: 0 6px 32px rgba(255,85,0,0.14), 0 1px 4px rgba(255,85,0,0.08);
+  box-shadow: 0 6px 32px rgba(0,181,204,0.14), 0 1px 4px rgba(0,181,204,0.08);
   /* remove the normal kd-prog-section padding so we control it ourselves */
   padding: 0 !important;
 }
 
 .kd-cs-outer-header {
-  background: linear-gradient(100deg, #FF5500 0%, #E04000 100%);
+  background: linear-gradient(100deg, #00b5cc 0%, #E04000 100%);
   padding: 16px 22px;
   display: flex;
   align-items: center;
@@ -2788,7 +2788,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #FF5500;
+  background: #00b5cc;
   color: #FFFFFF;
   font-family: 'Inter', sans-serif;
   font-size: 11.5px;
@@ -2800,7 +2800,7 @@
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.18s, transform 0.14s, box-shadow 0.18s;
-  box-shadow: 0 2px 8px rgba(255,85,0,0.28);
+  box-shadow: 0 2px 8px rgba(0,181,204,0.28);
   position: relative;
 }
 
@@ -2817,7 +2817,7 @@
 .dv-cs-btn:hover {
   background: #E04000;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(255,85,0,0.38);
+  box-shadow: 0 4px 14px rgba(0,181,204,0.38);
 }
 
 .dv-cs-btn:active {
@@ -2841,7 +2841,7 @@
   top: 0;
   z-index: 100;
   background: #1A1F36;
-  border-bottom: 3px solid #FF5500;
+  border-bottom: 3px solid #00b5cc;
   box-shadow: 0 2px 12px rgba(26,31,54,0.22);
 }
 
@@ -2873,8 +2873,8 @@
 }
 
 .app-back-btn:hover {
-  background: rgba(255,85,0,0.18);
-  border-color: rgba(255,85,0,0.45);
+  background: rgba(0,181,204,0.18);
+  border-color: rgba(0,181,204,0.45);
 }
 
 .app-back-arrow {
@@ -2923,14 +2923,14 @@
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   font-weight: 700;
-  color: #FF5500;
+  color: #00b5cc;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 /* ── Orange hero header ───────────────────────────────────────── */
 .csd-hero {
-  background: linear-gradient(108deg, #FF5500 0%, #C83A00 100%);
+  background: linear-gradient(108deg, #00b5cc 0%, #C83A00 100%);
   padding: 40px 0 36px;
   position: relative;
   overflow: hidden;
@@ -2998,7 +2998,7 @@
 /* NCD / KD topbar (ncd-topbar) */
 .ncd-topbar {
   background: #1A1F36 !important;
-  border-bottom: 3px solid #FF5500 !important;
+  border-bottom: 3px solid #00b5cc !important;
 }
 
 .ncd-topbar .back-btn {
@@ -3008,12 +3008,12 @@
 }
 
 .ncd-topbar .back-btn:hover {
-  background: rgba(255,85,0,0.18) !important;
-  border-color: rgba(255,85,0,0.45) !important;
+  background: rgba(0,181,204,0.18) !important;
+  border-color: rgba(0,181,204,0.45) !important;
 }
 
 .ncd-topbar .detail-div-tag {
-  background: #FF5500 !important;
+  background: #00b5cc !important;
   color: #FFFFFF !important;
 }
 
@@ -3024,13 +3024,13 @@
 /* DivisionPage topbar (dv-topbar) — keep its existing teal-adjacent style
    but add the orange bottom accent to match the theme */
 .dv-topbar {
-  border-bottom: 3px solid #FF5500;
+  border-bottom: 3px solid #00b5cc;
 }
 
 /* KDIndicatorDetail topbar if it exists */
 .kd-ind-topbar {
   background: #1A1F36 !important;
-  border-bottom: 3px solid #FF5500 !important;
+  border-bottom: 3px solid #00b5cc !important;
 }
 
 /* =================================================================
@@ -3044,7 +3044,7 @@
   width: 100%;
   background: linear-gradient(108deg, #1A1F36 0%, #242C4E 100%);
   border: none;
-  border-left: 4px solid #FF5500;
+  border-left: 4px solid #00b5cc;
   border-radius: 12px;
   padding: 18px 22px;
   cursor: pointer;
@@ -3060,18 +3060,18 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 50% 80% at 90% 50%, rgba(255,85,0,0.07) 0%, transparent 70%);
+  background: radial-gradient(ellipse 50% 80% at 90% 50%, rgba(0,181,204,0.07) 0%, transparent 70%);
   pointer-events: none;
 }
 
 .cs-entry-bar:hover {
-  box-shadow: 0 8px 28px rgba(255,85,0,0.22), 0 2px 8px rgba(26,31,54,0.14);
+  box-shadow: 0 8px 28px rgba(0,181,204,0.22), 0 2px 8px rgba(26,31,54,0.14);
   transform: translateY(-2px);
 }
 
 .cs-entry-bar:active {
   transform: translateY(0);
-  box-shadow: 0 3px 12px rgba(255,85,0,0.16);
+  box-shadow: 0 3px 12px rgba(0,181,204,0.16);
 }
 
 .cs-entry-bar-left {
@@ -3086,7 +3086,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #FF5500;
+  background: #00b5cc;
   flex-shrink: 0;
   animation: cs-dot-pulse 1.8s ease-in-out infinite;
 }
@@ -3104,7 +3104,7 @@
   font-weight: 800;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #FF5500;
+  color: #00b5cc;
   line-height: 1;
 }
 
@@ -3133,7 +3133,7 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: #FF5500;
+  background: #00b5cc;
   color: #FFFFFF;
   font-family: 'Inter', sans-serif;
   font-size: 12px;
@@ -3186,7 +3186,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  background: linear-gradient(105deg, #FF5500 0%, #E04000 100%);
+  background: linear-gradient(105deg, #00b5cc 0%, #E04000 100%);
   border-radius: 14px 14px 0 0;
   padding: 16px 22px;
   margin-bottom: 0;
@@ -3252,10 +3252,10 @@
 
 /* Outer container — orange border wrapping header + charts body */
 .csd-charts-outer {
-  border: 2.5px solid #FF5500;
+  border: 2.5px solid #00b5cc;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 6px 32px rgba(255,85,0,0.14), 0 1px 4px rgba(255,85,0,0.08);
+  box-shadow: 0 6px 32px rgba(0,181,204,0.14), 0 1px 4px rgba(0,181,204,0.08);
   margin-bottom: 28px;
 }
 
@@ -3283,7 +3283,7 @@
   background: rgba(255,252,248,0.84) !important;
   backdrop-filter: blur(32px) saturate(175%) !important;
   -webkit-backdrop-filter: blur(32px) saturate(175%) !important;
-  border: 4px solid #FF5500 !important;
+  border: 4px solid #00b5cc !important;
   border-radius: 20px !important;
   box-shadow:
     /* light-catch rim */
@@ -3291,19 +3291,19 @@
     inset 1px 0 0 rgba(255,255,255,0.42),
     inset -1px 0 0 rgba(255,255,255,0.22),
     /* orange floor tint */
-    inset 0 -2px 0 rgba(255,85,0,0.14),
+    inset 0 -2px 0 rgba(0,181,204,0.14),
     /* elevation layers */
     0 2px 4px rgba(26,22,16,0.08),
     0 10px 28px rgba(26,22,16,0.11),
     0 32px 72px rgba(26,22,16,0.09),
     /* orange ambient glow */
-    0 4px 32px rgba(255,85,0,0.16) !important;
+    0 4px 32px rgba(0,181,204,0.16) !important;
 }
 
 /* Card header — no left border (outer card border handles the frame) */
 .cc-header {
   background: rgba(255,252,248,0.60) !important;
-  border-bottom: 1px solid rgba(255,85,0,0.14) !important;
+  border-bottom: 1px solid rgba(0,181,204,0.14) !important;
   border-left: none !important;
 }
 
@@ -3312,28 +3312,28 @@
   background: rgba(255,255,255,0.80) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255,85,0,0.12) !important;
-  border-top: 2px solid rgba(255,85,0,0.28) !important;
+  border: 1px solid rgba(0,181,204,0.12) !important;
+  border-top: 2px solid rgba(0,181,204,0.28) !important;
   border-radius: 8px !important;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.90),
-    inset 0 -1px 0 rgba(255,85,0,0.07),
+    inset 0 -1px 0 rgba(0,181,204,0.07),
     0 1px 3px rgba(26,22,16,0.05),
     0 3px 10px rgba(26,22,16,0.07),
-    0 2px 10px rgba(255,85,0,0.07) !important;
+    0 2px 10px rgba(0,181,204,0.07) !important;
   transition: box-shadow 0.18s ease, transform 0.16s ease, border-color 0.16s ease !important;
 }
 .programme-row:hover {
   background: rgba(255,255,255,0.96) !important;
-  border-color: rgba(255,85,0,0.40) !important;
-  border-top-color: #FF5500 !important;
+  border-color: rgba(0,181,204,0.40) !important;
+  border-top-color: #00b5cc !important;
   transform: translateY(-2px) !important;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.98),
-    inset 0 -1px 0 rgba(255,85,0,0.12),
+    inset 0 -1px 0 rgba(0,181,204,0.12),
     0 2px 6px rgba(26,22,16,0.08),
     0 6px 18px rgba(26,22,16,0.10),
-    0 4px 18px rgba(255,85,0,0.14) !important;
+    0 4px 18px rgba(0,181,204,0.14) !important;
 }
 /* Status left-border colours preserved */
 .programme-row.status-critical,
@@ -3341,37 +3341,37 @@
 .programme-row.status-caution,
 .cc-row--yellow { border-left-color: #D97706 !important; }
 .programme-row.status-on-track,
-.cc-row--green  { border-left-color: #FF5500 !important; }
+.cc-row--green  { border-left-color: #00b5cc !important; }
 
 /* ── Layer 2: DivisionPage programme cards ───────────────────────── */
 .dv-prog-card {
   background: rgba(255,252,248,0.85) !important;
   backdrop-filter: blur(18px) saturate(168%) !important;
   -webkit-backdrop-filter: blur(18px) saturate(168%) !important;
-  border: 1.5px solid rgba(255,85,0,0.28) !important;
-  border-top: 4px solid #FF5500 !important;
-  border-left: 4px solid rgba(255,85,0,0.22) !important;
+  border: 1.5px solid rgba(0,181,204,0.28) !important;
+  border-top: 4px solid #00b5cc !important;
+  border-left: 4px solid rgba(0,181,204,0.22) !important;
   box-shadow:
     inset 0 2px 0 rgba(255,255,255,0.93),
-    inset 0 -2px 0 rgba(255,85,0,0.11),
+    inset 0 -2px 0 rgba(0,181,204,0.11),
     0 2px 5px rgba(26,22,16,0.07),
     0 8px 24px rgba(26,22,16,0.10),
     0 24px 56px rgba(26,22,16,0.08),
-    0 4px 24px rgba(255,85,0,0.13) !important;
+    0 4px 24px rgba(0,181,204,0.13) !important;
   transition: box-shadow 0.26s ease, transform 0.22s ease, border-color 0.22s ease !important;
 }
 .dv-prog-card:hover {
-  border-color: rgba(255,85,0,0.58) !important;
-  border-top-color: #FF5500 !important;
+  border-color: rgba(0,181,204,0.58) !important;
+  border-top-color: #00b5cc !important;
   transform: translateY(-5px) !important;
   box-shadow:
     inset 0 2px 0 rgba(255,255,255,0.97),
-    inset 0 -2px 0 rgba(255,85,0,0.17),
+    inset 0 -2px 0 rgba(0,181,204,0.17),
     0 4px 10px rgba(26,22,16,0.09),
     0 16px 42px rgba(26,22,16,0.12),
     0 38px 76px rgba(26,22,16,0.09),
-    0 0 0 1.5px rgba(255,85,0,0.22),
-    0 8px 44px rgba(255,85,0,0.24) !important;
+    0 0 0 1.5px rgba(0,181,204,0.22),
+    0 8px 44px rgba(0,181,204,0.24) !important;
 }
 /* Status left-border colours preserved; top always orange */
 .dv-prog-card.status-critical {
@@ -3383,7 +3383,7 @@
   background: rgba(255,253,243,0.85) !important;
 }
 .dv-prog-card.status-on-track {
-  border-left-color: #FF5500 !important;
+  border-left-color: #00b5cc !important;
   background: rgba(255,252,248,0.85) !important;
 }
 
@@ -3392,16 +3392,16 @@
   background: rgba(255,252,248,0.80) !important;
   backdrop-filter: blur(14px) saturate(152%) !important;
   -webkit-backdrop-filter: blur(14px) saturate(152%) !important;
-  border: 1.5px solid rgba(255,85,0,0.22) !important;
-  border-top: 3px solid #FF5500 !important;
+  border: 1.5px solid rgba(0,181,204,0.22) !important;
+  border-top: 3px solid #00b5cc !important;
   border-radius: 16px !important;
   padding: 22px 24px !important;
   box-shadow:
     inset 0 1.5px 0 rgba(255,255,255,0.90),
-    inset 0 -1.5px 0 rgba(255,85,0,0.09),
+    inset 0 -1.5px 0 rgba(0,181,204,0.09),
     0 2px 6px rgba(26,22,16,0.06),
     0 8px 22px rgba(26,22,16,0.08),
-    0 4px 20px rgba(255,85,0,0.10) !important;
+    0 4px 20px rgba(0,181,204,0.10) !important;
 }
 
 /* Programme header — transparent inside section glass card */
@@ -3416,12 +3416,12 @@
 /* KD table — white tile inside the section glass card */
 .kd-prog-section .kd-table {
   background: rgba(255,255,255,0.94) !important;
-  border: 1px solid rgba(255,85,0,0.12) !important;
+  border: 1px solid rgba(0,181,204,0.12) !important;
   border-radius: 12px !important;
   box-shadow:
     0 1px 4px rgba(26,22,16,0.05),
     0 4px 14px rgba(26,22,16,0.06),
-    0 2px 10px rgba(255,85,0,0.06) !important;
+    0 2px 10px rgba(0,181,204,0.06) !important;
 }
 
 /* Summary chips — glass micro-cards */
@@ -3429,13 +3429,13 @@
   background: rgba(255,255,255,0.88) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255,85,0,0.14) !important;
-  border-top: 2px solid rgba(255,85,0,0.40) !important;
+  border: 1px solid rgba(0,181,204,0.14) !important;
+  border-top: 2px solid rgba(0,181,204,0.40) !important;
   border-radius: 12px !important;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.90),
     0 1px 4px rgba(26,22,16,0.06),
-    0 3px 10px rgba(255,85,0,0.07) !important;
+    0 3px 10px rgba(0,181,204,0.07) !important;
 }
 
 /* ── Layer 4: Inner page detail cards ──────────────────────────── */
@@ -3443,40 +3443,40 @@
   background: rgba(255,252,248,0.90) !important;
   backdrop-filter: blur(12px) saturate(155%) !important;
   -webkit-backdrop-filter: blur(12px) saturate(155%) !important;
-  border: 1.5px solid rgba(255,85,0,0.20) !important;
-  border-top: 3px solid #FF5500 !important;
+  border: 1.5px solid rgba(0,181,204,0.20) !important;
+  border-top: 3px solid #00b5cc !important;
   border-radius: 14px !important;
   box-shadow:
     inset 0 1.5px 0 rgba(255,255,255,0.92),
-    inset 0 -1.5px 0 rgba(255,85,0,0.09),
+    inset 0 -1.5px 0 rgba(0,181,204,0.09),
     0 2px 8px rgba(26,22,16,0.07),
     0 8px 24px rgba(26,22,16,0.09),
-    0 4px 20px rgba(255,85,0,0.10) !important;
+    0 4px 20px rgba(0,181,204,0.10) !important;
 }
 
 .cs-plot-card {
   background: rgba(255,252,248,0.90) !important;
   backdrop-filter: blur(10px) saturate(152%) !important;
   -webkit-backdrop-filter: blur(10px) saturate(152%) !important;
-  border: 1.5px solid rgba(255,85,0,0.22) !important;
-  border-top: 3px solid #FF5500 !important;
+  border: 1.5px solid rgba(0,181,204,0.22) !important;
+  border-top: 3px solid #00b5cc !important;
   border-radius: 14px !important;
   box-shadow:
     inset 0 1.5px 0 rgba(255,255,255,0.92),
-    inset 0 -1.5px 0 rgba(255,85,0,0.09),
+    inset 0 -1.5px 0 rgba(0,181,204,0.09),
     0 2px 8px rgba(26,22,16,0.07),
     0 8px 24px rgba(26,22,16,0.09),
-    0 4px 20px rgba(255,85,0,0.10) !important;
+    0 4px 20px rgba(0,181,204,0.10) !important;
 }
 
 /* csd-charts-outer gets matching depth treatment */
 .csd-charts-outer {
   box-shadow:
     inset 0 2px 0 rgba(255,255,255,0.94),
-    inset 0 -2px 0 rgba(255,85,0,0.12),
+    inset 0 -2px 0 rgba(0,181,204,0.12),
     0 4px 10px rgba(26,22,16,0.07),
     0 12px 34px rgba(26,22,16,0.10),
-    0 6px 36px rgba(255,85,0,0.18) !important;
+    0 6px 36px rgba(0,181,204,0.18) !important;
 }
 
 /* ── ncd-content gap boost — more breathing room between glass panels */
@@ -3489,16 +3489,16 @@
   background: rgba(255,252,248,0.80);
   backdrop-filter: blur(14px) saturate(152%);
   -webkit-backdrop-filter: blur(14px) saturate(152%);
-  border: 1.5px solid rgba(255,85,0,0.22);
-  border-top: 3px solid #FF5500;
+  border: 1.5px solid rgba(0,181,204,0.22);
+  border-top: 3px solid #00b5cc;
   border-radius: 16px;
   padding: 22px 24px;
   box-shadow:
     inset 0 1.5px 0 rgba(255,255,255,0.90),
-    inset 0 -1.5px 0 rgba(255,85,0,0.09),
+    inset 0 -1.5px 0 rgba(0,181,204,0.09),
     0 2px 6px rgba(26,22,16,0.06),
     0 8px 22px rgba(26,22,16,0.08),
-    0 4px 20px rgba(255,85,0,0.10);
+    0 4px 20px rgba(0,181,204,0.10);
 }
 
 /* ── cs-gauge-target — HTML target label below gauge charts ───────── */
@@ -3560,16 +3560,16 @@
   background: rgba(255, 252, 248, 0.84);
   backdrop-filter: blur(32px) saturate(175%);
   -webkit-backdrop-filter: blur(32px) saturate(175%);
-  border: 4px solid #FF5500;
+  border: 4px solid #00b5cc;
   box-shadow:
     inset 0 2px 0 rgba(255,255,255,0.95),
     inset 1px 0 0 rgba(255,255,255,0.42),
     inset -1px 0 0 rgba(255,255,255,0.22),
-    inset 0 -2px 0 rgba(255,85,0,0.14),
+    inset 0 -2px 0 rgba(0,181,204,0.14),
     0 2px 4px rgba(26,22,16,0.08),
     0 10px 28px rgba(26,22,16,0.11),
     0 32px 72px rgba(26,22,16,0.09),
-    0 4px 32px rgba(255,85,0,0.18);
+    0 4px 32px rgba(0,181,204,0.18);
   transition: box-shadow 0.20s ease, transform 0.20s ease;
 }
 .lp-card:hover {
@@ -3578,11 +3578,11 @@
     inset 0 2px 0 rgba(255,255,255,0.95),
     inset 1px 0 0 rgba(255,255,255,0.42),
     inset -1px 0 0 rgba(255,255,255,0.22),
-    inset 0 -2px 0 rgba(255,85,0,0.18),
+    inset 0 -2px 0 rgba(0,181,204,0.18),
     0 4px 8px rgba(26,22,16,0.10),
     0 16px 40px rgba(26,22,16,0.13),
     0 40px 80px rgba(26,22,16,0.10),
-    0 8px 48px rgba(255,85,0,0.24);
+    0 8px 48px rgba(0,181,204,0.24);
 }
 
 /* Column widths — proportional to programme count */
@@ -3597,7 +3597,7 @@
   flex-shrink: 0;
   padding: 14px 14px 11px;
   background: rgba(255, 252, 248, 0.60);
-  border-bottom: 1px solid rgba(255, 85, 0, 0.14);
+  border-bottom: 1px solid rgba(0, 181, 204, 0.14);
 }
 .lp-card-header-row {
   display: flex;
@@ -3610,9 +3610,9 @@
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #FF5500;
+  color: #00b5cc;
   background: rgba(255,255,255,0.70);
-  border: 1px solid rgba(255,85,0,0.28);
+  border: 1px solid rgba(0,181,204,0.28);
   padding: 3px 10px;
   border-radius: 10px;
 }
@@ -3624,14 +3624,14 @@
   height: 24px;
   border-radius: 7px;
   background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(255,85,0,0.22);
-  color: #FF5500;
+  border: 1px solid rgba(0,181,204,0.22);
+  color: #00b5cc;
   cursor: pointer;
   transition: background 0.15s, transform 0.15s;
   flex-shrink: 0;
 }
 .lp-expand-btn:hover {
-  background: rgba(255,85,0,0.14);
+  background: rgba(0,181,204,0.14);
   transform: scale(1.12);
 }
 .lp-div-name {
@@ -3668,7 +3668,7 @@
 /* ── Card divider ───────────────────────────────────────────────── */
 .lp-card-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,85,0,0.18) 30%, rgba(255,85,0,0.18) 70%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(0,181,204,0.18) 30%, rgba(0,181,204,0.18) 70%, transparent);
   flex-shrink: 0;
   margin: 0 10px;
 }
@@ -3694,36 +3694,36 @@
   background: rgba(255,255,255,0.80);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,85,0,0.12);
-  border-top: 2px solid rgba(255,85,0,0.28);
+  border: 1px solid rgba(0,181,204,0.12);
+  border-top: 2px solid rgba(0,181,204,0.28);
   cursor: pointer;
   text-align: left;
   min-height: 0;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.90),
-    inset 0 -1px 0 rgba(255,85,0,0.07),
+    inset 0 -1px 0 rgba(0,181,204,0.07),
     0 1px 3px rgba(26,22,16,0.05),
     0 3px 10px rgba(26,22,16,0.07),
-    0 2px 10px rgba(255,85,0,0.07);
+    0 2px 10px rgba(0,181,204,0.07);
   transition: box-shadow 0.16s ease, transform 0.14s ease, border-color 0.14s ease, background 0.14s ease;
 }
 .lp-prog:hover {
   background: rgba(255,255,255,0.96);
-  border-color: rgba(255,85,0,0.40);
-  border-top-color: #FF5500;
+  border-color: rgba(0,181,204,0.40);
+  border-top-color: #00b5cc;
   transform: translateY(-2px);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.98),
-    inset 0 -1px 0 rgba(255,85,0,0.12),
+    inset 0 -1px 0 rgba(0,181,204,0.12),
     0 2px 6px rgba(26,22,16,0.08),
     0 6px 18px rgba(26,22,16,0.10),
-    0 4px 18px rgba(255,85,0,0.14);
+    0 4px 18px rgba(0,181,204,0.14);
 }
 
 /* Status left-border accent */
 .lp-prog--red    { border-left-color: #DC2626; }
 .lp-prog--yellow { border-left-color: #D97706; }
-.lp-prog--green  { border-left-color: #FF5500; }
+.lp-prog--green  { border-left-color: #00b5cc; }
 
 .lp-prog-left {
   display: flex;
@@ -3788,7 +3788,7 @@
   background: rgba(255, 235, 215, 0.72);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
-  border: 2px solid rgba(232, 80, 10, 0.55);
+  border: 2px solid rgba(0, 181, 204, 0.55);
   border-radius: 50px;
   padding: 0 16px;
   height: 42px;
@@ -3797,20 +3797,20 @@
   box-shadow:
     inset 0 1.5px 0 rgba(255, 255, 255, 0.90),
     inset 0 -1.5px 0 rgba(200, 60, 0, 0.12),
-    0 2px 10px rgba(232, 80, 10, 0.20),
-    0 6px 24px rgba(232, 80, 10, 0.16),
-    0 0 0 1px rgba(232, 80, 10, 0.08);
+    0 2px 10px rgba(0, 181, 204, 0.20),
+    0 6px 24px rgba(0, 181, 204, 0.16),
+    0 0 0 1px rgba(0, 181, 204, 0.08);
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 .home-nav-search:focus-within {
-  border-color: rgba(232, 80, 10, 0.85);
+  border-color: rgba(0, 181, 204, 0.85);
   background: rgba(255, 230, 205, 0.90);
   box-shadow:
     inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
     inset 0 -1.5px 0 rgba(200, 60, 0, 0.18),
-    0 2px 10px rgba(232, 80, 10, 0.30),
-    0 8px 32px rgba(232, 80, 10, 0.22),
-    0 0 0 3px rgba(232, 80, 10, 0.12);
+    0 2px 10px rgba(0, 181, 204, 0.30),
+    0 8px 32px rgba(0, 181, 204, 0.22),
+    0 0 0 3px rgba(0, 181, 204, 0.12);
 }
 .hns-icon {
   color: #C04000;
@@ -3835,8 +3835,8 @@
 }
 .hns-clear {
   border: none;
-  background: rgba(232, 80, 10, 0.20);
-  color: #B03800;
+  background: rgba(0, 181, 204, 0.20);
+  color: #007a8f;
   border-radius: 50%;
   width: 17px;
   height: 17px;
@@ -3850,7 +3850,7 @@
   padding: 0;
   transition: background 0.15s;
 }
-.hns-clear:hover { background: rgba(232, 80, 10, 0.35); }
+.hns-clear:hover { background: rgba(0, 181, 204, 0.35); }
 
 /* ── Search dim / highlight ── */
 .lp-prog--dimmed {
@@ -3858,7 +3858,7 @@
   transition: opacity 0.15s;
 }
 .lp-prog--highlighted {
-  outline: 2px solid rgba(232,80,10,0.5);
+  outline: 2px solid rgba(0,181,204,0.5);
   outline-offset: -2px;
 }
 
@@ -3887,7 +3887,7 @@ h1, h2, h3, h4 {
   background: rgba(10,34,54,0.92) !important;
   backdrop-filter: blur(20px) saturate(160%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-  border-bottom: 1px solid rgba(255,85,0,0.22) !important;
+  border-bottom: 1px solid rgba(0,181,204,0.22) !important;
   box-shadow: 0 2px 16px rgba(0,0,0,0.50) !important;
 }
 
@@ -3900,43 +3900,43 @@ h1, h2, h3, h4 {
 /* ── Tooltip ─────────────────────────────────────────────────────── */
 .ncd-tooltip {
   background: var(--bg3) !important;
-  border: 1px solid rgba(255,85,0,0.22) !important;
+  border: 1px solid rgba(0,181,204,0.22) !important;
   box-shadow: 0 4px 16px rgba(0,0,0,0.50) !important;
 }
 .ncd-tip-label {
   color: var(--ink) !important;
-  border-bottom-color: rgba(255,85,0,0.18) !important;
+  border-bottom-color: rgba(0,181,204,0.18) !important;
 }
 
 /* ── NCD cards ───────────────────────────────────────────────────── */
 .ncd-card {
   background: var(--bg2) !important;
-  border-color: rgba(255,85,0,0.18) !important;
+  border-color: rgba(0,181,204,0.18) !important;
 }
 .ncd-card-header {
-  border-bottom-color: rgba(255,85,0,0.12) !important;
+  border-bottom-color: rgba(0,181,204,0.12) !important;
 }
 
 /* ── Insight cards ───────────────────────────────────────────────── */
 .ncd-insight-card {
   background: var(--bg3) !important;
-  border-color: rgba(255,85,0,0.15) !important;
+  border-color: rgba(0,181,204,0.15) !important;
   color: var(--ink-mid) !important;
 }
 
 /* ── HMIS tabs ───────────────────────────────────────────────────── */
 .hmis-tab {
   background: var(--bg3) !important;
-  border-color: rgba(255,85,0,0.20) !important;
+  border-color: rgba(0,181,204,0.20) !important;
   color: var(--ink-light) !important;
 }
 .hmis-tab:hover {
-  border-color: rgba(255,85,0,0.50) !important;
+  border-color: rgba(0,181,204,0.50) !important;
   color: var(--ink) !important;
   background: var(--bg4) !important;
 }
 .hmis-tab-id {
-  background: rgba(255,85,0,0.22) !important;
+  background: rgba(0,181,204,0.22) !important;
   color: var(--org2) !important;
 }
 .hmis-tab-active {
@@ -3952,7 +3952,7 @@ h1, h2, h3, h4 {
 /* ── HMIS year pills ─────────────────────────────────────────────── */
 .hmis-year-pill {
   background: var(--bg3) !important;
-  border-color: rgba(255,85,0,0.20) !important;
+  border-color: rgba(0,181,204,0.20) !important;
   color: var(--ink-light) !important;
 }
 .hmis-year-active {
@@ -3980,7 +3980,7 @@ h1, h2, h3, h4 {
 /* ── HMIS KPI cards ──────────────────────────────────────────────── */
 .hmis-kpi-card {
   background: var(--bg3) !important;
-  border-color: rgba(255,85,0,0.12) !important;
+  border-color: rgba(0,181,204,0.12) !important;
   box-shadow: 0 1px 4px rgba(0,0,0,0.30) !important;
 }
 .hmis-kpi-label {
@@ -3992,30 +3992,30 @@ h1, h2, h3, h4 {
 
 /* ── HMIS table ──────────────────────────────────────────────────── */
 .hmis-table {
-  border-top-color: rgba(255,85,0,0.12) !important;
+  border-top-color: rgba(0,181,204,0.12) !important;
 }
 .hmis-table-head {
   background: var(--bg3) !important;
-  border-bottom-color: rgba(255,85,0,0.12) !important;
+  border-bottom-color: rgba(0,181,204,0.12) !important;
   color: var(--ink-faint) !important;
 }
 .hmis-table-row {
-  border-bottom-color: rgba(255,85,0,0.08) !important;
+  border-bottom-color: rgba(0,181,204,0.08) !important;
 }
 .hmis-table-row:hover {
   background: var(--bg4) !important;
 }
 .hmis-row-kpi {
-  background: rgba(255,85,0,0.05) !important;
+  background: rgba(0,181,204,0.05) !important;
 }
 
 /* ── District rank list ──────────────────────────────────────────── */
 .dist-rank-list {
-  border-color: rgba(255,85,0,0.15) !important;
+  border-color: rgba(0,181,204,0.15) !important;
 }
 .dist-rank-row {
   background: var(--bg2) !important;
-  border-bottom-color: rgba(255,85,0,0.08) !important;
+  border-bottom-color: rgba(0,181,204,0.08) !important;
 }
 .dist-rank-row:hover {
   background: var(--bg3) !important;
@@ -4039,14 +4039,14 @@ h1, h2, h3, h4 {
 /* ── Narrative ───────────────────────────────────────────────────── */
 .dist-insight-narrative {
   background: var(--bg3) !important;
-  border-left-color: rgba(255,85,0,0.35) !important;
+  border-left-color: rgba(0,181,204,0.35) !important;
   color: var(--ink-mid) !important;
 }
 
 /* ── Performance card ────────────────────────────────────────────── */
 .perf-card {
   background: var(--bg2) !important;
-  border-color: rgba(255,85,0,0.18) !important;
+  border-color: rgba(0,181,204,0.18) !important;
   box-shadow: 0 2px 16px rgba(0,0,0,0.30), 0 1px 4px rgba(0,0,0,0.20) !important;
 }
 
@@ -4055,24 +4055,24 @@ h1, h2, h3, h4 {
   background: rgba(10,34,54,0.82) !important;
   backdrop-filter: blur(18px) saturate(168%) !important;
   -webkit-backdrop-filter: blur(18px) saturate(168%) !important;
-  border: 1.5px solid rgba(255,85,0,0.28) !important;
-  border-top: 4px solid #FF5500 !important;
+  border: 1.5px solid rgba(0,181,204,0.28) !important;
+  border-top: 4px solid #00b5cc !important;
   box-shadow:
-    inset 0 2px 0 rgba(255,85,0,0.08),
-    inset 0 -2px 0 rgba(255,85,0,0.05),
+    inset 0 2px 0 rgba(0,181,204,0.08),
+    inset 0 -2px 0 rgba(0,181,204,0.05),
     0 2px 5px rgba(0,0,0,0.25),
     0 8px 24px rgba(0,0,0,0.30),
-    0 4px 24px rgba(255,85,0,0.10) !important;
+    0 4px 24px rgba(0,181,204,0.10) !important;
 }
 .dv-prog-card:hover {
-  border-color: rgba(255,85,0,0.55) !important;
-  border-top-color: #FF5500 !important;
+  border-color: rgba(0,181,204,0.55) !important;
+  border-top-color: #00b5cc !important;
   box-shadow:
-    inset 0 2px 0 rgba(255,85,0,0.12),
+    inset 0 2px 0 rgba(0,181,204,0.12),
     0 4px 10px rgba(0,0,0,0.30),
     0 16px 42px rgba(0,0,0,0.35),
-    0 0 0 1.5px rgba(255,85,0,0.22),
-    0 8px 44px rgba(255,85,0,0.20) !important;
+    0 0 0 1.5px rgba(0,181,204,0.22),
+    0 8px 44px rgba(0,181,204,0.20) !important;
 }
 .dv-prog-card.status-critical {
   background: rgba(20,5,5,0.82) !important;
@@ -4092,26 +4092,26 @@ h1, h2, h3, h4 {
   background: rgba(10,34,54,0.80) !important;
   backdrop-filter: blur(14px) saturate(152%) !important;
   -webkit-backdrop-filter: blur(14px) saturate(152%) !important;
-  border: 1.5px solid rgba(255,85,0,0.20) !important;
-  border-top: 3px solid #FF5500 !important;
+  border: 1.5px solid rgba(0,181,204,0.20) !important;
+  border-top: 3px solid #00b5cc !important;
   box-shadow:
-    inset 0 1.5px 0 rgba(255,85,0,0.08),
+    inset 0 1.5px 0 rgba(0,181,204,0.08),
     0 2px 6px rgba(0,0,0,0.25),
     0 8px 22px rgba(0,0,0,0.30),
-    0 4px 20px rgba(255,85,0,0.08) !important;
+    0 4px 20px rgba(0,181,204,0.08) !important;
 }
 
 /* ── KD table inside section ─────────────────────────────────────── */
 .kd-prog-section .kd-table {
   background: var(--bg3) !important;
-  border-color: rgba(255,85,0,0.12) !important;
+  border-color: rgba(0,181,204,0.12) !important;
 }
 
 /* ── Detail / CS plot cards ──────────────────────────────────────── */
 .detail-card,
 .cs-plot-card {
   background: var(--bg2) !important;
-  border-color: rgba(255,85,0,0.18) !important;
+  border-color: rgba(0,181,204,0.18) !important;
   box-shadow: 0 2px 16px rgba(0,0,0,0.35) !important;
 }
 
@@ -4121,18 +4121,18 @@ h1, h2, h3, h4 {
   backdrop-filter: blur(32px) saturate(175%) !important;
   -webkit-backdrop-filter: blur(32px) saturate(175%) !important;
   box-shadow:
-    inset 0 3px 0 rgba(255,85,0,0.10),
-    inset 0 -3px 0 rgba(255,85,0,0.06),
+    inset 0 3px 0 rgba(0,181,204,0.10),
+    inset 0 -3px 0 rgba(0,181,204,0.06),
     0 4px 12px rgba(0,0,0,0.40),
     0 16px 48px rgba(0,0,0,0.45),
     0 48px 96px rgba(0,0,0,0.35),
-    0 8px 52px rgba(255,85,0,0.14) !important;
+    0 8px 52px rgba(0,181,204,0.14) !important;
 }
 
 /* ── Programme row tiles ─────────────────────────────────────────── */
 .programme-row {
   background: rgba(15,42,64,0.75) !important;
-  border-color: rgba(255,85,0,0.15) !important;
+  border-color: rgba(0,181,204,0.15) !important;
 }
 .programme-row:hover {
   background: rgba(22,51,72,0.90) !important;
@@ -4162,11 +4162,11 @@ h1, h2, h3, h4 {
 
 /* ── Search bar — dark orange glass ──────────────────────────────── */
 .home-nav-search {
-  background: rgba(255,85,0,0.12) !important;
-  border: 1.5px solid rgba(255,85,0,0.35) !important;
+  background: rgba(0,181,204,0.12) !important;
+  border: 1.5px solid rgba(0,181,204,0.35) !important;
   box-shadow:
-    0 0 0 1px rgba(255,85,0,0.08) inset,
-    0 0 12px rgba(255,85,0,0.18),
+    0 0 0 1px rgba(0,181,204,0.08) inset,
+    0 0 12px rgba(0,181,204,0.18),
     0 2px 8px rgba(0,0,0,0.30) !important;
 }
 .hns-input {
@@ -4182,13 +4182,13 @@ h1, h2, h3, h4 {
 /* ── HRH cadre sections — dark glass ────────────────────────────── */
 .hrh-cadre-section {
   background: var(--bg2) !important;
-  border-color: rgba(255,85,0,0.18) !important;
+  border-color: rgba(0,181,204,0.18) !important;
 }
 
 /* ── CS entry bar ────────────────────────────────────────────────── */
 .cs-entry-bar {
   background: linear-gradient(135deg, var(--bg3) 0%, var(--bg4) 100%) !important;
-  border-color: rgba(255,85,0,0.22) !important;
+  border-color: rgba(0,181,204,0.22) !important;
 }
 
 
@@ -4198,45 +4198,45 @@ h1, h2, h3, h4 {
 .lp-card {
   background: rgba(10,34,54,0.84) !important;
   box-shadow:
-    inset 0 2px 0 rgba(255,85,0,0.10),
-    inset 1px 0 0 rgba(255,85,0,0.05),
-    inset -1px 0 0 rgba(255,85,0,0.05),
-    inset 0 -2px 0 rgba(255,85,0,0.08),
+    inset 0 2px 0 rgba(0,181,204,0.10),
+    inset 1px 0 0 rgba(0,181,204,0.05),
+    inset -1px 0 0 rgba(0,181,204,0.05),
+    inset 0 -2px 0 rgba(0,181,204,0.08),
     0 2px 4px rgba(0,0,0,0.35),
     0 10px 28px rgba(0,0,0,0.40),
     0 32px 72px rgba(0,0,0,0.30),
-    0 4px 32px rgba(255,85,0,0.16) !important;
+    0 4px 32px rgba(0,181,204,0.16) !important;
 }
 .lp-card:hover {
   background: rgba(12,38,60,0.90) !important;
   box-shadow:
-    inset 0 2px 0 rgba(255,85,0,0.12),
+    inset 0 2px 0 rgba(0,181,204,0.12),
     0 4px 8px rgba(0,0,0,0.40),
     0 16px 40px rgba(0,0,0,0.45),
     0 40px 80px rgba(0,0,0,0.35),
-    0 8px 48px rgba(255,85,0,0.22) !important;
+    0 8px 48px rgba(0,181,204,0.22) !important;
 }
 
 /* Card header — dark */
 .lp-card-header {
   background: rgba(5,28,44,0.60) !important;
-  border-bottom-color: rgba(255,85,0,0.18) !important;
+  border-bottom-color: rgba(0,181,204,0.18) !important;
 }
 
 /* Division tag pill */
 .lp-div-tag {
-  background: rgba(255,85,0,0.14) !important;
-  border-color: rgba(255,85,0,0.35) !important;
+  background: rgba(0,181,204,0.14) !important;
+  border-color: rgba(0,181,204,0.35) !important;
   color: var(--org2) !important;
 }
 
 /* Expand button */
 .lp-expand-btn {
-  background: rgba(255,85,0,0.10) !important;
-  border-color: rgba(255,85,0,0.28) !important;
+  background: rgba(0,181,204,0.10) !important;
+  border-color: rgba(0,181,204,0.28) !important;
 }
 .lp-expand-btn:hover {
-  background: rgba(255,85,0,0.22) !important;
+  background: rgba(0,181,204,0.22) !important;
 }
 
 /* Division name — Inter, white */
@@ -4258,23 +4258,23 @@ h1, h2, h3, h4 {
   background: rgba(10,34,54,0.70) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
-  border-color: rgba(255,85,0,0.14) !important;
-  border-top-color: rgba(255,85,0,0.32) !important;
+  border-color: rgba(0,181,204,0.14) !important;
+  border-top-color: rgba(0,181,204,0.32) !important;
   box-shadow:
-    inset 0 1px 0 rgba(255,85,0,0.06),
+    inset 0 1px 0 rgba(0,181,204,0.06),
     inset 0 -1px 0 rgba(0,0,0,0.15),
     0 1px 3px rgba(0,0,0,0.25),
     0 3px 10px rgba(0,0,0,0.20) !important;
 }
 .lp-prog:hover {
   background: rgba(22,51,72,0.90) !important;
-  border-color: rgba(255,85,0,0.45) !important;
-  border-top-color: #FF5500 !important;
+  border-color: rgba(0,181,204,0.45) !important;
+  border-top-color: #00b5cc !important;
   box-shadow:
-    inset 0 1px 0 rgba(255,85,0,0.10),
+    inset 0 1px 0 rgba(0,181,204,0.10),
     0 2px 6px rgba(0,0,0,0.30),
     0 6px 18px rgba(0,0,0,0.30),
-    0 4px 18px rgba(255,85,0,0.12) !important;
+    0 4px 18px rgba(0,181,204,0.12) !important;
 }
 
 /* Programme name + metric — white text */
@@ -4318,7 +4318,7 @@ h1, h2, h3, h4 {
 
 /* Card divider — subtle orange glow */
 .lp-card-divider {
-  background: linear-gradient(90deg, transparent, rgba(255,85,0,0.25) 30%, rgba(255,85,0,0.25) 70%, transparent) !important;
+  background: linear-gradient(90deg, transparent, rgba(0,181,204,0.25) 30%, rgba(0,181,204,0.25) 70%, transparent) !important;
 }
 
 /* Home header background — ensure dark */
@@ -4334,7 +4334,7 @@ h1, h2, h3, h4 {
 /* Summary chips strip */
 .kd-summary-chip {
   background: var(--bg3) !important;
-  border-color: rgba(255,85,0,0.18) !important;
+  border-color: rgba(0,181,204,0.18) !important;
 }
 .kd-summary-lbl {
   color: var(--ink-faint) !important;
@@ -4343,21 +4343,21 @@ h1, h2, h3, h4 {
 /* KD table header — was white bg */
 .kd-table-head {
   background: var(--bg3) !important;
-  border-bottom-color: rgba(255,85,0,0.12) !important;
+  border-bottom-color: rgba(0,181,204,0.12) !important;
   color: var(--ink-faint) !important;
 }
 
 /* Type divider row — was white bg */
 .kd-type-divider {
   background: rgba(15,42,64,0.80) !important;
-  border-top-color: rgba(255,85,0,0.08) !important;
-  border-bottom-color: rgba(255,85,0,0.08) !important;
+  border-top-color: rgba(0,181,204,0.08) !important;
+  border-bottom-color: rgba(0,181,204,0.08) !important;
   color: var(--ink-faint) !important;
 }
 
 /* Table rows */
 .kd-table-row {
-  border-bottom-color: rgba(255,85,0,0.07) !important;
+  border-bottom-color: rgba(0,181,204,0.07) !important;
 }
 .kd-table-row:hover,
 .kd-table-row:focus {
@@ -4411,7 +4411,7 @@ h1, h2, h3, h4 {
 /* CS entry bar on KD page */
 .cs-entry-bar {
   background: linear-gradient(135deg, var(--bg3), var(--bg4)) !important;
-  border-color: rgba(255,85,0,0.22) !important;
+  border-color: rgba(0,181,204,0.22) !important;
 }
 .cs-entry-bar-label {
   color: var(--ink) !important;
@@ -4444,9 +4444,9 @@ h1, h2, h3, h4 {
 
 /* Type pill — light grey → dark glass */
 .kdi-type-pill {
-  background: rgba(255,85,0,0.12) !important;
+  background: rgba(0,181,204,0.12) !important;
   color: var(--org2) !important;
-  border: 1px solid rgba(255,85,0,0.22) !important;
+  border: 1px solid rgba(0,181,204,0.22) !important;
 }
 
 /* KD no-badge and source tag */
@@ -4475,7 +4475,7 @@ h1, h2, h3, h4 {
 /* NFHS comparison table — was white bg rows */
 .kdi-nfhs-row {
   background: var(--bg2) !important;
-  border-bottom-color: rgba(255,85,0,0.08) !important;
+  border-bottom-color: rgba(0,181,204,0.08) !important;
 }
 .kdi-nfhs-row:nth-child(even) {
   background: var(--bg3) !important;
@@ -4515,7 +4515,7 @@ h1, h2, h3, h4 {
 /* District insight panel */
 .dist-insight-block {
   background: var(--bg3) !important;
-  border-color: rgba(255,85,0,0.12) !important;
+  border-color: rgba(0,181,204,0.12) !important;
 }
 .dist-insight-label { color: var(--ink-faint) !important; }
 .dist-insight-value { color: var(--ink) !important; font-family: 'JetBrains Mono', monospace !important; }
@@ -4524,7 +4524,7 @@ h1, h2, h3, h4 {
 /* Dist rank rows */
 .dist-rank-row {
   background: var(--bg2) !important;
-  border-bottom-color: rgba(255,85,0,0.08) !important;
+  border-bottom-color: rgba(0,181,204,0.08) !important;
 }
 .dist-rank-no  { color: var(--ink-faint) !important; }
 .dist-rank-val { color: var(--ink-mid)   !important; font-family: 'JetBrains Mono', monospace !important; }
@@ -4533,7 +4533,7 @@ h1, h2, h3, h4 {
 /* Narrative block */
 .dist-insight-narrative {
   background: var(--bg3) !important;
-  border-left: 3px solid rgba(255,85,0,0.35) !important;
+  border-left: 3px solid rgba(0,181,204,0.35) !important;
   color: var(--ink-mid) !important;
 }
 
@@ -4545,6 +4545,6 @@ h1, h2, h3, h4 {
 /* Detail footer */
 .detail-footer {
   color: var(--ink-faint) !important;
-  border-top-color: rgba(255,85,0,0.10) !important;
+  border-top-color: rgba(0,181,204,0.10) !important;
 }
 

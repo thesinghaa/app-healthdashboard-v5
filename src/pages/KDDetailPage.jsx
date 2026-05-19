@@ -242,7 +242,7 @@ export default function KDDetailPage({ indicator, catCfg, rawRows, activeYear, p
     return catYears;
   }, [rawRows, catCfg]);
 
-  const YEAR_COLORS = ['#FF5500', '#B45309', '#C2410C', '#C0392B'];
+  const YEAR_COLORS = ['#00b5cc', '#B45309', '#007a8f', '#C0392B'];
 
   /* Annual state total for this code + year */
   const annualTotal = useMemo(() => {

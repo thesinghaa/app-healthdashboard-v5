@@ -25,7 +25,7 @@ const MONTH_SHORT  = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan
 
 /* ── Category config ─────────────────────────────────────────────── */
 const CATEGORIES = [
-  { id: 'M1', label: 'ANC',           fullName: 'Ante Natal Care',           color: '#FF5500' },
+  { id: 'M1', label: 'ANC',           fullName: 'Ante Natal Care',           color: '#00b5cc' },
   { id: 'M2', label: 'Deliveries',    fullName: 'Deliveries',                color: '#059669' },
   { id: 'M3', label: 'C-Sections',   fullName: 'Caesarean Deliveries',       color: '#B45309' },
   { id: 'M4', label: 'Outcomes',      fullName: 'Pregnancy & Newborn',        color: '#B45309' },
@@ -285,7 +285,7 @@ export default function NCDDetailPage({ program, onBack }) {
 
   /* Trend chart: up to 3 key items */
   const trendItems = keyItems.slice(0, 3);
-  const CHART_COLORS = ['#FF5500','#B45309','#C2410C'];
+  const CHART_COLORS = ['#00b5cc','#B45309','#007a8f'];
 
   /* ── 4th layer: render KD detail page when indicator is selected ─ */
   if (selectedIndicator) {

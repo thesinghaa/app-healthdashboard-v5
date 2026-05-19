@@ -54,7 +54,7 @@ export default function CurrentStatusDetailPage({ program, division, onBack }) {
             <span className="app-back-arrow">&#8592;</span> Back
           </button>
           <div className="app-breadcrumb">
-            <span className="app-tag" style={{ background: '#FF5500' }}>
+            <span className="app-tag" style={{ background: '#00b5cc' }}>
               {division?.label}
             </span>
             <span className="app-bc-sep">&#8250;</span>

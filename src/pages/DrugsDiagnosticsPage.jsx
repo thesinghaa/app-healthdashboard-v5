@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import Plot from 'react-plotly.js';
 
-const C_ORG   = '#FF5500';
+const C_ORG   = '#00b5cc';
 const C_AMBER = '#F59E0B';
 const C_RED   = '#E53E3E';
 const C_NAVY  = '#1A1F36';

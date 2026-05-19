@@ -7,7 +7,7 @@ import { gsap } from 'gsap';
 import Plot from 'react-plotly.js';
 
 /* ── Theme ───────────────────────────────────────────────────────── */
-const ORG  = '#FF5500';
+const ORG  = '#00b5cc';
 const NAVY = '#1A1F36';
 const TEAL = '#0E9E8A';
 const AMB  = '#D97706';
@@ -302,7 +302,7 @@ function FPStatus({ cs }) {
                 bgcolor: '#F8FAFC',
                 borderwidth: 0,
                 steps: [
-                  { range: [0, 60.2],  color: 'rgba(255,85,0,0.12)'   },
+                  { range: [0, 60.2],  color: 'rgba(0,181,204,0.12)'   },
                   { range: [60.2, 74.2], color: 'rgba(16,185,129,0.12)' },
                 ],
                 threshold: { line: { color: TEAL, width: 3 }, thickness: 0.8, value: 74.2 },
@@ -347,7 +347,7 @@ function TBStatus({ cs }) {
                 bgcolor: '#F8FAFC', borderwidth: 0,
                 steps: [
                   { range: [0, 47],  color: 'rgba(16,185,129,0.15)' },
-                  { range: [47, 250], color: 'rgba(255,85,0,0.08)' },
+                  { range: [47, 250], color: 'rgba(0,181,204,0.08)' },
                 ],
                 threshold: { line: { color: TEAL, width: 3 }, thickness: 0.8, value: 47 },
               },

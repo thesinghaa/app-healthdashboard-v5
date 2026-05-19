@@ -25,8 +25,8 @@
 /*   --chip-rgb drives the glass border gradient, independent of     */
 /*   the badge chip colour. NCD uses violet border (not red) so      */
 /*   the glass effect stays calm and non-alarming.                   */
-.card-rch  { --chip: #FF5500; --chip-rgb: 255,85,0;    }
-.card-ndcp { --chip: #C2410C; --chip-rgb: 194,65,12;   }
+.card-rch  { --chip: #00b5cc; --chip-rgb: 0,181,204;    }
+.card-ndcp { --chip: #007a8f; --chip-rgb: 194,65,12;   }
 .card-ncd  { --chip: #92400E; --chip-rgb: 146,64,14;   }
 .card-hss  { --chip: #B45309; --chip-rgb: 180,83,9;    }
 .card-hrh  { --chip: #7C2D12; --chip-rgb: 124,45,18;   }
@@ -37,21 +37,21 @@
   background: rgba(250,247,242,0.78);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
-  border: 2px solid rgba(var(--chip-rgb, 255,85,0), 0.55);
-  border-top: 2px solid rgba(var(--chip-rgb, 255,85,0), 0.82);
+  border: 2px solid rgba(var(--chip-rgb, 0,181,204), 0.55);
+  border-top: 2px solid rgba(var(--chip-rgb, 0,181,204), 0.82);
   border-radius: 12px;
   box-shadow:
     /* top-edge light catch — simulates light source from above */
     inset 0 1px 0 rgba(255,255,255,0.88),
     inset 1px 0 0 rgba(255,255,255,0.28),
     /* bottom-edge depth shadow — grounds the card */
-    inset 0 -1px 0 rgba(var(--chip-rgb, 255,85,0), 0.12),
+    inset 0 -1px 0 rgba(var(--chip-rgb, 0,181,204), 0.12),
     /* layered elevation — short sharp + long soft */
     0 2px 4px rgba(26,22,16,0.07),
     0 6px 16px rgba(26,22,16,0.09),
     0 18px 44px rgba(26,22,16,0.08),
     /* orange ambient glow */
-    0 2px 14px rgba(var(--chip-rgb, 255,85,0), 0.13);
+    0 2px 14px rgba(var(--chip-rgb, 0,181,204), 0.13);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -60,20 +60,20 @@
   transition: box-shadow 0.28s ease, transform 0.22s ease, border-color 0.22s ease;
 }
 .bento-card:hover {
-  border-color: rgba(var(--chip-rgb, 255,85,0), 0.88);
-  border-top-color: rgba(var(--chip-rgb, 255,85,0), 1.00);
+  border-color: rgba(var(--chip-rgb, 0,181,204), 0.88);
+  border-top-color: rgba(var(--chip-rgb, 0,181,204), 1.00);
   box-shadow:
     /* brighter top highlight on hover */
     inset 0 1px 0 rgba(255,255,255,0.96),
     inset 1px 0 0 rgba(255,255,255,0.44),
-    inset 0 -1px 0 rgba(var(--chip-rgb, 255,85,0), 0.18),
+    inset 0 -1px 0 rgba(var(--chip-rgb, 0,181,204), 0.18),
     /* deeper elevation */
     0 4px 8px rgba(26,22,16,0.08),
     0 12px 32px rgba(26,22,16,0.12),
     0 28px 60px rgba(26,22,16,0.10),
     /* stronger orange glow ring */
-    0 0 0 2px rgba(var(--chip-rgb, 255,85,0), 0.20),
-    0 4px 28px rgba(var(--chip-rgb, 255,85,0), 0.22);
+    0 0 0 2px rgba(var(--chip-rgb, 0,181,204), 0.20),
+    0 4px 28px rgba(var(--chip-rgb, 0,181,204), 0.22);
   transform: translateY(-3px);
 }
 
@@ -86,7 +86,7 @@
   position: relative;
   padding: 10px 14px;
   border-bottom: 1px solid var(--bg3);
-  border-left: 4px solid var(--chip, #FF5500);
+  border-left: 4px solid var(--chip, #00b5cc);
   background: var(--off-white);
   border-radius: 10px 10px 0 0;
   flex-shrink: 0;
@@ -195,8 +195,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--chip, #FF5500);
-  border: 1px solid var(--chip, #FF5500);
+  background: var(--chip, #00b5cc);
+  border: 1px solid var(--chip, #00b5cc);
   border-radius: 6px;
   color: #FFFFFF;
   cursor: pointer;
@@ -369,7 +369,7 @@
 /* ── Status urgency — subtle border tint only ────────────────────── */
 .bento-card--urgent  { border-color: rgba(109,40,217,0.28); }
 .bento-card--warning { border-color: rgba(180,83,9,0.22);   }
-.bento-card--ok      { border-color: rgba(255,85,0,0.20);  }
+.bento-card--ok      { border-color: rgba(0,181,204,0.20);  }
 
 /* ═══════════════════════════════════════════════════════════════════
    Carousel — single full-screen division card at a time
@@ -455,10 +455,10 @@
   align-self: center;
   height: 64px;
   border-radius: 8px;
-  background: var(--org, #FF5500);
+  background: var(--org, #00b5cc);
   border: 1px solid rgba(255,255,255,0.18);
   box-shadow:
-    0 2px 10px rgba(255,85,0,0.28),
+    0 2px 10px rgba(0,181,204,0.28),
     inset 0 1px 0 rgba(255,255,255,0.22);
   color: #FFFFFF;
   font-size: 20px;
@@ -472,7 +472,7 @@
 
 .carousel-arrow:hover {
   opacity: 0.88;
-  box-shadow: 0 4px 20px rgba(255,85,0,0.40), inset 0 1px 0 rgba(255,255,255,0.28);
+  box-shadow: 0 4px 20px rgba(0,181,204,0.40), inset 0 1px 0 rgba(255,255,255,0.28);
   transform: scale(1.04);
 }
 
@@ -593,9 +593,9 @@
 
 .cc-search:focus {
   background: rgba(255, 255, 255, 0.90);
-  border-color: rgba(255, 85, 0, 0.55);
+  border-color: rgba(0, 181, 204, 0.55);
   box-shadow:
-    0 0 0 4px rgba(255, 85, 0, 0.14),
+    0 0 0 4px rgba(0, 181, 204, 0.14),
     0 4px 20px rgba(0, 0, 0, 0.10),
     inset 0 1px 0 rgba(255, 255, 255, 1);
 }
@@ -654,7 +654,7 @@
 
 .cc-row--red    { background: rgba(255, 240, 240, 0.72); border-color: rgba(229,62,62,0.18); }
 .cc-row--yellow { background: rgba(255, 251, 230, 0.72); border-color: rgba(214,158,46,0.18); }
-.cc-row--green  { background: rgba(245,240,232,0.72); border-color: rgba(255,85,0,0.15); }
+.cc-row--green  { background: rgba(245,240,232,0.72); border-color: rgba(0,181,204,0.15); }
 
 .cc-row--no-match { display: none; }
 
@@ -788,19 +788,19 @@
 }
 
 .carousel-search-top .cc-search:hover {
-  border-color: rgba(255, 85, 0, 0.55);
+  border-color: rgba(0, 181, 204, 0.55);
   box-shadow:
-    0 0 0 4px rgba(255, 85, 0, 0.13),
-    0 6px 28px rgba(255, 85, 0, 0.18),
+    0 0 0 4px rgba(0, 181, 204, 0.13),
+    0 6px 28px rgba(0, 181, 204, 0.18),
     0 2px 8px  rgba(0, 0, 0, 0.06),
     inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 .carousel-search-top .cc-search:focus {
   background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(255, 85, 0, 0.55);
+  border-color: rgba(0, 181, 204, 0.55);
   box-shadow:
-    0 0 0 4px rgba(255, 85, 0, 0.15),
+    0 0 0 4px rgba(0, 181, 204, 0.15),
     0 8px 32px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 1);
 }

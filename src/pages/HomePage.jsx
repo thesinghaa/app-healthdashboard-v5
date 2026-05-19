@@ -19,7 +19,7 @@ function getSummary() {
 const STATUS_TEXT = { red: 'Critical', yellow: 'Caution', green: 'On Track' };
 
 const DIV_ACCENT = {
-  rch:  '#E8500A',
+  rch:  '#00b5cc',
   ndcp: '#B83A0A',
   ncd:  '#7C3A0A',
   hss:  '#A0620A',
@@ -185,9 +185,9 @@ export default function HomePage({ onSelectProgram, onSelectDivision }) {
             <svg viewBox="0 0 1440 130" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="wg1" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%"   stopColor="#FF7733" stopOpacity="0.38"/>
-                  <stop offset="50%"  stopColor="#FF5500" stopOpacity="0.28"/>
-                  <stop offset="100%" stopColor="#FF7733" stopOpacity="0.38"/>
+                  <stop offset="0%"   stopColor="#00cce5" stopOpacity="0.38"/>
+                  <stop offset="50%"  stopColor="#00b5cc" stopOpacity="0.28"/>
+                  <stop offset="100%" stopColor="#00cce5" stopOpacity="0.38"/>
                 </linearGradient>
               </defs>
               <path d="M0,55 C240,95 480,25 720,60 C960,95 1200,35 1440,65 L1440,130 L0,130 Z" fill="url(#wg1)"/>
@@ -195,15 +195,15 @@ export default function HomePage({ onSelectProgram, onSelectDivision }) {
             <svg viewBox="0 0 1440 130" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="wg2" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%"   stopColor="#FF5500" stopOpacity="0.45"/>
-                  <stop offset="50%"  stopColor="#C2410C" stopOpacity="0.32"/>
-                  <stop offset="100%" stopColor="#FF5500" stopOpacity="0.45"/>
+                  <stop offset="0%"   stopColor="#00b5cc" stopOpacity="0.45"/>
+                  <stop offset="50%"  stopColor="#007a8f" stopOpacity="0.32"/>
+                  <stop offset="100%" stopColor="#00b5cc" stopOpacity="0.45"/>
                 </linearGradient>
               </defs>
               <path d="M0,85 C180,48 360,108 540,78 C720,48 900,98 1080,72 C1260,46 1380,90 1440,82 L1440,130 L0,130 Z" fill="url(#wg2)"/>
             </svg>
             <svg viewBox="0 0 1440 130" preserveAspectRatio="none">
-              <path d="M0,108 C300,80 600,118 900,98 C1100,82 1300,110 1440,102 L1440,130 L0,130 Z" fill="rgba(255,85,0,0.50)"/>
+              <path d="M0,108 C300,80 600,118 900,98 C1100,82 1300,110 1440,102 L1440,130 L0,130 Z" fill="rgba(0,181,204,0.50)"/>
             </svg>
           </div>
           <div className="home-header-inner">
@@ -248,7 +248,7 @@ export default function HomePage({ onSelectProgram, onSelectDivision }) {
         {/* ── Five-column grid ── */}
         <div className="home-grid lp-grid">
           {DIVISIONS.map(div => {
-            const accent = DIV_ACCENT[div.id] || '#E8500A';
+            const accent = DIV_ACCENT[div.id] || '#00b5cc';
             const bg     = DIV_BG[div.id]     || 'rgba(232,80,10,0.04)';
             const counts = { red: 0, yellow: 0, green: 0 };
             div.programs.forEach(p => counts[p.status]++);

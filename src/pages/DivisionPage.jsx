@@ -22,8 +22,8 @@ const GRID_CLASS = {
 };
 
 const CHIP_COLOR = {
-  rch:  '#FF5500',
-  ndcp: '#C2410C',
+  rch:  '#00b5cc',
+  ndcp: '#007a8f',
   ncd:  '#92400E',
   hss:  '#B45309',
 };
@@ -37,7 +37,7 @@ export default function DivisionPage({ division, onBack, onSelectProgram, onCurr
   const counts = { red: 0, yellow: 0, green: 0 };
   division.programs.forEach(p => counts[p.status]++);
 
-  const chipColor = CHIP_COLOR[division.id] || '#FF5500';
+  const chipColor = CHIP_COLOR[division.id] || '#00b5cc';
 
   useEffect(() => {
     const ctx = gsap.context(() => {

@@ -8,7 +8,7 @@ import {
 import { STATUS_CONFIG } from '../data/programs';
 
 /* ── Plotly theme constants ──────────────────────────────────────── */
-const ORG  = '#FF5500';
+const ORG  = '#00b5cc';
 const NAVY = '#1A1F36';
 const TEAL = '#0E9E8A';
 const AMB  = '#D97706';
@@ -47,7 +47,7 @@ const NFHS5_COLOR = '#B8793A';
 function HRHDonut({ regular, contractual, gap, total, colors: colorsProp }) {
   const size = 84, r = 30, cx = 42;
   const circ = 2 * Math.PI * r;
-  const colors = colorsProp || ['#FF5500', '#D97706', '#CBD5E1'];
+  const colors = colorsProp || ['#00b5cc', '#D97706', '#CBD5E1'];
   const segs = [
     { pct: (regular    / total) * 100, color: colors[0] },
     { pct: (contractual / total) * 100, color: colors[1] },
@@ -116,7 +116,7 @@ function HRHSection({ program }) {
   const ctrlA   = program.ctrlApproved ?? 0;
   const regFill  = regS  > 0 ? Math.round(regIP  / regS  * 100) : null;
   const ctrlFill = ctrlA > 0 ? Math.round(ctrlIP / ctrlA * 100) : null;
-  const barColor = program.status === 'red' ? '#E53E3E' : program.status === 'yellow' ? '#D97706' : '#FF5500';
+  const barColor = program.status === 'red' ? '#E53E3E' : program.status === 'yellow' ? '#D97706' : '#00b5cc';
 
   const staffingData = [];
   if (regS  > 0) staffingData.push({ category: 'Regular',     Sanctioned: regS,  'In Place': regIP  });
@@ -154,7 +154,7 @@ function HRHSection({ program }) {
           {[
             { label: 'Requirement', val: req,     col: '#1A1F36' },
             { label: 'In Place',    val: inPlace,  col: barColor  },
-            { label: 'Gap',         val: gap > 0 ? gap : '—', col: gap > 0 ? '#E53E3E' : '#FF5500' },
+            { label: 'Gap',         val: gap > 0 ? gap : '—', col: gap > 0 ? '#E53E3E' : '#00b5cc' },
             ...(tgt != null ? [{ label: 'RoP Target', val: `${tgt}%`, col: '#D97706' }] : []),
           ].map(s => (
             <div key={s.label} className="hrh-stat">
@@ -198,7 +198,7 @@ function HRHSection({ program }) {
               gap={gap > 0 ? gap : 0} total={req || 1} />
             <div className="hrh-donut-legend">
               {[
-                { label: `Regular (${regIP})`,      color: '#FF5500' },
+                { label: `Regular (${regIP})`,      color: '#00b5cc' },
                 { label: `Contractual (${ctrlIP})`, color: '#D97706' },
                 ...(gap > 0 ? [{ label: `Gap (${gap})`, color: '#CBD5E1' }] : []),
               ].map(l => (
@@ -296,7 +296,7 @@ function HRHSection({ program }) {
                 tick={{ fontSize: 11, fill: '#3a3020' }} />
               <Tooltip formatter={v => [`${v}%`, 'Coverage vs IPHS']}
                 contentStyle={{ fontSize: 12, borderRadius: 8 }} />
-              <Bar dataKey="pct" name="Coverage vs IPHS" fill="#FF5500"
+              <Bar dataKey="pct" name="Coverage vs IPHS" fill="#00b5cc"
                 radius={[0,3,3,0]} maxBarSize={16}
                 label={{ position: 'right', fontSize: 10, fill: '#475569',
                   formatter: v => `${v}%` }} />
@@ -317,7 +317,7 @@ function HRHSection({ program }) {
             <HRHDonut regular={48} contractual={30} gap={22} total={100} />
             <div className="hrh-ctx-legend">
               {[
-                { l: 'Regular 48%',     c: '#FF5500' },
+                { l: 'Regular 48%',     c: '#00b5cc' },
                 { l: 'Contractual 30%', c: '#D97706' },
                 { l: 'Gap 22%',         c: '#CBD5E1' },
               ].map(x => (
@@ -460,7 +460,7 @@ function MMRStatus({ cs }) {
               ...PLOT_BASE,
               height: 280,
               showlegend: false,
-              annotations: [{ text: '<b style="color:#FF5500">3</b><br>Deaths', x: 0.5, y: 0.5, xref: 'paper', yref: 'paper', showarrow: false, font: { size: 18, color: ORG } }],
+              annotations: [{ text: '<b style="color:#00b5cc">3</b><br>Deaths', x: 0.5, y: 0.5, xref: 'paper', yref: 'paper', showarrow: false, font: { size: 18, color: ORG } }],
             }}
             config={PLOT_CFG} style={{ width: '100%' }}
           />
@@ -600,7 +600,7 @@ function FPStatus({ cs }) {
                 bgcolor: '#F8FAFC',
                 borderwidth: 0,
                 steps: [
-                  { range: [0, 60.2], color: 'rgba(255,85,0,0.12)' },
+                  { range: [0, 60.2], color: 'rgba(0,181,204,0.12)' },
                   { range: [60.2, 74.2], color: 'rgba(16,185,129,0.12)' },
                 ],
                 threshold: { line: { color: TEAL, width: 3 }, thickness: 0.8, value: 74.2 },
@@ -638,7 +638,7 @@ function TBStatus({ cs }) {
                 axis: { range: [0, 250], tickfont: { size: 10 } },
                 bar: { color: ORG, thickness: 0.3 },
                 bgcolor: '#F8FAFC', borderwidth: 0,
-                steps: [{ range: [0, 47], color: 'rgba(16,185,129,0.15)' }, { range: [47, 250], color: 'rgba(255,85,0,0.08)' }],
+                steps: [{ range: [0, 47], color: 'rgba(16,185,129,0.15)' }, { range: [47, 250], color: 'rgba(0,181,204,0.08)' }],
                 threshold: { line: { color: TEAL, width: 3 }, thickness: 0.8, value: 47 },
               },
             }]}
