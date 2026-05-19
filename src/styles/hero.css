@@ -1,8 +1,9 @@
-/* ─────────────────────────────────────────────────────────────────
-   hero.css — Dashboard header (floating glass pill over teal waves)
-   ───────────────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════
+   hero.css — Aurora background + dark-glass navbar
+   Palette: near-black (#05060f) + purple aurora + white text
+   ═══════════════════════════════════════════════════════════════════ */
 
-/* ── Root — 3-layer z-index architecture ───────────────────────── */
+/* ── Page root ───────────────────────────────────────────────────── */
 .home-root {
   height: 100dvh;
   max-height: 100dvh;
@@ -10,166 +11,155 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  background: transparent;
 }
 
-/* ── Aurora blob background ──────────────────────────────────────── */
-
-/* Root page bg — blue-black */
-.home-root {
-  background: #05060f;
-}
-
-/* Blob container — single blur pass melts all blobs together */
+/* ── Aurora blob container (global, fixed, lives in App.jsx) ─────── */
 .aurora-blobs {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  filter: blur(100px);
+  filter: blur(80px);
 }
 
-/* Shared blob shape */
+/* Blobs — screen blend so overlapping areas bloom brighter */
 .blob {
   position: absolute;
   border-radius: 50%;
   will-change: transform;
-  opacity: 0.90;
+  opacity: 0.85;
+  mix-blend-mode: screen;
 }
 
-/* Blob 1 — white-lavender hot spot, top-left (signature glow) */
+/* Blob 1 — white-lavender hot spot, top-left (the signature glow) */
 .blob--1 {
   width: 820px;
   height: 720px;
   top: -18%;
   left: -12%;
-  background: radial-gradient(circle at 45% 45%,
-    rgba(255,255,255,0.95) 0%,
-    #d8b4fe 18%,
-    #a855f7 40%,
-    #6d28d9 62%,
-    transparent 80%
+  background: radial-gradient(circle at 42% 42%,
+    rgba(255,255,255,0.90) 0%,
+    #ddd6fe          14%,
+    #a78bfa          32%,
+    #7c3aed          55%,
+    transparent      78%
   );
   animation: float1 9s ease-in-out infinite;
 }
 
-/* Blob 2 — rich purple, centre-left body */
+/* Blob 2 — rich purple body, centre-left */
 .blob--2 {
-  width: 950px;
-  height: 850px;
-  top: 5%;
-  left: -8%;
+  width: 1000px;
+  height: 880px;
+  top: 2%;
+  left: -10%;
   background: radial-gradient(circle at 50% 50%,
-    #8b5cf6 0%,
-    #6d28d9 40%,
-    #3b0764 70%,
-    transparent 85%
+    #8b5cf6   0%,
+    #6d28d9  38%,
+    #3b0764  65%,
+    transparent 84%
   );
-  animation: float2 13s ease-in-out infinite;
+  animation: float2 14s ease-in-out infinite;
 }
 
-/* Blob 3 — deep royal blue, right anchor */
+/* Blob 3 — deep indigo, right anchor */
 .blob--3 {
-  width: 1050px;
-  height: 950px;
-  top: -15%;
-  right: -18%;
+  width: 1100px;
+  height: 980px;
+  top: -18%;
+  right: -20%;
   background: radial-gradient(circle at 50% 50%,
-    #4f46e5 0%,
-    #3730a3 42%,
-    #1e1b4b 68%,
-    transparent 84%
+    #4f46e5   0%,
+    #3730a3  40%,
+    #1e1b4b  65%,
+    transparent 82%
   );
   animation: float3 11s ease-in-out infinite;
 }
 
 /* Blob 4 — cobalt blue, bottom-right */
 .blob--4 {
-  width: 780px;
-  height: 680px;
-  bottom: -20%;
-  right: -5%;
+  width: 800px;
+  height: 700px;
+  bottom: -22%;
+  right: -8%;
   background: radial-gradient(circle at 50% 50%,
-    #3b82f6 0%,
-    #1d4ed8 45%,
-    #1e3a8a 68%,
+    #3b82f6   0%,
+    #1d4ed8  44%,
+    #1e3a8a  66%,
     transparent 82%
   );
   animation: float4 10s ease-in-out infinite;
 }
 
-/* Blob 5 — violet mid, bottom-left balance */
+/* Blob 5 — violet, bottom-left balance */
 .blob--5 {
-  width: 700px;
-  height: 620px;
-  bottom: -15%;
-  left: 5%;
+  width: 720px;
+  height: 640px;
+  bottom: -18%;
+  left: 3%;
   background: radial-gradient(circle at 50% 50%,
-    #7c3aed 0%,
-    #4c1d95 48%,
-    #2e1065 70%,
+    #7c3aed   0%,
+    #4c1d95  46%,
+    #2e1065  68%,
     transparent 84%
   );
   animation: float5 8s ease-in-out infinite;
 }
 
-/* ── Float keyframes — only transform, 60fps-safe ────────────────── */
+/* ── Float keyframes — transform only for 60fps ──────────────────── */
 @keyframes float1 {
-  0%   { transform: translate(0px,   0px)  scale(1);    }
-  33%  { transform: translate(55px, -40px) scale(1.07); }
-  66%  { transform: translate(-35px, 50px) scale(0.95); }
-  100% { transform: translate(0px,   0px)  scale(1);    }
+  0%   { transform: translate(  0px,   0px) scale(1.00); }
+  33%  { transform: translate( 55px, -42px) scale(1.07); }
+  66%  { transform: translate(-36px,  52px) scale(0.95); }
+  100% { transform: translate(  0px,   0px) scale(1.00); }
 }
 @keyframes float2 {
-  0%   { transform: translate(0px,    0px)  scale(1);    }
-  33%  { transform: translate(-65px,  35px) scale(1.05); }
-  66%  { transform: translate(45px,  -55px) scale(0.96); }
-  100% { transform: translate(0px,    0px)  scale(1);    }
+  0%   { transform: translate(  0px,   0px) scale(1.00); }
+  33%  { transform: translate(-68px,  38px) scale(1.05); }
+  66%  { transform: translate( 46px, -58px) scale(0.96); }
+  100% { transform: translate(  0px,   0px) scale(1.00); }
 }
 @keyframes float3 {
-  0%   { transform: translate(0px,   0px)  scale(1);    }
-  33%  { transform: translate(40px,  60px) scale(1.08); }
-  66%  { transform: translate(-60px,-30px) scale(0.93); }
-  100% { transform: translate(0px,   0px)  scale(1);    }
+  0%   { transform: translate(  0px,   0px) scale(1.00); }
+  33%  { transform: translate( 42px,  62px) scale(1.08); }
+  66%  { transform: translate(-58px, -32px) scale(0.93); }
+  100% { transform: translate(  0px,   0px) scale(1.00); }
 }
 @keyframes float4 {
-  0%   { transform: translate(0px,    0px)  scale(1);    }
-  33%  { transform: translate(70px,  -50px) scale(1.06); }
-  66%  { transform: translate(-40px,  40px) scale(0.97); }
-  100% { transform: translate(0px,    0px)  scale(1);    }
+  0%   { transform: translate(  0px,   0px) scale(1.00); }
+  33%  { transform: translate( 72px, -52px) scale(1.06); }
+  66%  { transform: translate(-42px,  42px) scale(0.97); }
+  100% { transform: translate(  0px,   0px) scale(1.00); }
 }
 @keyframes float5 {
-  0%   { transform: translate(0px,   0px)  scale(1);    }
-  33%  { transform: translate(-50px,-45px) scale(1.05); }
-  66%  { transform: translate(60px,  35px) scale(0.94); }
-  100% { transform: translate(0px,   0px)  scale(1);    }
+  0%   { transform: translate(  0px,   0px) scale(1.00); }
+  33%  { transform: translate(-52px, -46px) scale(1.05); }
+  66%  { transform: translate( 62px,  36px) scale(0.94); }
+  100% { transform: translate(  0px,   0px) scale(1.00); }
 }
 
-/* Dark vignette — subtle edge darkening so cards pop */
+/* Edge vignette — keeps the periphery dark so cards pop */
 .aurora-blobs::after {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse 90% 85% at 50% 50%,
-    transparent 40%,
-    rgba(2,13,22,0.30) 75%,
-    rgba(2,13,22,0.55) 100%
+    ellipse 88% 82% at 50% 50%,
+    transparent  35%,
+    rgba(5,3,12,0.25) 68%,
+    rgba(5,3,12,0.60) 100%
   );
   pointer-events: none;
-}
-
-/* Content layer sits above blobs */
-.home-content {
-  position: relative;
-  z-index: 10;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .blob { animation: none; }
 }
 
-/* Layer 1: decorative icons (rendered by DecorativeIcons component) */
+/* ── Decorative floating icons layer ─────────────────────────────── */
 .decorative-icons-layer {
   position: fixed;
   inset: 0;
@@ -178,172 +168,164 @@
   overflow: hidden;
 }
 
-/* Layer 2: reserved (page-glass-overlay removed — dot grid needs no suppression) */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px)  rotate(var(--rot, 0deg)); }
+  50%       { transform: translateY(-8px) rotate(var(--rot, 0deg)); }
+}
+.decorative-icon { position: absolute; pointer-events: none; animation: floatSlow 8s ease-in-out infinite; }
+.decorative-icon:nth-child(2) { animation-delay: -2s; }
+.decorative-icon:nth-child(3) { animation-delay: -4s; }
+.decorative-icon:nth-child(4) { animation-delay: -6s; }
+.decorative-icon:nth-child(5) { animation-delay: -1s; }
+.decorative-icon:nth-child(6) { animation-delay: -3s; }
+.decorative-icon:nth-child(7) { animation-delay: -5s; }
+.decorative-icon:nth-child(8) { animation-delay: -7s; }
+@media (prefers-reduced-motion: reduce) { .decorative-icon { animation: none; } }
 
-/* Layer 3: actual dashboard content */
+/* ── Content stack ───────────────────────────────────────────────── */
 .home-content {
   position: relative;
-  z-index: 3;
+  z-index: 10;
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
 }
 
-/* ── Header wave container ──────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════════════
+   NAVBAR — dark frosted glass floating above the aurora
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Header strip — fully transparent so aurora bleeds through */
 .home-header {
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(160deg, #061e2e 0%, #0a2236 40%, #061e2e 100%);
+  background: transparent;
   padding: 10px 0;
-  height: 92px;
+  height: 88px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgba(0,181,204,0.22);
+  border-bottom: none;
 }
+.home-header::before { display: none; }
+.header-waves        { display: none; }
 
-/* Orange warmth bloom in the centre */
-.home-header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 120% at 50% 120%, rgba(0,181,204,0.18) 0%, transparent 70%),
-    radial-gradient(ellipse 30% 80% at 15% 100%, rgba(0,204,229,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 30% 80% at 85% 100%, rgba(0,204,229,0.12) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-/* SVG wave layers behind glass pill */
-.header-waves {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.header-waves svg {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* ── Glass pill wrapper ──────────────────────────────────────────── */
+/* Glass pill wrapper */
 .home-header-inner {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
   display: flex;
   align-items: center;
 }
 
+/* ── The glass navbar pill ────────────────────────────────────────── */
 .glass-navbar {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 24px;
   width: 100%;
-  background: rgba(10,34,54,0.82);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border-radius: 14px;
-  border: 1px solid rgba(0,181,204,0.28);
+
+  background: rgba(8, 5, 20, 0.55);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+
+  border-radius: 16px;
+  border: 1px solid rgba(139, 92, 246, 0.22);
   box-shadow:
-    0 0 0 1px rgba(0,181,204,0.08) inset,
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 0 0 1px rgba(139,92,246,0.08),
     0 8px 32px rgba(0,0,0,0.55),
-    0 2px 8px rgba(0,0,0,0.35),
-    0 0 28px rgba(0,181,204,0.12);
-  padding: 11px 22px;
+    0 2px 8px  rgba(0,0,0,0.40),
+    0 0 60px   rgba(139,92,246,0.12);
+
+  padding: 10px 22px;
   position: relative;
   overflow: hidden;
 }
 
-/* Shimmer sweep */
-.glass-navbar::after {
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-navbar { background: rgba(8,5,20,0.95); }
+}
+
+/* Purple shimmer sweep */
+.glass-navbar::before {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
     108deg,
-    transparent 0%,
-    transparent 35%,
-    rgba(0,181,204,0.08) 48%,
-    rgba(0,204,229,0.05) 52%,
-    transparent 65%,
-    transparent 100%
+    transparent       0%,
+    transparent       32%,
+    rgba(167,139,250,0.07) 46%,
+    rgba(139,92,246, 0.04) 54%,
+    transparent       68%,
+    transparent       100%
   );
-  transform: translateX(-100%);
-  animation: glassShimmer 4s ease-in-out infinite;
+  transform: translateX(-120%);
+  animation: navShimmer 5s ease-in-out infinite;
   pointer-events: none;
   border-radius: inherit;
 }
-
-@keyframes glassShimmer {
-  0%          { transform: translateX(-120%); opacity: 0; }
-  8%          { opacity: 1; }
-  92%         { opacity: 1; }
-  100%        { transform: translateX(120%);  opacity: 0; }
+@keyframes navShimmer {
+  0%   { transform: translateX(-120%); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { transform: translateX(120%);  opacity: 0; }
 }
+@media (prefers-reduced-motion: reduce) { .glass-navbar::before { animation: none; } }
 
-@supports not (backdrop-filter: blur(1px)) {
-  .glass-navbar { background: rgba(10,34,54,0.97); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .glass-navbar::after { animation: none; }
-}
-
-/* ── Brand block ────────────────────────────────────────────────── */
+/* ── Brand block ─────────────────────────────────────────────────── */
 .home-brand {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   flex-shrink: 0;
 }
 .home-state-name {
   font-family: 'Inter', sans-serif;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
-  color: var(--ink);
-  letter-spacing: -0.5px;
+  color: #ffffff;
+  letter-spacing: -0.4px;
   line-height: 1;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  text-shadow: 0 1px 12px rgba(139,92,246,0.35);
 }
 .home-state-sub {
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 400;
-  color: var(--ink-faint);
-  letter-spacing: 0.8px;
+  color: rgba(255,255,255,0.40);
+  letter-spacing: 1.2px;
   text-transform: uppercase;
 }
 .home-data-ref {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
   font-weight: 500;
-  color: var(--org);
-  opacity: 0.75;
-  letter-spacing: 0.03em;
+  color: #a78bfa;
+  opacity: 0.80;
+  letter-spacing: 0.04em;
   line-height: 1;
 }
 
-/* ── Summary stat bar — single connected strip ──────────────────── */
+/* ── Summary stat strip ──────────────────────────────────────────── */
 .home-summary {
   display: flex;
   align-items: stretch;
-  background: rgba(5,28,44,0.60);
-  border: 1px solid rgba(0,181,204,0.22);
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 50px;
   overflow: hidden;
   flex-shrink: 0;
   justify-self: center;
 }
 
-/* Each segment: number + label in a row */
 .hs-pill {
   display: flex;
   flex-direction: row;
@@ -351,13 +333,12 @@
   justify-content: center;
   gap: 8px;
   flex: 1;
-  padding: 8px 12px;
+  padding: 7px 14px;
   position: relative;
   transition: filter 0.15s ease;
 }
-.hs-pill:hover { filter: brightness(0.94); }
+.hs-pill:hover { filter: brightness(1.15); }
 
-/* Divider between segments */
 .hs-pill + .hs-pill::before {
   content: '';
   position: absolute;
@@ -365,55 +346,52 @@
   top: 20%;
   height: 60%;
   width: 1px;
-  background: rgba(0,181,204,0.15);
+  background: rgba(255,255,255,0.08);
 }
 
 .hs-val {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 800;
   line-height: 1;
 }
 .hs-lbl {
   font-family: 'Inter', sans-serif;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.8px;
   line-height: 1.2;
 }
 
-/* Segment backgrounds and colours — dark mode */
-.hs-total  { background: rgba(0,181,204,0.14); }
-.hs-total  .hs-val { color: var(--ink); }
-.hs-total  .hs-lbl { color: var(--ink-light); }
+.hs-total  { background: rgba(139,92,246,0.14); }
+.hs-total  .hs-val { color: #ffffff; }
+.hs-total  .hs-lbl { color: rgba(255,255,255,0.55); }
 
-.hs-red    { background: var(--red-bg); }
-.hs-red    .hs-val { color: var(--red-txt); }
-.hs-red    .hs-lbl { color: var(--red-txt); opacity: 0.78; }
+.hs-red    { background: rgba(239,68,68,0.12); }
+.hs-red    .hs-val { color: #fca5a5; }
+.hs-red    .hs-lbl { color: #fca5a5; opacity: 0.80; }
 
-.hs-yellow { background: var(--yel-bg); }
-.hs-yellow .hs-val { color: var(--yel-txt); }
-.hs-yellow .hs-lbl { color: var(--yel-txt); opacity: 0.80; }
+.hs-yellow { background: rgba(234,179,8,0.10); }
+.hs-yellow .hs-val { color: #fde68a; }
+.hs-yellow .hs-lbl { color: #fde68a; opacity: 0.80; }
 
-.hs-green  { background: var(--grn-bg); }
-.hs-green  .hs-val { color: var(--grn-txt); }
-.hs-green  .hs-lbl { color: var(--grn-txt); opacity: 0.80; }
+.hs-green  { background: rgba(34,197,94,0.10); }
+.hs-green  .hs-val { color: #86efac; }
+.hs-green  .hs-lbl { color: #86efac; opacity: 0.80; }
 
-/* ── Inline legend ──────────────────────────────────────────────── */
-/* ── Right column: legend + search ─────────────────────────────── */
+/* ── Legend + search (right column) ─────────────────────────────── */
 .home-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 16px;
+  gap: 14px;
 }
 .home-legend {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   align-items: flex-end;
-  justify-content: center;
 }
 .hl-item {
   display: flex;
@@ -422,20 +400,20 @@
   font-family: 'Inter', sans-serif;
   font-size: 11px;
   font-weight: 400;
-  color: var(--ink-light);
+  color: rgba(255,255,255,0.40);
   white-space: nowrap;
 }
 .hl-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   flex-shrink: 0;
 }
-.hl-red    { background: var(--red-dot); }
-.hl-yellow { background: var(--yel-dot); }
-.hl-green  { background: var(--grn-dot); }
+.hl-red    { background: #fca5a5; box-shadow: 0 0 4px #fca5a5; }
+.hl-yellow { background: #fde68a; box-shadow: 0 0 4px #fde68a; }
+.hl-green  { background: #86efac; box-shadow: 0 0 4px #86efac; }
 
-/* ── Grid area — locked height, no scroll ───────────────────────── */
+/* ── Grid area ───────────────────────────────────────────────────── */
 .home-grid {
   flex: 1;
   min-height: 0;
@@ -446,106 +424,4 @@
   align-items: stretch;
 }
 
-/* Decorative icon float animation */
-@keyframes floatSlow {
-  0%, 100% { transform: translateY(0px) rotate(var(--rot, 0deg)); }
-  50%       { transform: translateY(-8px) rotate(var(--rot, 0deg)); }
-}
-
-.decorative-icon {
-  position: absolute;
-  pointer-events: none;
-  animation: floatSlow 8s ease-in-out infinite;
-}
-.decorative-icon:nth-child(2) { animation-delay: -2s; }
-.decorative-icon:nth-child(3) { animation-delay: -4s; }
-.decorative-icon:nth-child(4) { animation-delay: -6s; }
-.decorative-icon:nth-child(5) { animation-delay: -1s; }
-.decorative-icon:nth-child(6) { animation-delay: -3s; }
-.decorative-icon:nth-child(7) { animation-delay: -5s; }
-.decorative-icon:nth-child(8) { animation-delay: -7s; }
-
-@media (prefers-reduced-motion: reduce) {
-  .decorative-icon { animation: none; }
-}
-
-/* Override grid-section if still referenced */
 .grid-section { padding: 16px 28px; }
-
-/* ── LIGHT-BLUE NAVBAR OVERRIDES ─────────────────────────────────── */
-
-/* Glass pill — light sky-blue glass */
-.glass-navbar {
-  background: linear-gradient(135deg, #e8f8fc 0%, #d6f0f8 50%, #e2f5fa 100%);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(0,181,204,0.40);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.70) inset,
-    0 1.5px 0 rgba(255,255,255,0.90) inset,
-    0 8px 32px rgba(0,100,140,0.12),
-    0 2px 8px rgba(0,100,140,0.08),
-    0 0 40px rgba(0,181,204,0.10);
-}
-
-/* Shimmer on light bg */
-.glass-navbar::after {
-  background: linear-gradient(
-    108deg,
-    transparent 0%,
-    transparent 35%,
-    rgba(255,255,255,0.40) 48%,
-    rgba(255,255,255,0.22) 52%,
-    transparent 65%,
-    transparent 100%
-  );
-}
-
-/* Brand text — dark on light bg */
-.home-state-name {
-  color: #051c2c;
-  text-shadow: none;
-}
-.home-state-sub {
-  color: #4a7a90;
-}
-.home-data-ref {
-  color: #0097ab;
-  opacity: 1;
-}
-
-/* Stat strip — light tint border */
-.home-summary {
-  background: rgba(255,255,255,0.60);
-  border: 1px solid rgba(0,181,204,0.30);
-}
-
-/* Divider on light bg */
-.hs-pill + .hs-pill::before {
-  background: rgba(0,181,204,0.20);
-}
-
-/* Total segment */
-.hs-total                { background: rgba(0,181,204,0.16); }
-.hs-total .hs-val        { color: #051c2c; }
-.hs-total .hs-lbl        { color: #2a6070; }
-
-/* Critical segment */
-.hs-red                  { background: rgba(255,60,60,0.10); }
-.hs-red .hs-val          { color: #c0392b; }
-.hs-red .hs-lbl          { color: #c0392b; opacity: 0.85; }
-
-/* Caution segment */
-.hs-yellow               { background: rgba(200,140,0,0.10); }
-.hs-yellow .hs-val       { color: #8a5e00; }
-.hs-yellow .hs-lbl       { color: #8a5e00; opacity: 0.85; }
-
-/* On Track segment */
-.hs-green                { background: rgba(0,160,100,0.10); }
-.hs-green .hs-val        { color: #0a6e45; }
-.hs-green .hs-lbl        { color: #0a6e45; opacity: 0.85; }
-
-/* Legend text */
-.hl-item { color: #2a4a5a; }
-
-/* ── END LIGHT-BLUE NAVBAR OVERRIDES ─────────────────────────────── */
