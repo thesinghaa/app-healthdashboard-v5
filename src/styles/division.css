@@ -637,3 +637,45 @@
   font-family: 'Inter', sans-serif !important;
 }
 
+
+/* ── Layer 2 dark polish ── */
+
+/* Topbar — dark glass (base rule uses light) */
+.dv-topbar {
+  background: rgba(10,34,54,0.92) !important;
+  border-bottom-color: rgba(255,85,0,0.22) !important;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.45) !important;
+}
+
+/* Division name — Inter, no white text-shadow on dark */
+.dv-division-name {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--ink) !important;
+  text-shadow: none !important;
+}
+
+/* Division tag — Inter */
+.dv-division-tag {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Card metric — hardcoded dark colors → readable on dark bg */
+.status-critical .dv-card-metric { color: var(--red-txt)  !important; }
+.status-caution  .dv-card-metric { color: var(--yel-txt)  !important; }
+.status-on-track .dv-card-metric { color: var(--grn-txt)  !important; }
+
+/* Chip bg — slightly more visible on dark */
+.status-critical .dv-chip { background: rgba(255,90,90,0.12) !important;  border-color: rgba(255,90,90,0.18) !important; }
+.status-caution  .dv-chip { background: rgba(245,197,24,0.10) !important; border-color: rgba(245,197,24,0.16) !important; }
+.status-on-track .dv-chip { background: rgba(0,229,160,0.10) !important;  border-color: rgba(0,229,160,0.16) !important; }
+
+/* Status count badges on topbar */
+.dv-count--red    { background: rgba(255,90,90,0.18)  !important; color: var(--red-txt) !important; }
+.dv-count--yellow { background: rgba(245,197,24,0.18) !important; color: var(--yel-txt) !important; }
+.dv-count--green  { background: rgba(0,229,160,0.16)  !important; color: var(--grn-txt) !important; }
+
+/* Card footer divider on dark */
+.status-critical .dv-card-footer { border-top-color: rgba(255,90,90,0.15)  !important; }
+.status-caution  .dv-card-footer { border-top-color: rgba(245,197,24,0.12) !important; }
+

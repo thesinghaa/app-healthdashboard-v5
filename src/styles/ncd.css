@@ -4290,3 +4290,261 @@ h1, h2, h3, h4 {
 .lp-badge--yellow { background: rgba(245,197,24,0.18) !important; color: var(--yel-txt) !important; }
 .lp-badge--green  { background: rgba(0,229,160,0.18)  !important; color: var(--grn-txt) !important; }
 
+
+/* ── Layer 1 polish — final fixes ── */
+
+/* Metric values stay monospace (broad Inter override in grid.css overrides this) */
+.lp-prog-metric {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 9px !important;
+  color: var(--ink-faint) !important;
+}
+
+/* Brand: tighten font-size for navbar */
+.home-state-name {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.3px !important;
+}
+.home-state-sub {
+  font-size: 10px !important;
+  letter-spacing: 1px !important;
+}
+
+/* Status count pills on card header — slightly more visible */
+.lp-count--red    { background: rgba(255,90,90,0.20)  !important; color: #ff8080 !important; }
+.lp-count--yellow { background: rgba(245,197,24,0.20) !important; color: #f5c518 !important; }
+.lp-count--green  { background: rgba(0,229,160,0.18)  !important; color: #00e5a0 !important; }
+
+/* Card divider — subtle orange glow */
+.lp-card-divider {
+  background: linear-gradient(90deg, transparent, rgba(255,85,0,0.25) 30%, rgba(255,85,0,0.25) 70%, transparent) !important;
+}
+
+/* Home header background — ensure dark */
+.home-header {
+  background: linear-gradient(160deg, #061e2e 0%, #0a2236 45%, #051c2c 100%) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   LAYER 3 DARK FIXES — KD Programme Page (kd-list)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Summary chips strip */
+.kd-summary-chip {
+  background: var(--bg3) !important;
+  border-color: rgba(255,85,0,0.18) !important;
+}
+.kd-summary-lbl {
+  color: var(--ink-faint) !important;
+}
+
+/* KD table header — was white bg */
+.kd-table-head {
+  background: var(--bg3) !important;
+  border-bottom-color: rgba(255,85,0,0.12) !important;
+  color: var(--ink-faint) !important;
+}
+
+/* Type divider row — was white bg */
+.kd-type-divider {
+  background: rgba(15,42,64,0.80) !important;
+  border-top-color: rgba(255,85,0,0.08) !important;
+  border-bottom-color: rgba(255,85,0,0.08) !important;
+  color: var(--ink-faint) !important;
+}
+
+/* Table rows */
+.kd-table-row {
+  border-bottom-color: rgba(255,85,0,0.07) !important;
+}
+.kd-table-row:hover,
+.kd-table-row:focus {
+  background: var(--bg4) !important;
+}
+.kd-table-row--gap {
+  background: rgba(255,90,90,0.06) !important;
+  border-left-color: rgba(255,90,90,0.45) !important;
+}
+.kd-table-row--gap:hover,
+.kd-table-row--gap:focus {
+  background: rgba(255,90,90,0.10) !important;
+}
+
+/* Indicator name — was #1E2A3A (dark navy on dark bg, invisible) */
+.kd-ind-name {
+  color: var(--ink) !important;
+}
+
+/* Target — was #64748B (too dark) */
+.kd-target-val {
+  color: var(--ink-light) !important;
+}
+
+/* Achievement value — status-specific colours → brighter token versions */
+.kd-ach-val { color: var(--ink-mid) !important; }
+.kd-table-row--achieved .kd-ach-val { color: var(--grn-txt) !important; }
+.kd-table-row--close    .kd-ach-val { color: var(--yel-txt) !important; }
+.kd-table-row--gap      .kd-ach-val { color: var(--red-txt) !important; }
+
+/* Programme summary text — was #64748B */
+.kd-prog-summary {
+  color: var(--ink-mid) !important;
+}
+
+/* NFHS strip labels — was #475569 */
+.kd-nfhs-label {
+  color: var(--ink-light) !important;
+}
+.kd-nfhs-val.nfhs4 {
+  color: var(--ink-faint) !important;
+}
+.kd-nfhs-diff.positive { color: var(--grn-txt) !important; }
+.kd-nfhs-diff.negative { color: var(--red-txt) !important; }
+
+/* Section eyebrow */
+.kd-section-eyebrow {
+  color: var(--ink-faint) !important;
+}
+
+/* CS entry bar on KD page */
+.cs-entry-bar {
+  background: linear-gradient(135deg, var(--bg3), var(--bg4)) !important;
+  border-color: rgba(255,85,0,0.22) !important;
+}
+.cs-entry-bar-label {
+  color: var(--ink) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+.cs-entry-bar-eyebrow,
+.cs-entry-bar-source {
+  color: var(--ink-faint) !important;
+}
+.cs-entry-bar-cta {
+  color: var(--org) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   LAYER 4 DARK FIXES — KD Indicator Detail (kd-indicator)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Indicator title — Playfair Display dark text → Inter white */
+.kdi-name {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+}
+
+/* Indicator statement */
+.kdi-statement {
+  color: var(--ink-mid) !important;
+}
+
+/* Type pill — light grey → dark glass */
+.kdi-type-pill {
+  background: rgba(255,85,0,0.12) !important;
+  color: var(--org2) !important;
+  border: 1px solid rgba(255,85,0,0.22) !important;
+}
+
+/* KD no-badge and source tag */
+.kdi-no-badge {
+  color: var(--ink-faint) !important;
+}
+.kdi-source-tag {
+  color: var(--ink-faint) !important;
+}
+
+/* Performance card title */
+.perf-card-title {
+  color: var(--ink) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Perf stats */
+.perf-stat-val {
+  color: var(--ink) !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
+.perf-stat-ach {
+  color: var(--ink-mid) !important;
+}
+
+/* NFHS comparison table — was white bg rows */
+.kdi-nfhs-row {
+  background: var(--bg2) !important;
+  border-bottom-color: rgba(255,85,0,0.08) !important;
+}
+.kdi-nfhs-row:nth-child(even) {
+  background: var(--bg3) !important;
+}
+
+/* NFHS labels — dark text → white */
+.kdi-nfhs-label {
+  color: var(--ink) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* NFHS table head labels */
+.kdi-nfhs-head-label {
+  color: var(--ink-light) !important;
+}
+.kdi-nfhs-head-val {
+  color: var(--ink-light) !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
+.kdi-nfhs-head-arrow {
+  color: var(--ink-faint) !important;
+}
+.kdi-nfhs-head-change {
+  color: var(--ink-faint) !important;
+}
+
+/* NFHS val colors */
+.nfhs-val {
+  font-family: 'JetBrains Mono', monospace !important;
+  color: var(--ink-mid) !important;
+}
+.nfhs-diff.positive { color: var(--grn-txt) !important; }
+.nfhs-diff.negative { color: var(--red-txt) !important; }
+.nfhs-arrow         { color: var(--ink-faint) !important; }
+.nfhs-source-note   { color: var(--ink-faint) !important; }
+
+/* District insight panel */
+.dist-insight-block {
+  background: var(--bg3) !important;
+  border-color: rgba(255,85,0,0.12) !important;
+}
+.dist-insight-label { color: var(--ink-faint) !important; }
+.dist-insight-value { color: var(--ink) !important; font-family: 'JetBrains Mono', monospace !important; }
+.dist-insight-sub   { color: var(--ink-light) !important; }
+
+/* Dist rank rows */
+.dist-rank-row {
+  background: var(--bg2) !important;
+  border-bottom-color: rgba(255,85,0,0.08) !important;
+}
+.dist-rank-no  { color: var(--ink-faint) !important; }
+.dist-rank-val { color: var(--ink-mid)   !important; font-family: 'JetBrains Mono', monospace !important; }
+.dist-rank-pct { color: var(--ink-faint) !important; }
+
+/* Narrative block */
+.dist-insight-narrative {
+  background: var(--bg3) !important;
+  border-left: 3px solid rgba(255,85,0,0.35) !important;
+  color: var(--ink-mid) !important;
+}
+
+/* Sunburst legend */
+.sb-legend { background: transparent !important; }
+.sb-leg-caption { color: var(--ink-light) !important; font-family: 'Inter', sans-serif !important; }
+.sb-leg-tick    { color: var(--ink-faint) !important; }
+
+/* Detail footer */
+.detail-footer {
+  color: var(--ink-faint) !important;
+  border-top-color: rgba(255,85,0,0.10) !important;
+}
+
