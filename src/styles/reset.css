@@ -12,7 +12,7 @@ html {
 body {
   height: 100%;
   font-family: 'Inter', sans-serif;
-  background: var(--bg);
+  background: #05060f;
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
 }
