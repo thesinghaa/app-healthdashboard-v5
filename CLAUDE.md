@@ -60,15 +60,16 @@ A React + Vite **health dashboard** tracking NHM Arunachal Pradesh programme per
 ## Navigation (5 layers)
 
 ```
-Home (divisions)
-  └── DivisionPage (division programme grid)
-        └── KDProgrammePage (programme KD table)  ←  or HRHCadrePage / DrugsDiagnosticsPage
-              ├── KDIndicatorDetail (single KD deep-dive)
-              └── CurrentStatusDetailPage (current status charts — full page)
+LandingPage — cinema reel, select division or "All Programmes"
+  ├── DivisionPage (division programme grid)
+  │     └── KDProgrammePage / HRHCadrePage / DrugsDiagnosticsPage
+  │           ├── KDIndicatorDetail (single KD deep-dive)
+  │           └── CurrentStatusDetailPage (current status charts — full page)
+  └── HomePage / summary (all 5 divisions at once) → same branch
 ```
 
 State lives in `App.jsx`:
-- `page`: `'home' | 'division' | 'kd-list' | 'kd-indicator' | 'current-status'`
+- `page`: `'home' | 'summary' | 'division' | 'kd-list' | 'kd-indicator' | 'current-status'`
 - `program`, `division`, `indicator`, `origin` objects
 
 `goToDetail(program, division)` → `kd-list`
@@ -86,6 +87,9 @@ State lives in `App.jsx`:
 | File | Purpose |
 |------|---------|
 | `src/App.jsx` | Root router — state-based navigation |
+| `src/pages/LandingPage.jsx` | Entry page — cinema reel carousel of 5 divisions |
+| `src/styles/landing.css` | Landing page styles — glass nav, reel cards, dot nav |
+| `src/pages/HomePage.jsx` | Summary page — all 5 division columns at once (was landing) |
 | `src/pages/DivisionPage.jsx` | 2nd layer: division programme grid |
 | `src/pages/KDProgrammePage.jsx` | 3rd layer: programme-level KD table |
 | `src/pages/HRHCadrePage.jsx` | 3rd layer (HRH division only): staffing cadre view |
@@ -251,6 +255,21 @@ PM-ABHIM is registered in `hrh/index.js` as the 8th programme in the HRH divisio
 
 ---
 
+## Aurora background system (added May 2026)
+
+`src/styles/hero.css` — global fixed aurora, renders behind ALL pages.
+
+- `aurora-blobs` div lives in `App.jsx` root (above `flip-stage`) — `position: fixed; inset: 0`
+- 5 blobs with `mix-blend-mode: screen` — luminous overlap at intersections
+- Palette: white-lavender hotspot (blob-1), rich purple #8b5cf6 (blob-2), deep indigo #4f46e5 (blob-3), cobalt blue #3b82f6 (blob-4), violet #7c3aed (blob-5)
+- Container has `filter: blur(80px)` on the wrapper + edge vignette overlay
+- Float animations: float1–float5, 8–11s, ±40–72px drift + scale 0.93–1.08
+- All page root containers (`ncd-root`, `flip-stage`, `flip-page`, `dv-root`, etc.) must be `background: transparent`
+- Body base: `background: #05060f` (deep near-black)
+- Glass nav pattern: `rgba(8,5,20,0.55)` + `backdrop-filter: blur(32px) saturate(180%)` + `border: 1px solid rgba(139,92,246,0.22)` + `border-radius: 16px`
+
+---
+
 ## Dark mode design system — McKinsey navy/orange (added May 2026)
 
 Full dark mode activated in V3. Token source of truth: `src/styles/tokens.css`.
@@ -318,9 +337,26 @@ All 11 NCD files now have unique, programme-appropriate `keyMetric` and `summary
 
 ---
 
-## Landing page (5-column no-scroll layout) — V3 feature
+## Landing page — cinema reel (added May 2026)
 
-`src/pages/HomePage.jsx` — replaces the old carousel with 5 simultaneous division columns.
+`src/pages/LandingPage.jsx` + `src/styles/landing.css`
+
+- Entry point (`page: 'home'`) — cinema reel carousel of 5 division cards
+- Cards positioned by offset from active: `translateX(offset * 460px) scale(sc) blur(n)px`
+- Active card (offset 0): full opacity, no blur, purple glow ring, "Explore Division" CTA
+- Adjacent cards (±1): scale 0.82, opacity 0.58, blur 2px — clicking steps the reel
+- Far cards (±2): scale 0.66, opacity 0.20, blur 6px
+- Per-division CSS custom props: `--bdr` (border color) + `--glow` (glow color)
+- Keyboard nav: ArrowLeft / ArrowRight; 480ms debounce lock
+- "All Programmes" button → `onViewSummary` → `page: 'summary'` (HomePage)
+- Division card click → `onSelectDivision(div)` → `page: 'division'`
+- CSS classes: `.lnd-root`, `.lnd-header-inner` (glass nav), `.lnd-card`, `.lnd-card--active`, `.lnd-card-ring`, `.lnd-dot--active` (pill shape)
+
+---
+
+## Summary page (5-column no-scroll layout) — was landing page
+
+`src/pages/HomePage.jsx` — all 5 division columns at once; reached via "All Programmes" on LandingPage.
 
 - Each column = one NHM division, width proportional to programme count (`flex: 2.0` to `flex: 1.1`)
 - Orange 3D bento card borders: `border: 4px solid #FF5500`, layered box-shadows, `backdrop-filter: blur(32px)`
