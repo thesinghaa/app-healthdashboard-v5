@@ -325,3 +325,81 @@
 
 /* Override grid-section if still referenced */
 .grid-section { padding: 16px 28px; }
+
+/* ── LIGHT-BLUE NAVBAR OVERRIDES ─────────────────────────────────── */
+
+/* Glass pill — light sky-blue glass */
+.glass-navbar {
+  background: linear-gradient(135deg, #e8f8fc 0%, #d6f0f8 50%, #e2f5fa 100%);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(0,181,204,0.40);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.70) inset,
+    0 1.5px 0 rgba(255,255,255,0.90) inset,
+    0 8px 32px rgba(0,100,140,0.12),
+    0 2px 8px rgba(0,100,140,0.08),
+    0 0 40px rgba(0,181,204,0.10);
+}
+
+/* Shimmer on light bg */
+.glass-navbar::after {
+  background: linear-gradient(
+    108deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255,255,255,0.40) 48%,
+    rgba(255,255,255,0.22) 52%,
+    transparent 65%,
+    transparent 100%
+  );
+}
+
+/* Brand text — dark on light bg */
+.home-state-name {
+  color: #051c2c;
+  text-shadow: none;
+}
+.home-state-sub {
+  color: #4a7a90;
+}
+.home-data-ref {
+  color: #0097ab;
+  opacity: 1;
+}
+
+/* Stat strip — light tint border */
+.home-summary {
+  background: rgba(255,255,255,0.60);
+  border: 1px solid rgba(0,181,204,0.30);
+}
+
+/* Divider on light bg */
+.hs-pill + .hs-pill::before {
+  background: rgba(0,181,204,0.20);
+}
+
+/* Total segment */
+.hs-total                { background: rgba(0,181,204,0.16); }
+.hs-total .hs-val        { color: #051c2c; }
+.hs-total .hs-lbl        { color: #2a6070; }
+
+/* Critical segment */
+.hs-red                  { background: rgba(255,60,60,0.10); }
+.hs-red .hs-val          { color: #c0392b; }
+.hs-red .hs-lbl          { color: #c0392b; opacity: 0.85; }
+
+/* Caution segment */
+.hs-yellow               { background: rgba(200,140,0,0.10); }
+.hs-yellow .hs-val       { color: #8a5e00; }
+.hs-yellow .hs-lbl       { color: #8a5e00; opacity: 0.85; }
+
+/* On Track segment */
+.hs-green                { background: rgba(0,160,100,0.10); }
+.hs-green .hs-val        { color: #0a6e45; }
+.hs-green .hs-lbl        { color: #0a6e45; opacity: 0.85; }
+
+/* Legend text */
+.hl-item { color: #2a4a5a; }
+
+/* ── END LIGHT-BLUE NAVBAR OVERRIDES ─────────────────────────────── */
