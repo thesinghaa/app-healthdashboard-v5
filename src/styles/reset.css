@@ -11,7 +11,7 @@ html {
 
 body {
   height: 100%;
-  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif;
   background: var(--bg);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;

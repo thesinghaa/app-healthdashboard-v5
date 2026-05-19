@@ -1,72 +1,86 @@
 /* ─────────────────────────────────────────────────────────────────
-   tokens.css — Blackmantis palette: warm black · orange · cream
+   tokens.css — McKinsey-inspired dark system
+   Primary accent: Orange (#FF5500) replaces McKinsey blue
+   Background: Deep navy ecosystem (#051c2c)
+   Text: White hierarchy
    ───────────────────────────────────────────────────────────────── */
 
 :root {
-  /* ── Brand palette (Blackmantis) ──────────────────────────────── */
-  --org:        #FF5500;        /* primary orange accent             */
-  --org2:       #FF7733;        /* lighter orange                    */
-  --org-dim:    rgba(255,85,0,0.10);
-  --org-glow:   rgba(255,85,0,0.18);
+  /* ── Primary accent — orange (McKinsey blue equivalent) ────────── */
+  --org:        #FF5500;
+  --org2:       #FF7733;
+  --org3:       #FF3D00;
+  --org-dim:    rgba(255,85,0,0.15);
+  --org-glow:   rgba(255,85,0,0.25);
+  --org-soft:   rgba(255,85,0,0.08);
 
-  /* ── Ink (warm near-black, no blue cast) ─────────────────────── */
-  --ink:        #1A1610;
-  --ink-mid:    #3A342C;
-  --ink-light:  #7A7060;
-  --ink-faint:  #9A8F82;
+  /* ── Secondary — McKinsey teal/blue ────────────────────────────── */
+  --blue:       #00b5cc;
+  --blue2:      #0097ab;
+  --blue-dim:   rgba(0,181,204,0.12);
+  --blue-glow:  rgba(0,181,204,0.20);
 
-  /* ── Surfaces (warm cream) ───────────────────────────────────── */
-  --bg:         #F5F0E8;
-  --bg2:        #EDE8DF;
-  --bg3:        #E4DDD2;
-  --cloud-gray: #E4DDD2;
-  --off-white:  #FAF7F2;
+  /* ── Background ecosystem — deep navy ──────────────────────────── */
+  --bg:         #051c2c;        /* page root                          */
+  --bg2:        #0a2236;        /* cards, panels                      */
+  --bg3:        #0f2a40;        /* elevated surfaces                  */
+  --bg4:        #163348;        /* hover / active states              */
+  --bg5:        #1d3d54;        /* highest elevation                  */
 
-  /* ── Glass layers ────────────────────────────────────────────── */
-  --w1:  rgba(245,240,232,0.80);
-  --w2:  rgba(245,240,232,0.55);
-  --w3:  rgba(245,240,232,0.35);
-  --w4:  rgba(255,255,255,0.88);
+  /* ── Glass layers — dark glass ─────────────────────────────────── */
+  --w1:  rgba(10,34,54,0.85);
+  --w2:  rgba(10,34,54,0.65);
+  --w3:  rgba(10,34,54,0.45);
+  --w4:  rgba(15,42,64,0.92);
 
-  /* ── Legacy aliases (kept for chart/detail compat) ───────────── */
-  --navy-dark:    #1A1610;
-  --navy-mid:     #3A342C;
-  --navy:         #1A1610;
-  --teal-dark:    #0A7B6C;
-  --teal-mid:     #0E9E8A;
-  --teal-light:   #2DC4AD;
-  --teal-pale:    #7EDDD0;
-  --ocean-light:  rgba(14,158,138,0.10);
-  --ocean-mid:    #0E9E8A;
-  --ocean-deep:   #0A7B6C;
-  --ocean-glass:  rgba(14,158,138,0.06);
+  /* ── Text — white hierarchy ─────────────────────────────────────── */
+  --ink:        #ffffff;
+  --ink-mid:    #e0eaf2;
+  --ink-light:  #b8ccd8;
+  --ink-faint:  #6b8a9e;
+
+  /* ── Legacy aliases — remapped to dark ─────────────────────────── */
+  --navy-dark:    #ffffff;
+  --navy-mid:     #b8ccd8;
+  --navy:         #e0eaf2;
+  --off-white:    #0a2236;
+  --cloud-gray:   #163348;
+  --teal-dark:    #00b5cc;
+  --teal-mid:     #00cce5;
+  --teal-light:   #40ddf0;
+  --teal-pale:    rgba(0,181,204,0.15);
+  --ocean-light:  rgba(0,181,204,0.08);
+  --ocean-mid:    #00b5cc;
+  --ocean-deep:   #0097ab;
+  --ocean-glass:  rgba(0,181,204,0.06);
   --yellow:       #F5C518;
   --yellow-hover: #E0B000;
   --gold:         #FF5500;
   --gold-mid:     #FF7733;
 
-  /* ── Status — semantic, unchanged ───────────────────────────── */
-  --red-dot:  #E53E3E;
-  --red-bdr:  #FEB2B2;
-  --red-txt:  #C53030;
-  --red-bg:   #FFF0F0;
+  /* ── Status — reworked for dark bg ─────────────────────────────── */
+  --red-dot:  #ff5a5a;
+  --red-bdr:  rgba(255,90,90,0.30);
+  --red-txt:  #ff8080;
+  --red-bg:   rgba(255,60,60,0.12);
 
-  --yel-dot:  #D69E2E;
-  --yel-bdr:  #FAF089;
-  --yel-txt:  #B7791F;
-  --yel-bg:   #FFFBEB;
+  --yel-dot:  #f5c518;
+  --yel-bdr:  rgba(245,197,24,0.30);
+  --yel-txt:  #f5c518;
+  --yel-bg:   rgba(245,197,24,0.12);
 
-  --grn-dot:  #0E9E8A;
-  --grn-bdr:  #9AE6B4;
-  --grn-txt:  #276749;
-  --grn-bg:   #F0FFF4;
+  --grn-dot:  #00e5a0;
+  --grn-bdr:  rgba(0,229,160,0.30);
+  --grn-txt:  #00e5a0;
+  --grn-bg:   rgba(0,229,160,0.12);
 
-  /* ── Shadows ─────────────────────────────────────────────────── */
-  --sh:  0 2px 8px rgba(26,22,16,0.07);
-  --shm: 0 4px 20px rgba(26,22,16,0.11);
-  --sh-org: 0 4px 20px rgba(255,85,0,0.14);
+  /* ── Shadows — dark-appropriate ─────────────────────────────────── */
+  --sh:     0 2px 8px rgba(0,0,0,0.30);
+  --shm:    0 4px 20px rgba(0,0,0,0.40);
+  --sh-org: 0 4px 24px rgba(255,85,0,0.22);
+  --sh-blue:0 4px 24px rgba(0,181,204,0.18);
 
-  /* ── Radii ───────────────────────────────────────────────────── */
+  /* ── Radii ───────────────────────────────────────────────────────── */
   --r:  10px;
   --rm: 10px;
   --rl: 14px;

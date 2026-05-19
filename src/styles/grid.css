@@ -978,3 +978,27 @@
   background: rgba(26, 31, 54, 0.45);
   border-radius: 1px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES — McKinsey dark system
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Font: DM Sans → Inter */
+[class*="prog-"],
+[class*="grid-"],
+[class*="card-"],
+.prog-name, .prog-label, .prog-meta, .prog-sub,
+.grid-section-title, .grid-section-label {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Light backgrounds in programme grid */
+.grid-section { background: transparent !important; }
+
+/* Hardcoded dark text → ink vars */
+[class*="prog-name"],
+[class*="prog-title"],
+[class*="grid-title"] {
+  color: var(--ink) !important;
+}
+

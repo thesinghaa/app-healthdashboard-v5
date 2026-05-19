@@ -3861,3 +3861,333 @@
   outline: 2px solid rgba(232,80,10,0.5);
   outline-offset: -2px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES — McKinsey dark system
+   Appended as a block; uses specificity to win over earlier rules.
+   Do NOT move or split this block.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Typography — replace removed fonts with Inter ──────────────── */
+.ncd-card-header h2,
+.ncd-card-header h3,
+.home-state-name,
+.perf-card-title,
+.kd-indicator-name,
+.kd-meta-title,
+.detail-section-title,
+.csd-hero-title,
+.csd-section-title,
+h1, h2, h3, h4 {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* ── Topbars — dark glass ────────────────────────────────────────── */
+.ncd-topbar {
+  background: rgba(10,34,54,0.92) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  border-bottom: 1px solid rgba(255,85,0,0.22) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.50) !important;
+}
+
+.app-topbar {
+  background: var(--bg2) !important;
+  border-bottom: 3px solid var(--org) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.40) !important;
+}
+
+/* ── Tooltip ─────────────────────────────────────────────────────── */
+.ncd-tooltip {
+  background: var(--bg3) !important;
+  border: 1px solid rgba(255,85,0,0.22) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.50) !important;
+}
+.ncd-tip-label {
+  color: var(--ink) !important;
+  border-bottom-color: rgba(255,85,0,0.18) !important;
+}
+
+/* ── NCD cards ───────────────────────────────────────────────────── */
+.ncd-card {
+  background: var(--bg2) !important;
+  border-color: rgba(255,85,0,0.18) !important;
+}
+.ncd-card-header {
+  border-bottom-color: rgba(255,85,0,0.12) !important;
+}
+
+/* ── Insight cards ───────────────────────────────────────────────── */
+.ncd-insight-card {
+  background: var(--bg3) !important;
+  border-color: rgba(255,85,0,0.15) !important;
+  color: var(--ink-mid) !important;
+}
+
+/* ── HMIS tabs ───────────────────────────────────────────────────── */
+.hmis-tab {
+  background: var(--bg3) !important;
+  border-color: rgba(255,85,0,0.20) !important;
+  color: var(--ink-light) !important;
+}
+.hmis-tab:hover {
+  border-color: rgba(255,85,0,0.50) !important;
+  color: var(--ink) !important;
+  background: var(--bg4) !important;
+}
+.hmis-tab-id {
+  background: rgba(255,85,0,0.22) !important;
+  color: var(--org2) !important;
+}
+.hmis-tab-active {
+  border-color: var(--org) !important;
+  color: var(--ink) !important;
+  background: var(--bg4) !important;
+}
+.hmis-tab-active .hmis-tab-id {
+  background: var(--org) !important;
+  color: #ffffff !important;
+}
+
+/* ── HMIS year pills ─────────────────────────────────────────────── */
+.hmis-year-pill {
+  background: var(--bg3) !important;
+  border-color: rgba(255,85,0,0.20) !important;
+  color: var(--ink-light) !important;
+}
+.hmis-year-active {
+  color: #ffffff !important;
+  background: var(--org) !important;
+  border-color: var(--org) !important;
+}
+
+/* ── HMIS category header ────────────────────────────────────────── */
+.hmis-cat-header {
+  background: var(--bg3) !important;
+  border-left-color: var(--org) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.30) !important;
+}
+.hmis-cat-name {
+  color: var(--ink) !important;
+}
+.hmis-cat-sub {
+  color: var(--ink-faint) !important;
+}
+.hmis-cat-id {
+  color: #ffffff !important;
+}
+
+/* ── HMIS KPI cards ──────────────────────────────────────────────── */
+.hmis-kpi-card {
+  background: var(--bg3) !important;
+  border-color: rgba(255,85,0,0.12) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.30) !important;
+}
+.hmis-kpi-label {
+  color: var(--ink-light) !important;
+}
+.hmis-kpi-code {
+  color: var(--ink-faint) !important;
+}
+
+/* ── HMIS table ──────────────────────────────────────────────────── */
+.hmis-table {
+  border-top-color: rgba(255,85,0,0.12) !important;
+}
+.hmis-table-head {
+  background: var(--bg3) !important;
+  border-bottom-color: rgba(255,85,0,0.12) !important;
+  color: var(--ink-faint) !important;
+}
+.hmis-table-row {
+  border-bottom-color: rgba(255,85,0,0.08) !important;
+}
+.hmis-table-row:hover {
+  background: var(--bg4) !important;
+}
+.hmis-row-kpi {
+  background: rgba(255,85,0,0.05) !important;
+}
+
+/* ── District rank list ──────────────────────────────────────────── */
+.dist-rank-list {
+  border-color: rgba(255,85,0,0.15) !important;
+}
+.dist-rank-row {
+  background: var(--bg2) !important;
+  border-bottom-color: rgba(255,85,0,0.08) !important;
+}
+.dist-rank-row:hover {
+  background: var(--bg3) !important;
+}
+.dist-rank-name {
+  color: var(--ink) !important;
+}
+.dist-rank-val {
+  color: var(--ink-mid) !important;
+}
+.dist-rank-pct {
+  color: var(--ink-faint) !important;
+}
+.dist-insight-label {
+  color: var(--ink-faint) !important;
+}
+.dist-insight-sub {
+  color: var(--ink-light) !important;
+}
+
+/* ── Narrative ───────────────────────────────────────────────────── */
+.dist-insight-narrative {
+  background: var(--bg3) !important;
+  border-left-color: rgba(255,85,0,0.35) !important;
+  color: var(--ink-mid) !important;
+}
+
+/* ── Performance card ────────────────────────────────────────────── */
+.perf-card {
+  background: var(--bg2) !important;
+  border-color: rgba(255,85,0,0.18) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.30), 0 1px 4px rgba(0,0,0,0.20) !important;
+}
+
+/* ── Division programme cards — dark glass ───────────────────────── */
+.dv-prog-card {
+  background: rgba(10,34,54,0.82) !important;
+  backdrop-filter: blur(18px) saturate(168%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(168%) !important;
+  border: 1.5px solid rgba(255,85,0,0.28) !important;
+  border-top: 4px solid #FF5500 !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255,85,0,0.08),
+    inset 0 -2px 0 rgba(255,85,0,0.05),
+    0 2px 5px rgba(0,0,0,0.25),
+    0 8px 24px rgba(0,0,0,0.30),
+    0 4px 24px rgba(255,85,0,0.10) !important;
+}
+.dv-prog-card:hover {
+  border-color: rgba(255,85,0,0.55) !important;
+  border-top-color: #FF5500 !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255,85,0,0.12),
+    0 4px 10px rgba(0,0,0,0.30),
+    0 16px 42px rgba(0,0,0,0.35),
+    0 0 0 1.5px rgba(255,85,0,0.22),
+    0 8px 44px rgba(255,85,0,0.20) !important;
+}
+.dv-prog-card.status-critical {
+  background: rgba(20,5,5,0.82) !important;
+  border-left-color: #DC2626 !important;
+}
+.dv-prog-card.status-caution {
+  background: rgba(20,15,5,0.82) !important;
+  border-left-color: #D97706 !important;
+}
+.dv-prog-card.status-on-track {
+  background: rgba(5,15,10,0.82) !important;
+  border-left-color: #059669 !important;
+}
+
+/* ── KD programme section panels — dark glass ────────────────────── */
+.kd-prog-section {
+  background: rgba(10,34,54,0.80) !important;
+  backdrop-filter: blur(14px) saturate(152%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(152%) !important;
+  border: 1.5px solid rgba(255,85,0,0.20) !important;
+  border-top: 3px solid #FF5500 !important;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,85,0,0.08),
+    0 2px 6px rgba(0,0,0,0.25),
+    0 8px 22px rgba(0,0,0,0.30),
+    0 4px 20px rgba(255,85,0,0.08) !important;
+}
+
+/* ── KD table inside section ─────────────────────────────────────── */
+.kd-prog-section .kd-table {
+  background: var(--bg3) !important;
+  border-color: rgba(255,85,0,0.12) !important;
+}
+
+/* ── Detail / CS plot cards ──────────────────────────────────────── */
+.detail-card,
+.cs-plot-card {
+  background: var(--bg2) !important;
+  border-color: rgba(255,85,0,0.18) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.35) !important;
+}
+
+/* ── Carousel cards (home page) — dark glass ─────────────────────── */
+.carousel-card {
+  background: rgba(10,34,54,0.88) !important;
+  backdrop-filter: blur(32px) saturate(175%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(175%) !important;
+  box-shadow:
+    inset 0 3px 0 rgba(255,85,0,0.10),
+    inset 0 -3px 0 rgba(255,85,0,0.06),
+    0 4px 12px rgba(0,0,0,0.40),
+    0 16px 48px rgba(0,0,0,0.45),
+    0 48px 96px rgba(0,0,0,0.35),
+    0 8px 52px rgba(255,85,0,0.14) !important;
+}
+
+/* ── Programme row tiles ─────────────────────────────────────────── */
+.programme-row {
+  background: rgba(15,42,64,0.75) !important;
+  border-color: rgba(255,85,0,0.15) !important;
+}
+.programme-row:hover {
+  background: rgba(22,51,72,0.90) !important;
+}
+
+/* ── Text colour corrections — hardcoded darks → ink vars ────────── */
+.kd-prog-name,
+.lp-prog-name,
+.prog-card-name,
+.dv-prog-name {
+  color: var(--ink) !important;
+}
+
+/* General dark text overrides */
+[class*="title"],
+[class*="heading"],
+[class*="label"],
+[class*="name"] {
+  /* Only apply where parent is a dark card — done via cascade */
+}
+
+/* Specific hardcoded colors that appear frequently */
+.ncd-card-header h2,
+.ncd-card-header h3 {
+  color: var(--ink) !important;
+}
+
+/* ── Search bar — dark orange glass ──────────────────────────────── */
+.home-nav-search {
+  background: rgba(255,85,0,0.12) !important;
+  border: 1.5px solid rgba(255,85,0,0.35) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,85,0,0.08) inset,
+    0 0 12px rgba(255,85,0,0.18),
+    0 2px 8px rgba(0,0,0,0.30) !important;
+}
+.hns-input {
+  color: var(--ink) !important;
+}
+.hns-input::placeholder {
+  color: rgba(255,150,100,0.55) !important;
+}
+.hns-icon {
+  color: var(--org2) !important;
+}
+
+/* ── HRH cadre sections — dark glass ────────────────────────────── */
+.hrh-cadre-section {
+  background: var(--bg2) !important;
+  border-color: rgba(255,85,0,0.18) !important;
+}
+
+/* ── CS entry bar ────────────────────────────────────────────────── */
+.cs-entry-bar {
+  background: linear-gradient(135deg, var(--bg3) 0%, var(--bg4) 100%) !important;
+  border-color: rgba(255,85,0,0.22) !important;
+}
+

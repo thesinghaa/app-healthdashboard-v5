@@ -994,3 +994,120 @@
   margin-top: auto;
   border-top: 1px solid var(--cloud-gray);
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES — McKinsey dark system
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Topbars — dark glass */
+.detail-topbar,
+.ncd-topbar {
+  background: rgba(10,34,54,0.92) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  border-bottom: 1px solid rgba(255,85,0,0.22) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.50) !important;
+}
+
+/* Back button font */
+.back-btn {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Programme name in breadcrumb */
+.detail-prog-name {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--ink) !important;
+  text-shadow: none !important;
+}
+
+/* Status pill — caution (was yellow on navy = poor dark contrast) */
+.st-yellow {
+  background: var(--yel-bg) !important;
+  color: var(--yel-txt) !important;
+  border: 1px solid var(--yel-bdr) !important;
+}
+
+/* Summary bar — dark glass */
+.detail-summary-bar {
+  background: var(--bg2) !important;
+  border-color: rgba(255,85,0,0.18) !important;
+  box-shadow: var(--sh) !important;
+}
+
+/* Detail cards — dark */
+.detail-card,
+.detail-metric-card,
+.detail-section {
+  background: var(--bg2) !important;
+  border-color: rgba(255,85,0,0.15) !important;
+}
+
+/* Detail section title fonts */
+.detail-section-title,
+.detail-card-title,
+.detail-prog-name,
+.kd-meta-title,
+.kd-indicator-name {
+  font-family: 'Inter', sans-serif !important;
+  color: var(--ink) !important;
+}
+
+/* White glass panels → dark */
+.kd-summary-card,
+.kd-overview-card,
+.kd-perf-card,
+.kd-nfhs-card,
+.kd-district-card {
+  background: var(--bg2) !important;
+  border-color: rgba(255,85,0,0.15) !important;
+}
+
+/* Light blue info box */
+[style*="#EFF6FF"],
+[style*="background: #EFF6FF"] {
+  background: rgba(0,181,204,0.08) !important;
+  color: var(--blue) !important;
+}
+
+/* Light yellow note boxes */
+[style*="#FFFBEB"] {
+  background: rgba(245,197,24,0.08) !important;
+}
+
+/* KD table inside section */
+.kd-table th,
+.kd-table td {
+  border-color: rgba(255,85,0,0.10) !important;
+}
+.kd-table thead th {
+  background: var(--bg3) !important;
+  color: var(--ink-light) !important;
+}
+.kd-table tbody tr:hover td {
+  background: var(--bg4) !important;
+}
+
+/* NFHS comparison table */
+.nfhs-table th,
+.nfhs-table td {
+  border-color: rgba(255,85,0,0.10) !important;
+}
+.nfhs-table thead {
+  background: var(--bg3) !important;
+  color: var(--ink-light) !important;
+}
+.nfhs-table tbody tr:nth-child(even) td {
+  background: rgba(255,85,0,0.04) !important;
+}
+
+/* Fonts — replace Playfair/Space Grotesk with Inter */
+[class*="section-title"],
+[class*="card-title"],
+[class*="detail-title"],
+[class*="prog-heading"],
+[class*="kd-title"] {
+  font-family: 'Inter', sans-serif !important;
+}
+

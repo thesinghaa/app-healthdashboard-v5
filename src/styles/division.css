@@ -546,3 +546,94 @@
   transform: translateY(0px) scale(0.97);
   box-shadow: none;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES — McKinsey dark system
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Division topbar — dark glass */
+.dv-topbar {
+  background: rgba(10,34,54,0.90) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1.5px solid rgba(255,85,0,0.22) !important;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.45) !important;
+}
+
+/* Division name font + text */
+.dv-division-name {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--ink) !important;
+  text-shadow: none !important;
+}
+.dv-division-tag {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Division page content area glass panels */
+.div-filter-bar,
+.div-section-card,
+.dv-content-card {
+  background: var(--bg2) !important;
+  border-color: rgba(255,85,0,0.15) !important;
+}
+
+/* Programme cards — dark glass */
+.dv-prog-card {
+  background: rgba(10,34,54,0.82) !important;
+  backdrop-filter: blur(12px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
+  border-color: rgba(255,85,0,0.20) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.35), 0 1px 3px rgba(0,0,0,0.20) !important;
+}
+.dv-prog-card:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.30) !important;
+}
+.dv-prog-card.status-critical {
+  background: rgba(20,5,5,0.82) !important;
+}
+.dv-prog-card.status-caution {
+  background: rgba(20,15,5,0.82) !important;
+}
+.dv-prog-card.status-on-track {
+  background: rgba(5,15,5,0.82) !important;
+}
+
+/* Card name colors — fix hardcoded dark-on-dark */
+.dv-card-name {
+  color: var(--ink) !important;
+}
+.status-critical .dv-card-name {
+  color: var(--red-txt) !important;
+}
+.status-caution .dv-card-name {
+  color: var(--yel-txt) !important;
+}
+
+/* DPC name overrides (larger format cards) */
+.dpc-name {
+  color: var(--ink) !important;
+}
+.status-critical .dpc-name {
+  color: var(--red-txt) !important;
+}
+.status-caution .dpc-name {
+  color: var(--yel-txt) !important;
+}
+
+/* Stat section panels within division cards */
+.div-section-bg,
+.dv-stat-panel {
+  background: var(--bg3) !important;
+  border-color: rgba(255,85,0,0.12) !important;
+}
+
+/* Font replacements */
+.dv-division-tag,
+.dpc-reason,
+.dpc-metric,
+.dv-card-reason {
+  font-family: 'Inter', sans-serif !important;
+}
+
