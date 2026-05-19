@@ -172,15 +172,23 @@ export default function LandingPage({ onSelectDivision, onViewSummary }) {
         })}
       </div>
 
-      {/* ── Navigation ────────────────────────────────────────────── */}
-      <div className="lnd-nav">
-        <button className="lnd-arrow" onClick={() => go(-1)} aria-label="Previous division">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M11.5 3.5L6 9l5.5 5.5" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
+      {/* ── Edge arrows ───────────────────────────────────────────── */}
+      <button className="lnd-arrow lnd-arrow--left" onClick={() => go(-1)} aria-label="Previous division">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11.5 3.5L6 9l5.5 5.5" stroke="currentColor" strokeWidth="2"
+                strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
 
+      <button className="lnd-arrow lnd-arrow--right" onClick={() => go(1)} aria-label="Next division">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M6.5 3.5L12 9l-5.5 5.5" stroke="currentColor" strokeWidth="2"
+                strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
+
+      {/* ── Dot nav ───────────────────────────────────────────────── */}
+      <div className="lnd-nav">
         <div className="lnd-dots">
           {DIVISIONS.map((_, i) => (
             <button
@@ -191,13 +199,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary }) {
             />
           ))}
         </div>
-
-        <button className="lnd-arrow" onClick={() => go(1)} aria-label="Next division">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M6.5 3.5L12 9l-5.5 5.5" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
       </div>
 
     </div>

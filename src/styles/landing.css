@@ -315,37 +315,44 @@
 }
 @media (prefers-reduced-motion: reduce) { .lnd-card-ring { animation: none; } }
 
-/* ── Navigation row ──────────────────────────────────────────────── */
+/* ── Navigation row (dots only) ──────────────────────────────────── */
 .lnd-nav {
   display: flex;
   align-items: center;
-  gap: 20px;
   padding: 16px 0 24px;
   flex-shrink: 0;
 }
 
+/* Edge arrows — fixed to viewport left/right, vertically centred */
 .lnd-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: rgba(8,5,20,0.60);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(139,92,246,0.25);
   color: rgba(255,255,255,0.65);
   cursor: pointer;
+  z-index: 30;
   transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
 }
+.lnd-arrow--left  { left: 20px; }
+.lnd-arrow--right { right: 20px; }
 .lnd-arrow:hover {
   background: rgba(139,92,246,0.18);
   border-color: rgba(139,92,246,0.50);
   color: #c4b5fd;
-  transform: scale(1.08);
+  transform: translateY(-50%) scale(1.08);
 }
 .lnd-arrow:active {
-  transform: scale(0.94);
+  transform: translateY(-50%) scale(0.94);
 }
 
 .lnd-dots {
