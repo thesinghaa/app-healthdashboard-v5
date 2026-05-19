@@ -151,7 +151,7 @@ function matchesSearch(progId, query) {
   return (PROG_KD_INDEX[progId] || []).some(term => term.includes(q));
 }
 
-export default function HomePage({ onSelectProgram, onSelectDivision }) {
+export default function HomePage({ onSelectProgram, onSelectDivision, onBack }) {
   const rootRef = useRef(null);
   const summary = getSummary();
   const [searchQuery, setSearchQuery] = useState('');
@@ -208,8 +208,16 @@ export default function HomePage({ onSelectProgram, onSelectDivision }) {
           <div className="home-header-inner">
             <div className="glass-navbar">
               <div className="home-brand">
+                {onBack && (
+                  <button className="home-back-btn" onClick={onBack} title="Back to Landing">
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                      <path d="M8 2L4 6.5 8 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    Overview
+                  </button>
+                )}
                 <span className="home-state-name">Arunachal Pradesh</span>
-                <span className="home-state-sub">NHM Health Dashboard Demo</span>
+                <span className="home-state-sub">NHM Health Dashboard · Summary</span>
               </div>
               <div className="home-summary">
                 <div className="hs-pill hs-total"><span className="hs-val">{summary.total}</span><span className="hs-lbl">Programmes</span></div>

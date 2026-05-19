@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { gsap } from 'gsap';
 import './styles/index.css';
+import LandingPage from './pages/LandingPage';
 import HomePage from './pages/HomePage';
 import DetailPage from './pages/DetailPage';
 import DivisionPage from './pages/DivisionPage';
@@ -60,6 +61,10 @@ export default function App() {
     transitionTo({ page: 'home', program: null, division: null, indicator: null });
   }, [transitionTo]);
 
+  const goToSummary = useCallback(() => {
+    transitionTo({ page: 'summary', program: null, division: null, indicator: null });
+  }, [transitionTo]);
+
   const goBack = useCallback(() => {
     const cur = viewRef.current;
     if (cur.page === 'kd-indicator') {
@@ -75,7 +80,10 @@ export default function App() {
 
   const renderPage = () => {
     if (view.page === 'home') {
-      return <HomePage onSelectProgram={goToDetail} onSelectDivision={goToDivision} />;
+      return <LandingPage onSelectDivision={goToDivision} onViewSummary={goToSummary} />;
+    }
+    if (view.page === 'summary') {
+      return <HomePage onSelectProgram={goToDetail} onSelectDivision={goToDivision} onBack={goHome} />;
     }
     if (view.page === 'kd-list') {
       if (view.division?.id === 'hrh') {
