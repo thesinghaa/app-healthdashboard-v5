@@ -51,7 +51,7 @@ function cardStyle(offset) {
   };
 }
 
-export default function LandingPage({ onSelectDivision, onViewSummary }) {
+export default function LandingPage({ onSelectDivision, onViewSummary, onDirectKD }) {
   const [active, setActive]   = useState(0);
   const [locked, setLocked]   = useState(false);
 
@@ -160,7 +160,12 @@ export default function LandingPage({ onSelectDivision, onViewSummary }) {
 
               {/* Summary */}
               <Suspense fallback={<div className="lnd-summary-skeleton" />}>
-                <CardSummary divisionId={div.id} stats={stats} />
+                <CardSummary
+                  divisionId={div.id}
+                  stats={stats}
+                  isActive={isActive}
+                  onKDClick={(kd, programmeId) => onDirectKD && onDirectKD(div, programmeId, kd)}
+                />
               </Suspense>
 
               {/* Active-only CTA bar */}

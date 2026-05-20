@@ -48,6 +48,11 @@ function AppInner() {
     transitionTo({ page: 'division', program: null, division, indicator: null, origin: 'home' });
   }, [transitionTo]);
 
+  const goToKDDirect = useCallback((division, programmeId, kd) => {
+    const program = (division.programs || []).find(p => p.id === programmeId) || null;
+    transitionTo({ page: 'kd-indicator', program, division, indicator: kd, origin: 'home' });
+  }, [transitionTo]);
+
   const goToDetail = useCallback((program, division) => {
     const origin = viewRef.current.page;
     transitionTo({ page: 'kd-list', program, division, indicator: null, origin });
@@ -84,7 +89,7 @@ function AppInner() {
 
   const renderPage = () => {
     if (view.page === 'home') {
-      return <LandingPage onSelectDivision={goToDivision} onViewSummary={goToSummary} />;
+      return <LandingPage onSelectDivision={goToDivision} onViewSummary={goToSummary} onDirectKD={goToKDDirect} />;
     }
     if (view.page === 'summary') {
       return <HomePage onSelectProgram={goToDetail} onSelectDivision={goToDivision} onBack={goHome} />;

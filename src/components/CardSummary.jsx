@@ -1,7 +1,9 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect, useRef, useState } from 'react';
 import Plot from 'react-plotly.js';
+import { gsap } from 'gsap';
 import { KD_TREE } from '../data/kdData';
 
+/* ── helpers ────────────────────────────────────────────────────── */
 function kdGap(kd) {
   if (kd.achievement == null || kd.target == null) return null;
   return kd.lowerIsBetter
@@ -12,15 +14,15 @@ function kdGap(kd) {
 function getMostCriticalKD(divisionId) {
   const div = KD_TREE[divisionId];
   if (!div) return null;
-  let worst = null, worstGap = Infinity;
-  Object.values(div.programmes || {}).forEach(prog => {
+  let worst = null, worstGap = Infinity, worstProgId = null;
+  Object.entries(div.programmes || {}).forEach(([progId, prog]) => {
     (prog.kds || []).forEach(kd => {
       const g = kdGap(kd);
       if (g === null) return;
-      if (g < worstGap) { worstGap = g; worst = kd; }
+      if (g < worstGap) { worstGap = g; worst = kd; worstProgId = progId; }
     });
   });
-  return worst;
+  return worst ? { kd: worst, programmeId: worstProgId } : null;
 }
 
 function getKDBreakdown(divisionId) {
@@ -32,9 +34,9 @@ function getKDBreakdown(divisionId) {
       total++;
       const g = kdGap(kd);
       if (g === null) return;
-      if (g >= 0)    achieved++;
+      if (g >= 0)        achieved++;
       else if (g >= -10) close++;
-      else gap++;
+      else               gap++;
     });
   });
   return { achieved, close, gap, total };
@@ -52,35 +54,67 @@ const LAYOUT_BASE = {
   },
 };
 
-export default function CardSummary({ divisionId, stats }) {
-  const criticalKD  = useMemo(() => getMostCriticalKD(divisionId), [divisionId]);
-  const kdBreakdown = useMemo(() => getKDBreakdown(divisionId),    [divisionId]);
+/* ── component ──────────────────────────────────────────────────── */
+export default function CardSummary({ divisionId, stats, isActive, onKDClick }) {
+  const criticalResult = useMemo(() => getMostCriticalKD(divisionId), [divisionId]);
+  const criticalKD     = criticalResult?.kd;
+  const programmeId    = criticalResult?.programmeId;
+  const kdBreakdown    = useMemo(() => getKDBreakdown(divisionId), [divisionId]);
+
+  const cardRef = useRef(null);
+  const [displayPct, setDisplayPct] = useState(0);
 
   const achievePct = criticalKD?.target > 0
     ? Math.min(100, Math.max(0, (criticalKD.achievement / criticalKD.target) * 100))
     : 0;
   const gap = criticalKD ? kdGap(criticalKD) : null;
+  const isBelowTarget = gap !== null && gap < 0;
 
-  const donutTrace = useMemo(() => [{
+  /* ── GSAP: animate product card on becoming active ────────────── */
+  useEffect(() => {
+    if (!isActive || !cardRef.current) return;
+    gsap.killTweensOf(cardRef.current);
+    gsap.fromTo(
+      cardRef.current,
+      { x: 28, opacity: 0, scale: 0.93 },
+      { x: 0, opacity: 1, scale: 1, duration: 0.52, ease: 'power3.out', delay: 0.08 },
+    );
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: achievePct,
+      duration: 0.85,
+      delay: 0.18,
+      ease: 'power2.out',
+      onUpdate: () => setDisplayPct(Math.round(obj.val)),
+    });
+  }, [isActive, achievePct]);
+
+  useEffect(() => { if (!isActive) setDisplayPct(0); }, [isActive]);
+
+  /* ── Plotly: district perf donut (target vs achieved) ─────────── */
+  const perfTrace = useMemo(() => [{
     type: 'pie',
-    hole: 0.64,
-    values: [stats.red, stats.yellow, stats.green],
-    labels: ['Critical', 'Caution', 'On Track'],
+    hole: 0.70,
+    values: [Math.max(0.01, displayPct), Math.max(0, 100 - displayPct)],
+    labels: ['Achieved', 'Gap'],
     marker: {
-      colors: ['#f87171', '#fbbf24', '#34d399'],
-      line: { color: 'rgba(5,7,18,0.85)', width: 3 },
+      colors: ['#00b5cc', 'rgba(255,255,255,0.06)'],
+      line: { color: 'rgba(0,0,0,0)', width: 0 },
     },
     textinfo: 'none',
-    hovertemplate: '<b>%{label}</b>: %{value}<extra></extra>',
+    hovertemplate: '<b>%{label}</b>: %{value:.0f}%<extra></extra>',
     sort: false,
-  }], [stats]);
+    direction: 'clockwise',
+    rotation: -90,
+  }], [displayPct]);
 
-  const donutLayout = useMemo(() => ({
+  const perfLayout = useMemo(() => ({
     ...LAYOUT_BASE,
-    width: 190,
-    height: 190,
+    width: 148,
+    height: 148,
   }), []);
 
+  /* ── KD breakdown donut (left col) ────────────────────────────── */
   const kdDonutTrace = useMemo(() => [{
     type: 'pie',
     hole: 0.60,
@@ -101,17 +135,22 @@ export default function CardSummary({ divisionId, stats }) {
     height: 130,
   }), []);
 
+  /* ── ref label ─────────────────────────────────────────────────── */
+  const refLabel = criticalKD
+    ? (criticalKD.hmisCode ? `HMIS ${criticalKD.hmisCode}` : `KD-${String(criticalKD.no).padStart(2, '0')}`)
+    : 'N/A';
+
   return (
     <div className="lnd-summary">
       <div className="lnd-summary-rule" />
 
-      {/* ── Stats strip ── */}
+      {/* ── Stats strip ────────────────────────────────────────── */}
       <div className="lnd-ss-strip">
         {[
-          { val: stats.total,  lbl: 'Programmes',    cls: '' },
-          { val: stats.red,    lbl: 'Critical',       cls: 'red' },
-          { val: stats.yellow, lbl: 'Caution',        cls: 'yellow' },
-          { val: stats.green,  lbl: 'On Track',       cls: 'green' },
+          { val: stats.total,  lbl: 'Programmes', cls: '' },
+          { val: stats.red,    lbl: 'Critical',   cls: 'red' },
+          { val: stats.yellow, lbl: 'Caution',    cls: 'yellow' },
+          { val: stats.green,  lbl: 'On Track',   cls: 'green' },
         ].map(({ val, lbl, cls }) => (
           <div key={lbl} className={`lnd-ss-cell ${cls ? `lnd-ss-${cls}` : ''}`}>
             <span className="lnd-ss-num">{val}</span>
@@ -120,45 +159,13 @@ export default function CardSummary({ divisionId, stats }) {
         ))}
       </div>
 
-      {/* ── Main two columns ── */}
+      {/* ── Two-column body ────────────────────────────────────── */}
       <div className="lnd-summary-body">
 
-        {/* Left — Critical indicator + KD donut */}
+        {/* Left — KD breakdown donut */}
         <div className="lnd-sb-left">
-          <p className="lnd-sb-sect">Most Critical Indicator</p>
-
-          {criticalKD ? (
-            <>
-              <p className="lnd-sb-kd-name">{criticalKD.indicator}</p>
-
-              <div className="lnd-sb-bar-track">
-                <div
-                  className="lnd-sb-bar-fill"
-                  style={{ width: `${achievePct}%` }}
-                />
-              </div>
-
-              <div className="lnd-sb-kd-stats">
-                <div>
-                  <span className="lnd-sb-big">{criticalKD.achievement}{criticalKD.unit}</span>
-                  <span className="lnd-sb-meta"> achieved</span>
-                </div>
-                <span className="lnd-sb-tgt">Target {criticalKD.target}{criticalKD.unit}</span>
-              </div>
-
-              {gap !== null && gap < 0 && (
-                <span className="lnd-sb-gap-pill">
-                  {Math.abs(gap).toFixed(1)}{criticalKD.unit} below target
-                </span>
-              )}
-            </>
-          ) : (
-            <p className="lnd-sb-meta">No gap data available</p>
-          )}
-
-          {/* KD breakdown donut */}
+          <p className="lnd-sb-sect">Key Deliverable Status</p>
           <div className="lnd-sb-kd-donut-wrap">
-            <p className="lnd-sb-sect" style={{ marginTop: 0 }}>Key Deliverable Status</p>
             <div className="lnd-sb-kd-donut-row">
               <div style={{ position: 'relative', width: 130, height: 130, flexShrink: 0 }}>
                 <Plot
@@ -188,35 +195,74 @@ export default function CardSummary({ divisionId, stats }) {
           </div>
         </div>
 
-        {/* Right — Programme status donut */}
-        <div className="lnd-sb-right">
-          <p className="lnd-sb-sect">Programme Status</p>
-          <div className="lnd-sb-donut-wrap">
-            <div style={{ position: 'relative', width: 190, height: 190 }}>
+        {/* Right — District performance product card */}
+        <div
+          ref={cardRef}
+          className={`lnd-perf-card${isBelowTarget ? ' lnd-perf-card--crit' : ''}`}
+          style={{ opacity: isActive ? undefined : 0, pointerEvents: isActive ? 'auto' : 'none' }}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (criticalKD && onKDClick) onKDClick(criticalKD, programmeId);
+          }}
+          role="button"
+          tabIndex={isActive ? 0 : -1}
+          aria-label={`View indicator: ${criticalKD?.indicator}`}
+        >
+          {/* Header */}
+          <div className="lnd-pc-header">
+            <span className="lnd-pc-cat">DISTRICT PERFORMANCE</span>
+            <span className="lnd-pc-dot" />
+            <span className="lnd-pc-ref">{refLabel}</span>
+          </div>
+          <p className="lnd-pc-title">{criticalKD?.indicator || 'No data'}</p>
+          <div className="lnd-pc-rule" />
+
+          {/* Donut + stats side-by-side */}
+          <div className="lnd-pc-body">
+            <div style={{ position: 'relative', width: 148, height: 148, flexShrink: 0 }}>
               <Plot
-                data={donutTrace}
-                layout={donutLayout}
+                data={perfTrace}
+                layout={perfLayout}
                 config={{ displayModeBar: false, responsive: false }}
               />
-              <div className="lnd-sb-donut-center">
-                <span className="lnd-sb-dc-num">{stats.total}</span>
-                <span className="lnd-sb-dc-lbl">Prog.</span>
+              <div className="lnd-pc-donut-center">
+                <span className="lnd-pc-pct">{displayPct}%</span>
+                <span className="lnd-pc-pct-lbl">of target</span>
               </div>
             </div>
-            <div className="lnd-sb-donut-legend">
-              {[
-                { lbl: 'Critical', val: stats.red,    c: '#f87171' },
-                { lbl: 'Caution',  val: stats.yellow, c: '#fbbf24' },
-                { lbl: 'On Track', val: stats.green,  c: '#34d399' },
-              ].filter(d => d.val > 0).map(d => (
-                <div key={d.lbl} className="lnd-sb-dl-row">
-                  <span className="lnd-sb-dl-dot"  style={{ background: d.c }} />
-                  <span className="lnd-sb-dl-val">{d.val}</span>
-                  <span className="lnd-sb-dl-lbl">{d.lbl}</span>
-                </div>
-              ))}
+
+            <div className="lnd-pc-stat-col">
+              <div className="lnd-pc-stat-row">
+                <span className="lnd-pc-stat-lbl">Achievement</span>
+                <span className="lnd-pc-stat-val">
+                  {criticalKD?.achievement != null ? `${criticalKD.achievement}${criticalKD.unit}` : '—'}
+                </span>
+              </div>
+              <div className="lnd-pc-stat-sep" />
+              <div className="lnd-pc-stat-row">
+                <span className="lnd-pc-stat-lbl">Target</span>
+                <span className="lnd-pc-stat-val">
+                  {criticalKD?.target != null ? `${criticalKD.target}${criticalKD.unit}` : '—'}
+                </span>
+              </div>
+              <div className="lnd-pc-stat-sep" />
+              <div className="lnd-pc-stat-row">
+                <span className="lnd-pc-stat-lbl">Gap</span>
+                <span className={`lnd-pc-stat-val${isBelowTarget ? ' lnd-pc-stat--gap' : ' lnd-pc-stat--ok'}`}>
+                  {isBelowTarget
+                    ? `${Math.abs(gap).toFixed(1)}${criticalKD.unit} below`
+                    : 'On track'}
+                </span>
+              </div>
             </div>
           </div>
+
+          {/* CTA */}
+          <div className="lnd-pc-cta">
+            <span>VIEW INDICATOR</span>
+            <span className="lnd-pc-cta-arrow">&#x2192;</span>
+          </div>
+          <p className="lnd-pc-fine">Click to open full indicator breakdown</p>
         </div>
 
       </div>

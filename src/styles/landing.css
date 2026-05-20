@@ -911,4 +911,270 @@
 
 /* ── END LIGHT MODE — landing.css ───────────────────────────────── */
 
+/* ════════════════════════════════════════════════════════════════════
+   DISTRICT PERFORMANCE PRODUCT CARD  (lnd-perf-card)
+   Reference: BlackMantis product card — right-side floating rectangle
+   ════════════════════════════════════════════════════════════════════ */
+
+.lnd-perf-card {
+  flex-shrink: 0;
+  width: 222px;
+  background: rgba(8, 14, 36, 0.88);
+  border: 1px solid rgba(0, 181, 204, 0.22);
+  border-top: 3px solid #00b5cc;
+  border-radius: 10px;
+  padding: 16px 16px 12px;
+  box-shadow:
+    0 0 0 1px rgba(0, 181, 204, 0.06),
+    0 8px 32px rgba(0, 0, 0, 0.40),
+    inset 0 1px 0 rgba(0, 181, 204, 0.08);
+  cursor: pointer;
+  transition: border-color 0.22s, box-shadow 0.22s, transform 0.18s;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  will-change: transform, opacity;
+  outline: none;
+}
+
+.lnd-perf-card:hover,
+.lnd-perf-card:focus-visible {
+  border-color: rgba(0, 181, 204, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(0, 181, 204, 0.18),
+    0 12px 40px rgba(0, 0, 0, 0.50),
+    inset 0 1px 0 rgba(0, 181, 204, 0.14);
+  transform: translateY(-2px);
+}
+
+.lnd-perf-card--crit {
+  border-top-color: #f87171;
+}
+.lnd-perf-card--crit .lnd-pc-dot { background: #f87171; }
+.lnd-perf-card--crit .lnd-pc-ref { color: #f87171; }
+
+/* ── Header row ─────────────────────────────────────────────────── */
+.lnd-pc-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.lnd-pc-cat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  flex: 1;
+}
+
+.lnd-pc-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #00b5cc;
+  flex-shrink: 0;
+}
+
+.lnd-pc-ref {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  color: #00b5cc;
+}
+
+/* ── Title ──────────────────────────────────────────────────────── */
+.lnd-pc-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.30;
+  margin: 0 0 10px;
+}
+
+.lnd-pc-rule {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 12px;
+}
+
+/* ── Body: donut + stat col ─────────────────────────────────────── */
+.lnd-pc-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* Center label inside donut */
+.lnd-pc-donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.lnd-pc-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.lnd-pc-pct-lbl {
+  font-family: 'Inter', sans-serif;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.30);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* ── Stat column ────────────────────────────────────────────────── */
+.lnd-pc-stat-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.lnd-pc-stat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 5px 0;
+}
+
+.lnd-pc-stat-lbl {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lnd-pc-stat-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.lnd-pc-stat--gap { color: #f87171; }
+.lnd-pc-stat--ok  { color: #34d399; }
+
+.lnd-pc-stat-sep {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* ── CTA ────────────────────────────────────────────────────────── */
+.lnd-pc-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 0;
+  background: rgba(0, 181, 204, 0.10);
+  border: 1px solid rgba(0, 181, 204, 0.28);
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #00b5cc;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.lnd-perf-card:hover .lnd-pc-cta,
+.lnd-perf-card:focus-visible .lnd-pc-cta {
+  background: rgba(0, 181, 204, 0.18);
+  border-color: rgba(0, 181, 204, 0.55);
+}
+
+.lnd-pc-cta-arrow {
+  font-size: 11px;
+}
+
+.lnd-pc-fine {
+  font-family: 'Inter', sans-serif;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.20);
+  text-align: center;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   LIGHT MODE — lnd-perf-card
+   ════════════════════════════════════════════════════════════════════ */
+[data-theme="light"] .lnd-perf-card {
+  background: rgba(255, 252, 248, 0.95);
+  border: 1px solid rgba(255, 85, 0, 0.20);
+  border-top: 3px solid #FF5500;
+  box-shadow:
+    0 0 0 1px rgba(255, 85, 0, 0.06),
+    0 8px 32px rgba(26, 22, 16, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90);
+}
+
+[data-theme="light"] .lnd-perf-card:hover,
+[data-theme="light"] .lnd-perf-card:focus-visible {
+  border-color: rgba(255, 85, 0, 0.50);
+  box-shadow:
+    0 0 0 1px rgba(255, 85, 0, 0.12),
+    0 12px 40px rgba(26, 22, 16, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+[data-theme="light"] .lnd-perf-card--crit { border-top-color: #DC2626; }
+[data-theme="light"] .lnd-perf-card--crit .lnd-pc-dot { background: #DC2626; }
+[data-theme="light"] .lnd-perf-card--crit .lnd-pc-ref { color: #DC2626; }
+
+[data-theme="light"] .lnd-pc-cat { color: rgba(26, 22, 16, 0.38); }
+[data-theme="light"] .lnd-pc-dot { background: #FF5500; }
+[data-theme="light"] .lnd-pc-ref { color: #C04000; }
+[data-theme="light"] .lnd-pc-title { color: #1A1610; }
+[data-theme="light"] .lnd-pc-rule  { background: rgba(26, 22, 16, 0.10); }
+
+[data-theme="light"] .lnd-pc-pct     { color: #1A1610; }
+[data-theme="light"] .lnd-pc-pct-lbl { color: rgba(26, 22, 16, 0.38); }
+
+[data-theme="light"] .lnd-pc-stat-lbl { color: rgba(26, 22, 16, 0.45); }
+[data-theme="light"] .lnd-pc-stat-val { color: #1A1610; }
+[data-theme="light"] .lnd-pc-stat--gap { color: #DC2626; }
+[data-theme="light"] .lnd-pc-stat--ok  { color: #047857; }
+[data-theme="light"] .lnd-pc-stat-sep  { background: rgba(26, 22, 16, 0.09); }
+
+[data-theme="light"] .lnd-pc-cta {
+  background: rgba(255, 85, 0, 0.07);
+  border-color: rgba(255, 85, 0, 0.28);
+  color: #C04000;
+}
+[data-theme="light"] .lnd-perf-card:hover .lnd-pc-cta,
+[data-theme="light"] .lnd-perf-card:focus-visible .lnd-pc-cta {
+  background: rgba(255, 85, 0, 0.14);
+  border-color: rgba(255, 85, 0, 0.50);
+}
+[data-theme="light"] .lnd-pc-fine { color: rgba(26, 22, 16, 0.22); }
+
+/* Plotly trace arc uses teal by default — in light mode keep teal, it reads well */
+
+/* ── END DISTRICT PERFORMANCE PRODUCT CARD ───────────────────────── */
+
 /* ── END ZIG-ZAG MINIMALIST CARD ────────────────────────────────── */
