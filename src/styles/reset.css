@@ -12,9 +12,10 @@ html {
 body {
   height: 100%;
   font-family: 'Inter', sans-serif;
-  background: #05060f;
+  background: var(--bg, #05060f);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
+  transition: background 0.30s ease, color 0.20s ease;
 }
 
 /* Root must propagate full height to page-level components */
@@ -41,3 +42,37 @@ body {
 ::-webkit-scrollbar       { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg3); }
 ::-webkit-scrollbar-thumb { background: var(--org); border-radius: 3px; }
+
+/* ── Theme toggle button — inline inside navbar ──────────────────── */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+  transition: background 0.20s ease, border-color 0.20s ease, color 0.20s ease, transform 0.14s ease;
+}
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(0,181,204,0.55);
+  color: #00b5cc;
+  transform: scale(1.08);
+}
+
+[data-theme="light"] .theme-toggle {
+  border-color: rgba(255,85,0,0.30);
+  background: rgba(255,85,0,0.07);
+  color: rgba(26,22,16,0.65);
+}
+[data-theme="light"] .theme-toggle:hover {
+  background: rgba(255,85,0,0.14);
+  border-color: rgba(255,85,0,0.60);
+  color: #FF5500;
+  transform: scale(1.08);
+}

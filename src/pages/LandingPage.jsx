@@ -1,6 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { DIVISIONS } from '../data/programs';
 import '../styles/landing.css';
+import ThemeToggle from '../components/ThemeToggle';
+
+const CardSummary = lazy(() => import('../components/CardSummary'));
 
 /* ── Per-division colour accents ─────────────────────────────────── */
 const DIV_COLORS = {
@@ -34,13 +37,13 @@ function getDivStats(div) {
 function cardStyle(offset) {
   const abs = Math.abs(offset);
   if (abs > 2) return { display: 'none' };
-  const tx = offset * 460;
+  const tx = offset * 1300;
   const sc = abs === 0 ? 1 : abs === 1 ? 0.82 : 0.66;
   const op = abs === 0 ? 1 : abs === 1 ? 0.58 : 0.20;
   const zi = abs === 0 ? 10 : abs === 1 ? 5 : 1;
   const blur = abs === 0 ? 0 : abs === 1 ? 2 : 6;
   return {
-    transform: `translateX(calc(-50% + ${tx}px)) translateY(-50%) scale(${sc})`,
+    transform: `translateX(calc(-50% + ${tx}px)) scale(${sc})`,
     opacity: op,
     zIndex: zi,
     filter: blur ? `blur(${blur}px)` : 'none',
@@ -95,8 +98,9 @@ export default function LandingPage({ onSelectDivision, onViewSummary }) {
             <span className="lnd-header-label">Select a Division</span>
           </div>
 
-          {/* Summary CTA */}
+          {/* Summary CTA + theme toggle */}
           <div className="lnd-header-right">
+            <ThemeToggle />
             <button className="lnd-summary-btn" onClick={onViewSummary}>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/>
@@ -110,13 +114,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary }) {
         </div>
       </header>
 
-      {/* ── Eyebrow + title ───────────────────────────────────────── */}
-      <div className="lnd-intro">
-        <p className="lnd-eyebrow">FY 2025–26 · NHM Arunachal Pradesh</p>
-        <h1 className="lnd-title">Programme Performance</h1>
-      </div>
-
-      {/* ── Cinema reel ───────────────────────────────────────────── */}
+{/* ── Cinema reel ───────────────────────────────────────────── */}
       <div className="lnd-reel-wrap">
         {DIVISIONS.map((div, idx) => {
           const off   = offset(idx);
@@ -135,11 +133,14 @@ export default function LandingPage({ onSelectDivision, onViewSummary }) {
                 else go(1);
               }}
             >
-              {/* Top row: badge + icon */}
-              <div className="lnd-card-top">
-                <span className="lnd-badge">{div.label}</span>
-                {isActive && <span className="lnd-enter-hint">Enter ↗</span>}
+              {/* Index number */}
+              <div className="lnd-card-idx">
+                <span className="lnd-idx-num">#{String(idx + 1).padStart(2, '0')}</span>
+                <span className="lnd-idx-sep"> | </span>
+                <span className="lnd-idx-lbl">{div.label}</span>
               </div>
+              <div className="lnd-card-divider" />
+
 
               {/* Division name */}
               <h2 className="lnd-card-name">{div.fullName}</h2>
@@ -156,6 +157,11 @@ export default function LandingPage({ onSelectDivision, onViewSummary }) {
 
               {/* Highlight */}
               <p className="lnd-card-highlight">{DIV_HIGHLIGHT[div.id]}</p>
+
+              {/* Summary */}
+              <Suspense fallback={<div className="lnd-summary-skeleton" />}>
+                <CardSummary divisionId={div.id} stats={stats} />
+              </Suspense>
 
               {/* Active-only CTA bar */}
               {isActive && (

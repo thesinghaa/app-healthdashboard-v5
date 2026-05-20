@@ -4550,18 +4550,18 @@ h1, h2, h3, h4 {
 /* ── DARK-GLASS search bar (aurora navbar) ───────────────────────── */
 .home-nav-search {
   background: rgba(6,4,18,0.55) !important;
-  border: 1px solid rgba(139,92,246,0.25) !important;
+  border: 1px solid rgba(59,130,246,0.25) !important;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.05),
-    0 0 0 1px rgba(139,92,246,0.08),
+    0 0 0 1px rgba(59,130,246,0.08),
     0 4px 16px rgba(0,0,0,0.30) !important;
 }
 .home-nav-search:focus-within {
-  border-color: rgba(139,92,246,0.55) !important;
+  border-color: rgba(59,130,246,0.55) !important;
   background: rgba(8,5,22,0.70) !important;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.07),
-    0 0 0 3px rgba(139,92,246,0.14),
+    0 0 0 3px rgba(59,130,246,0.14),
     0 4px 20px rgba(0,0,0,0.35) !important;
 }
 .hns-input {
@@ -4571,7 +4571,7 @@ h1, h2, h3, h4 {
   color: rgba(255,255,255,0.28) !important;
 }
 .hns-icon {
-  color: #a78bfa !important;
+  color: #93c5fd !important;
 }
 /* ── END DARK-GLASS search bar ───────────────────────────────────── */
 
@@ -4624,39 +4624,258 @@ h1, h2, h3, h4 {
 
 /* ── AURORA PALETTE: replace teal accents with purple on landing ─── */
 .lp-div-tag {
-  background: rgba(139,92,246,0.14) !important;
-  border-color: rgba(139,92,246,0.30) !important;
+  background: rgba(59,130,246,0.14) !important;
+  border-color: rgba(59,130,246,0.30) !important;
   color: #c4b5fd !important;
 }
 .lp-expand-btn {
-  background: rgba(139,92,246,0.10) !important;
-  border-color: rgba(139,92,246,0.25) !important;
+  background: rgba(59,130,246,0.10) !important;
+  border-color: rgba(59,130,246,0.25) !important;
 }
 .lp-expand-btn:hover {
-  background: rgba(139,92,246,0.22) !important;
+  background: rgba(59,130,246,0.22) !important;
 }
 .lp-prog {
   background: rgba(8,5,20,0.65) !important;
-  border-color: rgba(139,92,246,0.12) !important;
-  border-top-color: rgba(139,92,246,0.28) !important;
+  border-color: rgba(59,130,246,0.12) !important;
+  border-top-color: rgba(59,130,246,0.28) !important;
 }
 .lp-prog:hover {
   background: rgba(14,8,32,0.85) !important;
-  border-top-color: #a78bfa !important;
+  border-top-color: #93c5fd !important;
   box-shadow:
-    inset 0 1px 0 rgba(167,139,250,0.10),
+    inset 0 1px 0 rgba(147,197,253,0.10),
     0 4px 18px rgba(0,0,0,0.40),
-    0 0 20px rgba(139,92,246,0.14) !important;
+    0 0 20px rgba(59,130,246,0.14) !important;
 }
 .lp-card-divider {
-  background: linear-gradient(90deg, transparent, rgba(139,92,246,0.20) 30%, rgba(139,92,246,0.20) 70%, transparent) !important;
+  background: linear-gradient(90deg, transparent, rgba(59,130,246,0.20) 30%, rgba(59,130,246,0.20) 70%, transparent) !important;
 }
 .home-header {
   background: transparent !important;
   border-bottom: none !important;
 }
 /* status colour tokens re-pointed at new palette */
-.hs-total  { background: rgba(139,92,246,0.14) !important; }
+.hs-total  { background: rgba(59,130,246,0.14) !important; }
 .hs-total  .hs-val { color: #ffffff !important; }
 .hs-total  .hs-lbl { color: rgba(255,255,255,0.50) !important; }
 /* ── END AURORA PALETTE OVERRIDES ───────────────────────────────── */
+
+/* ═══════════════════════════════════════════════════════════════════
+   TORN PAPER TOP EDGE — all major card types
+   Technique: ::before overlay with jagged clip-path bottom edge;
+   clip-path polygon on .lnd-card (both pseudo-elements already used).
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1. Establish stacking context for ::before positioning */
+.dv-prog-card,
+.kd-prog-header,
+.ncd-card,
+.hmis-kpi-card,
+.perf-card,
+.detail-card,
+.cs-plot-card {
+  position: relative;
+}
+
+/* 2. Remove existing flat border-top (replaced by the torn strip) */
+.ncd-card       { border-top: none !important; }
+.detail-card    { border-top: none !important; }
+.cs-plot-card   { border-top: none !important; }
+.kd-prog-header { border-top: none !important; }
+
+/* 3. Torn strip — shared geometry */
+.dv-prog-card::before,
+.kd-prog-header::before,
+.ncd-card::before,
+.hmis-kpi-card::before,
+.perf-card::before,
+.detail-card::before,
+.cs-plot-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  /* fallback color; overridden per card type below */
+  background: var(--org);
+  /* jagged bottom edge — the "tear line" */
+  clip-path: polygon(
+    0% 0%, 100% 0%,
+    100% 62%, 97.5% 88%, 95% 50%, 92.5% 80%, 90% 45%,
+    87.5% 88%, 85% 58%, 82.5% 80%, 80% 42%, 77.5% 72%,
+    75% 38%, 72.5% 68%, 70% 90%, 67.5% 55%, 65% 80%,
+    62.5% 40%, 60% 72%, 57.5% 38%, 55% 65%, 52.5% 90%,
+    50% 55%, 47.5% 78%, 45% 40%, 42.5% 72%, 40% 90%,
+    37.5% 52%, 35% 78%, 32.5% 38%, 30% 70%, 27.5% 35%,
+    25% 68%, 22.5% 90%, 20% 52%, 17.5% 78%, 15% 40%,
+    12.5% 72%, 10% 90%, 7.5% 52%, 5% 78%, 2.5% 40%, 0% 62%
+  );
+  border-radius: 14px 14px 0 0;
+  /* shadow cast downward from the torn edge onto card content */
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.50));
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 4. Per-card torn strip colors */
+.dv-prog-card::before       { background: var(--org); }
+.kd-prog-header::before     { background: var(--org); }
+.ncd-card::before           { background: var(--org); }
+.hmis-kpi-card::before      { background: #0284c7; }
+.perf-card::before          { background: var(--org); }
+.detail-card::before        { background: #007a8f; }
+.cs-plot-card::before       { background: #007a8f; }
+
+/* 5. Status-coded torn strip for division programme cards */
+.dv-prog-card.status-critical::before  { background: #9B1C1C; }
+.dv-prog-card.status-caution::before   { background: #92400E; }
+.dv-prog-card.status-on-track::before  { background: #166534; }
+
+/* 6. Nudge top padding so content clears the 20px torn strip */
+.dv-prog-card  { padding-top: 28px !important; } /* was 16px */
+.hmis-kpi-card { padding-top: 28px !important; } /* was 18px */
+
+/* 7. Landing page cinema reel cards — clip-path torn top
+      (both ::before and ::after already used for notepad styling) */
+.lnd-card {
+  clip-path: polygon(
+    0% 2.2%, 1.5% 0.4%, 3% 2.0%, 4.5% 0%,   6% 2.5%,
+    7.5% 0.5%, 9% 2.0%, 10.5% 0%, 12% 2.2%, 13.5% 0.3%,
+    15% 2.4%, 16.5% 0%, 18% 2.0%, 19.5% 0.5%, 21% 2.2%,
+    22.5% 0%, 24% 2.0%, 25.5% 0.4%, 27% 2.2%, 28.5% 0%,
+    30% 2.5%, 31.5% 0.5%, 33% 2.0%, 34.5% 0%, 36% 2.2%,
+    37.5% 0.3%, 39% 2.4%, 40.5% 0%, 42% 2.0%, 43.5% 0.5%,
+    45% 2.2%, 46.5% 0%, 48% 2.4%, 49.5% 0.3%, 51% 2.0%,
+    52.5% 0%, 54% 2.2%, 55.5% 0.5%, 57% 2.4%, 58.5% 0%,
+    60% 2.0%, 61.5% 0.4%, 63% 2.2%, 64.5% 0%, 66% 2.0%,
+    67.5% 0.5%, 69% 2.2%, 70.5% 0%, 72% 2.4%, 73.5% 0.3%,
+    75% 2.0%, 76.5% 0%, 78% 2.2%, 79.5% 0.5%, 81% 2.4%,
+    82.5% 0%, 84% 2.0%, 85.5% 0.4%, 87% 2.2%, 88.5% 0%,
+    90% 2.0%, 91.5% 0.5%, 93% 2.2%, 94.5% 0.2%, 96% 2.4%,
+    97.5% 0.3%, 99% 2.0%, 100% 0.8%,
+    100% 100%, 0% 100%
+  ) !important;
+  filter:
+    drop-shadow(0 2px 6px rgba(0,0,0,0.22))
+    drop-shadow(0 10px 28px rgba(0,0,0,0.28)) !important;
+  box-shadow: none !important;
+}
+.lnd-card--active {
+  filter:
+    drop-shadow(0 4px 12px rgba(0,0,0,0.28))
+    drop-shadow(0 18px 48px rgba(0,0,0,0.36))
+    drop-shadow(0 0 24px var(--glow, rgba(147,197,253,0.20))) !important;
+}
+/* ── END TORN PAPER TOP EDGE ─────────────────────────────────────── */
+
+/* ════════════════════════════════════════════════════════════════════
+   LIGHT MODE OVERRIDES — ncd.css  (orange accent, V2 palette)
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── Shared topbars ─────────────────────────────────────────────── */
+[data-theme="light"] .app-topbar,
+[data-theme="light"] .ncd-topbar {
+  background: rgba(245,240,232,0.96) !important;
+  border-bottom: 3px solid #FF5500 !important;
+  box-shadow: 0 2px 14px rgba(26,22,16,0.10) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+}
+[data-theme="light"] .app-back-btn,
+[data-theme="light"] .back-btn          { color: #1A1610 !important; }
+[data-theme="light"] .app-back-btn:hover,
+[data-theme="light"] .back-btn:hover    { background: rgba(26,22,16,0.07) !important; }
+[data-theme="light"] .app-breadcrumb,
+[data-theme="light"] .detail-breadcrumb { color: rgba(26,22,16,0.48) !important; }
+[data-theme="light"] .app-breadcrumb span:last-child,
+[data-theme="light"] .detail-breadcrumb span:last-child { color: #1A1610 !important; }
+[data-theme="light"] .app-bc-sep,
+[data-theme="light"] .app-breadcrumb-sep { color: rgba(26,22,16,0.30) !important; }
+[data-theme="light"] .ncd-source-tag   { color: rgba(26,22,16,0.45) !important; }
+
+/* DivisionPage topbar */
+[data-theme="light"] .dv-root   { background: transparent !important; }
+[data-theme="light"] .dv-topbar {
+  background: rgba(245,240,232,0.96) !important;
+  border-bottom: 3px solid #FF5500 !important;
+  box-shadow: 0 2px 14px rgba(26,22,16,0.10) !important;
+}
+[data-theme="light"] .dv-back-btn       { color: #1A1610 !important; }
+[data-theme="light"] .dv-back-btn:hover { background: rgba(26,22,16,0.07) !important; }
+[data-theme="light"] .dv-division-name  { color: #1A1610 !important; }
+[data-theme="light"] .dv-title          { color: #1A1610 !important; }
+[data-theme="light"] .dv-sub            { color: rgba(26,22,16,0.55) !important; }
+
+/* ── Summary page (lp-card / cc-header) ────────────────────────── */
+[data-theme="light"] .lp-card {
+  background: rgba(255,252,248,0.90) !important;
+  border-color: #FF5500 !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.95),
+    0 2px 4px rgba(26,22,16,0.08),
+    0 10px 28px rgba(26,22,16,0.11),
+    0 4px 32px rgba(255,85,0,0.14) !important;
+}
+[data-theme="light"] .cc-header    { background: rgba(245,240,232,0.70) !important; }
+[data-theme="light"] .lp-div-name  { color: #1A1610 !important; }
+[data-theme="light"] .lp-div-sub   { color: rgba(26,22,16,0.50) !important; }
+
+/* Programme rows */
+[data-theme="light"] .programme-row,
+[data-theme="light"] .lp-prog {
+  background: rgba(255,255,255,0.80) !important;
+  border-color: rgba(255,85,0,0.14) !important;
+  border-top-color: rgba(255,85,0,0.30) !important;
+}
+[data-theme="light"] .lp-prog-name   { color: #1A1610 !important; }
+[data-theme="light"] .lp-prog-status { color: rgba(26,22,16,0.55) !important; }
+
+/* Division programme cards */
+[data-theme="light"] .dv-prog-card {
+  background: rgba(255,252,248,0.88) !important;
+  border-top: 4px solid #FF5500 !important;
+  border-color: rgba(255,85,0,0.28) !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.93),
+    0 2px 5px rgba(26,22,16,0.07),
+    0 8px 24px rgba(26,22,16,0.10),
+    0 4px 24px rgba(255,85,0,0.10) !important;
+}
+[data-theme="light"] .dv-prog-name   { color: #1A1610 !important; }
+[data-theme="light"] .dv-prog-sub    { color: rgba(26,22,16,0.55) !important; }
+[data-theme="light"] .dv-card-metric { color: #C04000 !important; }
+
+/* KD programme section */
+[data-theme="light"] .kd-prog-section {
+  background: rgba(255,252,248,0.88) !important;
+  border-top-color: #FF5500 !important;
+  box-shadow: 0 2px 12px rgba(26,22,16,0.08) !important;
+}
+[data-theme="light"] .kd-prog-header .kd-prog-name { color: #1A1610 !important; }
+[data-theme="light"] .kd-table-row { border-color: rgba(26,22,16,0.08) !important; }
+[data-theme="light"] .kd-ind-name  { color: #1A1610 !important; }
+[data-theme="light"] .kd-ind-stmt  { color: rgba(26,22,16,0.50) !important; }
+
+/* NCD page root */
+[data-theme="light"] .ncd-root     { background: var(--bg) !important; }
+
+/* Detail / CS cards */
+[data-theme="light"] .detail-card,
+[data-theme="light"] .cs-plot-card,
+[data-theme="light"] .csd-charts-outer {
+  background: rgba(255,252,248,0.90) !important;
+  border-color: rgba(255,85,0,0.22) !important;
+  border-top-color: #FF5500 !important;
+  box-shadow: 0 2px 12px rgba(26,22,16,0.08) !important;
+}
+
+/* Scrollbar — warm */
+[data-theme="light"] ::-webkit-scrollbar-track { background: #E4DDD2; }
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: #FF5500; }
+
+/* Push theme toggle to the right end of any topbar flex row */
+.ncd-topbar-inner > .theme-toggle,
+.app-topbar-inner > .theme-toggle { margin-left: auto; }
+
+/* ── END LIGHT MODE — ncd.css ───────────────────────────────────── */

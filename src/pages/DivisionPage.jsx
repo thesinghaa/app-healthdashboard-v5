@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import ThemeToggle from '../components/ThemeToggle';
 import { STATUS_CONFIG } from '../data/programs';
 
 const STATUS_CLASS = {
@@ -74,6 +75,7 @@ export default function DivisionPage({ division, onBack, onSelectProgram, onCurr
             {counts.red    > 0 && <span className="count-pill cp-red">{counts.red}&nbsp;Critical</span>}
             {counts.yellow > 0 && <span className="count-pill cp-yellow">{counts.yellow}&nbsp;Caution</span>}
             {counts.green  > 0 && <span className="count-pill cp-green">{counts.green}&nbsp;On Track</span>}
+            <ThemeToggle />
           </div>
         </div>
 

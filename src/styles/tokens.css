@@ -85,3 +85,73 @@
   --rm: 10px;
   --rl: 14px;
 }
+
+/* ── Light mode — V2 warm-cream + orange palette ─────────────────── */
+[data-theme="light"] {
+  /* Primary accent → V2 orange */
+  --org:        #FF5500;
+  --org2:       #FF7733;
+  --org3:       #C04000;
+  --org-dim:    rgba(255,85,0,0.12);
+  --org-glow:   rgba(255,85,0,0.22);
+  --org-soft:   rgba(255,85,0,0.07);
+
+  /* Blue alias → remapped to orange in light mode */
+  --blue:       #FF5500;
+  --blue2:      #FF7733;
+  --blue-dim:   rgba(255,85,0,0.10);
+  --blue-glow:  rgba(255,85,0,0.18);
+
+  --bg:         #F5F0E8;
+  --bg2:        #EDE8DF;
+  --bg3:        #E4DDD2;
+  --bg4:        #DDD7CC;
+  --bg5:        #D6CEBC;
+
+  --w1:  rgba(245,240,232,0.88);
+  --w2:  rgba(245,240,232,0.65);
+  --w3:  rgba(245,240,232,0.45);
+  --w4:  rgba(255,255,255,0.92);
+
+  --ink:        #1A1610;
+  --ink-mid:    #3A342C;
+  --ink-light:  #7A7060;
+  --ink-faint:  #9A8F82;
+
+  --navy-dark:    #1A1610;
+  --navy-mid:     #3A342C;
+  --navy:         #3A342C;
+  --off-white:    #FAF7F2;
+  --cloud-gray:   #E4DDD2;
+
+  --teal-dark:    #C04000;
+  --teal-mid:     #FF5500;
+  --teal-light:   #FF7733;
+  --teal-pale:    rgba(255,85,0,0.15);
+  --ocean-light:  rgba(255,85,0,0.07);
+  --ocean-mid:    #FF5500;
+  --ocean-deep:   #C04000;
+  --ocean-glass:  rgba(255,85,0,0.05);
+  --gold:         #FF5500;
+  --gold-mid:     #FF7733;
+
+  --red-dot:  #DC2626;
+  --red-bdr:  rgba(220,38,38,0.28);
+  --red-txt:  #C53030;
+  --red-bg:   rgba(220,38,38,0.07);
+
+  --yel-dot:  #D97706;
+  --yel-bdr:  rgba(217,119,6,0.28);
+  --yel-txt:  #B45309;
+  --yel-bg:   rgba(217,119,6,0.08);
+
+  --grn-dot:  #059669;
+  --grn-bdr:  rgba(5,150,105,0.28);
+  --grn-txt:  #047857;
+  --grn-bg:   rgba(5,150,105,0.07);
+
+  --sh:     0 2px 8px rgba(26,22,16,0.08);
+  --shm:    0 4px 20px rgba(26,22,16,0.12);
+  --sh-org: 0 4px 24px rgba(255,85,0,0.18);
+  --sh-blue:0 4px 24px rgba(255,85,0,0.14);
+}

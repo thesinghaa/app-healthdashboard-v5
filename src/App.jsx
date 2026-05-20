@@ -1,8 +1,10 @@
 import { useState, useRef, useCallback, lazy, Suspense } from 'react';
 import { gsap } from 'gsap';
 import './styles/index.css';
+import { ThemeProvider } from './context/ThemeContext';
 import LandingPage from './pages/LandingPage';
 import HomePage from './pages/HomePage';
+import AuroraBackground from './components/AuroraBackground';
 import DetailPage from './pages/DetailPage';
 import DivisionPage from './pages/DivisionPage';
 import KDProgrammePage from './pages/KDProgrammePage';
@@ -13,13 +15,13 @@ import DrugsDiagnosticsPage from './pages/DrugsDiagnosticsPage';
 const KDIndicatorDetail      = lazy(() => import('./pages/KDIndicatorDetail'));
 const CurrentStatusDetailPage = lazy(() => import('./pages/CurrentStatusDetailPage'));
 
-export default function App() {
+function AppInner() {
   const [view, setView] = useState({
     page: 'home', program: null, division: null, indicator: null,
   });
 
-  const pageRef = useRef(null);
-  const viewRef = useRef(view);
+  const pageRef   = useRef(null);
+  const viewRef   = useRef(view);
   viewRef.current = view;
 
   /* ── Zoom transition (scale + fade) ─────────────────────────────── */
@@ -156,13 +158,7 @@ export default function App() {
 
   return (
     <>
-      <div className="aurora-blobs" aria-hidden="true">
-        <div className="blob blob--1" />
-        <div className="blob blob--2" />
-        <div className="blob blob--3" />
-        <div className="blob blob--4" />
-        <div className="blob blob--5" />
-      </div>
+      <AuroraBackground />
       <div className="flip-stage">
         <div className="flip-page" ref={pageRef}>
           <Suspense fallback={null}>
@@ -171,5 +167,13 @@ export default function App() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppInner />
+    </ThemeProvider>
   );
 }

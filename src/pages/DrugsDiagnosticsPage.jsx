@@ -1,5 +1,6 @@
 // HSS / Drugs & Diagnostics
 import { useEffect, useRef, useState } from 'react';
+import ThemeToggle from '../components/ThemeToggle';
 import { gsap } from 'gsap';
 import Plot from 'react-plotly.js';
 
@@ -294,6 +295,7 @@ export default function DrugsDiagnosticsPage({ division, onBack }) {
             <span className="detail-prog-name">Drugs &amp; Diagnostics</span>
           </div>
           <div className="status-pill st-red">Critical</div>
+          <ThemeToggle />
         </div>
       </div>
 

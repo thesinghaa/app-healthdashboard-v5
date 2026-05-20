@@ -3,6 +3,7 @@
 // Opened when user clicks the CSEntryBar on KDProgrammePage / HRHCadrePage / DivisionPage
 
 import { useEffect, useRef } from 'react';
+import ThemeToggle from '../components/ThemeToggle';
 import { gsap } from 'gsap';
 import CurrentStatusSection from './CurrentStatusSection';
 
@@ -62,6 +63,7 @@ export default function CurrentStatusDetailPage({ program, division, onBack }) {
             <span className="app-bc-sep">&#8250;</span>
             <span className="app-bc-current">Current Status</span>
           </div>
+          <ThemeToggle />
         </div>
       </div>
 

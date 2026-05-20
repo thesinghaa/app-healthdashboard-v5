@@ -2,6 +2,7 @@
 // Charts: react-plotly.js   Animations: GSAP
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import ThemeToggle from '../components/ThemeToggle';
 import Plot from 'react-plotly.js';
 import { STATUS_CONFIG } from '../data/programs';
 import CurrentStatusSection, { CSEntryBar } from './CurrentStatusSection';
@@ -437,6 +438,7 @@ export default function HRHCadrePage({ program, division, onBack, onCurrentStatu
             <span className="detail-prog-name">{program?.name}</span>
           </div>
           <div className={`status-pill st-${program?.status}`}>{cfg.shortLabel}</div>
+          <ThemeToggle />
         </div>
       </div>
 

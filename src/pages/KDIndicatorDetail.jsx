@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState, useMemo } from 'react';
 import { gsap } from 'gsap';
+import ThemeToggle from '../components/ThemeToggle';
 import Plot from 'react-plotly.js';
 import {
   AreaChart, Area,
@@ -405,6 +406,7 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
             </span>
           </div>
           <div className="ncd-source-tag">FY 2025-26 · NHM Arunachal Pradesh</div>
+          <ThemeToggle />
         </div>
       </div>
 

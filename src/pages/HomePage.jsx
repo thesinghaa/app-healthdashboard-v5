@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { DIVISIONS, STATUS_CONFIG } from '../data/programs';
 import { KD_TREE } from '../data/kdData';
+import ThemeToggle from '../components/ThemeToggle';
 
 function getSummary() {
   let total = 0, red = 0, yellow = 0, green = 0;
@@ -226,6 +227,7 @@ export default function HomePage({ onSelectProgram, onSelectDivision, onBack }) 
                 <div className="hs-pill hs-green"><span className="hs-val">{summary.green}</span><span className="hs-lbl">On Track</span></div>
               </div>
               <div className="home-right">
+                <ThemeToggle />
                 <div className="home-legend">
                   <span className="hl-item"><span className="hl-dot hl-red" />Immediate Attention</span>
                   <span className="hl-item"><span className="hl-dot hl-yellow" />Under Review</span>

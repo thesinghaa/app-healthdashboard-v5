@@ -14,135 +14,23 @@
   background: transparent;
 }
 
-/* ── Aurora blob container (global, fixed, lives in App.jsx) ─────── */
-.aurora-blobs {
+/* ── SVG turbulence aurora (AuroraBackground.jsx) ───────────────── */
+.aurora-wrap {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  filter: blur(80px);
+  background: transparent;
 }
-
-/* Blobs — screen blend so overlapping areas bloom brighter */
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  will-change: transform;
-  opacity: 0.85;
-  mix-blend-mode: screen;
-}
-
-/* Blob 1 — white-lavender hot spot, top-left (the signature glow) */
-.blob--1 {
-  width: 820px;
-  height: 720px;
-  top: -18%;
-  left: -12%;
-  background: radial-gradient(circle at 42% 42%,
-    rgba(255,255,255,0.90) 0%,
-    #ddd6fe          14%,
-    #a78bfa          32%,
-    #7c3aed          55%,
-    transparent      78%
-  );
-  animation: float1 9s ease-in-out infinite;
-}
-
-/* Blob 2 — rich purple body, centre-left */
-.blob--2 {
-  width: 1000px;
-  height: 880px;
-  top: 2%;
-  left: -10%;
-  background: radial-gradient(circle at 50% 50%,
-    #8b5cf6   0%,
-    #6d28d9  38%,
-    #3b0764  65%,
-    transparent 84%
-  );
-  animation: float2 14s ease-in-out infinite;
-}
-
-/* Blob 3 — deep indigo, right anchor */
-.blob--3 {
-  width: 1100px;
-  height: 980px;
-  top: -18%;
-  right: -20%;
-  background: radial-gradient(circle at 50% 50%,
-    #4f46e5   0%,
-    #3730a3  40%,
-    #1e1b4b  65%,
-    transparent 82%
-  );
-  animation: float3 11s ease-in-out infinite;
-}
-
-/* Blob 4 — cobalt blue, bottom-right */
-.blob--4 {
-  width: 800px;
-  height: 700px;
-  bottom: -22%;
-  right: -8%;
-  background: radial-gradient(circle at 50% 50%,
-    #3b82f6   0%,
-    #1d4ed8  44%,
-    #1e3a8a  66%,
-    transparent 82%
-  );
-  animation: float4 10s ease-in-out infinite;
-}
-
-/* Blob 5 — violet, bottom-left balance */
-.blob--5 {
-  width: 720px;
-  height: 640px;
-  bottom: -18%;
-  left: 3%;
-  background: radial-gradient(circle at 50% 50%,
-    #7c3aed   0%,
-    #4c1d95  46%,
-    #2e1065  68%,
-    transparent 84%
-  );
-  animation: float5 8s ease-in-out infinite;
-}
-
-/* ── Float keyframes — transform only for 60fps ──────────────────── */
-@keyframes float1 {
-  0%   { transform: translate(  0px,   0px) scale(1.00); }
-  33%  { transform: translate( 55px, -42px) scale(1.07); }
-  66%  { transform: translate(-36px,  52px) scale(0.95); }
-  100% { transform: translate(  0px,   0px) scale(1.00); }
-}
-@keyframes float2 {
-  0%   { transform: translate(  0px,   0px) scale(1.00); }
-  33%  { transform: translate(-68px,  38px) scale(1.05); }
-  66%  { transform: translate( 46px, -58px) scale(0.96); }
-  100% { transform: translate(  0px,   0px) scale(1.00); }
-}
-@keyframes float3 {
-  0%   { transform: translate(  0px,   0px) scale(1.00); }
-  33%  { transform: translate( 42px,  62px) scale(1.08); }
-  66%  { transform: translate(-58px, -32px) scale(0.93); }
-  100% { transform: translate(  0px,   0px) scale(1.00); }
-}
-@keyframes float4 {
-  0%   { transform: translate(  0px,   0px) scale(1.00); }
-  33%  { transform: translate( 72px, -52px) scale(1.06); }
-  66%  { transform: translate(-42px,  42px) scale(0.97); }
-  100% { transform: translate(  0px,   0px) scale(1.00); }
-}
-@keyframes float5 {
-  0%   { transform: translate(  0px,   0px) scale(1.00); }
-  33%  { transform: translate(-52px, -46px) scale(1.05); }
-  66%  { transform: translate( 62px,  36px) scale(0.94); }
-  100% { transform: translate(  0px,   0px) scale(1.00); }
+.aurora-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 /* Edge vignette — keeps the periphery dark so cards pop */
-.aurora-blobs::after {
+.aurora-wrap::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -156,7 +44,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .blob { animation: none; }
+  .aurora-svg { display: none; }
 }
 
 /* ── Decorative floating icons layer ─────────────────────────────── */
@@ -236,13 +124,13 @@
   -webkit-backdrop-filter: blur(32px) saturate(180%);
 
   border-radius: 16px;
-  border: 1px solid rgba(139, 92, 246, 0.22);
+  border: 1px solid rgba(59, 130, 246, 0.22);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.06),
-    inset 0 0 0 1px rgba(139,92,246,0.08),
+    inset 0 0 0 1px rgba(59,130,246,0.08),
     0 8px 32px rgba(0,0,0,0.55),
     0 2px 8px  rgba(0,0,0,0.40),
-    0 0 60px   rgba(139,92,246,0.12);
+    0 0 60px   rgba(59,130,246,0.12);
 
   padding: 10px 22px;
   position: relative;
@@ -253,7 +141,7 @@
   .glass-navbar { background: rgba(8,5,20,0.95); }
 }
 
-/* Purple shimmer sweep */
+/* Blue shimmer sweep */
 .glass-navbar::before {
   content: '';
   position: absolute;
@@ -262,8 +150,8 @@
     108deg,
     transparent       0%,
     transparent       32%,
-    rgba(167,139,250,0.07) 46%,
-    rgba(139,92,246, 0.04) 54%,
+    rgba(147,197,253,0.07) 46%,
+    rgba(59,130,246, 0.04) 54%,
     transparent       68%,
     transparent       100%
   );
@@ -308,7 +196,7 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
   font-weight: 500;
-  color: #a78bfa;
+  color: #93c5fd;
   opacity: 0.80;
   letter-spacing: 0.04em;
   line-height: 1;
@@ -364,7 +252,7 @@
   line-height: 1.2;
 }
 
-.hs-total  { background: rgba(139,92,246,0.14); }
+.hs-total  { background: rgba(59,130,246,0.14); }
 .hs-total  .hs-val { color: #ffffff; }
 .hs-total  .hs-lbl { color: rgba(255,255,255,0.55); }
 
@@ -425,3 +313,59 @@
 }
 
 .grid-section { padding: 16px 28px; }
+
+/* ════════════════════════════════════════════════════════════════════
+   LIGHT MODE OVERRIDES — hero.css  (orange accent, V2 palette)
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Aurora → cream dot-grid background */
+[data-theme="light"] .aurora-wrap {
+  background-color: #F5F0E8;
+  background-image: radial-gradient(circle, rgba(255,85,0,0.055) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+[data-theme="light"] .aurora-wrap::after { background: none; }
+[data-theme="light"] .aurora-svg         { display: none; }
+
+/* Smooth theme transition on page containers */
+[data-theme="light"] .home-root,
+[data-theme="light"] .flip-stage,
+[data-theme="light"] .flip-page { background: transparent; }
+
+/* Glass navbar → warm cream glass + orange border */
+[data-theme="light"] .glass-navbar {
+  background: rgba(245,240,232,0.88);
+  border-color: rgba(255,85,0,0.30);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.90),
+    0 4px 24px rgba(26,22,16,0.10),
+    0 0 0 1px rgba(255,85,0,0.10);
+}
+[data-theme="light"] .glass-navbar::before { display: none; }
+
+/* Brand text */
+[data-theme="light"] .home-state-name { color: #1A1610; text-shadow: none; }
+[data-theme="light"] .home-state-sub  { color: rgba(26,22,16,0.50); }
+[data-theme="light"] .home-data-ref   { color: #FF5500; }
+
+/* Summary pill strip */
+[data-theme="light"] .home-summary {
+  background: rgba(26,22,16,0.06);
+  border-color: rgba(26,22,16,0.12);
+}
+[data-theme="light"] .hs-pill + .hs-pill::before { background: rgba(26,22,16,0.12); }
+[data-theme="light"] .hs-total           { background: rgba(255,85,0,0.08); }
+[data-theme="light"] .hs-total .hs-val   { color: #1A1610; }
+[data-theme="light"] .hs-total .hs-lbl   { color: rgba(26,22,16,0.55); }
+[data-theme="light"] .hs-red    .hs-val  { color: #DC2626; }
+[data-theme="light"] .hs-red    .hs-lbl  { color: #DC2626; opacity: 0.85; }
+[data-theme="light"] .hs-yellow .hs-val  { color: #D97706; }
+[data-theme="light"] .hs-yellow .hs-lbl  { color: #D97706; opacity: 0.85; }
+[data-theme="light"] .hs-green  .hs-val  { color: #047857; }
+[data-theme="light"] .hs-green  .hs-lbl  { color: #047857; opacity: 0.85; }
+
+/* Legend dots */
+[data-theme="light"] .hl-item   { color: rgba(26,22,16,0.50); }
+[data-theme="light"] .hl-red    { background: #DC2626; box-shadow: 0 0 4px #DC2626; }
+[data-theme="light"] .hl-yellow { background: #D97706; box-shadow: 0 0 4px #D97706; }
+[data-theme="light"] .hl-green  { background: #047857; box-shadow: 0 0 4px #047857; }

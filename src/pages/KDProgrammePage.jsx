@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import ThemeToggle from '../components/ThemeToggle';
 import { KD_TREE } from '../data/kdData';
 import { STATUS_CONFIG } from '../data/programs';
 import CurrentStatusSection, { CSEntryBar } from './CurrentStatusSection';
@@ -236,6 +237,7 @@ export default function KDProgrammePage({ program, division, onBack, onSelectInd
           <div className={`status-pill st-${program?.status}`}>
             {cfg.shortLabel}
           </div>
+          <ThemeToggle />
         </div>
       </div>
 
