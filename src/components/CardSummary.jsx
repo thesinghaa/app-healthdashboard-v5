@@ -137,8 +137,8 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
 
   const indLayout = useMemo(() => ({
     ...LAYOUT_BASE,
-    width: 120,
-    height: 120,
+    width: 160,
+    height: 160,
   }), []);
 
   /* ── top-3 KDs for selected segment ────────────────────────── */
@@ -216,7 +216,7 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
         </div>
 
         {/* Donut */}
-        <div style={{ position: 'relative', width: 120, height: 120, margin: '0 auto' }}>
+        <div style={{ position: 'relative', width: 160, height: 160, margin: '0 auto' }}>
           <Plot
             data={indTrace}
             layout={indLayout}
