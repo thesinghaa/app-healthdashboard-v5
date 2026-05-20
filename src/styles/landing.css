@@ -606,127 +606,15 @@
 .lnd-cta-arrow {
   font-size: 20px !important;
 }
-/* ── CARD SUMMARY ────────────────────────────────────────────────── */
+/* ── CARD SUMMARY — perf card anchored top-right of reel card ────── */
 .lnd-summary-skeleton { height: 400px; }
-.lnd-summary { display: flex; flex-direction: column; gap: 16px; }
-
-.lnd-summary-rule {
-  width: 100%; height: 1px;
-  background: linear-gradient(90deg, rgba(0,181,204,0.35), rgba(255,255,255,0.06), transparent);
+.lnd-summary {
+  position: absolute !important;
+  top: 56px !important;
+  right: 64px !important;
+  width: 250px !important;
 }
 
-
-/* Two-column body */
-.lnd-summary-body {
-  display: flex; gap: 24px; align-items: flex-start;
-}
-
-/* Left column */
-.lnd-sb-left {
-  flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 0;
-}
-.lnd-sb-sect {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 600;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(0,181,204,0.70); margin: 0;
-}
-.lnd-sb-kd-name {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px; font-weight: 600;
-  color: #ffffff; line-height: 1.35; margin: 0;
-}
-.lnd-sb-bar-track {
-  width: 100%; height: 6px;
-  background: rgba(255,255,255,0.07);
-  border-radius: 99px; overflow: hidden;
-}
-.lnd-sb-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #f87171 0%, #fb923c 100%);
-  border-radius: 99px;
-}
-.lnd-sb-kd-stats {
-  display: flex; justify-content: space-between; align-items: baseline;
-}
-.lnd-sb-big {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 22px; font-weight: 700; color: #ffffff;
-}
-.lnd-sb-meta {
-  font-family: 'Inter', sans-serif;
-  font-size: 10px; color: rgba(255,255,255,0.32); margin-left: 5px;
-}
-.lnd-sb-tgt {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: rgba(255,255,255,0.32);
-}
-.lnd-sb-gap-pill {
-  align-self: flex-start;
-  background: rgba(248,113,113,0.10);
-  border: 1px solid rgba(248,113,113,0.22);
-  border-radius: 999px;
-  padding: 3px 12px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: #fca5a5;
-}
-
-/* KD donut (inside left column) */
-.lnd-sb-kd-donut-wrap { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
-.lnd-sb-kd-donut-row  { display: flex; align-items: center; gap: 16px; }
-.lnd-sb-kd-center {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  pointer-events: none;
-  font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: #ffffff;
-}
-.lnd-sb-kd-center span:last-child {
-  font-size: 9px; font-weight: 400; color: rgba(255,255,255,0.35);
-  font-family: 'Inter', sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
-}
-.lnd-sb-kd-legend { display: flex; flex-direction: column; gap: 7px; }
-.lnd-sb-kd-leg-row { display: flex; align-items: center; gap: 7px; }
-.lnd-sb-kd-leg-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.lnd-sb-kd-leg-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px; font-weight: 600; color: #ffffff; min-width: 20px;
-}
-.lnd-sb-kd-leg-lbl {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px; color: rgba(255,255,255,0.45);
-}
-
-/* Right column — programme donut */
-.lnd-sb-right {
-  flex-shrink: 0; display: flex; flex-direction: column; gap: 10px; align-items: center;
-  width: 210px;
-}
-.lnd-sb-donut-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-.lnd-sb-donut-center {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  pointer-events: none;
-}
-.lnd-sb-dc-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 30px; font-weight: 700; line-height: 1; color: #ffffff;
-}
-.lnd-sb-dc-lbl {
-  font-family: 'Inter', sans-serif;
-  font-size: 9px; color: rgba(255,255,255,0.30);
-  letter-spacing: 0.10em; text-transform: uppercase;
-}
-.lnd-sb-donut-legend { display: flex; flex-direction: column; gap: 8px; width: 100%; }
-.lnd-sb-dl-row { display: flex; align-items: center; gap: 8px; }
-.lnd-sb-dl-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.lnd-sb-dl-val {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 15px; font-weight: 700; color: #ffffff; min-width: 22px;
-}
-.lnd-sb-dl-lbl {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px; color: rgba(255,255,255,0.45);
-}
 /* ── END CARD SUMMARY ────────────────────────────────────────────── */
 
 /* ════════════════════════════════════════════════════════════════════
@@ -819,32 +707,6 @@
 [data-theme="light"] .lnd-dot         { background: rgba(26,22,16,0.20); }
 [data-theme="light"] .lnd-dot--active { background: #FF5500; }
 
-/* ── CardSummary — light overrides ─────────────────────────────── */
-[data-theme="light"] .lnd-summary-rule {
-  background: linear-gradient(90deg, rgba(255,85,0,0.28), rgba(26,22,16,0.07), transparent);
-}
-
-
-/* Left col */
-[data-theme="light"] .lnd-sb-sect       { color: rgba(192,64,0,0.75); }
-[data-theme="light"] .lnd-sb-kd-name    { color: #1A1610; }
-[data-theme="light"] .lnd-sb-bar-track  { background: rgba(26,22,16,0.10); }
-[data-theme="light"] .lnd-sb-big        { color: #1A1610; }
-[data-theme="light"] .lnd-sb-meta       { color: rgba(26,22,16,0.40); }
-[data-theme="light"] .lnd-sb-tgt        { color: rgba(26,22,16,0.40); }
-[data-theme="light"] .lnd-sb-gap-pill   { background: rgba(220,38,38,0.07); border-color: rgba(220,38,38,0.22); color: #C53030; }
-
-/* KD donut legend */
-[data-theme="light"] .lnd-sb-kd-center span:first-child { color: #1A1610; }
-[data-theme="light"] .lnd-sb-kd-center span:last-child  { color: rgba(26,22,16,0.40); }
-[data-theme="light"] .lnd-sb-kd-leg-num { color: #1A1610; }
-[data-theme="light"] .lnd-sb-kd-leg-lbl { color: rgba(26,22,16,0.50); }
-
-/* Programme donut (right col) */
-[data-theme="light"] .lnd-sb-dc-num { color: #1A1610; }
-[data-theme="light"] .lnd-sb-dc-lbl { color: rgba(26,22,16,0.38); }
-[data-theme="light"] .lnd-sb-dl-val { color: #1A1610; }
-[data-theme="light"] .lnd-sb-dl-lbl { color: rgba(26,22,16,0.50); }
 
 /* ── END LIGHT MODE — landing.css ───────────────────────────────── */
 

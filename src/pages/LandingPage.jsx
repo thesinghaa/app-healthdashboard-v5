@@ -151,7 +151,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
               <Suspense fallback={<div className="lnd-summary-skeleton" />}>
                 <CardSummary
                   divisionId={div.id}
-                  stats={stats}
                   isActive={isActive}
                   onKDClick={(kd, programmeId) => onDirectKD && onDirectKD(div, programmeId, kd)}
                 />
