@@ -181,22 +181,7 @@ export default function CardSummary({ divisionId, stats, isActive, onKDClick }) 
     <div className="lnd-summary">
       <div className="lnd-summary-rule" />
 
-      {/* ── Stats strip ────────────────────────────────────────── */}
-      <div className="lnd-ss-strip">
-        {[
-          { val: stats.total,  lbl: 'Programmes', cls: '' },
-          { val: stats.red,    lbl: 'Critical',   cls: 'red' },
-          { val: stats.yellow, lbl: 'Caution',    cls: 'yellow' },
-          { val: stats.green,  lbl: 'On Track',   cls: 'green' },
-        ].map(({ val, lbl, cls }) => (
-          <div key={lbl} className={`lnd-ss-cell ${cls ? `lnd-ss-${cls}` : ''}`}>
-            <span className="lnd-ss-num">{val}</span>
-            <span className="lnd-ss-lbl">{lbl}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* ── Two-column body ────────────────────────────────────── */}
+{/* ── Two-column body ────────────────────────────────────── */}
       <div className="lnd-summary-body">
 
         {/* Left — KD breakdown donut */}
