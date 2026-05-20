@@ -353,27 +353,46 @@ All 11 NCD files now have unique, programme-appropriate `keyMetric` and `summary
 - CSS classes: `.lnd-root`, `.lnd-header-inner` (glass nav), `.lnd-card`, `.lnd-card--active`, `.lnd-card-ring`, `.lnd-dot--active` (pill shape)
 
 ### CardSummary component (`src/components/CardSummary.jsx`)
-Lazy-loaded inside each reel card. Two-column body:
-- **Left** — KD breakdown donut (Plotly pie, 3 segments: Achieved/Close/Gap) + legend
-- **Right** — District Performance product card (`.lnd-perf-card`) — Plotly donut showing worst KD target vs achievement
+Lazy-loaded inside each reel card. Returns a **React Fragment** — two absolutely positioned children injected into the reel card's positioning context:
 
-District performance card:
-- `getMostCriticalKD(divisionId)` — finds KD with lowest gap (most below target) across all programmes
-- `kdAchievePct(kd)` — normalised 0–100: if `target > 100` uses `(numerator/denominator)*100` (count-based KDs); else `(achievement/target)*100`
-- `kdDisplayGap(kd)` — gap in percentage points; count-based KDs: `pct - 100`; others: raw `achievement - target`
-- Donut arc: teal `#00b5cc` if on track, red `#f87171` if below target
-- `--crit` modifier on card when `isBelowTarget`
-- GSAP: slide-in from x:28 + counter tick-up on `isActive` change
-- Click → `onKDClick(kd, programmeId)` → `App.jsx goToKDDirect` → `page: 'kd-indicator'`
-- `shortVal(kd)` — always compact `%` (never raw counts); `shortTarget(kd)` — `100%` for count-based
+#### 1. Indicator Status card (`.lnd-ind-card`) — absolute, top-right
+- Position: `top: 56px; right: 64px; width: 260px` within the 1000px card
+- 3-segment Plotly donut: gap (red `#f87171`) / close (amber `#fbbf24`) / achieved (green `#34d399`)
+- Legend rows below donut — clickable to set `selectedSeg` state
+- Clicking donut segment or legend row → GSAP `fromTo(opacity:0→1, y:-8→0)` animates top-3 KD panel
+- Top-3 KDs sorted by: most-gap-first (gap), closest-to-zero (close), highest-first (achieved)
+- Each top-3 row: `onClick → onKDClick(kd, kd.programmeId)` → `App.jsx goToKDDirect` → `page: 'kd-indicator'`
+- `selectedSeg` resets to null when `isActive` becomes false
 
-CSS layout classes:
-- `.lnd-pc-donut-wrap` — centered flex container for donut
-- `.lnd-pc-stats-list` + `.lnd-pc-stats-row` — full-width label/value rows below donut (replaces old `.lnd-pc-body` + `.lnd-pc-stat-col`)
-- `.lnd-pc-stat-lbl` (left) + `.lnd-pc-stat-val` (right) per row
-- Light mode border for rows: `[data-theme="light"] .lnd-pc-stats-row`
+Key helpers:
+- `getDivKDBreakdown(divisionId)` — counts achieved/close/gap/total across all KD_TREE programmes
+- `getTopKDsByStatus(divisionId, status, n=3)` — top n KDs for a segment, sorted
+- `kdGap(kd)` — `lowerIsBetter ? target - achievement : achievement - target`; null if data missing
+- Gap thresholds: `g >= 0` = achieved, `-10 <= g < 0` = close, `g < -10` = gap
 
-App.jsx has `goToKDDirect(division, programmeId, kd)` callback — navigates directly to `kd-indicator` page, bypassing division/programme list layers.
+CSS classes: `.lnd-ind-card`, `.lnd-ind-header`, `.lnd-ind-title`, `.lnd-ind-center`, `.lnd-ind-total-num`, `.lnd-ind-total-lbl`, `.lnd-ind-legend`, `.lnd-ind-leg-row`, `.lnd-ind-leg-row--active`, `.lnd-ind-leg-dot`, `.lnd-ind-leg-num`, `.lnd-ind-leg-lbl`, `.lnd-ind-top3`, `.lnd-ind-top3-header`, `.lnd-ind-kd-row`, `.lnd-ind-kd-name`, `.lnd-ind-kd-gap`
+
+#### 2. Programme grid (`.lnd-prog-section`) — absolute, below CTA
+- Position: `top: 360px; left: 64px; right: 64px; max-height: 290px`
+- **IMPORTANT layout constraint**: Card is 1000px tall but reel wrap clips visible area at ~678px from card top. `top: 360px` keeps the section within the visible window. Do NOT use `bottom: Xpx` — that positions relative to the 1000px card, not the visible area.
+- Filtered by `resolvedFilter` = `activeFilter || (any red? → any yellow? → green)`
+- Programme card sizing: `flex: 1` if ≤4 cards (equal width), `width: 220px; flexShrink: 0` if >4 (enables horizontal scroll)
+- Each programme card: mini Plotly donut (90x90, same 3-segment colours) + name + keyMetric
+- `getProgKDBrk(divisionId, progId)` — per-programme KD breakdown from KD_TREE
+- Scroll: `overflow-x: auto; scrollbar-width: none` — 2-finger trackpad gesture
+
+CSS classes: `.lnd-prog-section`, `.lnd-prog-section-label`, `.lnd-prog-scroll`, `.lnd-prog-card`, `.lnd-prog-donut-center`, `.lnd-prog-dc-lbl`, `.lnd-prog-name`, `.lnd-prog-metric`, `.lnd-prog-empty`
+
+#### LandingPage state for CardSummary
+- `activeFilter` state (null | 'red' | 'yellow' | 'green') — resets to null on active card change
+- Pill buttons toggle `activeFilter`; active pill gets `.lnd-pill--sel` class (box-shadow ring + opaque bg)
+- Expand arrow `↗` (`.lnd-idx-expand`) next to division short label — `onClick → onSelectDivision(div)`
+- `onKDClick` prop: `(kd, programmeId) => onDirectKD(div, programmeId, kd)` → navigates to `kd-indicator`
+
+`App.jsx` has `goToKDDirect(division, programmeId, kd)` callback — navigates directly to `kd-indicator`, bypassing division/programme list layers.
+
+#### Old perf card (`.lnd-perf-card` / `.lnd-summary`)
+`.lnd-summary { display: none }` — no longer rendered. CSS classes for `.lnd-perf-card` remain in `landing.css` but are dead code. Do not remove (not worth the risk of breaking anything).
 
 ---
 
