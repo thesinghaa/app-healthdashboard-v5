@@ -351,18 +351,52 @@ All 11 NCD files now have unique, programme-appropriate `keyMetric` and `summary
 - "All Programmes" button → `onViewSummary` → `page: 'summary'` (HomePage)
 - Division card click → `onSelectDivision(div)` → `page: 'division'`
 - CSS classes: `.lnd-root`, `.lnd-header-inner` (glass nav), `.lnd-card`, `.lnd-card--active`, `.lnd-card-ring`, `.lnd-dot--active` (pill shape)
+- **Navbar**: "Select a Division" centre label removed — navbar has brand (left) + All Programmes button + ThemeToggle (right) only
 
 ### CardSummary component (`src/components/CardSummary.jsx`)
 Lazy-loaded inside each reel card. Returns a **React Fragment** — two absolutely positioned children injected into the reel card's positioning context:
 
-#### 1. Indicator Status card (`.lnd-ind-card`) — absolute, top-right
-- Position: `top: 56px; right: 64px; width: 260px` within the 1000px card
-- 3-segment Plotly donut: gap (red `#f87171`) / close (amber `#fbbf24`) / achieved (green `#34d399`)
-- Legend rows below donut — clickable to set `selectedSeg` state
-- Clicking donut segment or legend row → GSAP `fromTo(opacity:0→1, y:-8→0)` animates top-3 KD panel
-- Top-3 KDs sorted by: most-gap-first (gap), closest-to-zero (close), highest-first (achieved)
-- Each top-3 row: `onClick → onKDClick(kd, kd.programmeId)` → `App.jsx goToKDDirect` → `page: 'kd-indicator'`
-- `selectedSeg` resets to null when `isActive` becomes false
+#### Donut colour palette (updated May 2026)
+```js
+SEG_COLORS = { gap: '#E84060', close: '#E89010', achieved: '#28C268' }
+SEG_GLOW   = { gap: 'rgba(232,64,96,', close: 'rgba(232,144,16,', achieved: 'rgba(40,194,104,' }
+```
+Each donut wrapper has `filter: drop-shadow` using `SEG_GLOW[dominantSeg]` at 35%/55% opacity — gives a soft ambient glow matching the dominant segment. Segments also have a `marker.line` border in the segment colour (width 2–2.5px) for depth.
+
+`indGlow` useMemo computes dominant segment for the indicator donut. `progGlowSeg` computed inline per programme card.
+
+#### GSAP animations (updated May 2026)
+All donuts use a **speedometer sweep** via `conic-gradient` mask:
+- Mask starts at `conic-gradient(from -90deg, #000 0deg 0deg, transparent 0deg 360deg)` (fully hidden)
+- GSAP animates angle 0→360° → mask reveals donut clockwise from 12 o'clock
+- On complete, mask is cleared so Plotly hover works normally
+- On card deactivate, masks are cleared immediately
+
+Number animations:
+- `totalNumRef` (indicator center) — GSAP counter from 0 to `brk.total`, delay 0.12s
+- `legNumRefs[0..2]` — staggered counters for gap/close/achieved, delay 0.22–0.36s
+- `progNumRefs[i]` — per-programme KD total counter, staggered by index
+
+Timing:
+| Element | Duration | Delay |
+|---------|----------|-------|
+| Indicator donut sweep | 1.0s | 0.05s |
+| Total KD counter | 0.9s | 0.12s |
+| Legend counters | 0.75s | 0.22–0.36s |
+| Prog donut sweeps | 0.75s | 0.1 + i×0.1s |
+| Prog KD counters | 0.7s | 0.18 + i×0.08s |
+
+#### 1. Indicator Status card (`.lnd-ind-card`) — absolute, right column
+- Position: `top: 10px; right: 10px; width: 276px; height: calc(100dvh - 222px - 20px)`
+- Design: `border: 1.5px solid rgba(0,181,204,0.50)`, `background: rgba(0,22,48,0.78)`, `border-radius: 14px`, inset+outer cyan glow, `backdrop-filter: blur(32px)`
+- Header "INDICATOR STATUS": `font-size: 14px; color: #ffffff; font-family: JetBrains Mono; font-weight: 700`
+- 3-segment Plotly donut (160×160px): gap `#E84060` / close `#E89010` / achieved `#28C268`
+- **Auto-selects most critical segment on card activation** (`useEffect([isActive, brk.gap, brk.close, brk.achieved])` → picks gap > close > achieved)
+- Legend rows and donut segments are also clickable to change `selectedSeg`
+- Top-3 KDs panel: visible by default (auto-selected), GSAP `fromTo(opacity:0→1, y:-8→0)` animates on segment change
+- Top-3 sorted: most-gap-first (gap), closest-to-zero (close), highest-first (achieved)
+- Each top-3 row clickable → `onKDClick(kd, kd.programmeId)` → `App.jsx goToKDDirect` → `page: 'kd-indicator'`
+- **"Explore Division" CTA** inside indicator panel at bottom (`margin-top: auto`): `border: 1.5px solid #00b5cc`, shimmer `@keyframes lnd-cta-shimmer` via `::after` pseudo-element
 
 Key helpers:
 - `getDivKDBreakdown(divisionId)` — counts achieved/close/gap/total across all KD_TREE programmes
@@ -370,14 +404,18 @@ Key helpers:
 - `kdGap(kd)` — `lowerIsBetter ? target - achievement : achievement - target`; null if data missing
 - Gap thresholds: `g >= 0` = achieved, `-10 <= g < 0` = close, `g < -10` = gap
 
-CSS classes: `.lnd-ind-card`, `.lnd-ind-header`, `.lnd-ind-title`, `.lnd-ind-center`, `.lnd-ind-total-num`, `.lnd-ind-total-lbl`, `.lnd-ind-legend`, `.lnd-ind-leg-row`, `.lnd-ind-leg-row--active`, `.lnd-ind-leg-dot`, `.lnd-ind-leg-num`, `.lnd-ind-leg-lbl`, `.lnd-ind-top3`, `.lnd-ind-top3-header`, `.lnd-ind-kd-row`, `.lnd-ind-kd-name`, `.lnd-ind-kd-gap`
+**Hook order rules** (CRITICAL — violating causes blank page crash):
+1. `brk` (useMemo) MUST be before all effects that depend on it
+2. `resolvedFilter` + `filteredProgs` useMemos MUST be declared BEFORE any `useEffect` that uses them in dep arrays — `const filteredProgs` used in `[isActive, filteredProgs]` dep is a TDZ error if declared after the effect
 
-#### 2. Programme grid (`.lnd-prog-section`) — absolute, below CTA
-- Position: `top: 360px; left: 64px; right: 64px; max-height: 290px`
-- **IMPORTANT layout constraint**: Card is 1000px tall but reel wrap clips visible area at ~678px from card top. `top: 360px` keeps the section within the visible window. Do NOT use `bottom: Xpx` — that positions relative to the 1000px card, not the visible area.
+CSS classes: `.lnd-ind-card`, `.lnd-ind-header`, `.lnd-ind-title`, `.lnd-ind-center`, `.lnd-ind-total-num`, `.lnd-ind-total-lbl`, `.lnd-ind-legend`, `.lnd-ind-leg-row`, `.lnd-ind-leg-row--active`, `.lnd-ind-leg-dot`, `.lnd-ind-leg-num`, `.lnd-ind-leg-lbl`, `.lnd-ind-top3`, `.lnd-ind-top3-header`, `.lnd-ind-kd-row`, `.lnd-ind-kd-name`, `.lnd-ind-kd-gap`, `.lnd-ind-cta`
+
+#### 2. Programme grid (`.lnd-prog-section`) — flex child, left content area
+- Layout: `flex: 1; min-height: 180px; max-height: 340px` — flows naturally after card header content
+- Section label ("CRITICAL PROGRAMMES" etc.): `font-size: 12px; color: #ffffff; font-family: JetBrains Mono`
 - Filtered by `resolvedFilter` = `activeFilter || (any red? → any yellow? → green)`
 - Programme card sizing: `flex: 1` if ≤4 cards (equal width), `width: 220px; flexShrink: 0` if >4 (enables horizontal scroll)
-- Each programme card: mini Plotly donut (90x90, same 3-segment colours) + name + keyMetric
+- Each programme card: mini Plotly donut (140×140px) + name + keyMetric; donut has drop-shadow glow matching dominant segment
 - `getProgKDBrk(divisionId, progId)` — per-programme KD breakdown from KD_TREE
 - Scroll: `overflow-x: auto; scrollbar-width: none` — 2-finger trackpad gesture
 
@@ -388,6 +426,7 @@ CSS classes: `.lnd-prog-section`, `.lnd-prog-section-label`, `.lnd-prog-scroll`,
 - Pill buttons toggle `activeFilter`; active pill gets `.lnd-pill--sel` class (box-shadow ring + opaque bg)
 - Expand arrow `↗` (`.lnd-idx-expand`) next to division short label — `onClick → onSelectDivision(div)`
 - `onKDClick` prop: `(kd, programmeId) => onDirectKD(div, programmeId, kd)` → navigates to `kd-indicator`
+- `onExploreDivision` prop: `isActive ? () => onSelectDivision(div) : null` — wired from inside indicator panel
 
 `App.jsx` has `goToKDDirect(division, programmeId, kd)` callback — navigates directly to `kd-indicator`, bypassing division/programme list layers.
 
