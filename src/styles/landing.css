@@ -979,15 +979,15 @@
    Keeps the panel clipped to the visible reel area so margin-top:auto works for the CTA. */
 .lnd-ind-card {
   position: absolute;
-  top: 0; right: 0;
-  width: 280px;
-  height: calc(100dvh - 222px);
-  background: rgba(3, 5, 15, 0.58);
+  top: 10px; right: 10px;
+  width: 276px;
+  height: calc(100dvh - 222px - 20px);
+  background: rgba(0, 22, 48, 0.78);
   backdrop-filter: blur(32px) saturate(180%);
   -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: none;
-  border-left: 1px solid rgba(255,255,255,0.07);
-  border-radius: 0;
+  border: 1.5px solid rgba(0, 181, 204, 0.50);
+  border-radius: 14px;
+  box-shadow: 0 0 0 1px rgba(0,181,204,0.08) inset, 0 0 32px rgba(0,181,204,0.08);
   padding: 52px 22px 36px;
   display: flex;
   flex-direction: column;
