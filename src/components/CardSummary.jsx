@@ -148,14 +148,31 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
 
   /* GSAP: entrance animations on card activate */
   useEffect(() => {
-    if (!isActive) return;
+    if (!isActive) {
+      // Clean up masks if card deactivates mid-animation
+      [indDonutRef.current, ...progDonutRefs.current].forEach(el => {
+        if (!el) return;
+        el.style.maskImage = '';
+        el.style.webkitMaskImage = '';
+      });
+      return;
+    }
 
-    // Indicator donut — scale + rotate in
+    // Indicator donut — speedometer sweep (conic-gradient mask, 0→360° clockwise)
     if (indDonutRef.current) {
-      gsap.fromTo(indDonutRef.current,
-        { scale: 0.72, opacity: 0, rotate: -12 },
-        { scale: 1, opacity: 1, rotate: 0, duration: 0.55, ease: 'back.out(1.4)', delay: 0.05 },
-      );
+      const el = indDonutRef.current;
+      const obj = { a: 0 };
+      el.style.maskImage = 'conic-gradient(from -90deg, #000 0deg 0deg, transparent 0deg 360deg)';
+      el.style.webkitMaskImage = 'conic-gradient(from -90deg, #000 0deg 0deg, transparent 0deg 360deg)';
+      gsap.to(obj, {
+        a: 360, duration: 1.0, ease: 'power2.inOut', delay: 0.05,
+        onUpdate() {
+          const m = `conic-gradient(from -90deg, #000 0deg ${obj.a}deg, transparent ${obj.a}deg 360deg)`;
+          el.style.maskImage = m;
+          el.style.webkitMaskImage = m;
+        },
+        onComplete() { el.style.maskImage = ''; el.style.webkitMaskImage = ''; },
+      });
     }
 
     // Total KD counter
@@ -180,15 +197,23 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
     });
   }, [isActive]);
 
-  /* GSAP: prog card donut entrances — staggered, runs on activate or filter change */
+  /* GSAP: prog card donut entrances — staggered speedometer sweep */
   useEffect(() => {
     if (!isActive) return;
     progDonutRefs.current.forEach((el, i) => {
       if (!el) return;
-      gsap.fromTo(el,
-        { scale: 0.6, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.42, ease: 'back.out(1.3)', delay: 0.08 + i * 0.08 },
-      );
+      const obj = { a: 0 };
+      el.style.maskImage = 'conic-gradient(from -90deg, #000 0deg 0deg, transparent 0deg 360deg)';
+      el.style.webkitMaskImage = 'conic-gradient(from -90deg, #000 0deg 0deg, transparent 0deg 360deg)';
+      gsap.to(obj, {
+        a: 360, duration: 0.75, ease: 'power2.inOut', delay: 0.1 + i * 0.1,
+        onUpdate() {
+          const m = `conic-gradient(from -90deg, #000 0deg ${obj.a}deg, transparent ${obj.a}deg 360deg)`;
+          el.style.maskImage = m;
+          el.style.webkitMaskImage = m;
+        },
+        onComplete() { el.style.maskImage = ''; el.style.webkitMaskImage = ''; },
+      });
     });
     progNumRefs.current.forEach((el, i) => {
       if (!el) return;
