@@ -4901,6 +4901,76 @@ h1, h2, h3, h4 {
 .ncd-topbar-inner > .theme-toggle,
 .app-topbar-inner > .theme-toggle { margin-left: auto; }
 
+/* ── Summary page (HomePage) — aurora palette counter-overrides ─── */
+
+/* Column header strip */
+[data-theme="light"] .lp-card-header {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid rgba(26,22,16,0.08) !important;
+  box-shadow: none !important;
+}
+
+/* Division badge pill */
+[data-theme="light"] .lp-div-tag {
+  background: #FF5500 !important;
+  border-color: #FF5500 !important;
+  color: #FFFFFF !important;
+}
+
+/* Expand button */
+[data-theme="light"] .lp-expand-btn {
+  background: rgba(255,85,0,0.08) !important;
+  border-color: rgba(255,85,0,0.28) !important;
+  color: #FF5500 !important;
+}
+[data-theme="light"] .lp-expand-btn:hover {
+  background: rgba(255,85,0,0.16) !important;
+}
+
+/* Programme row hover */
+[data-theme="light"] .lp-prog:hover {
+  background: #FFFFFF !important;
+  border-top-color: #FF5500 !important;
+  box-shadow: 0 2px 10px rgba(255,85,0,0.14) !important;
+}
+
+/* Column divider */
+[data-theme="light"] .lp-card-divider {
+  background: linear-gradient(90deg, transparent, rgba(255,85,0,0.18) 30%, rgba(255,85,0,0.18) 70%, transparent) !important;
+}
+
+/* Navbar stats pill — hs-total needs !important to beat aurora block */
+[data-theme="light"] .hs-total {
+  background: rgba(255,85,0,0.08) !important;
+}
+[data-theme="light"] .hs-total .hs-val {
+  color: #1A1610 !important;
+}
+[data-theme="light"] .hs-total .hs-lbl {
+  color: rgba(26,22,16,0.55) !important;
+}
+
+/* Search bar */
+[data-theme="light"] .home-nav-search {
+  background: rgba(255,255,255,0.95) !important;
+  border: 1px solid rgba(26,22,16,0.15) !important;
+  box-shadow: 0 1px 4px rgba(26,22,16,0.10) !important;
+}
+[data-theme="light"] .home-nav-search:focus-within {
+  border-color: rgba(255,85,0,0.50) !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 0 0 3px rgba(255,85,0,0.12), 0 2px 8px rgba(26,22,16,0.10) !important;
+}
+[data-theme="light"] .hns-input {
+  color: #1A1610 !important;
+}
+[data-theme="light"] .hns-input::placeholder {
+  color: rgba(26,22,16,0.40) !important;
+}
+[data-theme="light"] .hns-icon {
+  color: rgba(26,22,16,0.45) !important;
+}
+
 /* ── END LIGHT MODE — ncd.css ───────────────────────────────────── */
 
 
