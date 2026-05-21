@@ -202,7 +202,7 @@ export default function HomePage({ onSelectProgram, onSelectDivision, onBack }) 
         .from('.home-state-name', { y: 12,  opacity: 0, duration: 0.45 }, '-=0.25')
         .from('.home-state-sub',  { y: 8,   opacity: 0, duration: 0.38 }, '-=0.30')
         .from('.hs-pill',         { y: 10,  opacity: 0, duration: 0.38, stagger: 0.07 }, '-=0.25')
-        .from('.hl-item',         { x: 8,   opacity: 0, duration: 0.32, stagger: 0.06 }, '-=0.20')
+
         .from('.lp-breather',     { opacity: 0, duration: 0.30 }, '-=0.10')
         .from('.lp-card',         { y: 24,  opacity: 0, duration: 0.50, stagger: 0.08 }, '-=0.15');
 
@@ -301,11 +301,7 @@ export default function HomePage({ onSelectProgram, onSelectDivision, onBack }) 
               </div>
               <div className="home-right">
                 <ThemeToggle />
-                <div className="home-legend">
-                  <span className="hl-item"><span className="hl-dot hl-red" />Immediate Attention</span>
-                  <span className="hl-item"><span className="hl-dot hl-yellow" />Under Review</span>
-                  <span className="hl-item"><span className="hl-dot hl-green" />On Track</span>
-                </div>
+
                 <div className="home-nav-search">
                   <svg width="12" height="12" viewBox="0 0 16 16" fill="none" className="hns-icon">
                     <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.7"/>
