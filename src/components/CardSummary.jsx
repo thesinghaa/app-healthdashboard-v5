@@ -122,15 +122,15 @@ function getWorstKD(divisionId, progId) {
 }
 
 const SEG_COLORS = {
-  gap:      '#D93258',   // deep rose-crimson — clear danger, not neon hot-pink
-  close:    '#C8780A',   // burnished amber-gold — warm, not garish
-  achieved: '#149650',   // rich forest emerald — grounded, not neon
+  gap:      '#E5293D',   // vivid crimson-red
+  close:    '#D97706',   // vivid amber
+  achieved: '#16A34A',   // vivid green
 };
 
 const SEG_GLOW = {
-  gap:      'rgba(217,50,88,',
-  close:    'rgba(200,120,10,',
-  achieved: 'rgba(20,150,80,',
+  gap:      'rgba(229,41,61,',
+  close:    'rgba(217,119,6,',
+  achieved: 'rgba(22,163,74,',
 };
 
 const SEG_LABELS = {

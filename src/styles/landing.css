@@ -755,6 +755,8 @@
 [data-theme="light"] .lnd-ind-card {
   background: #FFFFFF !important;
   border-color: rgba(255,85,0,0.30) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   box-shadow:
     inset 0 0 0 1px rgba(255,85,0,0.06),
     0 4px 20px rgba(26,22,16,0.10) !important;
