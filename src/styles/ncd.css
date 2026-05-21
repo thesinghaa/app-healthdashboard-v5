@@ -4804,3 +4804,221 @@ h1, h2, h3, h4 {
 .app-topbar-inner > .theme-toggle { margin-left: auto; }
 
 /* ── END LIGHT MODE — ncd.css ───────────────────────────────────── */
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   REPORT MODAL — ReportModal.jsx
+   ═══════════════════════════════════════════════════════════════════ */
+
+.rpt-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(5,6,15,0.82);
+  backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+
+.rpt-modal {
+  background: #051c2c;
+  border: 1px solid rgba(255,85,0,0.30);
+  border-top: 3px solid #FF5500;
+  border-radius: 16px;
+  width: 100%; max-width: 960px;
+  height: 90dvh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.70), 0 0 40px rgba(255,85,0,0.08);
+}
+
+/* Header */
+.rpt-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+.rpt-header-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  color: #FF5500; letter-spacing: 0.18em;
+  text-transform: uppercase; margin: 0 0 4px;
+}
+.rpt-header-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px; font-weight: 700;
+  color: #ffffff; margin: 0;
+}
+.rpt-header-actions { display: flex; gap: 10px; align-items: center; }
+
+/* Buttons */
+.rpt-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px; font-weight: 600;
+  border-radius: 8px; cursor: pointer;
+  border: none; transition: all 0.15s;
+  padding: 9px 18px;
+}
+.rpt-btn--generate {
+  background: #FF5500; color: #ffffff;
+  padding: 13px 32px; font-size: 15px; border-radius: 10px;
+}
+.rpt-btn--generate:hover { background: #e64d00; transform: translateY(-1px); }
+.rpt-btn--pdf {
+  background: rgba(0,181,204,0.15);
+  border: 1px solid rgba(0,181,204,0.40);
+  color: #00b5cc;
+}
+.rpt-btn--pdf:hover { background: rgba(0,181,204,0.25); }
+.rpt-btn--close {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.60);
+  width: 36px; height: 36px; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; font-size: 14px;
+}
+.rpt-btn--close:hover { background: rgba(255,255,255,0.14); color: #fff; }
+
+/* Body */
+.rpt-body {
+  flex: 1; min-height: 0;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+/* Idle state */
+.rpt-idle {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 16px;
+  padding: 40px; text-align: center; max-width: 520px;
+}
+.rpt-idle-icon { margin-bottom: 8px; }
+.rpt-idle-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px; font-weight: 700; color: #ffffff; margin: 0;
+}
+.rpt-idle-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; color: #b8ccd8; line-height: 1.6; margin: 0;
+}
+.rpt-idle-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.rpt-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  background: rgba(255,85,0,0.12);
+  border: 1px solid rgba(255,85,0,0.25);
+  color: rgba(255,85,0,0.90);
+  border-radius: 6px; padding: 4px 10px;
+}
+
+/* Loading state */
+.rpt-loading {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 16px;
+  padding: 40px; text-align: center; width: 100%; max-width: 480px;
+}
+.rpt-spinner {
+  width: 48px; height: 48px;
+  border: 3px solid rgba(255,85,0,0.20);
+  border-top-color: #FF5500;
+  border-radius: 50%;
+  animation: rpt-spin 0.8s linear infinite;
+}
+@keyframes rpt-spin { to { transform: rotate(360deg); } }
+.rpt-loading-step {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px; font-weight: 600; color: #ffffff; margin: 0;
+}
+.rpt-loading-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: rgba(255,255,255,0.35); margin: 0;
+}
+.rpt-progress-bar {
+  width: 100%; height: 4px;
+  background: rgba(255,85,0,0.15); border-radius: 2px; overflow: hidden;
+}
+.rpt-progress-fill {
+  height: 100%; background: #FF5500; border-radius: 2px;
+  transition: width 0.8s ease;
+}
+
+/* Agent step list */
+.rpt-agent-list {
+  display: flex; flex-direction: column; gap: 8px;
+  width: 100%; margin-top: 8px; text-align: left;
+}
+.rpt-agent-step {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Inter', sans-serif; font-size: 13px;
+  color: rgba(255,255,255,0.30); transition: color 0.3s;
+}
+.rpt-agent-step--done { color: rgba(255,255,255,0.55); }
+.rpt-agent-step--active { color: #ffffff; font-weight: 600; }
+.rpt-agent-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(255,255,255,0.20); flex-shrink: 0;
+  transition: background 0.3s;
+}
+.rpt-agent-step--done .rpt-agent-dot { background: #149650; }
+.rpt-agent-step--active .rpt-agent-dot {
+  background: #FF5500;
+  box-shadow: 0 0 6px #FF5500;
+  animation: rpt-pulse 1s ease-in-out infinite;
+}
+@keyframes rpt-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+}
+
+/* Error state */
+.rpt-error {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 12px;
+  padding: 40px; text-align: center; max-width: 480px;
+}
+.rpt-error-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px; font-weight: 700;
+  color: #f87171; margin: 0;
+}
+.rpt-error-msg {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: rgba(255,255,255,0.50); margin: 0;
+  word-break: break-all;
+}
+.rpt-error-hint {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px; color: #b8ccd8; margin: 0;
+}
+.rpt-error-hint code {
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px; padding: 2px 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Report iframe */
+.rpt-report-frame {
+  width: 100%; height: 100%; overflow: hidden;
+}
+.rpt-iframe {
+  width: 100%; height: 100%;
+  border: none; background: #ffffff;
+}
+
+/* ── Generate Report button in DivisionPage topbar ─────────────── */
+.dv-report-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 600;
+  color: #FF5500;
+  background: rgba(255,85,0,0.10);
+  border: 1px solid rgba(255,85,0,0.30);
+  border-radius: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.dv-report-btn:hover {
+  background: rgba(255,85,0,0.18);
+  border-color: rgba(255,85,0,0.55);
+}

@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import ThemeToggle from '../components/ThemeToggle';
+import ReportModal from '../components/ReportModal';
 import { STATUS_CONFIG } from '../data/programs';
 import { KD_TREE } from '../data/kdData';
 
@@ -64,6 +65,7 @@ function computeProgStatus(divisionId, progId) {
 
 export default function DivisionPage({ division, onBack, onSelectProgram, onCurrentStatus }) {
   const wrapRef = useRef(null);
+  const [showReport, setShowReport] = useState(false);
 
   const statusMap = {};
   division.programs.forEach(p => { statusMap[p.id] = computeProgStatus(division.id, p.id); });
@@ -87,6 +89,7 @@ export default function DivisionPage({ division, onBack, onSelectProgram, onCurr
   }, [division.id]);
 
   return (
+    <>
     <div ref={wrapRef} className="dv-root">
 
       {/* Teal gradient background */}
@@ -111,6 +114,13 @@ export default function DivisionPage({ division, onBack, onSelectProgram, onCurr
             {counts.red    > 0 && <span className="count-pill cp-red">{counts.red}&nbsp;Critical</span>}
             {counts.yellow > 0 && <span className="count-pill cp-yellow">{counts.yellow}&nbsp;Caution</span>}
             {counts.green  > 0 && <span className="count-pill cp-green">{counts.green}&nbsp;On Track</span>}
+            <button className="dv-report-btn" onClick={() => setShowReport(true)}>
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                <rect x="1.5" y="1" width="10" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
+                <path d="M4 4.5h5M4 6.5h5M4 8.5h3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+              </svg>
+              Generate Report
+            </button>
             <ThemeToggle />
           </div>
         </div>
@@ -176,5 +186,14 @@ export default function DivisionPage({ division, onBack, onSelectProgram, onCurr
 
       </div>
     </div>
+
+    {showReport && (
+      <ReportModal
+        divisionId={division.id}
+        divisionName={division.fullName}
+        onClose={() => setShowReport(false)}
+      />
+    )}
+    </>
   );
 }

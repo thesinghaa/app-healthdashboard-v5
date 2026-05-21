@@ -1,0 +1,3282 @@
+{
+  "rch": {
+    "id": "rch",
+    "label": "RCH",
+    "fullName": "Reproductive & Child Health",
+    "programmes": {
+      "maternal-health": {
+        "id": "maternal-health",
+        "name": "Maternal Health",
+        "status": "red",
+        "keyMetric": "4+ ANC: 36.5%",
+        "statusReason": "Only 7/15 FRUs functional · SUMAN notification 29.6%",
+        "summary": "ANC coverage, FRU functionality, and SUMAN notification remain critically below national benchmarks. Maternal death reporting indicates systemic gaps in high-risk identification.",
+        "observations": [
+          "Only 7 out of 15 designated FRUs are operational in the state",
+          "PMSMA has identified only 5.53% of high-risk pregnancies since inception",
+          "SUMAN notification stands at 29.6% — 181 of 620 eligible facilities",
+          "3 maternal deaths in FY 2024-25 via HMIS (East Siang: 2, Namsai: 1)",
+          "Avg out-of-pocket expenditure per delivery increased from Rs. 6,474 to Rs. 9,731",
+          "ANC 1st trimester coverage only 62.2% in HMIS FY 2024-25 despite NFHS-5 showing 53.1%"
+        ],
+        "actions": [
+          "Operationalise the 8 non-functional FRUs on a time-bound plan with district accountability",
+          "Scale SUMAN notification to all 620 facilities within 2 quarters",
+          "Strengthen PMSMA for systematic high-risk pregnancy identification and tracking",
+          "Increase iron-folic acid supplementation from 23.8% — roll out through ASHA network",
+          "Review out-of-pocket expenditure spikes and map against institutional delivery subsidies"
+        ],
+        "nfhsData": [
+          {
+            "label": "ANC check-up in first trimester",
+            "nfhs4": 37,
+            "nfhs5": 53.1,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "4+ antenatal care visits",
+            "nfhs4": 26.8,
+            "nfhs5": 36.5,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Iron folic acid supplementation 100+ days",
+            "nfhs4": 8.3,
+            "nfhs5": 23.8,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "MCP card received",
+            "nfhs4": 89.2,
+            "nfhs5": 95.6,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Postnatal care within 2 days of delivery",
+            "nfhs4": 28.9,
+            "nfhs5": 56.4,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Institutional births",
+            "nfhs4": 52.3,
+            "nfhs5": 79.2,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Births in public facility",
+            "nfhs4": 42.7,
+            "nfhs5": 74.8,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Births attended by skilled personnel",
+            "nfhs4": 53.8,
+            "nfhs5": 82.1,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Births by caesarean section",
+            "nfhs4": 8.9,
+            "nfhs5": 14.8,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Neonatal tetanus protection",
+            "nfhs4": 64.1,
+            "nfhs5": 76.9,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": true,
+        "kds": [
+          {
+            "no": 1,
+            "type": "Output",
+            "indicator": "ANC Coverage",
+            "statement": "% of PW registered for ANC",
+            "unit": "%",
+            "target": 90,
+            "targetLabel": "90%",
+            "achievement": 95.02,
+            "achievedLabel": "95.02%",
+            "numerator": 24229,
+            "denominator": 25498,
+            "source": "HMIS",
+            "hmisCode": "1.1",
+            "hmisCat": "M1",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 2,
+            "type": "Output",
+            "indicator": "1st Trimester ANC",
+            "statement": "% of PW registered in 1st trimester within 12 weeks",
+            "unit": "%",
+            "target": 75,
+            "targetLabel": "75%",
+            "achievement": 64.8,
+            "achievedLabel": "64.8%",
+            "numerator": 15704,
+            "denominator": 24229,
+            "source": "HMIS",
+            "hmisCode": "1.1.1",
+            "hmisCat": "M1",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 3,
+            "type": "Output",
+            "indicator": "4+ ANC Check-ups",
+            "statement": "% of PW received 4 or more ANC check-ups",
+            "unit": "%",
+            "target": 80,
+            "targetLabel": "80%",
+            "achievement": 68,
+            "achievedLabel": "68%",
+            "numerator": 16460,
+            "denominator": 24229,
+            "source": "HMIS",
+            "hmisCode": "1.2.7",
+            "hmisCat": "M1",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 4,
+            "type": "Output",
+            "indicator": "HRP Identification",
+            "statement": "% of high risk pregnancies identified among ANC registrations",
+            "unit": "%",
+            "target": 15,
+            "targetLabel": "15%",
+            "achievement": 3.4,
+            "achievedLabel": "3.4%",
+            "numerator": 827,
+            "denominator": 24229,
+            "source": "HMIS",
+            "hmisCode": "1.9.2",
+            "hmisCat": "M1",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 5,
+            "type": "Output",
+            "indicator": "HRP Management",
+            "statement": "% of identified High Risk Pregnancies managed",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 87.7,
+            "achievedLabel": "87.7%",
+            "numerator": 726,
+            "denominator": 827,
+            "source": "HMIS",
+            "hmisCode": "1.9.1",
+            "hmisCat": "M1",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 6,
+            "type": "Output",
+            "indicator": "Institutional Deliveries",
+            "statement": "% of institutional deliveries out of total ANC registration",
+            "unit": "%",
+            "target": 90,
+            "targetLabel": "90%",
+            "achievement": 70,
+            "achievedLabel": "70%",
+            "numerator": 16947,
+            "denominator": 24229,
+            "source": "HMIS",
+            "hmisCode": "2.2",
+            "hmisCat": "M2",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 7,
+            "type": "Output",
+            "indicator": "LaQshya LR Certification",
+            "statement": "% of nationally certified Labour Rooms under LaQshya",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "5 LRs",
+            "achievement": 60,
+            "achievedLabel": "3/5 (60%)",
+            "numerator": 3,
+            "denominator": 5,
+            "source": "NHSRC",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 7.1,
+            "type": "Output",
+            "indicator": "LaQshya OT Certification",
+            "statement": "% of nationally certified OTs under LaQshya",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "4 OTs",
+            "achievement": 50,
+            "achievedLabel": "2/4 (50%)",
+            "numerator": 2,
+            "denominator": 4,
+            "source": "NHSRC",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 8,
+            "type": "Output",
+            "indicator": "SUMAN Facility Notification",
+            "statement": "% of public health facilities notified under SUMAN",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "78 facilities",
+            "achievement": 79.4,
+            "achievedLabel": "62 facilities",
+            "numerator": 62,
+            "denominator": 78,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 9,
+            "type": "Output",
+            "indicator": "Maternal Death Review",
+            "statement": "% of maternal deaths reviewed against reported",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 100,
+            "achievedLabel": "100%",
+            "numerator": 1,
+            "denominator": 1,
+            "source": "HMIS",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 10,
+            "type": "Output",
+            "indicator": "JSY Beneficiary Payment",
+            "statement": "% of JSY beneficiaries paid against RoP approval",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "23830",
+            "achievement": 46,
+            "achievedLabel": "10961/23830",
+            "numerator": 10961,
+            "denominator": 23830,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 11,
+            "type": "Output",
+            "indicator": "NQAS Certification (SUMAN)",
+            "statement": "SUMAN notified facilities with NQAS/Part NQAS national certification",
+            "unit": "Nos",
+            "target": null,
+            "targetLabel": null,
+            "achievement": null,
+            "achievedLabel": "10 SC Nationally certified",
+            "numerator": null,
+            "denominator": null,
+            "source": "NHSRC",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "jsy": {
+        "id": "jsy",
+        "name": "JSY",
+        "status": "yellow",
+        "keyMetric": "Inst. Births: 79.2%",
+        "statusReason": "Institutional births improved 52.3%→79.2%, rural gaps persist",
+        "summary": "Janani Suraksha Yojana has driven substantial improvement in institutional deliveries. However, post-delivery follow-up and rural coverage remain gaps.",
+        "observations": [
+          "Institutional delivery rate has improved significantly from 52.3% to 79.2%",
+          "Rural institutional births still lag urban (77.3% vs 90.6%)",
+          "Postnatal care within 2 days improved but 43.6% still not covered",
+          "Home births with skilled personnel remain minimal at 4.0%"
+        ],
+        "actions": [
+          "Focus JSY outreach on rural and tribal blocks with low institutional delivery rates",
+          "Ensure ASHA-led postnatal follow-up within 48 hours for all deliveries",
+          "Review JSY beneficiary payments for timeliness and completeness"
+        ],
+        "nfhsData": [
+          {
+            "label": "Institutional births",
+            "nfhs4": 52.3,
+            "nfhs5": 79.2,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Births in public facility",
+            "nfhs4": 42.7,
+            "nfhs5": 74.8,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Births attended by skilled personnel",
+            "nfhs4": 53.8,
+            "nfhs5": 82.1,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Postnatal care within 2 days",
+            "nfhs4": 28.9,
+            "nfhs5": 56.4,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Home births with skilled personnel",
+            "nfhs4": 2.1,
+            "nfhs5": 4,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": true,
+        "kds": []
+      },
+      "cac": {
+        "id": "cac",
+        "name": "CAC",
+        "status": "yellow",
+        "keyMetric": "C-section: 14.8%",
+        "statusReason": "C-section rate rising to 14.8% — private facilities at 47.3%",
+        "summary": "Comprehensive Abortion Care access remains limited in rural areas. Caesarean section rates rising, warranting quality review to distinguish medically indicated procedures.",
+        "observations": [
+          "C-section rate rose from 8.9% to 14.8% — private facilities at 47.3% warrants audit",
+          "Rural access to safe abortion services remains infrastructure-dependent",
+          "PCPNDT implementation data not available at district level"
+        ],
+        "actions": [
+          "Audit C-section rates at private facilities against clinical indication criteria",
+          "Strengthen CAC service availability at CHC and FRU level",
+          "Ensure trained manpower for safe abortion services at block level"
+        ],
+        "nfhsData": [
+          {
+            "label": "Births by caesarean section",
+            "nfhs4": 8.9,
+            "nfhs5": 14.8,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "C-section in private facility",
+            "nfhs4": 37.5,
+            "nfhs5": 47.3,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "C-section in public facility",
+            "nfhs4": 12.5,
+            "nfhs5": 17,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 42,
+            "type": "Output",
+            "indicator": "CAC Services Availability",
+            "statement": "Public facilities equipped with drugs, equipment and trained provider for CAC",
+            "unit": "Mix",
+            "target": null,
+            "targetLabel": "100% all levels",
+            "achievement": null,
+            "achievedLabel": "MC 100% · DH 100% · FRU CHC 100% · 24x7 PHC 35% · Other PHC 16%",
+            "numerator": null,
+            "denominator": null,
+            "source": "CAC Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 43,
+            "type": "Output",
+            "indicator": "MO Training in CAC",
+            "statement": "Medical Officers (MBBS) trained in CAC against RoP approval",
+            "unit": "Nos",
+            "target": 26,
+            "targetLabel": "26 MOs",
+            "achievement": 0,
+            "achievedLabel": "0/26 (0%)",
+            "numerator": 0,
+            "denominator": 26,
+            "source": "CAC Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "pcpndt": {
+        "id": "pcpndt",
+        "name": "PCPNDT",
+        "status": "yellow",
+        "keyMetric": "SRB: 979 (↑ from 926)",
+        "statusReason": "Sex ratio at birth 979 — still below parity target of 1,000",
+        "summary": "Sex ratio at birth has improved from 926 to 979 per 1,000 males across survey rounds, but remains below parity. Vigilance on sex-selective practices must continue.",
+        "observations": [
+          "Sex ratio at birth improved from 926 to 979 — positive trend but below 1000 target",
+          "Total population sex ratio improved from 958 to 997",
+          "Child birth registration improved significantly to 87.7%",
+          "Female literacy improvement supports reduced son preference over time"
+        ],
+        "actions": [
+          "Continue stringent PCPNDT inspections at diagnostic centres",
+          "Expand birth registration infrastructure in tribal and remote areas",
+          "Track inter-district variation in sex ratio at birth quarterly"
+        ],
+        "nfhsData": [
+          {
+            "label": "Sex ratio of total population (F per 1,000 M)",
+            "nfhs4": 958,
+            "nfhs5": 997,
+            "unit": "",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Sex ratio at birth (last 5 years)",
+            "nfhs4": 926,
+            "nfhs5": 979,
+            "unit": "",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Children under 5 with birth registered",
+            "nfhs4": 62.9,
+            "nfhs5": 87.7,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 59,
+            "type": "Output",
+            "indicator": "DAC Meetings (PCPNDT)",
+            "statement": "% of meetings conducted by District Advisory Committees (min 6/yr)",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 62,
+            "achievedLabel": "93/150 (62%)",
+            "numerator": 93,
+            "denominator": 150,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "child-health": {
+        "id": "child-health",
+        "name": "Child Health",
+        "status": "red",
+        "keyMetric": "17 districts: 0 IMR reported",
+        "statusReason": "17/28 districts reported zero infant deaths in HMIS",
+        "summary": "Mortality indicators show improvement in NFHS but HMIS data reveals severe under-reporting. 17 of 28 districts reported zero infant deaths. HBNC coverage critically low in multiple districts.",
+        "observations": [
+          "17 out of 28 districts reported zero infant deaths in HMIS (Apr–Dec 2025) — clear under-reporting",
+          "MPCDSR Portal shows 0 infant deaths vs 52 in HMIS — reporting system is critically broken",
+          "SNCU mortality causes: Respiratory Distress Syndrome (18.5%), Birth Asphyxia (14.8%), Any Other (55.6%)",
+          "Infant mortality causes: Prematurity (23.1%), Asphyxia (11.5%), Sepsis (5.8%), Other (57.7%)",
+          "RBSK/DEIC: overall 52% HR available, 67% equipment available",
+          "HBNC coverage: state avg 83%, but Dibang Valley 13%, East Siang 36%, Pakhe Kesang 40%",
+          "HBNC community referral for sick newborns: only 11%; 20 of 23 districts show zero identification",
+          "DEIC at Papum Pare not yet functional — state advised to expedite"
+        ],
+        "actions": [
+          "Fix MPCDSR reporting — mandate facilities to report every infant death within 24 hours",
+          "Launch emergency HBNC coverage drive in Dibang Valley, East Siang, Pakhe Kesang, Capital Complex",
+          "Expedite DEIC operationalisation at Papum Pare",
+          "Fill 48% HR vacancies at DEIC Tezu, Pasighat, Longding via emergency recruitment",
+          "Strengthen SNCU cause-of-death classification to reduce \"Any Other\" category"
+        ],
+        "nfhsData": [
+          {
+            "label": "Neonatal Mortality Rate (per 1,000 LB)",
+            "nfhs4": null,
+            "nfhs5": 7.7,
+            "unit": "",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Infant Mortality Rate (per 1,000 LB)",
+            "nfhs4": 23,
+            "nfhs5": 12.9,
+            "unit": "",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Under-5 Mortality Rate (per 1,000 LB)",
+            "nfhs4": 33,
+            "nfhs5": 18.8,
+            "unit": "",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Children breastfed within 1 hr of birth",
+            "nfhs4": 58.7,
+            "nfhs5": 52,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Children <6 months exclusively breastfed",
+            "nfhs4": 56.5,
+            "nfhs5": 63.4,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Diarrhoea prevalence (children <5)",
+            "nfhs4": 6.5,
+            "nfhs5": 5.1,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Diarrhoea treated with ORS",
+            "nfhs4": 66.1,
+            "nfhs5": 62.7,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": true,
+        "kds": [
+          {
+            "no": 12,
+            "type": "Output",
+            "indicator": "SNCU Discharge Rate",
+            "statement": "% of sick/small newborns discharged successfully from SNCU",
+            "unit": "%",
+            "target": 80,
+            "targetLabel": "80%",
+            "achievement": 88,
+            "achievedLabel": "88%",
+            "numerator": null,
+            "denominator": null,
+            "source": "SNCU MIS Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 13,
+            "type": "Output",
+            "indicator": "HR Training in Newborn/Child Health",
+            "statement": "% of Paediatrician/MOs/Staff Nurses trained in FBNC and NBSU",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "232",
+            "achievement": 40,
+            "achievedLabel": "93/232",
+            "numerator": 93,
+            "denominator": 232,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 14,
+            "type": "Output",
+            "indicator": "Child Death Reporting",
+            "statement": "% of child deaths reported against estimated deaths",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "208 estimated",
+            "achievement": 46.6,
+            "achievedLabel": "97/208",
+            "numerator": 97,
+            "denominator": 208,
+            "source": "HMIS",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 15,
+            "type": "Outcome",
+            "indicator": "Still Birth Rate",
+            "statement": "Still Birth Rate per 1000 live births",
+            "unit": "Rate",
+            "target": 12,
+            "targetLabel": "≤12 per 1000 LB",
+            "achievement": 8.89,
+            "achievedLabel": "8.89",
+            "numerator": null,
+            "denominator": null,
+            "source": "HMIS",
+            "hmisCode": "4.1.3.a",
+            "hmisCat": "M4",
+            "lowerIsBetter": true
+          },
+          {
+            "no": 16,
+            "type": "Output",
+            "indicator": "HBNC Home Visits",
+            "statement": "% of newborns received complete scheduled HBNC home visits",
+            "unit": "%",
+            "target": null,
+            "targetLabel": "23584 newborns",
+            "achievement": 53.56,
+            "achievedLabel": "12633/23584",
+            "numerator": 12633,
+            "denominator": 23584,
+            "source": "HBNC Report",
+            "hmisCode": "2.4",
+            "hmisCat": "M2",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 17,
+            "type": "Output",
+            "indicator": "HBYC Rollout",
+            "statement": "% of districts implementing HBYC visits with trained ASHAs",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "26 districts",
+            "achievement": 100,
+            "achievedLabel": "26/26 (100%)",
+            "numerator": 26,
+            "denominator": 26,
+            "source": "HBYC Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 18,
+            "type": "Output",
+            "indicator": "Paediatric HDU/ICU",
+            "statement": "% of districts with functional Paediatric HDU/ICU unit",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 39.28,
+            "achievedLabel": "11/28 (39.28%)",
+            "numerator": 11,
+            "denominator": 28,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 19,
+            "type": "Output",
+            "indicator": "MusQan Certification",
+            "statement": "% of facilities nationally certified under MusQan",
+            "unit": "%",
+            "target": 25,
+            "targetLabel": "25%",
+            "achievement": 0,
+            "achievedLabel": "0%",
+            "numerator": 0,
+            "denominator": null,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 20,
+            "type": "Output",
+            "indicator": "Newborn Screening",
+            "statement": "% of newborns screened at birth out of total live births",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 86.8,
+            "achievedLabel": "86.8%",
+            "numerator": null,
+            "denominator": null,
+            "source": "State Report",
+            "hmisCode": "4.5.1",
+            "hmisCat": "M4",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 21,
+            "type": "Output",
+            "indicator": "Functional DEICs",
+            "statement": "Number of DEICs functional with infrastructure, equipment and HR",
+            "unit": "Nos",
+            "target": 4,
+            "targetLabel": "4 DEICs",
+            "achievement": 75,
+            "achievedLabel": "3/4 (75%)",
+            "numerator": 3,
+            "denominator": 4,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 22,
+            "type": "Output",
+            "indicator": "RBSK MHT Coverage",
+            "statement": "% of Govt schools and AWC covered by RBSK Mobile Health Teams",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 71.7,
+            "achievedLabel": "14043/19592",
+            "numerator": 14043,
+            "denominator": 19592,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 23,
+            "type": "Output",
+            "indicator": "Children Screened by RBSK",
+            "statement": "% of children screened by RBSK MHTs",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 96.6,
+            "achievedLabel": "283133/293179",
+            "numerator": 283133,
+            "denominator": 293179,
+            "source": "State Report",
+            "hmisCode": "4.5.2",
+            "hmisCat": "M4",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 24,
+            "type": "Output",
+            "indicator": "Secondary Management under RBSK",
+            "statement": "Beneficiaries receiving secondary/tertiary management for RBSK conditions",
+            "unit": "Nos",
+            "target": 53,
+            "targetLabel": "53",
+            "achievement": 79.3,
+            "achievedLabel": "42/53 (79.3%)",
+            "numerator": 42,
+            "denominator": 53,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 25,
+            "type": "Output",
+            "indicator": "NBSU Functionality",
+            "statement": "% of functional and online reporting Newborn Stabilization Units",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 65.6,
+            "achievedLabel": "42/64",
+            "numerator": 42,
+            "denominator": 64,
+            "source": "FBNC Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 26,
+            "type": "Output",
+            "indicator": "IMNCI Training",
+            "statement": "% of health professionals trained under IMNCI/F-IMNCI",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 60,
+            "achievedLabel": "38/63 (60%)",
+            "numerator": 38,
+            "denominator": 63,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 27,
+            "type": "Output",
+            "indicator": "ORS and Zinc Coverage",
+            "statement": "Under-5 children received ORS and Zinc against diarrhoea identified",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 55.9,
+            "achievedLabel": "91902/164112",
+            "numerator": 91902,
+            "denominator": 164112,
+            "source": "IDCF Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "immunization": {
+        "id": "immunization",
+        "name": "Immunization",
+        "status": "yellow",
+        "keyMetric": "Full Immunisation: 64.9%",
+        "statusReason": "Full immunisation at 64.9% — well below 90% national target",
+        "summary": "Full immunisation coverage has improved substantially from 38.2% to 64.9%, but remains below the 90% national target. DPT and Hepatitis B coverage needs acceleration.",
+        "observations": [
+          "Full immunisation rate improved significantly — from 38.2% to 64.9%",
+          "BCG at 87.9% and Measles at 80.7% are approaching targets",
+          "DPT/Penta at 77.7% and Hepatitis B at 73.0% still below the 90% benchmark",
+          "Vitamin A supplementation (9-59 months) improved from 39.4% to 69.7%",
+          "Private facility immunisation remains at 0.7% — near-universal public delivery"
+        ],
+        "actions": [
+          "Intensify vaccination outreach in districts with coverage below state average",
+          "Accelerate DPT and Hepatitis B second and third dose follow-up through ASHA tracking",
+          "Strengthen cold chain infrastructure in border and remote districts",
+          "Scale up Vitamin A supplementation from 69.7% towards 90% target"
+        ],
+        "nfhsData": [
+          {
+            "label": "Children 12-23m fully vaccinated",
+            "nfhs4": 38.2,
+            "nfhs5": 64.9,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "BCG vaccine received",
+            "nfhs4": 70.9,
+            "nfhs5": 87.9,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "3 doses of polio vaccine",
+            "nfhs4": 53.7,
+            "nfhs5": 69,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "3 doses of DPT/Penta vaccine",
+            "nfhs4": 52.3,
+            "nfhs5": 77.7,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Measles-containing vaccine (MCV1)",
+            "nfhs4": 54.6,
+            "nfhs5": 80.7,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Hepatitis B vaccine (3 doses)",
+            "nfhs4": 40.9,
+            "nfhs5": 73,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Vitamin A dose (9-59 months)",
+            "nfhs4": 39.4,
+            "nfhs5": 69.7,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 28,
+            "type": "Output",
+            "indicator": "Full Immunization Coverage",
+            "statement": "% of children 9-11 months fully immunized (BCG+Penta3+OPV3+MR1)",
+            "unit": "%",
+            "target": 90,
+            "targetLabel": "90%",
+            "achievement": 91,
+            "achievedLabel": "18024/19823",
+            "numerator": 18024,
+            "denominator": 19823,
+            "source": "HMIS",
+            "hmisCode": "9.2.5.a",
+            "hmisCat": "M9",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 29,
+            "type": "Output",
+            "indicator": "Hepatitis B Birth Dose",
+            "statement": "% of infants immunized with Hep-B birth dose against institutional deliveries",
+            "unit": "%",
+            "target": 90,
+            "targetLabel": "90%",
+            "achievement": 90,
+            "achievedLabel": "14018/15636",
+            "numerator": 14018,
+            "denominator": 15636,
+            "source": "HMIS",
+            "hmisCode": "9.1.10",
+            "hmisCat": "M9",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 30,
+            "type": "Output",
+            "indicator": "Dropout Penta1 to Penta3",
+            "statement": "% dropout from Pentavalent 1 to Pentavalent 3",
+            "unit": "%",
+            "target": 10,
+            "targetLabel": "<10% (lower is better)",
+            "achievement": 0.3,
+            "achievedLabel": "0.3%",
+            "numerator": null,
+            "denominator": null,
+            "source": "HMIS",
+            "hmisCode": "9.1.3",
+            "hmisCat": "M9",
+            "lowerIsBetter": true
+          },
+          {
+            "no": 31,
+            "type": "Output",
+            "indicator": "Dropout Penta3 to MR1",
+            "statement": "% dropout from Pentavalent 3 to MR1",
+            "unit": "%",
+            "target": 10,
+            "targetLabel": "<10%",
+            "achievement": 0,
+            "achievedLabel": "0%",
+            "numerator": null,
+            "denominator": null,
+            "source": "HMIS",
+            "hmisCode": "9.2.2",
+            "hmisCat": "M9",
+            "lowerIsBetter": true
+          },
+          {
+            "no": 32,
+            "type": "Output",
+            "indicator": "Dropout MR1 to MR2",
+            "statement": "% dropout from MR1 to MR2",
+            "unit": "%",
+            "target": 10,
+            "targetLabel": "<10%",
+            "achievement": 5.5,
+            "achievedLabel": "5.5%",
+            "numerator": null,
+            "denominator": null,
+            "source": "HMIS",
+            "hmisCode": "9.4.1",
+            "hmisCat": "M9",
+            "lowerIsBetter": true
+          },
+          {
+            "no": 33,
+            "type": "Output",
+            "indicator": "Td10 Coverage",
+            "statement": "% of children ≥10 years immunized with Td10",
+            "unit": "%",
+            "target": 70,
+            "targetLabel": "70%",
+            "achievement": 65,
+            "achievedLabel": "12937/19823",
+            "numerator": 12937,
+            "denominator": 19823,
+            "source": "HMIS",
+            "hmisCode": "9.5.3",
+            "hmisCat": "M9",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 34,
+            "type": "Output",
+            "indicator": "MR-2 Coverage",
+            "statement": "MCV2 coverage >95% at state level",
+            "unit": "%",
+            "target": 95,
+            "targetLabel": ">95%",
+            "achievement": 95,
+            "achievedLabel": "17098/18093",
+            "numerator": 17098,
+            "denominator": 18093,
+            "source": "HMIS",
+            "hmisCode": "9.4.1",
+            "hmisCat": "M9",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 35,
+            "type": "Output",
+            "indicator": "U-WIN Utilization",
+            "statement": "% of vaccinators using U-WIN for vaccination sessions",
+            "unit": "%",
+            "target": 90,
+            "targetLabel": ">90%",
+            "achievement": 95,
+            "achievedLabel": "1372/1444",
+            "numerator": 1372,
+            "denominator": 1444,
+            "source": "U-WIN",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "adolescent-health": {
+        "id": "adolescent-health",
+        "name": "Adolescent Health",
+        "status": "yellow",
+        "keyMetric": "Child marriage: 18.9%",
+        "statusReason": "Child marriage 18.9%; adolescent fertility rate 38 per 1,000",
+        "summary": "Adolescent health indicators show positive trends — child marriage, early motherhood and fertility have all declined. Menstrual hygiene management has improved but requires further scaling.",
+        "observations": [
+          "Child marriage (women 20-24 married before 18) declined from 23.5% to 18.9%",
+          "Proportion of women 15-19 already mothers dropped from 10.5% to 6.0%",
+          "Adolescent fertility rate declined from 56 to 38 per 1,000 women aged 15-19",
+          "Internet access among women increased to 52.9% — enabling digital health literacy",
+          "Menstrual hygiene protection stands at 73.3% — still below parity with national aspirations"
+        ],
+        "actions": [
+          "Expand RKSK programmes to all high-prevalence child marriage districts",
+          "Strengthen school-based menstrual hygiene interventions for adolescent girls",
+          "Leverage internet penetration (52.9%) for digital health literacy programmes",
+          "Address early fertility through peer-led adolescent health clubs at school level"
+        ],
+        "nfhsData": [
+          {
+            "label": "Women 20-24 married before age 18",
+            "nfhs4": 23.5,
+            "nfhs5": 18.9,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Men 25-29 married before age 21",
+            "nfhs4": 22.6,
+            "nfhs5": 20.8,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Women 15-19 already mothers or pregnant",
+            "nfhs4": 10.5,
+            "nfhs5": 6,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Women who have used internet",
+            "nfhs4": null,
+            "nfhs5": 52.9,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Women using hygienic menstrual methods",
+            "nfhs4": null,
+            "nfhs5": 73.3,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 51,
+            "type": "Output",
+            "indicator": "AFHC Client Load",
+            "statement": "Average monthly client load at AFHC per month in PE districts",
+            "unit": "Nos",
+            "target": 70,
+            "targetLabel": "70/month",
+            "achievement": 30,
+            "achievedLabel": "21 clients/clinic/month (7345 total)",
+            "numerator": 7345,
+            "denominator": null,
+            "source": "HMIS",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 52,
+            "type": "Output",
+            "indicator": "WIFS In-School Coverage",
+            "statement": "% coverage of in-school beneficiaries under WIFS",
+            "unit": "%",
+            "target": 60,
+            "targetLabel": "60%",
+            "achievement": 45,
+            "achievedLabel": "49770 (45%)",
+            "numerator": 49770,
+            "denominator": null,
+            "source": "HMIS",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 53,
+            "type": "Output",
+            "indicator": "WIFS Out-of-School Coverage",
+            "statement": "% coverage of out-of-school girls under WIFS",
+            "unit": "%",
+            "target": 50,
+            "targetLabel": "50%",
+            "achievement": 25,
+            "achievedLabel": "3750 (25%)",
+            "numerator": 3750,
+            "denominator": null,
+            "source": "HMIS",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 54,
+            "type": "Output",
+            "indicator": "Peer Educator Selection",
+            "statement": "% of Peer Educators selected against target",
+            "unit": "%",
+            "target": 85,
+            "targetLabel": "85%",
+            "achievement": 25,
+            "achievedLabel": "240 (25%)",
+            "numerator": 240,
+            "denominator": null,
+            "source": "State PE Reports",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 55,
+            "type": "Output",
+            "indicator": "Peer Educator Training",
+            "statement": "% of Peer Educators trained against PE selected",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 100,
+            "achievedLabel": "292 (100%)",
+            "numerator": 292,
+            "denominator": 292,
+            "source": "State PE Reports",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 56,
+            "type": "Output",
+            "indicator": "Menstrual Hygiene Scheme",
+            "statement": "% of adolescent girls receiving sanitary napkins under MHS",
+            "unit": "%",
+            "target": null,
+            "targetLabel": "NA",
+            "achievement": null,
+            "achievedLabel": "NA",
+            "numerator": null,
+            "denominator": null,
+            "source": "HMIS",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 57,
+            "type": "Output",
+            "indicator": "ABSHWP Implementation",
+            "statement": "% of selected districts implementing Ayushman Bharat School Health & Wellness",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 80,
+            "achievedLabel": "12/15 districts",
+            "numerator": 12,
+            "denominator": 15,
+            "source": "SHWP Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 58,
+            "type": "Output",
+            "indicator": "HWA Training (ABSHWP)",
+            "statement": "% of Health and Wellness Ambassadors trained for weekly school activities",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 86,
+            "achievedLabel": "1200 (86%)",
+            "numerator": 1200,
+            "denominator": null,
+            "source": "SHWP Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "family-planning": {
+        "id": "family-planning",
+        "name": "Family Planning",
+        "status": "green",
+        "keyMetric": "Contraceptive Use: 59.1%",
+        "statusReason": "Contraceptive use nearly doubled: 31.7% → 59.1%",
+        "summary": "Family planning indicators show the strongest improvement across all RCH programmes. Contraceptive use nearly doubled and unmet need was halved — a significant policy success.",
+        "observations": [
+          "Contraceptive use rose from 31.7% to 59.1% — near doubling over one survey period",
+          "Modern method use increased from 26.6% to 47.2%",
+          "Unmet need reduced from 21.5% to 12.5% — significant service delivery improvement",
+          "TFR declined below replacement level to 1.8 (from 2.1)",
+          "IUD/PPIUD use doubled from 3.4% to 6.2%; pill use grew from 10.2% to 15.5%",
+          "Female sterilisation increased from 11.2% to 18.2% — a strong indicator of access"
+        ],
+        "actions": [
+          "Sustain current momentum; ensure supply chain continuity for contraceptives at PHC level",
+          "Expand PPIUCD services at all delivery points",
+          "Reduce residual 12.5% unmet need through targeted IEC in underserved blocks"
+        ],
+        "nfhsData": [
+          {
+            "label": "Any contraceptive method",
+            "nfhs4": 31.7,
+            "nfhs5": 59.1,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Any modern method",
+            "nfhs4": 26.6,
+            "nfhs5": 47.2,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Female sterilisation",
+            "nfhs4": 11.2,
+            "nfhs5": 18.2,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "IUD / PPIUD",
+            "nfhs4": 3.4,
+            "nfhs5": 6.2,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Oral pill",
+            "nfhs4": 10.2,
+            "nfhs5": 15.5,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Condom",
+            "nfhs4": 1.4,
+            "nfhs5": 4.7,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Total unmet need for family planning",
+            "nfhs4": 21.5,
+            "nfhs5": 12.5,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Total Fertility Rate",
+            "nfhs4": 2.1,
+            "nfhs5": 1.8,
+            "unit": "",
+            "lowerIsBetter": true
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 44,
+            "type": "Output",
+            "indicator": "PPIUCD Acceptance Rate",
+            "statement": "% of PPIUCD acceptance among institutional deliveries in public facilities",
+            "unit": "%",
+            "target": 6.5,
+            "targetLabel": "6.5%",
+            "achievement": 2.13,
+            "achievedLabel": "361/16947",
+            "numerator": 361,
+            "denominator": 16947,
+            "source": "HMIS",
+            "hmisCode": "8.4",
+            "hmisCat": "M8",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 45,
+            "type": "Output",
+            "indicator": "Injectable MPA Users",
+            "statement": "% of injectable MPA users among eligible couples",
+            "unit": "%",
+            "target": 0.3,
+            "targetLabel": "0.30%",
+            "achievement": 0.92,
+            "achievedLabel": "2938/319074",
+            "numerator": 2938,
+            "denominator": 319074,
+            "source": "HMIS",
+            "hmisCode": "8.8",
+            "hmisCat": "M8",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 46,
+            "type": "Output",
+            "indicator": "FPLMIS Operationalization",
+            "statement": "% of facilities indenting and issuing stock in FPLMIS",
+            "unit": "%",
+            "target": 75,
+            "targetLabel": "75%",
+            "achievement": 75,
+            "achievedLabel": "75%",
+            "numerator": null,
+            "denominator": null,
+            "source": "FPLMIS",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 47,
+            "type": "Output",
+            "indicator": "Male Sterilization Increase",
+            "statement": "% increase in male sterilization from baseline 2022-23",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 0,
+            "achievedLabel": "0%",
+            "numerator": 0,
+            "denominator": null,
+            "source": "HMIS",
+            "hmisCode": "8.1.1",
+            "hmisCat": "M8",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 48,
+            "type": "Output",
+            "indicator": "FPIS Compensation Doubling",
+            "statement": "Doubling of compensation under FPIS as per SC Directives",
+            "unit": "Yes/No",
+            "target": null,
+            "targetLabel": "Yes",
+            "achievement": null,
+            "achievedLabel": "Yes",
+            "numerator": null,
+            "denominator": null,
+            "source": "FPIS Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 49,
+            "type": "Output",
+            "indicator": "Nayi Pahel Kits per ASHA",
+            "statement": "Number of NPKs distributed per ASHA",
+            "unit": "Nos",
+            "target": 2,
+            "targetLabel": "2",
+            "achievement": 2,
+            "achievedLabel": "2",
+            "numerator": null,
+            "denominator": null,
+            "source": "MPV Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 50,
+            "type": "Output",
+            "indicator": "Saas Bahu Sammelans",
+            "statement": "Number of Saas Bahu Sammelans conducted",
+            "unit": "Nos",
+            "target": 1560,
+            "targetLabel": "1560",
+            "achievement": 88.5,
+            "achievedLabel": "1380/1560",
+            "numerator": 1380,
+            "denominator": 1560,
+            "source": "MPV Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "nutrition": {
+        "id": "nutrition",
+        "name": "Nutrition",
+        "status": "red",
+        "keyMetric": "Child anaemia: 56.6% (↑)",
+        "statusReason": "Child anaemia WORSENED from 50.7% to 56.6% — regression",
+        "summary": "Nutrition is the most concerning RCH area. Child anaemia has worsened from 50.7% to 56.6%. Stunting remains near unchanged. Adult anaemia shows negligible improvement. Immediate programme intervention is required.",
+        "observations": [
+          "Child anaemia (6-59 months) WORSENED from 50.7% to 56.6% — a critical regression",
+          "Men anaemia (15-49) also worsened from 16.9% to 21.4%",
+          "Non-pregnant women anaemia virtually unchanged at 41.6% vs 40.6%",
+          "Stunting reduced minimally (29.4% to 28.0%) — far from SDG targets",
+          "Women overweight/obese increased from 18.8% to 23.9% — dual burden emerging",
+          "Exclusive breastfeeding under 6 months improved from 56.5% to 63.4%",
+          "Solid food introduction at 6-8 months declined from 53.6% to 48.4%"
+        ],
+        "actions": [
+          "Treat child anaemia as a state health emergency — launch intensive iron supplementation campaign",
+          "Review and reinvigorate POSHAN Abhiyan implementation at AWC level",
+          "Target stunting hotspot districts with integrated nutrition + WASH interventions",
+          "Address complementary feeding gap — 48.4% receiving solid food at 6-8 months",
+          "Roll out adolescent anaemia interventions (Weekly Iron Folic Acid) at all schools"
+        ],
+        "nfhsData": [
+          {
+            "label": "Children 6-59 months anaemic",
+            "nfhs4": 50.7,
+            "nfhs5": 56.6,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Non-pregnant women (15-49) anaemic",
+            "nfhs4": 40.6,
+            "nfhs5": 41.6,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Pregnant women (15-49) anaemic",
+            "nfhs4": 33.8,
+            "nfhs5": 27.9,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Men (15-49) anaemic",
+            "nfhs4": 16.9,
+            "nfhs5": 21.4,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Children under 5 stunted",
+            "nfhs4": 29.4,
+            "nfhs5": 28,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Children under 5 wasted",
+            "nfhs4": 17.3,
+            "nfhs5": 13.1,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Children under 5 severely wasted",
+            "nfhs4": 8,
+            "nfhs5": 6.5,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Children under 5 underweight",
+            "nfhs4": 19.5,
+            "nfhs5": 15.4,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Women with low BMI (<18.5)",
+            "nfhs4": 8.5,
+            "nfhs5": 5.7,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Women overweight or obese (BMI ≥25)",
+            "nfhs4": 18.8,
+            "nfhs5": 23.9,
+            "unit": "%",
+            "lowerIsBetter": true
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 36,
+            "type": "Output",
+            "indicator": "Early Initiation of Breastfeeding",
+            "statement": "% of newborns breastfed within 1 hour of birth",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 84.7,
+            "achievedLabel": "13910/16420",
+            "numerator": 13910,
+            "denominator": 16420,
+            "source": "HMIS",
+            "hmisCode": "4.4.3",
+            "hmisCat": "M4",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 37,
+            "type": "Output",
+            "indicator": "NRC Bed Occupancy Rate",
+            "statement": "Bed occupancy rate at Nutrition Rehabilitation Centres",
+            "unit": "%",
+            "target": 75,
+            "targetLabel": "75%",
+            "achievement": 1.38,
+            "achievedLabel": "1.38%",
+            "numerator": null,
+            "denominator": null,
+            "source": "State Reports",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 38,
+            "type": "Output",
+            "indicator": "NRC Successful Discharge",
+            "statement": "Successful discharge rate at NRCs",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 100,
+            "achievedLabel": "100%",
+            "numerator": null,
+            "denominator": null,
+            "source": "State Reports",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 39,
+            "type": "Output",
+            "indicator": "IFA Coverage (Pregnant Women)",
+            "statement": "% of PW given 180 IFA tablets against ANC registrations",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 88.2,
+            "achievedLabel": "21388/24227",
+            "numerator": 21388,
+            "denominator": 24227,
+            "source": "HMIS",
+            "hmisCode": "1.2.4",
+            "hmisCat": "M1",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 40,
+            "type": "Output",
+            "indicator": "AMB — IFA Syrup Children 6-59m",
+            "statement": "% of children 6-59 months given 8-10 doses of IFA syrup per month",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 19.7,
+            "achievedLabel": "25154/127500",
+            "numerator": 25154,
+            "denominator": 127500,
+            "source": "HMIS",
+            "hmisCode": "5.1.2",
+            "hmisCat": "M5",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 41,
+            "type": "Output",
+            "indicator": "IFA Tablets — Children 5-9yr",
+            "statement": "% of children 5-9 years given 4-5 IFA tablets per month",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 93.16,
+            "achievedLabel": "131622/141286",
+            "numerator": 131622,
+            "denominator": 141286,
+            "source": "HMIS",
+            "hmisCode": "5.1.3.b",
+            "hmisCat": "M5",
+            "lowerIsBetter": false
+          }
+        ]
+      }
+    }
+  },
+  "ndcp": {
+    "id": "ndcp",
+    "label": "NDCP",
+    "fullName": "National Disease Control Programmes",
+    "programmes": {
+      "nvhcp": {
+        "id": "nvhcp",
+        "name": "NVHCP",
+        "status": "yellow",
+        "keyMetric": "Vector-borne endemic",
+        "statusReason": "79.6% forest cover — persistent endemic vector-borne disease zone",
+        "summary": "Arunachal Pradesh is endemic for malaria and kala-azar given its forest and border geography. Surveillance and treatment completion rates require sustained monitoring.",
+        "observations": [
+          "State has high forest cover (79.6%) — persistent vector-borne disease risk",
+          "Border districts with Myanmar and Bhutan have cross-border transmission risk",
+          "Kala-azar prevalence low but vigilance required in vulnerable blocks",
+          "Dengue and chikungunya seasonal spikes reported in urban centres"
+        ],
+        "actions": [
+          "Maintain LLIN and IRS coverage in high-API districts",
+          "Strengthen active case surveillance in border and forest fringe blocks",
+          "Ensure 100% treatment completion tracking through ASHA network",
+          "Cross-border coordination with Bhutan and Myanmar health authorities"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 82,
+            "type": "Output",
+            "indicator": "Hepatitis C Treatment",
+            "statement": "% of Hepatitis C patients who received treatment against target",
+            "unit": "%",
+            "target": 2995,
+            "targetLabel": "2995 patients",
+            "achievement": 77,
+            "achievedLabel": "2314/2995 (77%)",
+            "numerator": 2314,
+            "denominator": 2995,
+            "source": "NVHCP Reports",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 83,
+            "type": "Output",
+            "indicator": "Hepatitis B Treatment",
+            "statement": "% of Hepatitis B patients who received treatment against target",
+            "unit": "%",
+            "target": 1887,
+            "targetLabel": "1887 patients",
+            "achievement": 47,
+            "achievedLabel": "890/1887 (47%)",
+            "numerator": 890,
+            "denominator": 1887,
+            "source": "NVHCP Reports",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 84,
+            "type": "Output",
+            "indicator": "PW Screened for Hepatitis B",
+            "statement": "% of pregnant women screened for Hepatitis B (HBsAg)",
+            "unit": "%",
+            "target": 20228,
+            "targetLabel": "20228 PW",
+            "achievement": 60,
+            "achievedLabel": "12220/20228 (60%)",
+            "numerator": 12220,
+            "denominator": 20228,
+            "source": "NVHCP Reports",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 85,
+            "type": "Output",
+            "indicator": "HBIG to Newborns of HBsAg+ PW",
+            "statement": "% of newborns administered HBIG among newborns delivered to HBsAg+ PW",
+            "unit": "%",
+            "target": 153,
+            "targetLabel": "153 newborns",
+            "achievement": 119,
+            "achievedLabel": "183/153 (119%)",
+            "numerator": 183,
+            "denominator": 153,
+            "source": "NVHCP Reports",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "tb": {
+        "id": "tb",
+        "name": "TB Mukt Bharat Abhiyan",
+        "status": "yellow",
+        "keyMetric": "Elimination target: 2025",
+        "statusReason": "Tribal remote access limits DOTS and case-finding coverage",
+        "summary": "TB elimination target by 2025 is at risk. Notification rates, treatment success and community-level case finding in tribal and remote areas need acceleration.",
+        "observations": [
+          "Tribal population in remote blocks has limited access to DOTS centres",
+          "High alcohol use (men 59%) is a TB risk factor requiring co-management",
+          "Ni-kshay Poshan Yojana beneficiary targeting needs verification",
+          "Child undernutrition (stunting 28%, wasting 13.1%) is a TB risk amplifier"
+        ],
+        "actions": [
+          "Expand mobile DOTS services to remote and tribal blocks",
+          "Integrate TB screening with nutrition interventions in high-stunting areas",
+          "Ensure Ni-kshay Poshan Yojana payments are disbursed without delay",
+          "Strengthen community-based TB case finding through ASHA network"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": true,
+        "kds": []
+      },
+      "nlep": {
+        "id": "nlep",
+        "name": "NLEP",
+        "status": "yellow",
+        "keyMetric": "Elimination sustained",
+        "statusReason": "State-level elimination achieved — pocket areas need vigilance",
+        "summary": "Leprosy has been eliminated at state level but district-level micro-endemic pockets persist. Sustained surveillance and MDT delivery is required.",
+        "observations": [
+          "Elimination at state level achieved but vigilance required in pocket-endemic blocks",
+          "Grade II disability prevention requires early case detection and MDT",
+          "Stigma reduction remains a challenge in tribal communities"
+        ],
+        "actions": [
+          "Maintain ASHA-led active case detection drives in endemic pocket areas",
+          "Ensure uninterrupted MDT supply at all PHC/SC level",
+          "Continue disability prevention services and rehabilitation support"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": true,
+        "kds": [
+          {
+            "no": 86,
+            "type": "Output",
+            "indicator": "Grade II Disability <2%",
+            "statement": "No. of districts with Grade II Disability <2% among new cases",
+            "unit": "Nos",
+            "target": 26,
+            "targetLabel": "26",
+            "achievement": 100,
+            "achievedLabel": "26/26 (100%)",
+            "numerator": 26,
+            "denominator": 26,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 87,
+            "type": "Output",
+            "indicator": "Leprosy-Free District Certification",
+            "statement": "No. of districts certified as Leprosy Free",
+            "unit": "Nos",
+            "target": 4,
+            "targetLabel": "4",
+            "achievement": 0,
+            "achievedLabel": "0/4 (0%)",
+            "numerator": 0,
+            "denominator": 4,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 88,
+            "type": "Output",
+            "indicator": "Reconstructive Surgery Backlog",
+            "statement": "No. of Reconstructive Surgeries (RCS) conducted",
+            "unit": "Nos",
+            "target": 0,
+            "targetLabel": "No RCS backlog",
+            "achievement": 100,
+            "achievedLabel": "0 backlog (100%)",
+            "numerator": null,
+            "denominator": null,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "ncvbdcp": {
+        "id": "ncvbdcp",
+        "name": "NCVBDCP",
+        "status": "yellow",
+        "keyMetric": "NE endemic zone",
+        "statusReason": "NE endemic zone for Japanese Encephalitis, filariasis and dengue",
+        "summary": "Arunachal Pradesh falls in the NE endemic zone for multiple vector and climate-sensitive diseases. Japanese Encephalitis and Lymphatic Filariasis require ongoing programme attention.",
+        "observations": [
+          "JE vaccination coverage tracked under Universal Immunisation Programme",
+          "Lymphatic filariasis MDA rounds conducted annually in endemic districts",
+          "Scrub typhus has seasonal spikes in forested districts — differential diagnosis gap",
+          "Climate variability increasing disease burden in border districts"
+        ],
+        "actions": [
+          "Ensure full coverage of JE vaccine in all endemic districts",
+          "Maintain 100% MDA coverage for filariasis elimination in endemic areas",
+          "Train health workers in differential diagnosis for scrub typhus and fever syndromes"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": true,
+        "kds": []
+      },
+      "idsp": {
+        "id": "idsp",
+        "name": "IDSP",
+        "status": "red",
+        "keyMetric": "17 districts: 0 deaths reported",
+        "statusReason": "MPCDSR shows 0 infant deaths vs 52 reported in HMIS",
+        "summary": "The Integrated Disease Surveillance Programme faces a systemic reporting crisis in Arunachal Pradesh. 17 of 28 districts reported zero infant deaths against HMIS data showing 52 deaths — indicating near-complete non-reporting in MPCDSR.",
+        "observations": [
+          "17 of 28 districts reported zero infant deaths in HMIS Apr–Dec 2025 — a clear data gap",
+          "MPCDSR shows zero infant deaths vs 52 in HMIS — reporting portal is functionally inactive",
+          "Maternal death under-reporting likely mirrors child death under-reporting pattern",
+          "Cause-of-death attribution is weak: \"Others/Unknown\" accounts for 64.3% of maternal deaths"
+        ],
+        "actions": [
+          "Issue immediate state directive mandating MPCDSR reporting for all 28 districts",
+          "Deploy IDSP supervisors to non-reporting districts for ground-level capacity building",
+          "Integrate death notification with Aadhaar-linked civil registration at facility level",
+          "Conduct state-level MDSR committee review for all 3 maternal deaths in 2024-25"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 68,
+            "type": "Output",
+            "indicator": "Weekly Reporting – S Form",
+            "statement": "% of Reporting Units reported in S form",
+            "unit": "%",
+            "target": 71,
+            "targetLabel": "71%",
+            "achievement": 79,
+            "achievedLabel": "284/361 (79%)",
+            "numerator": 284,
+            "denominator": 361,
+            "source": "IDSP IHIP",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 69,
+            "type": "Output",
+            "indicator": "Weekly Reporting – P Form",
+            "statement": "% of Reporting Units reported in P form",
+            "unit": "%",
+            "target": 75,
+            "targetLabel": "75%",
+            "achievement": 82,
+            "achievedLabel": "154/189 (82%)",
+            "numerator": 154,
+            "denominator": 189,
+            "source": "IDSP IHIP",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 70,
+            "type": "Output",
+            "indicator": "Weekly Reporting – L Form",
+            "statement": "% of Reporting Units reported in L form",
+            "unit": "%",
+            "target": 72,
+            "targetLabel": "72%",
+            "achievement": 81,
+            "achievedLabel": "132/163 (81%)",
+            "numerator": 132,
+            "denominator": 163,
+            "source": "IDSP IHIP",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 71,
+            "type": "Output",
+            "indicator": "Lab Access of Outbreaks",
+            "statement": "Lab access of outbreaks reported under IDSP (excl. Chickenpox, Food/Mushroom Poisoning)",
+            "unit": "%",
+            "target": 83,
+            "targetLabel": "83%",
+            "achievement": 84,
+            "achievedLabel": "26/31 (84%)",
+            "numerator": 26,
+            "denominator": 31,
+            "source": "IDSP IHIP",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "nscaem": {
+        "id": "nscaem",
+        "name": "NSCAEM & Blood Cell",
+        "status": "yellow",
+        "keyMetric": "Sickle cell screening",
+        "statusReason": "Tribal majority population at sickle cell risk; anaemia 56.6%",
+        "summary": "Sickle cell anaemia and blood disorders require specific attention given the tribal population. NSCAEM programme implementation needs district-level data verification.",
+        "observations": [
+          "Highlighted in bold in NPCC Apr 2026 — indicates pending action at programme level",
+          "High tribal population proportion increases sickle cell trait prevalence risk",
+          "Child and adult anaemia rates are critical — sickle cell screening must be integrated",
+          "Blood bank availability and quality at district hospitals needs audit"
+        ],
+        "actions": [
+          "Establish universal neonatal sickle cell screening in all tribal-majority districts",
+          "Integrate NSCAEM counselling with existing maternal health and immunisation contacts",
+          "Ensure blood bank functionality at all District Hospitals (28 districts)",
+          "Link sickle cell carrier data with family planning counselling services"
+        ],
+        "nfhsData": [
+          {
+            "label": "Children 6-59 months anaemic",
+            "nfhs4": 50.7,
+            "nfhs5": 56.6,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "All women (15-49) anaemic",
+            "nfhs4": 40.3,
+            "nfhs5": 40.3,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Men (15-49) anaemic",
+            "nfhs4": 16.9,
+            "nfhs5": 21.4,
+            "unit": "%",
+            "lowerIsBetter": true
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": []
+      }
+    }
+  },
+  "ncd": {
+    "id": "ncd",
+    "label": "NCD",
+    "fullName": "Non-Communicable Diseases",
+    "programmes": {
+      "np-ncd": {
+        "id": "np-ncd",
+        "name": "NP-NCD",
+        "status": "red",
+        "keyMetric": "Male hypertension: 33.1%",
+        "statusReason": "Hypertension: men 33.1%, women 24.9% — growing NCD crisis",
+        "summary": "Hypertension is at critical levels — 33.1% of men and 24.9% of women have elevated blood pressure. Blood sugar levels are also elevated. NCD burden is growing against weak screening infrastructure.",
+        "observations": [
+          "Men elevated blood pressure (≥140/90 mmHg) at 33.1% — near epidemic level",
+          "Women elevated blood pressure at 24.9% — significant and growing burden",
+          "Men high blood sugar (>140 mg/dl) at 6.7%, very high (>160) at 4.3%",
+          "Women overweight/obese increased from 18.8% to 23.9% — NCD risk amplifier",
+          "Hypertension was a noted cause of maternal death (hypertensive disorders: 5.51%)",
+          "NPCC recommends strengthening NP-NCD screening and treatment at PHC level"
+        ],
+        "actions": [
+          "Launch universal BP and blood sugar screening at all facility contacts (30 years and above)",
+          "Establish NCD clinics with treatment protocols at every CHC and above",
+          "Train MOs and nursing staff on hypertension and diabetes management guidelines",
+          "Integrate NCD screening with maternal health contact points for women",
+          "Establish patient registries for hypertension and diabetes at district level"
+        ],
+        "nfhsData": [
+          {
+            "label": "Women — elevated BP (≥140/90 mmHg)",
+            "nfhs4": null,
+            "nfhs5": 24.9,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Men — elevated BP (≥140/90 mmHg)",
+            "nfhs4": null,
+            "nfhs5": 33.1,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Women — mildly elevated BP (140-159/90-99)",
+            "nfhs4": 10.4,
+            "nfhs5": 16.4,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Men — mildly elevated BP (140-159/90-99)",
+            "nfhs4": 15.5,
+            "nfhs5": 22.8,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Women — high blood sugar (>140 mg/dl)",
+            "nfhs4": 4.8,
+            "nfhs5": 4.6,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Men — high blood sugar (>140 mg/dl)",
+            "nfhs4": 7.6,
+            "nfhs5": 6.7,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Women overweight or obese (BMI ≥25)",
+            "nfhs4": 18.8,
+            "nfhs5": 23.9,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Men overweight or obese (BMI ≥25)",
+            "nfhs4": 20.6,
+            "nfhs5": 27.6,
+            "unit": "%",
+            "lowerIsBetter": true
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 112,
+            "type": "Input",
+            "indicator": "Population 30+ Registered for NCD",
+            "statement": "% of population 30+ registered in National NCD Portal",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 77,
+            "achievedLabel": "3,69,858/4,82,444 (77%)",
+            "numerator": 369858,
+            "denominator": 482444,
+            "source": "NCD Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 113,
+            "type": "Process",
+            "indicator": "Population Screened for Hypertension",
+            "statement": "% of population screened for Hypertension",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 19,
+            "achievedLabel": "91,659/4,82,444 (19%)",
+            "numerator": 91659,
+            "denominator": 482444,
+            "source": "NCD Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 114,
+            "type": "Process",
+            "indicator": "Population Screened for Diabetes",
+            "statement": "% of population screened for Diabetes",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 19,
+            "achievedLabel": "90,181/4,82,444 (19%)",
+            "numerator": 90181,
+            "denominator": 482444,
+            "source": "NCD Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 115,
+            "type": "Output",
+            "indicator": "Hypertension Treatment",
+            "statement": "% of people on standard of care for Hypertension",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 10,
+            "achievedLabel": "7,171/73,160 (10%)",
+            "numerator": 7171,
+            "denominator": 73160,
+            "source": "NCD Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 116,
+            "type": "Output",
+            "indicator": "Diabetes Treatment",
+            "statement": "% of people on standard of care for Diabetes",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 10,
+            "achievedLabel": "2,441/25,606 (10%)",
+            "numerator": 2441,
+            "denominator": 25606,
+            "source": "NCD Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "pmndp": {
+        "id": "pmndp",
+        "name": "PMNDP",
+        "status": "yellow",
+        "keyMetric": "High blood sugar: 11.9%",
+        "statusReason": "Men high blood sugar 11.9%; district NCD clinic capacity under review",
+        "summary": "Prevention and Management of Diabetes, NCDs and palliative care in NE states faces access barriers. Strengthening district-level NCD clinics is priority.",
+        "observations": [
+          "Diabetes and NCD management infrastructure at district level is limited",
+          "High alcohol consumption (men 59%) is an NCD risk co-factor",
+          "Blood sugar screening at facility level requires further scale-up"
+        ],
+        "actions": [
+          "Ensure PMNDP drugs are available at all CHC and above without stock-out",
+          "Train ANMs in NCD risk counselling at sub-centre level",
+          "Review district-level diabetes registry completeness"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 120,
+            "type": "Output",
+            "indicator": "Dialysis Districts",
+            "statement": "No. of districts with dialysis facility under PMNDP",
+            "unit": "Nos",
+            "target": 15,
+            "targetLabel": "15",
+            "achievement": 107,
+            "achievedLabel": "16/15 (107%)",
+            "numerator": 16,
+            "denominator": 15,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 121,
+            "type": "Output",
+            "indicator": "Dialysis Sessions",
+            "statement": "Estimated monthly dialysis sessions (10% increase over previous year)",
+            "unit": "Nos",
+            "target": 20000,
+            "targetLabel": "20000",
+            "achievement": 119,
+            "achievedLabel": "~23,800 sessions",
+            "numerator": null,
+            "denominator": null,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 122,
+            "type": "Output",
+            "indicator": "Peritoneal Dialysis",
+            "statement": "No. of patients for peritoneal dialysis services",
+            "unit": "Nos",
+            "target": 20,
+            "targetLabel": "20",
+            "achievement": 100,
+            "achievedLabel": "5/5 (100% of approved 5)",
+            "numerator": 5,
+            "denominator": 5,
+            "source": "PMNDP Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "nppc": {
+        "id": "nppc",
+        "name": "NPPC",
+        "status": "yellow",
+        "keyMetric": "Palliative care access",
+        "statusReason": "Cancer screening critically low: cervix 8.5%, breast 5.9%",
+        "summary": "National Programme for Palliative Care has limited reach in remote districts of Arunachal Pradesh.",
+        "observations": [
+          "Palliative care infrastructure is concentrated in district HQs",
+          "Cancer screening (cervix 8.5%, breast 5.9%) extremely low — early detection gap",
+          "Rural areas have near-zero access to palliative or cancer screening services"
+        ],
+        "actions": [
+          "Integrate cancer screening with existing maternal health visits",
+          "Establish NPPC referral pathways from PHC to district hospital",
+          "Train CHO/HWC staff in basic palliative assessment"
+        ],
+        "nfhsData": [
+          {
+            "label": "Women screened for cervical cancer",
+            "nfhs4": null,
+            "nfhs5": 8.5,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Women screened for breast cancer",
+            "nfhs4": null,
+            "nfhs5": 5.9,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 127,
+            "type": "Output",
+            "indicator": "DH Palliative Care Services",
+            "statement": "No. of District Hospitals providing palliative care services",
+            "unit": "Nos",
+            "target": 26,
+            "targetLabel": "26",
+            "achievement": 100,
+            "achievedLabel": "26/26",
+            "numerator": 26,
+            "denominator": 26,
+            "source": "MPR",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "nmhp": {
+        "id": "nmhp",
+        "name": "NMHP",
+        "status": "yellow",
+        "keyMetric": "Mental health access",
+        "statusReason": "DMHP HR shortages persist; Tele-MANAS uptake limited in tribal areas",
+        "summary": "National Mental Health Programme services are limited in Arunachal Pradesh. Tele-MANAS and district mental health teams require strengthening.",
+        "observations": [
+          "Tele-MANAS operational but uptake in tribal areas requires community mobilisation",
+          "High alcohol use (men 59% in NFHS-4) is linked to mental health burden",
+          "District Mental Health teams face HR shortages",
+          "Stigma remains a barrier to care-seeking in tribal communities"
+        ],
+        "actions": [
+          "Scale Tele-MANAS outreach through ASHA and community health workers",
+          "Fill DMHP HR vacancies through contractual appointments",
+          "Integrate mental health screening into NCD clinics at CHC level"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 107,
+            "type": "Output",
+            "indicator": "DMHP District Coverage",
+            "statement": "% of districts with functional District Mental Health Units",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "28 districts",
+            "achievement": 57,
+            "achievedLabel": "16/28 districts",
+            "numerator": 16,
+            "denominator": 28,
+            "source": "State Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 108,
+            "type": "Output",
+            "indicator": "Persons Served by DMHP",
+            "statement": "% increase in persons catered by DMHP units",
+            "unit": "%",
+            "target": 80,
+            "targetLabel": "80%",
+            "achievement": 79,
+            "achievedLabel": "8855 (upto 3rd quarter)",
+            "numerator": 8855,
+            "denominator": 11209,
+            "source": "DMHP Units",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "nphce": {
+        "id": "nphce",
+        "name": "NPHCE",
+        "status": "yellow",
+        "keyMetric": "Elderly care access",
+        "statusReason": "Geriatric services limited to district HQs — no block-level access",
+        "summary": "National Programme for Health Care of Elderly requires strengthening in a state with improving longevity and growing NCD burden.",
+        "observations": [
+          "Geriatric care infrastructure limited to district HQs",
+          "Growing hypertension and diabetes burden will increase elderly care demands",
+          "NPHCE Outreach Camps in remote areas need scaling"
+        ],
+        "actions": [
+          "Establish dedicated elderly care OPD at all CHCs",
+          "Train CHOs in geriatric health assessment",
+          "Ensure NPHCE outreach camps in all blocks quarterly"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 109,
+            "type": "Output",
+            "indicator": "DH Geriatric Units",
+            "statement": "No. of District Hospitals with Geriatric Unit (≥10 beds)",
+            "unit": "Nos",
+            "target": 23,
+            "targetLabel": "23",
+            "achievement": 100,
+            "achievedLabel": "16/16 (100% of approved)",
+            "numerator": 16,
+            "denominator": 16,
+            "source": "NPHCE QPR",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 110,
+            "type": "Output",
+            "indicator": "DH Physiotherapy Units",
+            "statement": "No. of District Hospitals with physiotherapy unit for elderly",
+            "unit": "Nos",
+            "target": 23,
+            "targetLabel": "23",
+            "achievement": 100,
+            "achievedLabel": "23/23 (100%)",
+            "numerator": 23,
+            "denominator": 23,
+            "source": "NPHCE QPR",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 111,
+            "type": "Output",
+            "indicator": "CHC Physiotherapy Units",
+            "statement": "No. of CHCs with physiotherapy unit",
+            "unit": "Nos",
+            "target": 54,
+            "targetLabel": "54",
+            "achievement": 58,
+            "achievedLabel": "30/52 (58%)",
+            "numerator": 30,
+            "denominator": 52,
+            "source": "NPHCE Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "npcbvi": {
+        "id": "npcbvi",
+        "name": "NPCBVI",
+        "status": "green",
+        "keyMetric": "Cataract backlog: remote districts",
+        "statusReason": "Cataract surgery backlog in border districts; RBSK school screening active via DEIC network",
+        "summary": "National Programme for Control of Blindness and Visual Impairment focuses on reducing avoidable blindness through cataract surgery, school eye screening via RBSK/DEIC, and early detection of diabetic retinopathy at NCD clinics.",
+        "observations": [
+          "Cataract surgery backlog persists in remote and border districts — requires periodic outreach camps",
+          "RBSK school eye screening covering children through DEIC network",
+          "Diabetic retinopathy is an emerging concern given rising diabetes prevalence (men 11.9%)",
+          "Low vision services limited to district HQ facilities — no sub-district reach"
+        ],
+        "actions": [
+          "Increase cataract surgery outreach camps in Anjaw, Dibang Valley, and Longding districts",
+          "Proactively screen for diabetic retinopathy at all NCD clinics",
+          "Strengthen low vision rehabilitation services at block level"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 117,
+            "type": "Output",
+            "indicator": "Cataract Operations",
+            "statement": "% achievement of cataract operations against target (4500)",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "4500 operations",
+            "achievement": 59,
+            "achievedLabel": "2642/4500 (59%)",
+            "numerator": 2642,
+            "denominator": 4500,
+            "source": "District Reports",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 118,
+            "type": "Output",
+            "indicator": "Corneal Transplant Collection",
+            "statement": "Eye donations for corneal transplantation against target",
+            "unit": "Nos",
+            "target": 10,
+            "targetLabel": "10",
+            "achievement": 0,
+            "achievedLabel": "0/10 (0%)",
+            "numerator": 0,
+            "denominator": 10,
+            "source": "District Reports",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 119,
+            "type": "Output",
+            "indicator": "Free Spectacles (School Children)",
+            "statement": "No. of free spectacles distributed to school children with refractive errors",
+            "unit": "Nos",
+            "target": 5000,
+            "targetLabel": "5000",
+            "achievement": 56,
+            "achievedLabel": "2800/5000",
+            "numerator": 2800,
+            "denominator": 5000,
+            "source": "District Reports",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "nppcd": {
+        "id": "nppcd",
+        "name": "NPPCD",
+        "status": "yellow",
+        "keyMetric": "Deafness prevention",
+        "statusReason": "Only 3 functional DEICs — hearing disability referral pathway weak",
+        "summary": "National Programme for Prevention and Control of Deafness — neonatal hearing screening needs expansion in a state with limited specialist coverage.",
+        "observations": [
+          "Only 3 functional DEICs — limiting early disability identification and referral",
+          "ENT specialist availability concentrated in Itanagar",
+          "Noise-induced hearing loss in border construction areas — occupational health gap"
+        ],
+        "actions": [
+          "Expand neonatal hearing screening to all delivery points",
+          "Utilise DEIC network for hearing assessment — clear referral pathways",
+          "Recruit audiologists at district level under NHM contractual posts"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 125,
+            "type": "Output",
+            "indicator": "Hearing Aids Distributed",
+            "statement": "No. of people with hearing problems rehabilitated",
+            "unit": "Nos",
+            "target": 251,
+            "targetLabel": "251",
+            "achievement": 102,
+            "achievedLabel": "255/251 (102%)",
+            "numerator": 255,
+            "denominator": 251,
+            "source": "NPPCD QPR",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 126,
+            "type": "Output",
+            "indicator": "Audiometry Screenings",
+            "statement": "No. of people screened for deafness/hearing impairment",
+            "unit": "Nos",
+            "target": 3982,
+            "targetLabel": "3982",
+            "achievement": 105,
+            "achievedLabel": "4197/3982 (105%)",
+            "numerator": 4197,
+            "denominator": 3982,
+            "source": "NPPCD QPR",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "nohp": {
+        "id": "nohp",
+        "name": "NOHP",
+        "status": "yellow",
+        "keyMetric": "Oral health coverage",
+        "statusReason": "Oral cancer screening 17.5%; tobacco use among men at 60%",
+        "summary": "National Oral Health Programme services require integration with existing platforms at Sub-centre and PHC level.",
+        "observations": [
+          "Oral cancer screening only 17.5% among women — well below required coverage",
+          "High tobacco (60%) and alcohol (59%) use among men significantly elevates oral cancer risk",
+          "Dental services concentrated at district HQs"
+        ],
+        "actions": [
+          "Integrate oral cancer screening into existing maternal and NCD health contacts",
+          "Equip all CHC dental units with basic oral cancer screening supplies",
+          "Leverage NTCP infrastructure for dual tobacco-oral cancer counselling sessions"
+        ],
+        "nfhsData": [
+          {
+            "label": "Women screened for oral cancer",
+            "nfhs4": null,
+            "nfhs5": 17.5,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 128,
+            "type": "Output",
+            "indicator": "PHFs Providing Dental Care",
+            "statement": "% of public health facilities (DH/SDH/CHC/PHC) providing dental services",
+            "unit": "Nos",
+            "target": 78,
+            "targetLabel": "78 facilities",
+            "achievement": null,
+            "achievedLabel": "DH-12 · CHC-16 · PHC-8",
+            "numerator": null,
+            "denominator": null,
+            "source": "HMIS/MPR",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "niddcp": {
+        "id": "niddcp",
+        "name": "NIDDCP",
+        "status": "green",
+        "keyMetric": "Iodised salt: 99.2%",
+        "statusReason": "Iodised salt coverage 99.2% — IDD effectively controlled",
+        "summary": "National Iodine Deficiency Disorders Control Programme shows near-universal iodised salt coverage at 99.2%, effectively controlling IDD-related disorders in the population.",
+        "observations": [
+          "Iodised salt coverage maintained at 99.2% — effectively controlled",
+          "Marginal rural-urban gap (99.2% vs 99.4%) — negligible",
+          "Continued salt iodisation quality testing required at manufacturer and retail level"
+        ],
+        "actions": [
+          "Maintain routine salt iodisation quality surveillance",
+          "Conduct periodic urinary iodine monitoring in school children as sentinel survey"
+        ],
+        "nfhsData": [
+          {
+            "label": "Households using iodised salt",
+            "nfhs4": 99.3,
+            "nfhs5": 99.2,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": []
+      },
+      "ntcp": {
+        "id": "ntcp",
+        "name": "NTCP",
+        "status": "red",
+        "keyMetric": "Male tobacco use: 60%",
+        "statusReason": "Men tobacco 60%, alcohol 59% — highest NCD risk combination in AP",
+        "summary": "Tobacco use among men stands at 60% in NFHS-4 — among the highest in India. Combined with alcohol use at 59%, NCD and oral cancer burden is set to escalate without urgent NTCP intervention.",
+        "observations": [
+          "Male tobacco use at 60% — one of the highest rates nationally (NFHS-4)",
+          "Female tobacco use at 17.7% — significantly above national average",
+          "Alcohol consumption in men at 59% — compounding NCD and liver disease risk",
+          "NFHS-5 did not collect tobacco/alcohol data for Arunachal Pradesh",
+          "High tobacco use is directly linked to elevated hypertension rates (men 33.1%)",
+          "Tribal and local forms of tobacco (betel quid, khaini) prevalent — culturally embedded"
+        ],
+        "actions": [
+          "Launch district-level COTPA enforcement drives covering shops near schools",
+          "Integrate tobacco cessation counselling at all OPD and NCD clinic touchpoints",
+          "Deploy NTCP cessation centres at district hospitals with pharmacotherapy",
+          "Conduct cultural-context-specific IEC targeting local tobacco use practices",
+          "Train all ASHA and ANM workers in brief tobacco cessation advice"
+        ],
+        "nfhsData": [
+          {
+            "label": "Men using any tobacco",
+            "nfhs4": 60,
+            "nfhs5": null,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Women using any tobacco",
+            "nfhs4": 17.7,
+            "nfhs5": null,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Men consuming alcohol",
+            "nfhs4": 59,
+            "nfhs5": null,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Women consuming alcohol",
+            "nfhs4": 26.3,
+            "nfhs5": null,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Men — elevated BP (≥140/90)",
+            "nfhs4": null,
+            "nfhs5": 33.1,
+            "unit": "%",
+            "lowerIsBetter": true
+          },
+          {
+            "label": "Men — high blood sugar (>140 mg/dl)",
+            "nfhs4": 7.6,
+            "nfhs5": 6.7,
+            "unit": "%",
+            "lowerIsBetter": true
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 105,
+            "type": "Output",
+            "indicator": "Tobacco Cessation Centres",
+            "statement": "No. of districts with Tobacco Cessation Centres",
+            "unit": "Nos",
+            "target": null,
+            "targetLabel": "NA",
+            "achievement": null,
+            "achievedLabel": "NA",
+            "numerator": null,
+            "denominator": null,
+            "source": "NTCP Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 106,
+            "type": "Outcome",
+            "indicator": "Tobacco Cessation Services Availed",
+            "statement": "No. of people availed tobacco cessation services in 2025-26",
+            "unit": "Nos",
+            "target": 2640,
+            "targetLabel": "2640",
+            "achievement": 80,
+            "achievedLabel": "2112 (upto 3rd quarter)",
+            "numerator": 2112,
+            "denominator": 2640,
+            "source": "NTCP Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "npcchh": {
+        "id": "npcchh",
+        "name": "NPCCHH",
+        "status": "yellow",
+        "keyMetric": "Climate health risk",
+        "statusReason": "Himalayan border state — high climate & disaster health vulnerability",
+        "summary": "National Programme on Climate Change and Human Health is critical given Arunachal Pradesh's climate vulnerability as a himalayan border state.",
+        "observations": [
+          "Extreme weather events increasingly affecting eastern and lower-altitude districts",
+          "Floods disrupt immunisation cold chains and ASHA supply logistics",
+          "Climate-driven vector range expansion increasing disease burden"
+        ],
+        "actions": [
+          "Integrate climate risk mapping into district health planning",
+          "Develop health facility resilience plans for flood-prone districts",
+          "Maintain buffer vaccine stocks to offset cold chain disruptions during floods"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 129,
+            "type": "Output",
+            "indicator": "MO Training for Climate Health",
+            "statement": "% of MOs in district trained on HRI diagnosis and ARI surveillance",
+            "unit": "%",
+            "target": 80,
+            "targetLabel": "80%",
+            "achievement": 92,
+            "achievedLabel": "672/730 (92%)",
+            "numerator": 672,
+            "denominator": 730,
+            "source": "NPCCHH Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 130,
+            "type": "Output",
+            "indicator": "Heat Stroke Rooms",
+            "statement": "% of DHs and SDHs with operational 5-bedded Heat Stroke Room",
+            "unit": "%",
+            "target": 12,
+            "targetLabel": "3/23 (12%)",
+            "achievement": 100,
+            "achievedLabel": "3/3 (100%)",
+            "numerator": 3,
+            "denominator": 3,
+            "source": "NPCCHH Report",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 131,
+            "type": "Output",
+            "indicator": "ARI Surveillance Hospitals",
+            "statement": "% of sentinel hospitals reporting ARI on IHIP",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 100,
+            "achievedLabel": "25/25 (100%)",
+            "numerator": 25,
+            "denominator": 25,
+            "source": "IHIP-NPCCHH",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      }
+    }
+  },
+  "hss": {
+    "id": "hss",
+    "label": "HSS",
+    "fullName": "Health Systems Strengthening",
+    "programmes": {
+      "hss-urban": {
+        "id": "hss-urban",
+        "name": "HSS — Urban",
+        "status": "yellow",
+        "keyMetric": "Urban Pop: ~34%",
+        "statusReason": "Health insurance 33.6%; OOP Rs. 10,178 per delivery in urban areas",
+        "summary": "Urban health infrastructure in Itanagar, Naharlagun and growing towns needs expansion. Urban primary health centres and UPHCs require operational strengthening.",
+        "observations": [
+          "Urban institutional births at 90.6% — significantly above rural 77.3%",
+          "Urban health insurance coverage at 33.6% — above rural (28.5%) but both remain critically low",
+          "Out-of-pocket expenditure per delivery in urban: Rs. 10,178 vs rural Rs. 9,649",
+          "Urban sanitation improved to 79.9% but still below 90% target"
+        ],
+        "actions": [
+          "Operationalise U-AAM (Urban Ayushman Arogya Mandir) at all UPHCs",
+          "Strengthen UHND sessions in underserved urban slum pockets",
+          "Increase health insurance enrolment drives targeting urban informal workers"
+        ],
+        "nfhsData": [
+          {
+            "label": "Urban institutional births",
+            "nfhs4": 81.5,
+            "nfhs5": 90.6,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Urban households with improved sanitation",
+            "nfhs4": 73.3,
+            "nfhs5": 79.9,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Urban households with clean cooking fuel",
+            "nfhs4": 87.4,
+            "nfhs5": 90.2,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": [
+          {
+            "no": 132,
+            "type": "Output",
+            "indicator": "UPHC Operationalization",
+            "statement": "% of Urban Primary Health Centres operationalized",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 100,
+            "achievedLabel": "6/6 (100%)",
+            "numerator": 6,
+            "denominator": 6,
+            "source": "MIS-QPR",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 133,
+            "type": "Output",
+            "indicator": "UPHCs Converted to AAM",
+            "statement": "% of UPHCs converted to Ayushman Arogya Mandir",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 100,
+            "achievedLabel": "6/6 (100%)",
+            "numerator": 6,
+            "denominator": 6,
+            "source": "AAM Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 134,
+            "type": "Output",
+            "indicator": "AAMs Offering Specialist Services",
+            "statement": "% of UCHCs and UPHC-AAMs offering specialist services",
+            "unit": "%",
+            "target": 83.33,
+            "targetLabel": "83.33%",
+            "achievement": 0,
+            "achievedLabel": "0 facilities",
+            "numerator": 0,
+            "denominator": null,
+            "source": "AAM Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 135,
+            "type": "Output",
+            "indicator": "Urban Health Facility Footfall",
+            "statement": "% of UPHC-AAM reporting avg footfall (60/1000 pop)",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 100,
+            "achievedLabel": "6/6 at footfall norm",
+            "numerator": 6,
+            "denominator": 6,
+            "source": "AAM Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 136,
+            "type": "Output",
+            "indicator": "NCD Screening at Urban AAMs",
+            "statement": "% of population 30+ screened for NCD (HTN + Diabetes) at UPHC-AAM",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 19,
+            "achievedLabel": "HTN: 91659/482444 (19%)",
+            "numerator": null,
+            "denominator": null,
+            "source": "AAM Portal",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          },
+          {
+            "no": 137,
+            "type": "Output",
+            "indicator": "Urban PW 4+ ANC at UPHC-AAM",
+            "statement": "% of urban PW accessing 4+ ANCs at UPHC-AAM/UCHC",
+            "unit": "%",
+            "target": 80,
+            "targetLabel": "80%",
+            "achievement": 31.2,
+            "achievedLabel": "751/2402 (31.2%)",
+            "numerator": 751,
+            "denominator": 2402,
+            "source": "HMIS",
+            "hmisCode": "1.2.7",
+            "hmisCat": "M1",
+            "lowerIsBetter": false
+          },
+          {
+            "no": 138,
+            "type": "Output",
+            "indicator": "UHND Sessions Organized",
+            "statement": "% of monthly Urban Health & Nutrition Day sessions held",
+            "unit": "%",
+            "target": 100,
+            "targetLabel": "100%",
+            "achievement": 29.3,
+            "achievedLabel": "421/1440 (29.3%)",
+            "numerator": 421,
+            "denominator": 1440,
+            "source": "MIS/HMIS",
+            "hmisCode": null,
+            "hmisCat": null,
+            "lowerIsBetter": false
+          }
+        ]
+      },
+      "hss-rural": {
+        "id": "hss-rural",
+        "name": "HSS — Rural",
+        "status": "red",
+        "keyMetric": "IPHL completion: 23%",
+        "statusReason": "PM-ABHIM: IPHL 23% complete · XV-FC zero expenditure in 2023-24",
+        "summary": "Rural health systems strengthening is critically lagging. PM-ABHIM infrastructure completion stands at 23% (IPHL) with zero CCB work started. XV-FC expenditure was 0% in 2023-24 and release is negligible in 2024-25 and 2025-26.",
+        "observations": [
+          "PM-ABHIM: Only 5 of 22 IPHLs completed and functional (23%)",
+          "Critical Care Block (CCB): 0 of 1 approved have started construction",
+          "XV-FC FY 2023-24: Rs. 49.71 Cr released but 0% expenditure reported",
+          "XV-FC FY 2024-25: Only Rs. 14.79 Cr released of Rs. 53.78 Cr approved",
+          "XV-FC FY 2025-26: Only Rs. 15.05 Cr released of Rs. 56.46 Cr approved",
+          "Rural households with improved sanitation improved to 83.4% (from 57.1%)",
+          "Rural health insurance coverage at 28.5% — significant gap"
+        ],
+        "actions": [
+          "Issue time-bound orders to complete all 22 IPHL constructions — district MO accountability",
+          "Commence CCB construction immediately — contractor appointment and site clearance",
+          "Investigate 0% expenditure on XV-FC FY 2023-24 release — audit required",
+          "Fast-track expenditure utilisation on 2024-25 and 2025-26 releases before fiscal close",
+          "Strengthen AAM (Ayushman Arogya Mandir) operational readiness at SHC/PHC level"
+        ],
+        "nfhsData": [
+          {
+            "label": "Rural households with improved sanitation",
+            "nfhs4": 57.1,
+            "nfhs5": 83.4,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Rural households with electricity",
+            "nfhs4": 85,
+            "nfhs5": 94,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Rural households with clean cooking fuel",
+            "nfhs4": 30,
+            "nfhs5": 46.3,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Rural households with improved water",
+            "nfhs4": 85,
+            "nfhs5": 92.9,
+            "unit": "%",
+            "lowerIsBetter": false
+          },
+          {
+            "label": "Rural institutional births",
+            "nfhs4": 44.2,
+            "nfhs5": 77.3,
+            "unit": "%",
+            "lowerIsBetter": false
+          }
+        ],
+        "hasCurrentStatus": false,
+        "kds": []
+      },
+      "drugs-diagnostics": {
+        "id": "drugs-diagnostics",
+        "name": "Drugs & Diagnostics",
+        "status": "red",
+        "keyMetric": "Drug stock: <25% at all facilities",
+        "statusReason": "Drug availability <25% vs 50% DVDMS target; IPHS compliance only 2%",
+        "summary": "Free Drug Service Initiative, NQAS certification, and IPHS compliance show critical gaps. Drug stock availability is below 25% across all facility types against a 50% DVDMS target. Only 26 of 499 facilities are NQAS certified and 2% of facilities are IPHS compliant.",
+        "observations": [
+          "Drug stock below 25% at all facility levels — District Hospital 16%, CHC 12%, AAM-PHC 24%, AAM-SHC 22%",
+          "Only 5 of 86 Rate Contracts are on DVDMS — supply chain digitisation critically lagging",
+          "NQAS: only 26 of 499 facilities certified (5.21%) — AAM SHC leads with 23 certifications",
+          "IPHS compliance: 59% of facilities in Aspirant band (<50%), only 2% Compliant (>80%)",
+          "Diagnostic test availability improving — PHC: Jan 2025 (8 types) to Jan 2026 (18 types)",
+          "LaQshya certified: 7 (4 Labour Rooms, 3 OTs); Kayakalp compliant: 25 facilities FY 2024-25"
+        ],
+        "actions": [
+          "Mandate all 86 Rate Contracts to onboard DVDMS — set 6-month deadline",
+          "Fast-track NQAS assessments for 23 facilities that scored >70% — convert to certifications",
+          "Address drug stock gaps at CHC level (12%) — highest risk to frontline service delivery",
+          "Increase IPHS compliance audits and district-level accountability for facility scores",
+          "Scale diagnostic test availability at PHC level — 18 types vs FDSI target of 63"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": []
+      }
+    }
+  },
+  "hrh": {
+    "id": "hrh",
+    "label": "HRH",
+    "fullName": "Human Resources for Health",
+    "programmes": {
+      "mpw": {
+        "id": "mpw",
+        "name": "MPW (F+M)",
+        "status": "green",
+        "keyMetric": "880 in place",
+        "statusReason": "91% availability — exceeds 70% RoP target",
+        "summary": "Multi-Purpose Workers form the frontline of primary health delivery. With 880 of 964 in place (91%), the cadre exceeds its 70% RoP target.",
+        "observations": [
+          "880 of 964 required MPWs in place — 91% achievement exceeds 70% RoP target",
+          "Regular sanctioned posts: 1327, but only 678 in place (51% fill rate)",
+          "Contractual (NHM+NUHM+PM-ABHIM): 202 of 350 approved posts filled"
+        ],
+        "actions": [
+          "Fill remaining regular MPW vacancies — prioritise high-vacancy remote districts",
+          "Deploy MPW contractual backfill in tribal and border blocks",
+          "Strengthen MPW role in HBNC, immunisation and TB surveillance"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": []
+      },
+      "staff-nurse": {
+        "id": "staff-nurse",
+        "name": "Staff Nurse",
+        "status": "green",
+        "keyMetric": "1392 in place",
+        "statusReason": "73% availability — meets 55% RoP target",
+        "summary": "Staff Nurses are critical for hospital-based maternal and child health services. 1392 in place (73%) exceeds the 55% RoP target with a large contractual component of 626.",
+        "observations": [
+          "1392 of 1910 required nurses in place (73%) — exceeds 55% RoP target",
+          "Regular sanctioned 908, in place 766 — 84% fill rate",
+          "Contractual: 1150 approved, 626 in place (54% fill rate)",
+          "Shortfall of 518 against requirement — critical for FRU and CHC operations"
+        ],
+        "actions": [
+          "Fill 524 vacant contractual nurse posts — link to FRU operationalisation",
+          "Ensure nursing coverage at all functional FRUs — tied to SUMAN notification",
+          "Address skill gaps in SNCU and labour room staffing"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": []
+      },
+      "cho": {
+        "id": "cho",
+        "name": "CHO",
+        "status": "green",
+        "keyMetric": "308 in place",
+        "statusReason": "89% availability — 308 of 317 approved contractual posts filled",
+        "summary": "Community Health Officers deployed under Ayushman Arogya Mandir show strong placement with 308 of 317 approved contractual posts filled (97% of approved posts).",
+        "observations": [
+          "308 of 317 approved CHO posts filled (97% of approved)",
+          "CHO cadre is entirely contractual under NHM",
+          "No RoP target specified — state to set annual benchmarks",
+          "CHOs critical for HWC comprehensive primary care delivery"
+        ],
+        "actions": [
+          "Fill remaining 9 vacant CHO posts to achieve 100% of approved posts",
+          "Expand approved posts from 317 to 347 to meet full requirement",
+          "Ensure CHO training on CPHC and digital health protocols"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": []
+      },
+      "lab-tech": {
+        "id": "lab-tech",
+        "name": "Lab Technicians",
+        "status": "yellow",
+        "keyMetric": "354 in place",
+        "statusReason": "67% availability — meets 55% target but PHC productivity critically low",
+        "summary": "Lab Technicians show 67% availability (354 of 530) exceeding the 55% RoP target. However lab productivity at PHC level is only 3 tests/LT/day vs the IPHS standard of 100.",
+        "observations": [
+          "354 of 530 required LTs in place (67%) — exceeds 55% RoP target",
+          "Regular in place: only 109 of 320 sanctioned posts (34% fill rate)",
+          "PHC productivity: 3 tests/LT/day vs IPHS standard 100 — near non-functional",
+          "176 LT shortage affects TB, malaria, and NCD diagnostic capacity"
+        ],
+        "actions": [
+          "Investigate PHC lab productivity (3 tests/day) — equipment or deployment issues",
+          "Fill 211 regular LT vacancies of 320 sanctioned posts",
+          "Link LT deployment to TB GeneXpert and NVBDCP diagnostic needs"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": []
+      },
+      "pharmacist": {
+        "id": "pharmacist",
+        "name": "Pharmacists",
+        "status": "red",
+        "keyMetric": "228 in place",
+        "statusReason": "77% availability — below 85% target; zero contractual intake",
+        "summary": "Pharmacists are below the 85% RoP target (77%). Only 1 contractual post was approved and none filled — the cadre is entirely dependent on regular appointments with 69 vacancies.",
+        "observations": [
+          "77% availability is below the 85% RoP target — immediate attention required",
+          "Zero contractual pharmacists in place despite 1 approved post",
+          "69 pharmacists short against requirement — drug dispensing at risk across facilities"
+        ],
+        "actions": [
+          "Emergency NHM contractual recruitment to fill pharmacist gap",
+          "Approve additional contractual posts under NHM PIP 2026-27",
+          "Prioritise posting in districts with highest OPD load"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": []
+      },
+      "medical-officer": {
+        "id": "medical-officer",
+        "name": "Medical Officers",
+        "status": "red",
+        "keyMetric": "520 in place",
+        "statusReason": "82% availability — below 85% target; OPD at 7 vs 60 IPHS standard",
+        "summary": "Medical Officers (MBBS) are below the 85% RoP target (82%). OPD productivity averages only 7 patients/doctor/day versus the IPHS standard of 60, indicating significant absenteeism or maldistribution.",
+        "observations": [
+          "520 of 638 required MOs in place (82%) — below 85% RoP target",
+          "State-wide OPD: only 7 patients/doctor/day vs IPHS standard 60",
+          "Low OPD productivity suggests significant absenteeism or maldistribution",
+          "118 MO vacancy against requirement — impacts all programme delivery"
+        ],
+        "actions": [
+          "Conduct state-wide MO attendance audit and absenteeism action plan",
+          "Increase contractual MO posts under NHM to bridge 118-post gap",
+          "Enforce posting rotation — prevent urban concentration of MOs"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": []
+      },
+      "specialist": {
+        "id": "specialist",
+        "name": "Clinical Specialists",
+        "status": "yellow",
+        "keyMetric": "162 in place",
+        "statusReason": "61% availability — above 50% target; Ob/Gyn surgery at 2 vs 7/week",
+        "summary": "Clinical Specialists are the scarcest cadre with 162 in place (61%), above the 50% RoP target. Ob/Gyn surgical productivity is only 2 procedures per week versus the IPHS standard of 7.",
+        "observations": [
+          "162 of 266 required specialists in place (61%) — above 50% RoP target",
+          "Ob/Gyn surgical productivity: 2 procedures/week vs IPHS standard 7",
+          "Only 18 contractual specialists — cadre relies heavily on regular posts",
+          "104 specialist shortage against requirement — FRU operationalisation at risk"
+        ],
+        "actions": [
+          "Expand contractual specialist posts under NHM — current 32 far below need",
+          "Deploy tele-specialist programme for CHC-level specialist access",
+          "Priority recruitment: Ob/Gyn, Paediatrician, Physician for FRU-linked posts"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": false,
+        "kds": []
+      },
+      "pm-abhim": {
+        "id": "pm-abhim",
+        "name": "PM-ABHIM",
+        "status": "yellow",
+        "keyMetric": "IPHL: 5/22 complete",
+        "statusReason": "5 of 22 IPHLs completed; CCB work not yet started",
+        "summary": "PM Ayushman Bharat Health Infrastructure Mission (PM-ABHIM) in Arunachal Pradesh covers District Integrated Public Health Labs (IPHL) and Critical Care Blocks (CCB). Physical progress is slow — only 5 of 22 IPHLs completed and functional; no CCB work has started.",
+        "observations": [
+          "IPHL: 22 approved — 11 work started (50%), 5 completed (23%), 5 functional",
+          "Critical Care Block (CCB): 1 approved, no work started, not yet functional",
+          "XV-FC total approved in 2025-26: Rs. 56.46 Cr; Released: Rs. 15.05 Cr",
+          "FR-3 (Diagnostic Rural) and FU-1 (Diagnostic Urban) have shown consistent release across years",
+          "FR-4 (Conversion to AAM): Rs. 2 Cr released in 2025-26 against Rs. 1.12 Cr approval"
+        ],
+        "actions": [
+          "Expedite construction of remaining 11 IPHLs with district-wise completion milestones",
+          "Initiate Critical Care Block construction immediately with state-level accountability",
+          "Ensure full utilisation of XV-FC released funds — particularly FR-1 and FR-2 components",
+          "Operationalise 5 functional IPHLs fully — address HR and equipment gaps"
+        ],
+        "nfhsData": [],
+        "hasCurrentStatus": true,
+        "kds": []
+      }
+    }
+  }
+}
