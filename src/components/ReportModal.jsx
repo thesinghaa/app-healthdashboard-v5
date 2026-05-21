@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 
-const API_BASE = import.meta.env.VITE_REPORT_API_URL || 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_REPORT_API_URL || '';
 
 const STEPS = [
   { label: 'Collecting programme data', pct: 20 },
