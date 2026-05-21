@@ -386,13 +386,25 @@ Timing:
 | Prog donut sweeps | 0.75s | 0.1 + i×0.1s |
 | Prog KD counters | 0.7s | 0.18 + i×0.08s |
 
-#### Active card layout override (`.lnd-card--active` block in `landing.css`)
-Tightened May 2026 for consistent look at 900px–1080px viewports:
-- `padding: 40px 300px calc(14px + 40px) 64px !important` (top / right / bottom / left — right=300px reserves space for indicator panel)
-- `gap: 16px !important` (between header, pills, programme grid)
+#### Active card layout override (`.lnd-card` responsive block in `landing.css`)
+Updated May 2026 to fully responsive viewport-relative sizing:
+- `width:  min(1200px, calc(100vw - 80px))`
+- `height: min(980px, calc(100dvh - 200px))` — never overflows reel-wrap at any viewport
+- `top: 2%` (reduced from 4% for more vertical room)
+- `padding: clamp(28px,3.5vh,44px) calc(var(--lnd-ind-w)+24px) clamp(18px,2.5vh,44px) clamp(44px,4.5vw,68px)` — padding syncs with indicator panel width via CSS custom prop
+- `gap: clamp(10px, 1.4vh, 18px)`
+- `--lnd-ind-w: clamp(240px, 20vw, 300px)` — custom prop inherited by `.lnd-ind-card`
+- `@media (min-width: 1920px)`: wider card `min(1400px, ...)`, larger panel `clamp(270px,16vw,350px)`
+- `@media (max-width: 1100px)`: indicator panel hidden, compact padding, smaller fonts
+
+`cardStyle()` in `LandingPage.jsx` now uses a responsive step:
+- `>= 1440px`: step = 1300 (original)
+- `< 1440px`: step = `max(cardW + 80, round(vw * 0.88))` — adjacent cards stay proportional
 
 #### 1. Indicator Status card (`.lnd-ind-card`) — absolute, right column
-- Position: `top: 10px; right: 10px; width: 276px; height: calc(100dvh - 222px - 20px)`
+- Position: `top: 10px; right: 10px`
+- Width: `var(--lnd-ind-w, 276px)` — inherits from parent `.lnd-card`'s custom prop
+- Height: `calc(100% - 20px)` — fills card height (10px top + 10px bottom clearance)
 - Inner padding: `36px 22px 28px` (top / sides / bottom)
 - Design: `border: 1.5px solid rgba(0,181,204,0.50)`, `background: rgba(0,22,48,0.78)`, `border-radius: 14px`, inset+outer cyan glow, `backdrop-filter: blur(32px)`
 - Header "INDICATOR STATUS": `font-size: 14px; color: #ffffff; font-family: JetBrains Mono; font-weight: 700`
