@@ -4955,36 +4955,36 @@ h1, h2, h3, h4 {
   background: linear-gradient(90deg, transparent, rgba(255,85,0,0.18) 30%, rgba(255,85,0,0.18) 70%, transparent) !important;
 }
 
-/* Navbar stats pill — !important to beat aurora block, orange-on-black */
+/* Navbar stats pill — !important to beat aurora block, white-on-orange-glass */
 [data-theme="light"] .hs-total {
-  background: rgba(255,85,0,0.18) !important;
+  background: rgba(255,255,255,0.14) !important;
 }
 [data-theme="light"] .hs-total .hs-val {
-  color: #FF5500 !important;
+  color: #FFFFFF !important;
 }
 [data-theme="light"] .hs-total .hs-lbl {
-  color: rgba(255,255,255,0.55) !important;
+  color: rgba(255,255,255,0.70) !important;
 }
 
-/* Search bar — on black navbar */
+/* Search bar — on orange glass navbar */
 [data-theme="light"] .home-nav-search {
-  background: rgba(255,255,255,0.10) !important;
-  border: 1px solid rgba(255,255,255,0.18) !important;
+  background: rgba(255,255,255,0.16) !important;
+  border: 1px solid rgba(255,255,255,0.28) !important;
   box-shadow: none !important;
 }
 [data-theme="light"] .home-nav-search:focus-within {
-  border-color: rgba(255,85,0,0.60) !important;
-  background: rgba(255,255,255,0.15) !important;
-  box-shadow: 0 0 0 2px rgba(255,85,0,0.20) !important;
+  border-color: rgba(255,255,255,0.55) !important;
+  background: rgba(255,255,255,0.24) !important;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.18) !important;
 }
 [data-theme="light"] .hns-input {
   color: #FFFFFF !important;
 }
 [data-theme="light"] .hns-input::placeholder {
-  color: rgba(255,255,255,0.40) !important;
+  color: rgba(255,255,255,0.55) !important;
 }
 [data-theme="light"] .hns-icon {
-  color: rgba(255,255,255,0.55) !important;
+  color: rgba(255,255,255,0.70) !important;
 }
 
 /* ── END LIGHT MODE — ncd.css ───────────────────────────────────── */

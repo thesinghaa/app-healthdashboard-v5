@@ -332,47 +332,48 @@
 [data-theme="light"] .flip-stage,
 [data-theme="light"] .flip-page { background: transparent; }
 
-/* Glass navbar → solid black in light mode */
+/* Glass navbar → orange glass in light mode */
 [data-theme="light"] .glass-navbar {
-  background: #1A1610;
-  border-color: rgba(255,85,0,0.30);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background: rgba(220, 65, 0, 0.72);
+  border-color: rgba(255,255,255,0.22);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.06),
-    0 4px 24px rgba(0,0,0,0.22),
-    0 0 0 1px rgba(255,85,0,0.12);
+    inset 0 1px 0 rgba(255,255,255,0.28),
+    inset 0 -1px 0 rgba(0,0,0,0.12),
+    0 8px 32px rgba(192,50,0,0.30),
+    0 2px 8px  rgba(0,0,0,0.18);
 }
 [data-theme="light"] .glass-navbar::before { display: none; }
 
-/* Brand text — white on black */
-[data-theme="light"] .home-state-name { color: #FFFFFF; text-shadow: none; }
-[data-theme="light"] .home-state-sub  { color: rgba(255,255,255,0.50); }
-[data-theme="light"] .home-data-ref   { color: #FF5500; }
+/* Brand text — white on orange glass */
+[data-theme="light"] .home-state-name { color: #FFFFFF; text-shadow: 0 1px 8px rgba(0,0,0,0.25); }
+[data-theme="light"] .home-state-sub  { color: rgba(255,255,255,0.65); }
+[data-theme="light"] .home-data-ref   { color: rgba(255,255,255,0.80); }
 [data-theme="light"] .home-back-btn   { color: #FFFFFF; }
-[data-theme="light"] .home-back-btn:hover { background: rgba(255,255,255,0.10); }
+[data-theme="light"] .home-back-btn:hover { background: rgba(255,255,255,0.16); }
 
-/* Summary pill strip on black navbar */
+/* Summary pill strip on orange glass navbar */
 [data-theme="light"] .home-summary {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.22);
 }
-[data-theme="light"] .hs-pill + .hs-pill::before { background: rgba(255,255,255,0.12); }
-[data-theme="light"] .hs-total           { background: rgba(255,85,0,0.18); }
-[data-theme="light"] .hs-total .hs-val   { color: #FF5500; }
-[data-theme="light"] .hs-total .hs-lbl   { color: rgba(255,255,255,0.55); }
-[data-theme="light"] .hs-red    .hs-val  { color: #fca5a5; }
-[data-theme="light"] .hs-red    .hs-lbl  { color: rgba(255,255,255,0.55); opacity: 1; }
-[data-theme="light"] .hs-yellow .hs-val  { color: #fde68a; }
-[data-theme="light"] .hs-yellow .hs-lbl  { color: rgba(255,255,255,0.55); opacity: 1; }
-[data-theme="light"] .hs-green  .hs-val  { color: #86efac; }
-[data-theme="light"] .hs-green  .hs-lbl  { color: rgba(255,255,255,0.55); opacity: 1; }
+[data-theme="light"] .hs-pill + .hs-pill::before { background: rgba(255,255,255,0.20); }
+[data-theme="light"] .hs-total           { background: rgba(255,255,255,0.14); }
+[data-theme="light"] .hs-total .hs-val   { color: #FFFFFF; }
+[data-theme="light"] .hs-total .hs-lbl   { color: rgba(255,255,255,0.70); }
+[data-theme="light"] .hs-red    .hs-val  { color: #FFFFFF; }
+[data-theme="light"] .hs-red    .hs-lbl  { color: rgba(255,255,255,0.75); opacity: 1; }
+[data-theme="light"] .hs-yellow .hs-val  { color: #FFFFFF; }
+[data-theme="light"] .hs-yellow .hs-lbl  { color: rgba(255,255,255,0.75); opacity: 1; }
+[data-theme="light"] .hs-green  .hs-val  { color: #FFFFFF; }
+[data-theme="light"] .hs-green  .hs-lbl  { color: rgba(255,255,255,0.75); opacity: 1; }
 
-/* Legend dots on black navbar */
-[data-theme="light"] .hl-item   { color: rgba(255,255,255,0.50); }
-[data-theme="light"] .hl-red    { background: #fca5a5; box-shadow: none; }
-[data-theme="light"] .hl-yellow { background: #fde68a; box-shadow: none; }
-[data-theme="light"] .hl-green  { background: #86efac; box-shadow: none; }
+/* Legend dots on orange glass navbar */
+[data-theme="light"] .hl-item   { color: rgba(255,255,255,0.70); }
+[data-theme="light"] .hl-red    { background: #fff; box-shadow: none; }
+[data-theme="light"] .hl-yellow { background: #fff; box-shadow: none; }
+[data-theme="light"] .hl-green  { background: #fff; box-shadow: none; }
 
 /* ── Status filter pills (active / dim states) ───────────────────── */
 .hs-pill--clickable { cursor: pointer; }
