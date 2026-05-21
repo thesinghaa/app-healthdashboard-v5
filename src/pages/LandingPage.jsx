@@ -119,7 +119,8 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         <div className="lnd-header-inner">
           {/* Brand */}
           <div className="lnd-brand">
-            <span className="lnd-brand-name">Arunachal Pradesh Dashboard</span>
+            <span className="lnd-brand-name">Arunachal Pradesh</span>
+            <span className="lnd-brand-sub">Unified Health Dashboard</span>
           </div>
 
 {/* Summary CTA + theme toggle */}
