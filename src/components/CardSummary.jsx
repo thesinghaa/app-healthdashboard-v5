@@ -68,15 +68,15 @@ function getProgKDBrk(divisionId, progId) {
 }
 
 const SEG_COLORS = {
-  gap:      '#E84060',
-  close:    '#E89010',
-  achieved: '#28C268',
+  gap:      '#D93258',   // deep rose-crimson — clear danger, not neon hot-pink
+  close:    '#C8780A',   // burnished amber-gold — warm, not garish
+  achieved: '#149650',   // rich forest emerald — grounded, not neon
 };
 
 const SEG_GLOW = {
-  gap:      'rgba(232,64,96,',
-  close:    'rgba(232,144,16,',
-  achieved: 'rgba(40,194,104,',
+  gap:      'rgba(217,50,88,',
+  close:    'rgba(200,120,10,',
+  achieved: 'rgba(20,150,80,',
 };
 
 const SEG_LABELS = {
@@ -254,7 +254,7 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
       colors: [SEG_COLORS.gap, SEG_COLORS.close, SEG_COLORS.achieved],
       line: {
         color: [SEG_COLORS.gap, SEG_COLORS.close, SEG_COLORS.achieved],
-        width: 2.5,
+        width: 1.5,
       },
     },
     textinfo: 'none',
@@ -323,7 +323,7 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
         </div>
 
         {/* Donut */}
-        <div ref={indDonutRef} style={{ position: 'relative', width: 160, height: 160, margin: '0 auto', filter: `drop-shadow(0 0 18px ${SEG_GLOW[indGlow]}0.35)) drop-shadow(0 0 7px ${SEG_GLOW[indGlow]}0.55))` }}>
+        <div ref={indDonutRef} style={{ position: 'relative', width: 160, height: 160, margin: '0 auto', filter: `drop-shadow(0 0 10px ${SEG_GLOW[indGlow]}0.18)) drop-shadow(0 0 4px ${SEG_GLOW[indGlow]}0.28))` }}>
           <Plot
             data={indTrace}
             layout={indLayout}
@@ -425,7 +425,7 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
                 colors: [SEG_COLORS.gap, SEG_COLORS.close, SEG_COLORS.achieved],
                 line: {
                   color: [SEG_COLORS.gap, SEG_COLORS.close, SEG_COLORS.achieved],
-                  width: 2,
+                  width: 1.5,
                 },
               },
               textinfo: 'none',
@@ -447,7 +447,7 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
                 style={progCardStyle}
               >
                 {/* Mini donut */}
-                <div ref={el => { progDonutRefs.current[i] = el; }} style={{ position: 'relative', width: 140, height: 140, flexShrink: 0, filter: `drop-shadow(0 0 12px ${SEG_GLOW[progGlowSeg]}0.35)) drop-shadow(0 0 5px ${SEG_GLOW[progGlowSeg]}0.55))` }}>
+                <div ref={el => { progDonutRefs.current[i] = el; }} style={{ position: 'relative', width: 140, height: 140, flexShrink: 0, filter: `drop-shadow(0 0 8px ${SEG_GLOW[progGlowSeg]}0.18)) drop-shadow(0 0 3px ${SEG_GLOW[progGlowSeg]}0.28))` }}>
                   <Plot
                     data={progTrace}
                     layout={progLayout}
