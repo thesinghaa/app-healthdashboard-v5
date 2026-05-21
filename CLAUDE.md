@@ -323,6 +323,38 @@ All 11 NCD files now have unique, programme-appropriate `keyMetric` and `summary
 
 ---
 
+## Report Generation (added May 2026)
+
+`Generate Report` button lives in `DivisionPage.jsx` topbar (`.dv-report-btn`). Opens `ReportModal.jsx`.
+
+### Frontend — `src/components/ReportModal.jsx`
+- Phases: idle → loading → done → error
+- Step labels animate at 6s intervals (matches ~40s LLM call)
+- `API_BASE = import.meta.env.VITE_REPORT_API_URL || ''` — empty string → relative URL → hits Vercel API route in prod
+- Report rendered in `<iframe srcDoc={html} sandbox="allow-same-origin" />`
+- PDF via `window.open()` + `win.print()` after 400ms delay
+- CSS classes in `ncd.css`: `.rpt-overlay`, `.rpt-modal`, `.rpt-header`, `.rpt-body`, `.rpt-idle`, `.rpt-loading`, `.rpt-spinner`, `.rpt-progress-bar`, `.rpt-agent-step`, `.rpt-report-frame`, `.rpt-iframe`
+- `.dv-report-btn` — button in DivisionPage topbar
+
+### Backend — `api/report/[divisionId].js` (Vercel serverless)
+- Node.js ESM serverless function — lives in repo, deploys with Vercel automatically
+- Imports `KD_TREE` directly from `../../src/data/kdData.js` — no separate JSON needed
+- `export const maxDuration = 60` — requires Vercel Pro plan for full timeout
+- `GROQ_API_KEY` Vercel env var — primary key set in production
+- 3 sequential Groq API calls:
+  1. Agent 1 `llama-3.1-8b-instant` — DataCollector: structured KD briefing
+  2. Agent 2 `llama-3.3-70b-versatile` — Analyst: priorities, root causes, recommendations
+  3. Agent 3 `llama-3.3-70b-versatile` — ReportWriter: full self-contained HTML report
+- Returns `{ html: string, division: string }`
+- HTML has inline CSS, Inter font from Google Fonts, max-width 900px, PIF orange `#FF5500` accents
+- Strips markdown code fences from LLM output before returning
+- CORS headers set for `allow-origin: *`
+
+### Python backend (`backend-py/`) — local reference only
+FastAPI + CrewAI + matplotlib alternative. Not deployed. Run locally: `cd backend-py && uvicorn server:app --reload`. Set `VITE_REPORT_API_URL=http://localhost:8000` in `.env.local` to use it.
+
+---
+
 ## Hard rules (follow exactly)
 
 1. **V3 only** — never touch `/Users/thesinghaa/PIFHealthDashboard/` (v1) or `/Users/thesinghaa/PIFHealthDashboard-v2/` (v2)
