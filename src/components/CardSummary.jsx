@@ -379,12 +379,6 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
                 }}
               >
                 <span className="lnd-ind-kd-name">{kd.indicator}</span>
-                <span
-                  className="lnd-ind-kd-gap"
-                  style={{ color: gapColor(kd) }}
-                >
-                  {gapLabel(kd)}
-                </span>
               </div>
             ))}
           </div>
