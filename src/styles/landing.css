@@ -1170,10 +1170,14 @@ button.lnd-pill:focus-visible { outline: 2px solid #00b5cc; outline-offset: 2px;
   height: calc(100% - 20px) !important;
 }
 
-/* Programme grid shrinks on shorter viewports instead of overflowing. */
+/* Programme grid fills remaining card height.
+   42vh tracks viewport height so the section consumes all available
+   flex space — the indicator panel and prog section now share the same
+   visual bottom edge.  Cap at 440px keeps programme cards from being
+   excessively tall on very large displays. */
 .lnd-prog-section {
   min-height: 120px !important;
-  max-height: clamp(150px, 28vh, 380px) !important;
+  max-height: clamp(200px, 42vh, 440px) !important;
 }
 
 /* Large monitor / 1080p projector (1920px+): wider card, larger panel */
@@ -1183,7 +1187,8 @@ button.lnd-pill:focus-visible { outline: 2px solid #00b5cc; outline-offset: 2px;
     width:  min(1400px, calc(100vw - 100px)) !important;
     height: min(1000px, calc(100dvh - 200px)) !important;
   }
-  .lnd-card-name { font-size: 34px !important; }
+  .lnd-card-name    { font-size: 34px !important; }
+  .lnd-prog-section { max-height: clamp(240px, 42vh, 520px) !important; }
 }
 
 /* Tablet / small laptop (<=1100px): hide right panel, full-width layout */
@@ -1195,7 +1200,7 @@ button.lnd-pill:focus-visible { outline: 2px solid #00b5cc; outline-offset: 2px;
     gap: 10px !important;
   }
   .lnd-ind-card     { display: none !important; }
-  .lnd-prog-section { max-height: clamp(130px, 28vh, 280px) !important; }
+  .lnd-prog-section { max-height: clamp(140px, 38vh, 320px) !important; }
   .lnd-card-name    { font-size: 24px !important; }
   .lnd-card-idx     { font-size: 24px !important; }
 }
