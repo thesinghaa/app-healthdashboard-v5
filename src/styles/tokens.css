@@ -102,16 +102,16 @@
   --blue-dim:   rgba(255,85,0,0.10);
   --blue-glow:  rgba(255,85,0,0.18);
 
-  --bg:         #F5F0E8;
-  --bg2:        #EDE8DF;
-  --bg3:        #E4DDD2;
-  --bg4:        #DDD7CC;
-  --bg5:        #D6CEBC;
+  --bg:         #F5F5F5;
+  --bg2:        #EFEFEF;
+  --bg3:        #E8E8E8;
+  --bg4:        #E2E2E2;
+  --bg5:        #D8D8D8;
 
-  --w1:  rgba(245,240,232,0.88);
-  --w2:  rgba(245,240,232,0.65);
-  --w3:  rgba(245,240,232,0.45);
-  --w4:  rgba(255,255,255,0.92);
+  --w1:  rgba(255,255,255,0.88);
+  --w2:  rgba(255,255,255,0.65);
+  --w3:  rgba(255,255,255,0.45);
+  --w4:  rgba(255,255,255,0.96);
 
   --ink:        #1A1610;
   --ink-mid:    #3A342C;
@@ -121,8 +121,8 @@
   --navy-dark:    #1A1610;
   --navy-mid:     #3A342C;
   --navy:         #3A342C;
-  --off-white:    #FAF7F2;
-  --cloud-gray:   #E4DDD2;
+  --off-white:    #FAFAFA;
+  --cloud-gray:   #E8E8E8;
 
   --teal-dark:    #C04000;
   --teal-mid:     #FF5500;

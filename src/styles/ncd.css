@@ -4697,13 +4697,13 @@ h1, h2, h3, h4 {
 /* ── END TORN PAPER TOP EDGE ─────────────────────────────────────── */
 
 /* ════════════════════════════════════════════════════════════════════
-   LIGHT MODE OVERRIDES — ncd.css  (orange accent, V2 palette)
+   LIGHT MODE OVERRIDES — ncd.css  (black & orange, clean neutral bg)
    ════════════════════════════════════════════════════════════════════ */
 
 /* ── Shared topbars ─────────────────────────────────────────────── */
 [data-theme="light"] .app-topbar,
 [data-theme="light"] .ncd-topbar {
-  background: rgba(245,240,232,0.96) !important;
+  background: #FFFFFF !important;
   border-bottom: 3px solid #FF5500 !important;
   box-shadow: 0 2px 14px rgba(26,22,16,0.10) !important;
   backdrop-filter: blur(20px) saturate(160%) !important;
@@ -4720,10 +4720,24 @@ h1, h2, h3, h4 {
 [data-theme="light"] .app-breadcrumb-sep { color: rgba(26,22,16,0.30) !important; }
 [data-theme="light"] .ncd-source-tag   { color: rgba(26,22,16,0.45) !important; }
 
+/* Back btn hover in ncd-topbar — orange, no teal */
+[data-theme="light"] .ncd-topbar .back-btn:hover {
+  background: rgba(255,85,0,0.10) !important;
+  border-color: rgba(255,85,0,0.35) !important;
+}
+
+/* Division / programme badge pill in topbar — always orange */
+[data-theme="light"] .dv-division-tag,
+[data-theme="light"] .detail-div-tag,
+[data-theme="light"] .ncd-topbar .detail-div-tag {
+  background: #FF5500 !important;
+  color: #FFFFFF !important;
+}
+
 /* DivisionPage topbar */
 [data-theme="light"] .dv-root   { background: transparent !important; }
 [data-theme="light"] .dv-topbar {
-  background: rgba(245,240,232,0.96) !important;
+  background: #FFFFFF !important;
   border-bottom: 3px solid #FF5500 !important;
   box-shadow: 0 2px 14px rgba(26,22,16,0.10) !important;
 }
@@ -4733,9 +4747,15 @@ h1, h2, h3, h4 {
 [data-theme="light"] .dv-title          { color: #1A1610 !important; }
 [data-theme="light"] .dv-sub            { color: rgba(26,22,16,0.55) !important; }
 
+/* KD indicator topbar */
+[data-theme="light"] .kd-ind-topbar {
+  background: #FFFFFF !important;
+  border-bottom: 3px solid #FF5500 !important;
+}
+
 /* ── Summary page (lp-card / cc-header) ────────────────────────── */
 [data-theme="light"] .lp-card {
-  background: rgba(255,252,248,0.90) !important;
+  background: #FFFFFF !important;
   border-color: #FF5500 !important;
   box-shadow:
     inset 0 2px 0 rgba(255,255,255,0.95),
@@ -4743,14 +4763,14 @@ h1, h2, h3, h4 {
     0 10px 28px rgba(26,22,16,0.11),
     0 4px 32px rgba(255,85,0,0.14) !important;
 }
-[data-theme="light"] .cc-header    { background: rgba(245,240,232,0.70) !important; }
+[data-theme="light"] .cc-header    { background: rgba(245,245,245,0.70) !important; }
 [data-theme="light"] .lp-div-name  { color: #1A1610 !important; }
 [data-theme="light"] .lp-div-sub   { color: rgba(26,22,16,0.50) !important; }
 
 /* Programme rows */
 [data-theme="light"] .programme-row,
 [data-theme="light"] .lp-prog {
-  background: rgba(255,255,255,0.80) !important;
+  background: rgba(255,255,255,0.85) !important;
   border-color: rgba(255,85,0,0.14) !important;
   border-top-color: rgba(255,85,0,0.30) !important;
 }
@@ -4759,22 +4779,48 @@ h1, h2, h3, h4 {
 
 /* Division programme cards */
 [data-theme="light"] .dv-prog-card {
-  background: rgba(255,252,248,0.88) !important;
+  background: #FFFFFF !important;
   border-top: 4px solid #FF5500 !important;
-  border-color: rgba(255,85,0,0.28) !important;
+  border-color: rgba(255,85,0,0.20) !important;
   box-shadow:
-    inset 0 2px 0 rgba(255,255,255,0.93),
+    inset 0 2px 0 rgba(255,255,255,0.95),
     0 2px 5px rgba(26,22,16,0.07),
     0 8px 24px rgba(26,22,16,0.10),
-    0 4px 24px rgba(255,85,0,0.10) !important;
+    0 4px 24px rgba(255,85,0,0.08) !important;
 }
 [data-theme="light"] .dv-prog-name   { color: #1A1610 !important; }
 [data-theme="light"] .dv-prog-sub    { color: rgba(26,22,16,0.55) !important; }
 [data-theme="light"] .dv-card-metric { color: #C04000 !important; }
 
+/* Current Status button on programme card — orange */
+[data-theme="light"] .dv-cs-btn {
+  background: #FF5500 !important;
+  box-shadow: 0 2px 8px rgba(255,85,0,0.28) !important;
+}
+[data-theme="light"] .dv-cs-btn:hover {
+  background: #C04000 !important;
+  box-shadow: 0 4px 14px rgba(255,85,0,0.38) !important;
+}
+
+/* CS Entry Bar — full light redesign (white bg, orange accent) */
+[data-theme="light"] .cs-entry-bar {
+  background: linear-gradient(108deg, #FFFFFF 0%, #F8F8F8 100%) !important;
+  border-left-color: #FF5500 !important;
+  box-shadow: 0 2px 10px rgba(26,22,16,0.08), 0 1px 3px rgba(26,22,16,0.06) !important;
+}
+[data-theme="light"] .cs-entry-bar::after { display: none; }
+[data-theme="light"] .cs-entry-bar:hover {
+  box-shadow: 0 6px 22px rgba(255,85,0,0.18), 0 2px 8px rgba(26,22,16,0.10) !important;
+}
+[data-theme="light"] .cs-entry-bar-dot     { background: #FF5500 !important; }
+[data-theme="light"] .cs-entry-bar-eyebrow { color: #FF5500 !important; }
+[data-theme="light"] .cs-entry-bar-label   { color: #1A1610 !important; font-family: 'Inter', sans-serif !important; }
+[data-theme="light"] .cs-entry-bar-source  { color: rgba(26,22,16,0.45) !important; }
+[data-theme="light"] .cs-entry-bar-cta     { background: #FF5500 !important; color: #FFFFFF !important; }
+
 /* KD programme section */
 [data-theme="light"] .kd-prog-section {
-  background: rgba(255,252,248,0.88) !important;
+  background: #FFFFFF !important;
   border-top-color: #FF5500 !important;
   box-shadow: 0 2px 12px rgba(26,22,16,0.08) !important;
 }
@@ -4783,6 +4829,46 @@ h1, h2, h3, h4 {
 [data-theme="light"] .kd-ind-name  { color: #1A1610 !important; }
 [data-theme="light"] .kd-ind-stmt  { color: rgba(26,22,16,0.50) !important; }
 
+/* KD indicator detail — hero section (aurora dark glass override) */
+[data-theme="light"] .kdi-section {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-color: transparent !important;
+}
+[data-theme="light"] .kdi-hero {
+  background: #FFFFFF !important;
+  border-color: rgba(255,85,0,0.22) !important;
+  border-left-color: #FF5500 !important;
+}
+[data-theme="light"] .kdi-name        { color: #1A1610 !important; }
+[data-theme="light"] .kdi-ind-stmt    { color: rgba(26,22,16,0.55) !important; }
+[data-theme="light"] .kdi-source-tag  { color: rgba(26,22,16,0.40) !important; }
+[data-theme="light"] .kdi-type-pill   { background: rgba(255,85,0,0.09) !important; color: #C04000 !important; border-color: rgba(255,85,0,0.28) !important; }
+
+/* KD indicator detail — performance numbers */
+[data-theme="light"] .kdi-progress-wrap      { background: #E8E8E8 !important; }
+[data-theme="light"] .kdi-count-label        { color: rgba(26,22,16,0.55) !important; }
+[data-theme="light"] .kdi-count-val          { color: #1A1610 !important; }
+[data-theme="light"] .kdi-count-sep          { color: rgba(26,22,16,0.20) !important; }
+[data-theme="light"] .perf-prog-target-label { color: rgba(26,22,16,0.45) !important; }
+[data-theme="light"] .perf-fraction          { border-top-color: rgba(26,22,16,0.10) !important; }
+
+/* Aurora dark glass override — restore light for all inner cards */
+[data-theme="light"] .kd-prog-section,
+[data-theme="light"] .ncd-kd-section,
+[data-theme="light"] .hmis-section,
+[data-theme="light"] .hrh-cadre-section {
+  background: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-color: rgba(255,85,0,0.18) !important;
+}
+[data-theme="light"] .kd-table-head,
+[data-theme="light"] .kd-type-divider {
+  background: #1A1610 !important;
+}
+
 /* NCD page root */
 [data-theme="light"] .ncd-root     { background: var(--bg) !important; }
 
@@ -4790,14 +4876,25 @@ h1, h2, h3, h4 {
 [data-theme="light"] .detail-card,
 [data-theme="light"] .cs-plot-card,
 [data-theme="light"] .csd-charts-outer {
-  background: rgba(255,252,248,0.90) !important;
-  border-color: rgba(255,85,0,0.22) !important;
+  background: #FFFFFF !important;
+  border-color: rgba(255,85,0,0.20) !important;
   border-top-color: #FF5500 !important;
   box-shadow: 0 2px 12px rgba(26,22,16,0.08) !important;
 }
 
-/* Scrollbar — warm */
-[data-theme="light"] ::-webkit-scrollbar-track { background: #E4DDD2; }
+/* KD indicator detail — perf card labels (hardcoded slate-400 → neutral) */
+[data-theme="light"] .perf-stat-label       { color: rgba(26,22,16,0.50) !important; }
+[data-theme="light"] .perf-stat-target      { color: #1A1610 !important; }
+[data-theme="light"] .perf-fraction-label   { color: rgba(26,22,16,0.50) !important; }
+[data-theme="light"] .perf-fraction-val     { color: #1A1610 !important; }
+
+/* Sunburst legend labels */
+[data-theme="light"] .sb-leg-item    { color: rgba(26,22,16,0.65) !important; }
+[data-theme="light"] .sb-leg-caption { color: rgba(26,22,16,0.40) !important; }
+[data-theme="light"] .sb-leg-tick    { background: rgba(26,22,16,0.30) !important; }
+
+/* Scrollbar — neutral */
+[data-theme="light"] ::-webkit-scrollbar-track { background: #E8E8E8; }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: #FF5500; }
 
 /* Push theme toggle to the right end of any topbar flex row */

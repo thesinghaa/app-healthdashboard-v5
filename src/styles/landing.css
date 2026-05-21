@@ -641,15 +641,15 @@
 /* ── END CARD SUMMARY ────────────────────────────────────────────── */
 
 /* ════════════════════════════════════════════════════════════════════
-   LIGHT MODE OVERRIDES — landing.css  (orange accent, V2 palette)
+   LIGHT MODE OVERRIDES — landing.css  (black & orange, clean neutral bg)
    ════════════════════════════════════════════════════════════════════ */
 
 /* ── Landing navbar ─────────────────────────────────────────────── */
 [data-theme="light"] .lnd-header-inner {
-  background: rgba(245,240,232,0.90);
-  border-color: rgba(255,85,0,0.30);
+  background: rgba(255,255,255,0.96);
+  border-color: rgba(255,85,0,0.25);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.88),
+    inset 0 1px 0 rgba(255,255,255,0.95),
     0 4px 20px rgba(26,22,16,0.10);
 }
 [data-theme="light"] .lnd-header-inner::before { display: none; }
@@ -670,7 +670,7 @@
 
 /* ── Cinema reel cards ──────────────────────────────────────────── */
 [data-theme="light"] .lnd-card {
-  background: rgba(245,240,232,0.94) !important;
+  background: #F5F5F5 !important;
   border-top-color:    #FF5500 !important;
   border-right-color:  rgba(255,85,0,0.18) !important;
   border-left-color:   rgba(255,85,0,0.18) !important;
@@ -679,7 +679,7 @@
     drop-shadow(0 10px 32px rgba(26,22,16,0.18)) !important;
 }
 [data-theme="light"] .lnd-card--active {
-  background: rgba(255,252,248,0.97) !important;
+  background: #FFFFFF !important;
   filter:
     drop-shadow(0 0 28px rgba(255,85,0,0.22))
     drop-shadow(0 12px 36px rgba(26,22,16,0.22)) !important;
@@ -715,13 +715,13 @@
 
 /* Arrow nav buttons */
 [data-theme="light"] .lnd-arrow {
-  background: rgba(245,240,232,0.85);
+  background: rgba(255,255,255,0.92);
   border: 1px solid rgba(255,85,0,0.22);
   color: #1A1610;
   box-shadow: 0 2px 10px rgba(26,22,16,0.10);
 }
 [data-theme="light"] .lnd-arrow:hover {
-  background: rgba(255,252,248,1);
+  background: #FFFFFF;
   border-color: rgba(255,85,0,0.55);
   color: #FF5500;
 }
@@ -730,17 +730,16 @@
 [data-theme="light"] .lnd-dot         { background: rgba(26,22,16,0.20); }
 [data-theme="light"] .lnd-dot--active { background: #FF5500; }
 
-
-/* ── AI Report button ───────────────────────────────────────────── */
+/* ── AI Report button — orange ──────────────────────────────────── */
 [data-theme="light"] .lnd-report-btn {
-  color: #0077a8;
-  background: rgba(0,181,204,0.08);
-  border-color: rgba(0,181,204,0.35);
+  color: #C04000;
+  background: rgba(255,85,0,0.08);
+  border-color: rgba(255,85,0,0.30);
 }
 [data-theme="light"] .lnd-report-btn:hover {
-  background: rgba(0,181,204,0.16);
-  border-color: rgba(0,181,204,0.60);
-  color: #00667a;
+  background: rgba(255,85,0,0.15);
+  border-color: rgba(255,85,0,0.55);
+  color: #FF5500;
 }
 
 /* ── Expand arrow ───────────────────────────────────────────────── */
@@ -749,10 +748,10 @@
 
 /* ── Indicator status panel ─────────────────────────────────────── */
 [data-theme="light"] .lnd-ind-card {
-  background: rgba(255,252,248,0.96) !important;
-  border-color: rgba(0,181,204,0.35) !important;
+  background: #FFFFFF !important;
+  border-color: rgba(255,85,0,0.30) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(0,181,204,0.06),
+    inset 0 0 0 1px rgba(255,85,0,0.06),
     0 4px 20px rgba(26,22,16,0.10) !important;
 }
 [data-theme="light"] .lnd-ind-title      { color: #1A1610; }
@@ -761,42 +760,35 @@
 [data-theme="light"] .lnd-ind-leg-lbl    { color: rgba(26,22,16,0.65); }
 [data-theme="light"] .lnd-ind-leg-num    { color: #1A1610; }
 [data-theme="light"] .lnd-ind-leg-row--active { background: rgba(26,22,16,0.05); }
-[data-theme="light"] .lnd-ind-top3-header    { /* inherits seg color — OK */ }
 [data-theme="light"] .lnd-ind-kd-name        { color: rgba(26,22,16,0.75); }
 [data-theme="light"] .lnd-ind-kd-row:hover   { background: rgba(26,22,16,0.05); }
 [data-theme="light"] .lnd-ind-cta {
-  color: #0077a8 !important;
-  border-color: rgba(0,181,204,0.40) !important;
-  background: rgba(0,181,204,0.06) !important;
+  color: #C04000 !important;
+  border-color: rgba(255,85,0,0.35) !important;
+  background: rgba(255,85,0,0.07) !important;
 }
 
 /* ── Programme section container ───────────────────────────────── */
 [data-theme="light"] .lnd-prog-section {
-  background: rgba(240,235,228,0.82) !important;
-  border-color: rgba(255,85,0,0.22) !important;
+  background: rgba(242,242,242,0.90) !important;
+  border-color: rgba(255,85,0,0.18) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(255,85,0,0.06),
-    0 2px 12px rgba(26,22,16,0.08) !important;
+    inset 0 0 0 1px rgba(255,85,0,0.05),
+    0 2px 12px rgba(26,22,16,0.07) !important;
 }
-[data-theme="light"] .lnd-prog-section-label { color: rgba(26,22,16,0.60); }
+[data-theme="light"] .lnd-prog-section-label { color: rgba(26,22,16,0.55); }
 
 /* ── Individual programme cards ─────────────────────────────────── */
 [data-theme="light"] .lnd-prog-card {
-  background: rgba(255,252,248,0.90);
+  background: #FFFFFF;
   border-color: rgba(26,22,16,0.10);
 }
 [data-theme="light"] .lnd-prog-card:hover {
-  background: rgba(255,255,255,1);
+  background: #FFFFFF;
   box-shadow: 0 4px 16px rgba(26,22,16,0.12);
 }
-/* Status border stays as-is (--pc-clr is the status color, fine in light) */
 
-/* Status badge in light mode */
-[data-theme="light"] .lnd-prog-card--red    .lnd-pc-status { color: #C53030; background: rgba(220,38,38,0.08);  border-color: rgba(220,38,38,0.28);  }
-[data-theme="light"] .lnd-prog-card--yellow .lnd-pc-status { color: #B45309; background: rgba(217,119,6,0.08);  border-color: rgba(217,119,6,0.28);  }
-[data-theme="light"] .lnd-prog-card--green  .lnd-pc-status { color: #047857; background: rgba(5,150,105,0.07);  border-color: rgba(5,150,105,0.28);  }
-
-/* Text colours on light cards */
+/* Text colours on light prog cards */
 [data-theme="light"] .lnd-pc-name    { color: #1A1610; }
 [data-theme="light"] .lnd-pc-kd-name { color: rgba(26,22,16,0.52); }
 [data-theme="light"] .lnd-pc-sep     { color: rgba(26,22,16,0.30); }

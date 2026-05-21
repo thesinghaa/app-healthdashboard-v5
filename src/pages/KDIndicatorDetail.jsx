@@ -144,8 +144,8 @@ function PlotlyAchievementChart({ indicator, status, nfhsRows }) {
   };
   const pal = ACH_PAL[status] || ACH_PAL.neutral;
 
-  /* NFHS fixed palettes — electric blue + vivid violet */
-  const N5 = { branch: '#007a8f', leaf: '#00b5cc', empty: '#FED7AA' };
+  /* NFHS fixed palettes — purple + amber */
+  const N5 = { branch: '#6D28D9', leaf: '#7C3AED', empty: '#DDD6FE' };
   const N4 = { branch: '#B45309', leaf: '#D97706', empty: '#FDE68A' };
 
   /* Center annotation values */
@@ -386,7 +386,7 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
 
   const handleBack = () => onBack();
 
-  const YEAR_COLORS = ['#00b5cc', '#B45309', '#007a8f'];
+  const YEAR_COLORS = ['#FF5500', '#B45309', '#7C3AED'];
 
   return (
     <div className="ncd-root" ref={wrapRef}>
@@ -617,9 +617,9 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
 
                   /* Categorical palette — 15 vivid colours, all dark enough for white text */
                   const DIST_PALETTE = [
-                    '#00b5cc','#007a8f','#B45309','#92400E','#BE185D',
-                    '#D97706','#F59E0B','#FB923C','#007a8f','#7C3AED',
-                    '#065F46','#1E40AF','#5B21B6','#9D174D','#92400E',
+                    '#7C3AED','#6D28D9','#B45309','#92400E','#BE185D',
+                    '#D97706','#F59E0B','#FB923C','#047857','#5B21B6',
+                    '#065F46','#C2410C','#9D174D','#D946EF','#92400E',
                   ];
                   const distColors = [
                     '#0F172A',   /* root centre — deep navy */
