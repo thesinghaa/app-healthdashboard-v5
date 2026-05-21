@@ -315,9 +315,10 @@
   border-radius: 20px;
   padding: 3px 10px;
 }
-.lnd-pill--red    { background: rgba(239,68,68,0.14);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.25);  }
-.lnd-pill--yellow { background: rgba(234,179,8,0.12);  color: #fde68a; border: 1px solid rgba(234,179,8,0.22);  }
-.lnd-pill--green  { background: rgba(34,197,94,0.12);  color: #86efac; border: 1px solid rgba(34,197,94,0.22);  }
+/* Matched exactly to SEG_COLORS: gap=#D93258, close=#C8780A, achieved=#149650 */
+.lnd-pill--red    { background: rgba(217,50,88,0.14);  color: #D93258; border: 1px solid rgba(217,50,88,0.30);  }
+.lnd-pill--yellow { background: rgba(200,120,10,0.13); color: #C8780A; border: 1px solid rgba(200,120,10,0.28); }
+.lnd-pill--green  { background: rgba(20,150,80,0.12);  color: #149650; border: 1px solid rgba(20,150,80,0.26);  }
 
 
 .lnd-card-cta {
@@ -1115,6 +1116,6 @@
 button.lnd-pill { cursor: pointer; font-family: inherit; }
 button.lnd-pill:focus-visible { outline: 2px solid #00b5cc; outline-offset: 2px; }
 .lnd-pill--sel { box-shadow: 0 0 0 1.5px currentColor; }
-.lnd-pill--red.lnd-pill--sel    { background: rgba(239,68,68,0.32) !important; }
-.lnd-pill--yellow.lnd-pill--sel { background: rgba(251,191,36,0.30) !important; }
-.lnd-pill--green.lnd-pill--sel  { background: rgba(34,197,94,0.28) !important; }
+.lnd-pill--red.lnd-pill--sel    { background: rgba(217,50,88,0.30)  !important; }
+.lnd-pill--yellow.lnd-pill--sel { background: rgba(200,120,10,0.28) !important; }
+.lnd-pill--green.lnd-pill--sel  { background: rgba(20,150,80,0.26)  !important; }

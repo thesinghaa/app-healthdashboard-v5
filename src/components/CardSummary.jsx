@@ -295,20 +295,11 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
     setSelectedSeg(prev => prev === seg ? null : seg);
   }
 
-  /* ── gap display per KD ─────────────────────────────────────── */
-  function gapLabel(kd) {
-    const g = kdGap(kd);
-    if (g === null) return '—';
-    if (g >= 0) return 'On track';
-    return `${Math.abs(g).toFixed(0)}pp`;
-  }
-
+  /* ── status display per KD ──────────────────────────────────── */
   function gapColor(kd) {
-    const g = kdGap(kd);
-    if (g === null) return 'rgba(255,255,255,0.40)';
-    if (g >= 0)    return SEG_COLORS.achieved;
-    if (g >= -10)  return SEG_COLORS.close;
-    return SEG_COLORS.gap;
+    const st = kdStatus(kd);
+    if (st === 'neutral') return 'rgba(255,255,255,0.40)';
+    return SEG_COLORS[st];
   }
 
   /* ── top-3 header label ─────────────────────────────────────── */
