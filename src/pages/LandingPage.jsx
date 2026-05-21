@@ -3,6 +3,7 @@ import { DIVISIONS } from '../data/programs';
 import { KD_TREE } from '../data/kdData';
 import '../styles/landing.css';
 import ThemeToggle from '../components/ThemeToggle';
+import ReportModal from '../components/ReportModal';
 
 const CardSummary = lazy(() => import('../components/CardSummary'));
 
@@ -82,9 +83,10 @@ function cardStyle(offset) {
 }
 
 export default function LandingPage({ onSelectDivision, onViewSummary, onDirectKD }) {
-  const [active, setActive]     = useState(0);
-  const [locked, setLocked]     = useState(false);
+  const [active, setActive]       = useState(0);
+  const [locked, setLocked]       = useState(false);
   const [activeFilter, setActiveFilter] = useState(null);
+  const [reportDiv, setReportDiv] = useState(null); // div object | null
 
   /* Reset filter whenever the active card changes */
   useEffect(() => setActiveFilter(null), [active]);
@@ -220,6 +222,20 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
                 )}
               </div>
 
+              {/* Generate Report — active card only */}
+              {isActive && (
+                <button
+                  className="lnd-report-btn"
+                  onClick={(e) => { e.stopPropagation(); setReportDiv(div); }}
+                >
+                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                    <rect x="1.5" y="1" width="10" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
+                    <path d="M4 4.5h5M4 6.5h5M4 8.5h3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                  </svg>
+                  Generate Report
+                </button>
+              )}
+
               {/* Summary — prog section is a flex child, fills remaining space */}
               <Suspense fallback={<div className="lnd-summary-skeleton" />}>
                 <CardSummary
@@ -267,6 +283,15 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           ))}
         </div>
       </div>
+
+      {/* ── Report modal ──────────────────────────────────────────── */}
+      {reportDiv && (
+        <ReportModal
+          divisionId={reportDiv.id}
+          divisionName={reportDiv.fullName}
+          onClose={() => setReportDiv(null)}
+        />
+      )}
 
     </div>
   );

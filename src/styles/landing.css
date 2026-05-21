@@ -1200,3 +1200,28 @@ button.lnd-pill:focus-visible { outline: 2px solid #00b5cc; outline-offset: 2px;
 }
 
 /* ── END RESPONSIVE ──────────────────────────────────────────────── */
+
+/* ── Generate Report button (active card only) ───────────────────── */
+.lnd-report-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(0, 181, 204, 0.90);
+  background: rgba(0, 181, 204, 0.10);
+  border: 1px solid rgba(0, 181, 204, 0.32);
+  border-radius: 8px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+.lnd-report-btn:hover {
+  background: rgba(0, 181, 204, 0.20);
+  border-color: rgba(0, 181, 204, 0.55);
+  color: #00b5cc;
+}
