@@ -23,6 +23,25 @@ function kdDeficit(kd) {
   return kd.lowerIsBetter ? ratio - 1.0 : 1.0 - ratio;
 }
 
+function computeProgStatus(divisionId, progId) {
+  const div = KD_TREE[divisionId];
+  if (!div) return 'yellow';
+  const prog = (div.programmes || {})[progId];
+  if (!prog || !(prog.kds || []).length) return 'yellow';
+  let achieved = 0, close = 0, gap = 0;
+  prog.kds.forEach(kd => {
+    const st = kdStatus(kd);
+    if (st === 'neutral') return;
+    if (st === 'achieved') achieved++;
+    else if (st === 'close') close++;
+    else gap++;
+  });
+  if (gap > 0) return 'red';
+  if (close > 0) return 'yellow';
+  if (achieved > 0) return 'green';
+  return 'yellow';
+}
+
 function getDivKDBreakdown(divisionId) {
   const div = KD_TREE[divisionId];
   if (!div) return { achieved: 0, close: 0, gap: 0, total: 0 };
@@ -122,14 +141,14 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
   /* ── resolved filter + filtered progs — must be before effects ── */
   const resolvedFilter = useMemo(() => {
     if (activeFilter) return activeFilter;
-    if (programmes.some(p => p.status === 'red'))    return 'red';
-    if (programmes.some(p => p.status === 'yellow')) return 'yellow';
+    if (programmes.some(p => computeProgStatus(divisionId, p.id) === 'red'))    return 'red';
+    if (programmes.some(p => computeProgStatus(divisionId, p.id) === 'yellow')) return 'yellow';
     return 'green';
-  }, [activeFilter, programmes]);
+  }, [activeFilter, programmes, divisionId]);
 
   const filteredProgs = useMemo(
-    () => programmes.filter(p => p.status === resolvedFilter),
-    [programmes, resolvedFilter],
+    () => programmes.filter(p => computeProgStatus(divisionId, p.id) === resolvedFilter),
+    [programmes, resolvedFilter, divisionId],
   );
 
   const n = filteredProgs.length;
