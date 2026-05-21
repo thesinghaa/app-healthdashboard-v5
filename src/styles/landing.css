@@ -644,32 +644,33 @@
    LIGHT MODE OVERRIDES — landing.css  (black & orange, clean neutral bg)
    ════════════════════════════════════════════════════════════════════ */
 
-/* ── Landing navbar — solid black + orange accent (matches summary navbar) */
+/* ── Landing navbar — orange glass pill */
 [data-theme="light"] .lnd-header-inner {
-  background: #1A1610;
-  border-color: rgba(255,85,0,0.30);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background: rgba(220, 65, 0, 0.72);
+  border-color: rgba(255,255,255,0.22);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.06),
-    0 4px 24px rgba(0,0,0,0.22),
-    0 0 0 1px rgba(255,85,0,0.12);
+    inset 0 1px 0 rgba(255,255,255,0.28),
+    inset 0 -1px 0 rgba(0,0,0,0.12),
+    0 8px 32px rgba(192,50,0,0.30),
+    0 2px 8px  rgba(0,0,0,0.18);
 }
 [data-theme="light"] .lnd-header-inner::before { display: none; }
 
-[data-theme="light"] .lnd-brand-name   { color: #FFFFFF; text-shadow: none; }
-[data-theme="light"] .lnd-brand-sub    { color: rgba(255,255,255,0.50); }
-[data-theme="light"] .lnd-header-label { color: rgba(255,255,255,0.45); letter-spacing: 0.10em; }
+[data-theme="light"] .lnd-brand-name   { color: #FFFFFF; text-shadow: 0 1px 8px rgba(0,0,0,0.25); }
+[data-theme="light"] .lnd-brand-sub    { color: rgba(255,255,255,0.65); }
+[data-theme="light"] .lnd-header-label { color: rgba(255,255,255,0.55); letter-spacing: 0.10em; }
 
 [data-theme="light"] .lnd-summary-btn {
-  background: rgba(255,85,0,0.18);
-  border: 1px solid rgba(255,85,0,0.45);
-  color: #FF5500;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.35);
+  color: #FFFFFF;
 }
 [data-theme="light"] .lnd-summary-btn:hover {
-  background: rgba(255,85,0,0.28);
-  border-color: rgba(255,85,0,0.70);
-  color: #FF7733;
+  background: rgba(255,255,255,0.26);
+  border-color: rgba(255,255,255,0.55);
+  color: #FFFFFF;
 }
 
 /* ── Cinema reel cards ──────────────────────────────────────────── */
