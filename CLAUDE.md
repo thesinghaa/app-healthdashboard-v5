@@ -307,17 +307,37 @@ All card backgrounds use dark glass: `rgba(10,34,54,0.82)` + `blur(18-32px)` + `
 ### Override block strategy
 Dark mode overrides are appended at the END of each CSS file as clearly labelled `DARK MODE OVERRIDES` blocks. Never edit the original rules — always append. This makes rollback trivial.
 
-### Light mode — `[data-theme="light"]` on `<html>` (audited May 2026)
+### Light mode — `[data-theme="light"]` on `<html>` (fully audited May 2026 — black & orange only)
 ThemeToggle sets `document.documentElement.dataset.theme = 'light'`. All light overrides use `[data-theme="light"] .class` selectors.
 
-**Landing page light mode** (in `landing.css`, comprehensive block added May 2026):
-- `.lnd-prog-section` → warm cream `rgba(240,235,228,0.82)` background replacing dark navy
-- `.lnd-prog-card` → near-white `rgba(255,252,248,0.90)`, dark text
-- `.lnd-pc-name`, `.lnd-pc-kd-name`, `.lnd-prog-donut-center span` → `#1A1610` dark text
-- `.lnd-ind-card` → light glass `rgba(255,252,248,0.96)`, cyan border
-- `.lnd-report-btn` → teal `#0077a8` colour on light bg
-- `.lnd-ind-cta` → teal border + text on light bg
-- All inner-page overrides are in `ncd.css` LIGHT MODE OVERRIDES block (topbars, cards, breadcrumbs, prog cards, KD table, detail cards)
+**Palette**: black (`#1A1610`) + orange (`#FF5500`) only — zero blue/teal anywhere in light mode.
+**Background**: `#F5F5F5` neutral grey (tokens.css `--bg`), cards white `#FFFFFF`.
+
+**tokens.css** (`[data-theme="light"]` block):
+- `--bg` through `--bg5`: neutral grey `#F5F5F5`→`#D8D8D8` (replaced warm cream)
+- `--w1`–`--w4`: pure white glass `rgba(255,255,255,...)`
+- All `--blue`, `--org`, `--teal-*` aliases → `#FF5500` orange in light mode
+
+**landing.css** light mode block (appended, comprehensive — May 2026):
+- `.lnd-header-inner` → white glass `rgba(255,255,255,0.96)`
+- `.lnd-ind-card` → white `#FFFFFF`, orange border `rgba(255,85,0,0.30)`
+- `.lnd-report-btn` → orange `rgba(255,85,0,0.08)` bg with orange border
+- `.lnd-ind-cta` → orange border + `#C04000` text
+- `.lnd-prog-section` → neutral `rgba(242,242,242,0.90)`, orange border
+- `.lnd-prog-card` → white `#FFFFFF`
+
+**ncd.css** light mode block (appended at ~line 4700, comprehensive — May 2026):
+- Topbars (`app-topbar`, `ncd-topbar`, `dv-topbar`) → white `#FFFFFF`
+- Division badge (`.dv-division-tag`) → orange `#FF5500` with `!important` (overrides inline chipColor style)
+- All cards (`.dv-prog-card`, `.kd-prog-section`, `.detail-card`, `.cs-plot-card`) → white
+- Aurora dark-glass override: `.kdi-section`, `.kd-prog-section`, `.hmis-section` → `background: transparent; backdrop-filter: none`
+- Perf stat labels (`.perf-stat-label`, `.perf-fraction-label`) → `rgba(26,22,16,0.50)` (was slate-400 `#94A3B8`)
+- Sunburst legend (`.sb-leg-item`, `.sb-leg-caption`, `.sb-leg-tick`) → warm dark neutrals
+
+**KDIndicatorDetail.jsx** chart colors (May 2026):
+- `N5` (NFHS-5 palette): teal `#00b5cc`/`#007a8f` → purple `#7C3AED`/`#6D28D9`
+- `YEAR_COLORS` (HMIS trend): `['#FF5500', '#B45309', '#7C3AED']` (was teal)
+- `DIST_PALETTE`: all `#00b5cc`, `#007a8f`, `#1E40AF` replaced with purple/green/crimson
 
 **Important**: `.bento-card` class in `grid.css` is dead — NOT used in any JSX. Home page uses `.carousel-card`.
 
