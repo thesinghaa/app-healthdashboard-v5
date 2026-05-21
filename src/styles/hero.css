@@ -369,3 +369,37 @@
 [data-theme="light"] .hl-red    { background: #DC2626; box-shadow: 0 0 4px #DC2626; }
 [data-theme="light"] .hl-yellow { background: #D97706; box-shadow: 0 0 4px #D97706; }
 [data-theme="light"] .hl-green  { background: #047857; box-shadow: 0 0 4px #047857; }
+
+/* ── Status filter pills (active / dim states) ───────────────────── */
+.hs-pill--clickable { cursor: pointer; }
+.hs-total           { cursor: pointer; }
+
+.hs-pill--active.hs-red {
+  background: rgba(239,68,68,0.28);
+  box-shadow: inset 0 0 0 1.5px rgba(252,165,165,0.70), 0 0 14px rgba(239,68,68,0.28);
+}
+.hs-pill--active.hs-yellow {
+  background: rgba(234,179,8,0.26);
+  box-shadow: inset 0 0 0 1.5px rgba(253,230,138,0.70), 0 0 14px rgba(234,179,8,0.26);
+}
+.hs-pill--active.hs-green {
+  background: rgba(34,197,94,0.26);
+  box-shadow: inset 0 0 0 1.5px rgba(134,239,172,0.70), 0 0 14px rgba(34,197,94,0.26);
+}
+
+.hs-pill--dim {
+  opacity: 0.32;
+  transition: opacity 0.18s ease, filter 0.18s ease;
+}
+.hs-pill--dim:hover { opacity: 0.60; }
+
+/* Empty state when a division has no programmes matching active filter */
+.lp-progs-none {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,0.22);
+  text-align: center;
+  padding: 18px 0 10px;
+  letter-spacing: 0.6px;
+}
+[data-theme="light"] .lp-progs-none { color: rgba(26,22,16,0.28); }

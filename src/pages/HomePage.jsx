@@ -185,11 +185,16 @@ function matchesSearch(progId, query) {
   return (PROG_KD_INDEX[progId] || []).some(term => term.includes(q));
 }
 
+const STATUS_FILTER_LABEL = { red: 'critical', yellow: 'caution', green: 'on-track' };
+
 export default function HomePage({ onSelectProgram, onSelectDivision, onBack }) {
   const rootRef = useRef(null);
   const summary = getSummary();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery]   = useState('');
+  const [statusFilter, setStatusFilter] = useState(null);
+  const filterInitRef = useRef(false);
 
+  /* Entry animation — runs once on mount */
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -207,6 +212,17 @@ export default function HomePage({ onSelectProgram, onSelectDivision, onBack }) 
     }, rootRef);
     return () => ctx.revert();
   }, []);
+
+  /* Filter-change animation — stagger rows in each time filter flips */
+  useEffect(() => {
+    if (!filterInitRef.current) { filterInitRef.current = true; return; }
+    gsap.fromTo('.lp-prog',
+      { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: 0.22, stagger: 0.022, ease: 'power2.out', clearProps: 'opacity,y' },
+    );
+  }, [statusFilter]);
+
+  const toggleFilter = (status) => setStatusFilter(f => f === status ? null : status);
 
   return (
     <div className="home-root" ref={rootRef}>
@@ -254,10 +270,34 @@ export default function HomePage({ onSelectProgram, onSelectDivision, onBack }) 
                 <span className="home-state-sub">NHM Health Dashboard · Summary</span>
               </div>
               <div className="home-summary">
-                <div className="hs-pill hs-total"><span className="hs-val">{summary.total}</span><span className="hs-lbl">Programmes</span></div>
-                <div className="hs-pill hs-red"><span className="hs-val">{summary.red}</span><span className="hs-lbl">Critical</span></div>
-                <div className="hs-pill hs-yellow"><span className="hs-val">{summary.yellow}</span><span className="hs-lbl">Caution</span></div>
-                <div className="hs-pill hs-green"><span className="hs-val">{summary.green}</span><span className="hs-lbl">On Track</span></div>
+                <div
+                  className={`hs-pill hs-total${statusFilter === null ? '' : ' hs-pill--dim'}`}
+                  onClick={() => setStatusFilter(null)}
+                  title="Show all programmes"
+                >
+                  <span className="hs-val">{summary.total}</span><span className="hs-lbl">Programmes</span>
+                </div>
+                <div
+                  className={`hs-pill hs-red hs-pill--clickable${statusFilter === 'red' ? ' hs-pill--active' : statusFilter ? ' hs-pill--dim' : ''}`}
+                  onClick={() => toggleFilter('red')}
+                  title="Filter: Critical only"
+                >
+                  <span className="hs-val">{summary.red}</span><span className="hs-lbl">Critical</span>
+                </div>
+                <div
+                  className={`hs-pill hs-yellow hs-pill--clickable${statusFilter === 'yellow' ? ' hs-pill--active' : statusFilter ? ' hs-pill--dim' : ''}`}
+                  onClick={() => toggleFilter('yellow')}
+                  title="Filter: Caution only"
+                >
+                  <span className="hs-val">{summary.yellow}</span><span className="hs-lbl">Caution</span>
+                </div>
+                <div
+                  className={`hs-pill hs-green hs-pill--clickable${statusFilter === 'green' ? ' hs-pill--active' : statusFilter ? ' hs-pill--dim' : ''}`}
+                  onClick={() => toggleFilter('green')}
+                  title="Filter: On Track only"
+                >
+                  <span className="hs-val">{summary.green}</span><span className="hs-lbl">On Track</span>
+                </div>
               </div>
               <div className="home-right">
                 <ThemeToggle />
@@ -328,26 +368,33 @@ export default function HomePage({ onSelectProgram, onSelectDivision, onBack }) 
 
                 {/* Programme list */}
                 <div className="lp-progs">
-                  {div.programs.map(prog => {
-                    const matched = matchesSearch(prog.id, searchQuery);
-                    return (
-                    <button
-                      key={prog.id}
-                      className={`lp-prog lp-prog--${computeProgStatus(div.id, prog.id)}${searchQuery && !matched ? ' lp-prog--dimmed' : ''}${searchQuery && matched ? ' lp-prog--highlighted' : ''}`}
-                      onClick={() => onSelectProgram(prog, div)}
-                    >
-                      <div className="lp-prog-left">
-                        <div className="lp-prog-text">
-                          <span className="lp-prog-name">{PROG_LABEL[prog.id] || prog.name}</span>
-                          {prog.keyMetric && <span className="lp-prog-metric">{prog.keyMetric}</span>}
+                  {div.programs
+                    .filter(p => !statusFilter || computeProgStatus(div.id, p.id) === statusFilter)
+                    .map(prog => {
+                      const matched = matchesSearch(prog.id, searchQuery);
+                      const st = computeProgStatus(div.id, prog.id);
+                      return (
+                      <button
+                        key={prog.id}
+                        className={`lp-prog lp-prog--${st}${searchQuery && !matched ? ' lp-prog--dimmed' : ''}${searchQuery && matched ? ' lp-prog--highlighted' : ''}`}
+                        onClick={() => onSelectProgram(prog, div)}
+                      >
+                        <div className="lp-prog-left">
+                          <div className="lp-prog-text">
+                            <span className="lp-prog-name">{PROG_LABEL[prog.id] || prog.name}</span>
+                            {prog.keyMetric && <span className="lp-prog-metric">{prog.keyMetric}</span>}
+                          </div>
                         </div>
-                      </div>
-                      <span className={`lp-prog-badge lp-badge--${computeProgStatus(div.id, prog.id)}`}>
-                        {STATUS_TEXT[computeProgStatus(div.id, prog.id)]}
-                      </span>
-                    </button>
-                    );
-                  })}
+                        <span className={`lp-prog-badge lp-badge--${st}`}>
+                          {STATUS_TEXT[st]}
+                        </span>
+                      </button>
+                      );
+                    })
+                  }
+                  {statusFilter && !div.programs.some(p => computeProgStatus(div.id, p.id) === statusFilter) && (
+                    <div className="lp-progs-none">None</div>
+                  )}
                 </div>
 
               </div>
