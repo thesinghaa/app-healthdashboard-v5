@@ -2,12 +2,11 @@ import { useState } from 'react';
 
 const API_BASE = import.meta.env.VITE_REPORT_API_URL || '';
 
-/* Steps match real backend SSE events — idx 0-4 */
+/* Steps match real backend SSE events — idx 0-3 */
 const STEPS = [
-  { label: 'Building KD briefing',   pct: 10  },
-  { label: 'Collecting data',        pct: 32  },
-  { label: 'Analysing performance',  pct: 62  },
-  { label: 'Writing report',         pct: 88  },
+  { label: 'Computing KD data',      pct: 15  },
+  { label: 'Analysing performance',  pct: 55  },
+  { label: 'Building report',        pct: 90  },
   { label: 'Finalising',            pct: 100 },
 ];
 
