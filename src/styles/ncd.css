@@ -3792,8 +3792,9 @@
   border-radius: 50px;
   padding: 0 16px;
   height: 42px;
-  min-width: 190px;
-  max-width: 240px;
+  min-width: 260px;
+  max-width: 380px;
+  flex: 1;
   box-shadow:
     inset 0 1.5px 0 rgba(255, 255, 255, 0.90),
     inset 0 -1.5px 0 rgba(200, 60, 0, 0.12),
