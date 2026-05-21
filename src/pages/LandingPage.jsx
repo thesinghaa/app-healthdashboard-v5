@@ -63,7 +63,11 @@ function getDivStats(div) {
 function cardStyle(offset) {
   const abs = Math.abs(offset);
   if (abs > 2) return { display: 'none' };
-  const tx = offset * 1300;
+  const vw   = typeof window !== 'undefined' ? window.innerWidth : 1440;
+  const cardW = Math.min(1200, vw - 80);
+  /* Step: at >= 1440px keep 1300px gap; below that scale with viewport */
+  const step = vw >= 1440 ? 1300 : Math.max(cardW + 80, Math.round(vw * 0.88));
+  const tx = offset * step;
   const sc = abs === 0 ? 1 : abs === 1 ? 0.82 : 0.66;
   const op = abs === 0 ? 1 : abs === 1 ? 0.58 : 0.20;
   const zi = abs === 0 ? 10 : abs === 1 ? 5 : 1;

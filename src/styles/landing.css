@@ -1137,3 +1137,67 @@ button.lnd-pill:focus-visible { outline: 2px solid #00b5cc; outline-offset: 2px;
 .lnd-pill--red.lnd-pill--sel    { background: rgba(217,50,88,0.30)  !important; }
 .lnd-pill--yellow.lnd-pill--sel { background: rgba(200,120,10,0.28) !important; }
 .lnd-pill--green.lnd-pill--sel  { background: rgba(20,150,80,0.26)  !important; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — card adapts to laptop / projector / tablet / 4K
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Custom prop for indicator panel width — inherited by all card descendants */
+.lnd-card {
+  --lnd-ind-w: clamp(240px, 20vw, 300px);
+}
+
+/* Card dimensions: fit within the available reel-wrap height so nothing
+   gets clipped by overflow:hidden. 200px budget covers header + dot nav. */
+.lnd-card {
+  width:  min(1200px, calc(100vw - 80px)) !important;
+  height: min(980px, calc(100dvh - 200px)) !important;
+  top: 2% !important;
+
+  padding:
+    clamp(28px, 3.5vh, 44px)
+    calc(var(--lnd-ind-w) + 24px)
+    clamp(18px, 2.5vh, 44px)
+    clamp(44px, 4.5vw, 68px) !important;
+
+  gap: clamp(10px, 1.4vh, 18px) !important;
+}
+
+/* Indicator panel inherits its width from the card's custom prop.
+   Height fills the card vertically (10px top + 10px bottom clearance). */
+.lnd-ind-card {
+  width:  var(--lnd-ind-w, 276px) !important;
+  height: calc(100% - 20px) !important;
+}
+
+/* Programme grid shrinks on shorter viewports instead of overflowing. */
+.lnd-prog-section {
+  min-height: 120px !important;
+  max-height: clamp(150px, 28vh, 380px) !important;
+}
+
+/* Large monitor / 1080p projector (1920px+): wider card, larger panel */
+@media (min-width: 1920px) {
+  .lnd-card {
+    --lnd-ind-w: clamp(270px, 16vw, 350px);
+    width:  min(1400px, calc(100vw - 100px)) !important;
+    height: min(1000px, calc(100dvh - 200px)) !important;
+  }
+  .lnd-card-name { font-size: 34px !important; }
+}
+
+/* Tablet / small laptop (<=1100px): hide right panel, full-width layout */
+@media (max-width: 1100px) {
+  .lnd-card {
+    width:  min(880px, calc(100vw - 48px)) !important;
+    height: min(720px, calc(100dvh - 180px)) !important;
+    padding: clamp(18px, 2.5vh, 32px) clamp(20px, 3.5vw, 40px) !important;
+    gap: 10px !important;
+  }
+  .lnd-ind-card     { display: none !important; }
+  .lnd-prog-section { max-height: clamp(130px, 28vh, 280px) !important; }
+  .lnd-card-name    { font-size: 24px !important; }
+  .lnd-card-idx     { font-size: 24px !important; }
+}
+
+/* ── END RESPONSIVE ──────────────────────────────────────────────── */
