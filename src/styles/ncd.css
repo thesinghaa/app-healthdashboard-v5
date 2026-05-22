@@ -1959,12 +1959,22 @@
   height: 100% !important;
 }
 
+/* ── District Performance heading pill ───────────────────────────── */
+.kdi-section .ncd-card-header h3 {
+  display: inline-block;
+  border: 2px solid #3B82F6;
+  border-radius: 999px;
+  padding: 3px 16px;
+}
+
 /* ── Insight panel ───────────────────────────────────────────────── */
 .dist-insight-panel {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 4px 0;
+  padding: 16px;
+  border: 2px solid #3B82F6;
+  border-radius: 10px;
 }
 .dist-insight-block {
   display: flex;
