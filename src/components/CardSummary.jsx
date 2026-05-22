@@ -535,10 +535,25 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
                 {/* Programme name */}
                 <p className="lnd-pc-name">{prog.label || prog.name}</p>
 
-                {/* Worst KD indicator */}
-                {worstKD && (
-                  <p className="lnd-pc-kd-name">{worstKD.indicator}</p>
-                )}
+                {/* Top indicators by priority: gap first, then close, then achieved */}
+                <div className="lnd-pc-ind-list">
+                  {(() => {
+                    const gaps   = getProgKDsByStatus(divisionId, prog.id, 'gap');
+                    const closes = getProgKDsByStatus(divisionId, prog.id, 'close');
+                    const achs   = getProgKDsByStatus(divisionId, prog.id, 'achieved');
+                    const pool = [
+                      ...gaps.map(kd   => ({ kd, seg: 'gap'      })),
+                      ...closes.map(kd => ({ kd, seg: 'close'    })),
+                      ...achs.map(kd   => ({ kd, seg: 'achieved' })),
+                    ].slice(0, 2);
+                    return pool.map(({ kd, seg }, j) => (
+                      <div key={j} className="lnd-pc-ind-row">
+                        <span className={`lnd-pc-ind-dot lnd-pc-ind-dot--${seg}`} />
+                        <span className="lnd-pc-ind-name">{kd.indicator}</span>
+                      </div>
+                    ));
+                  })()}
+                </div>
 
                 {/* Mini counts */}
                 <div className="lnd-pc-counts">
