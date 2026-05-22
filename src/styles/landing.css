@@ -1290,7 +1290,7 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   width: 100%;
-  text-align: center;
+  text-align: left;
   line-height: 1;
   flex-shrink: 0;
 }
