@@ -5406,6 +5406,13 @@ h1, h2, h3, h4 {
 /* ── NFHS label font size ────────────────────────────────────────── */
 .kdi-nfhs-label { font-size: 15px; }
 
+/* ── NFHS bar sizing overrides ───────────────────────────────────── */
+.kdi-nfhs-vals      { min-width: 420px; }
+.nfhs-bar-tag       { font-size: 12px; min-width: 24px; }
+.nfhs-bar-track     { height: 11px; min-width: 160px; }
+.nfhs-bar-num       { font-size: 13.5px; min-width: 58px; }
+.nfhs-diff--heat    { font-size: 13.5px; min-width: 82px; padding: 6px 12px; }
+
 /* ── NFHS head — orange bar, black text ──────────────────────────── */
 .kdi-nfhs-head,
 [data-theme="light"] .kdi-nfhs-head,
