@@ -1951,11 +1951,6 @@
   overflow: hidden;
   border: 2px solid #FF5500;
   border-radius: 10px;
-  box-shadow:
-    0 0 0 4px rgba(255, 85, 0, 0.35),
-    0 0 0 8px rgba(255, 85, 0, 0.18),
-    0 0 0 13px rgba(255, 85, 0, 0.07),
-    0 0 32px rgba(255, 85, 0, 0.22);
 }
 .dist-chart-wrap .js-plotly-plot,
 .dist-chart-wrap .plot-container,
