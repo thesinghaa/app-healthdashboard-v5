@@ -534,12 +534,8 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
                   if (worstKD && onKDClick) onKDClick(worstKD, prog.id);
                 }}
               >
-                {/* Status header — top of card */}
-                {pool.length > 0 && (
-                  <div className="lnd-pc-ind-header" style={{ color: SEG_COLORS[domSeg] }}>
-                    {headerText}
-                  </div>
-                )}
+                {/* Programme name — top of card */}
+                <p className="lnd-pc-name">{prog.label || prog.name}</p>
 
                 {/* Speedometer gauge */}
                 <div
@@ -552,12 +548,12 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
                   <ProgGauge gap={pb.gap} close={pb.close} achieved={pb.achieved} />
                 </div>
 
-                {/* Programme name */}
-                <p className="lnd-pc-name">{prog.label || prog.name}</p>
-
                 {/* Top indicators */}
                 {pool.length > 0 && (
                   <div className="lnd-pc-ind-list">
+                    <div className="lnd-pc-ind-header" style={{ color: SEG_COLORS[domSeg] }}>
+                      {headerText}
+                    </div>
                     {pool.map(({ kd }, j) => (
                       <div
                         key={j}
