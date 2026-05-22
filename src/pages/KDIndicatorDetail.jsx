@@ -200,8 +200,15 @@ function PlotlyFYChart({ indicator, status }) {
 }
 
 /* ── District Choropleth Map ──────────────────────────────────── */
-const AP_CX = 94.45, AP_CY = 28.05;            // AP centroid
-const AP_SCALES = [52, 78, 117, 175, 263];     // projection.scale at each zoom step
+// zoom=0: fitbounds fills container automatically
+// zoom 1-4: explicit lon/lat ranges zoom into AP (tighter = more zoomed in)
+const AP_ZOOM = [
+  null,                                         // 0: fitbounds='geojson'
+  { lon: [91.5, 97.5], lat: [26.4, 29.7] },   // 1
+  { lon: [92.2, 97.0], lat: [26.7, 29.4] },   // 2
+  { lon: [93.0, 96.5], lat: [27.1, 29.1] },   // 3
+  { lon: [93.5, 96.0], lat: [27.3, 28.9] },   // 4
+];
 
 function DistrictMap({ distData, isLight }) {
   const [zoom, setZoom] = useState(0);
@@ -225,8 +232,6 @@ function DistrictMap({ distData, isLight }) {
     return [lon, lat];
   }
   const centroids = features.map(centroid);
-
-  const projScale = AP_SCALES[zoom];
 
   const choropleth = {
     type: 'choropleth',
@@ -260,7 +265,7 @@ function DistrictMap({ distData, isLight }) {
       const v = valueMap[n];
       return v != null ? `${Math.round((v / stateTotal) * 100)}%` : '';
     }),
-    textfont: { family: "'JetBrains Mono', monospace", size: zoom >= 3 ? 11 : zoom >= 1 ? 9 : 8, color: '#ffffff' },
+    textfont: { family: "'JetBrains Mono', monospace", size: zoom >= 3 ? 11 : zoom >= 2 ? 9 : 8, color: '#ffffff' },
     hoverinfo: 'skip',
     showlegend: false,
   };
@@ -268,15 +273,18 @@ function DistrictMap({ distData, isLight }) {
   const layout = {
     geo: {
       visible: false,
-      projection: { type: 'mercator', scale: projScale },
-      center: { lon: AP_CX, lat: AP_CY },
+      projection: { type: 'mercator' },
       bgcolor: 'transparent',
       domain: { x: [0, 1], y: [0, 1] },
+      ...(zoom === 0
+        ? { fitbounds: 'geojson' }
+        : { lonaxis: { range: AP_ZOOM[zoom].lon }, lataxis: { range: AP_ZOOM[zoom].lat } }
+      ),
     },
     paper_bgcolor: 'transparent',
     plot_bgcolor:  'transparent',
     margin: { t: 0, b: 0, l: 0, r: 0 },
-    height: 270,
+    autosize: true,
     hoverlabel: {
       bgcolor:     isLight ? 'rgba(15,23,42,0.92)' : 'rgba(5,7,18,0.96)',
       bordercolor: 'rgba(0,181,204,0.50)',
@@ -311,9 +319,9 @@ function DistrictMap({ distData, isLight }) {
         zIndex: 10,
       }}>
         <button
-          style={{ ...btnBase, opacity: zoom >= AP_SCALES.length - 1 ? 0.35 : 1 }}
-          onClick={() => setZoom(z => Math.min(z + 1, AP_SCALES.length - 1))}
-          disabled={zoom >= AP_SCALES.length - 1}
+          style={{ ...btnBase, opacity: zoom >= AP_ZOOM.length - 1 ? 0.35 : 1 }}
+          onClick={() => setZoom(z => Math.min(z + 1, AP_ZOOM.length - 1))}
+          disabled={zoom >= AP_ZOOM.length - 1}
           title="Zoom in"
         >+</button>
         <button
