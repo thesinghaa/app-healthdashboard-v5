@@ -5423,7 +5423,7 @@ h1, h2, h3, h4 {
 .kdi-nfhs-head-label,
 [data-theme="light"] .kdi-nfhs-head-label,
 [data-theme="dark"]  .kdi-nfhs-head-label {
-  color: rgba(0,0,0,.65);
+  color: #ffffff;
 }
 .kdi-nfhs-head-val.h4,
 .kdi-nfhs-head-val.h5,
