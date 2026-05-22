@@ -233,23 +233,35 @@ function DistrictMap({ distData, isLight }) {
   }
   const centroids = features.map(centroid);
 
+  /* Heatmap colour scales — orange for light, blue for dark */
+  const SCALE_LIGHT = [
+    [0,    '#FFF3E0'],   // lightest cream — lowest values
+    [0.20, '#FFCC80'],   // soft amber
+    [0.45, '#FF9800'],   // vivid orange
+    [0.70, '#E65100'],   // deep orange
+    [1,    '#7B1300'],   // burnt dark red-orange — highest
+  ];
+  const SCALE_DARK = [
+    [0,    '#0D1B2A'],   // near-black navy — lowest
+    [0.20, '#1E3A5F'],   // dark navy
+    [0.45, '#1565C0'],   // medium blue
+    [0.70, '#29B6F6'],   // sky blue
+    [1,    '#E1F5FE'],   // near-white — highest
+  ];
+
   const choropleth = {
     type: 'choropleth',
     geojson: apDistricts,
     featureidkey: 'properties.DISTRICT',
     locations: names,
     z: values,
-    colorscale: [
-      [0,   '#1E3A5F'],
-      [0.4, '#D97706'],
-      [1,   '#7C3AED'],
-    ],
+    colorscale: isLight ? SCALE_LIGHT : SCALE_DARK,
     zmin: 0,
     zmax: maxVal,
     showscale: false,
     marker: {
       line: {
-        color: isLight ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.25)',
+        color: isLight ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.18)',
         width: 1.2,
       },
     },
