@@ -1,9 +1,0 @@
-{
-  "framework": "vite",
-  "experimentalServices": {
-    "backend-py": {
-      "entrypoint": "backend-py",
-      "routePrefix": "/"
-    }
-  }
-}
