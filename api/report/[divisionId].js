@@ -94,17 +94,22 @@ function buildPrompt(divData) {
   }
 
   const analysisBlocks = criticalProgs
-    .map(p => `ANALYSIS[${p.id}]: [3-4 sentences. Why is ${p.name} failing? Specific root causes — HR shortage, supply chain, training gap, infrastructure. What must change? Reference exact numbers.]`)
+    .map(p => `ANALYSIS[${p.id}]: [3-4 sentences. Describe the current performance gaps in ${p.name} — specific contributing factors such as HR availability, supply chain constraints, training needs, or infrastructure requirements. What targeted actions are needed? Reference exact indicator names and numbers. Use neutral, constructive language only.]`)
     .join('\n\n');
 
   return `You are a senior public health analyst at Pahlé India Foundation writing for NHM Arunachal Pradesh senior officers.
+
+LANGUAGE RULES (strictly mandatory):
+- Use ONLY positive or neutral language throughout. Never use the words "failing", "failure", "is failing", "struggling", "poor performance", or any attacking/negative framing.
+- Frame gaps as opportunities for improvement, not as failures.
+- Example — WRONG: "X is failing due to..." | CORRECT: "X has significant scope for improvement, with..."
 
 DATA:
 ${lines.join('\n')}
 
 Write EXACTLY the sections below in EXACTLY this format. No extra text before or after.
 
-EXEC_SUMMARY: [2-3 sentences. Overall division health, headline finding, urgency. Use exact numbers.]
+EXEC_SUMMARY: [2-3 sentences. Overall division status, headline finding, priority areas. Use exact numbers. Neutral/positive tone.]
 
 ${analysisBlocks}
 
@@ -375,7 +380,7 @@ function scorecardSection(programmes) {
   return `<div class="section">
   <div class="section-header">
     <span class="section-num">02</span>
-    <span class="section-title">Division Scorecard</span>
+    <span class="section-title">Programme Performance Overview</span>
   </div>
   <table class="scorecard-table">
     <thead><tr>
@@ -390,7 +395,7 @@ function prioritySection(programmes, analyses) {
   const critical = programmes.filter(p => p.status === 'red' || p.status === 'yellow');
   if (!critical.length) {
     return `<div class="section">
-      <div class="section-header"><span class="section-num">03</span><span class="section-title">Critical Priorities</span></div>
+      <div class="section-header"><span class="section-num">04</span><span class="section-title">Areas Requiring Attention</span></div>
       <div class="exec-card" style="border-left-color:#16a34a;background:rgba(22,163,74,.04)">No critical programmes identified. Division is performing within targets.</div>
     </div>`;
   }
@@ -433,8 +438,8 @@ function prioritySection(programmes, analyses) {
 
   return `<div class="section">
   <div class="section-header">
-    <span class="section-num">03</span>
-    <span class="section-title">Critical Priorities</span>
+    <span class="section-num">04</span>
+    <span class="section-title">Areas Requiring Attention</span>
   </div>
   ${cards}
 </div>`;
@@ -465,7 +470,7 @@ function workingSection(workingText, programmes) {
 
   return `<div class="section">
   <div class="section-header">
-    <span class="section-num">04</span>
+    <span class="section-num">03</span>
     <span class="section-title">What is Working</span>
   </div>
   <ul class="working-list">${items}</ul>
@@ -500,7 +505,7 @@ function recsSection(recsText) {
   return `<div class="section">
   <div class="section-header">
     <span class="section-num">05</span>
-    <span class="section-title">Strategic Recommendations</span>
+    <span class="section-title">Suggestive AI-Based Recommendations</span>
   </div>
   <div class="rec-list">${cards}</div>
 </div>`;
@@ -559,8 +564,8 @@ ${cover(fullName, today, totals)}
 <div class="content">
   ${execSection(parsed.exec)}
   ${scorecardSection(programmes)}
-  ${prioritySection(programmes, parsed.analyses)}
   ${workingSection(parsed.working, programmes)}
+  ${prioritySection(programmes, parsed.analyses)}
   ${recsSection(parsed.recs)}
   ${appendixSection(programmes)}
   <footer class="report-footer">
