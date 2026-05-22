@@ -785,10 +785,7 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
                           {d.nfhs5 != null ? `${d.nfhs5}${d.unit}` : '—'}
                         </span>
                         {diff != null && (
-                          <span className="nfhs-diff" style={{
-                            color: diffColor,
-                            background: improved == null ? '#F8FAFC' : improved ? '#ECFDF5' : '#FEF2F2',
-                          }}>
+                          <span className={`nfhs-diff${improved == null ? '' : improved ? ' nfhs-diff--up' : ' nfhs-diff--dn'}`}>
                             {improved ? '↑' : '↓'} {parseFloat(diff) > 0 ? '+' : ''}{diff}{d.unit}
                           </span>
                         )}
