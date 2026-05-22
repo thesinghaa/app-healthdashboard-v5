@@ -264,7 +264,7 @@ function DistrictMap({ distData, isLight }) {
         width: 1.2,
       },
     },
-    hovertemplate: '<b>%{location}</b><br>%{z:,}<extra></extra>',
+    hovertemplate: '<b>%{location}</b><br><br>%{z:,}<extra></extra>',
   };
 
   const labelTrace = {
@@ -297,9 +297,11 @@ function DistrictMap({ distData, isLight }) {
     margin: { t: 0, b: 0, l: 0, r: 0 },
     autosize: true,
     hoverlabel: {
-      bgcolor:     isLight ? 'rgba(15,23,42,0.92)' : 'rgba(5,7,18,0.96)',
-      bordercolor: 'rgba(0,181,204,0.50)',
-      font: { color: '#ffffff', size: 11, family: "'JetBrains Mono', monospace" },
+      bgcolor:     isLight ? 'rgba(15,23,42,0.94)' : 'rgba(5,7,18,0.97)',
+      bordercolor: 'rgba(0,181,204,0.60)',
+      font: { color: '#ffffff', size: 14, family: "'JetBrains Mono', monospace" },
+      align: 'left',
+      namelength: -1,
     },
   };
 
