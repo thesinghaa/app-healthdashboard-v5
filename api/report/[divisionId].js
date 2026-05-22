@@ -102,7 +102,8 @@ function buildPrompt(divData) {
 LANGUAGE RULES (strictly mandatory):
 - Use ONLY positive or neutral language throughout. Never use the words "failing", "failure", "is failing", "struggling", "poor performance", or any attacking/negative framing.
 - Frame gaps as opportunities for improvement, not as failures.
-- Example — WRONG: "X is failing due to..." | CORRECT: "X has significant scope for improvement, with..."
+- Do NOT use em dashes (the character: -) or en dashes anywhere. Use commas or periods instead.
+- Example of tone - WRONG: "X is failing due to..." | CORRECT: "X has significant scope for improvement, with..."
 
 DATA:
 ${lines.join('\n')}
@@ -181,7 +182,7 @@ function kdBadge(st) {
 }
 
 function achBar(achieved, total) {
-  if (!total) return '<span style="color:#94a3b8">—</span>';
+  if (!total) return '<span style="color:#94a3b8;font-size:12px">No data</span>';
   const pct = Math.round(achieved / total * 100);
   const fill = pct >= 80 ? '#16a34a' : pct >= 50 ? '#d97706' : '#dc2626';
   return `<div class="prog-bar-wrap">
@@ -195,59 +196,61 @@ function achBar(achieved, total) {
 ───────────────────────────────────────────────────────────────── */
 const REPORT_CSS = `
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;color:#1e293b;background:#f1f5f9}
+body{font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;color:#1e293b;background:#eff2f7}
 
 /* ── Cover ──────────────────────────────────────────────────────── */
-.cover{background:linear-gradient(135deg,#0a1628 0%,#1e3a5f 60%,#0f2a40 100%);color:#fff;padding:52px 56px;display:flex;justify-content:space-between;align-items:center;min-height:220px;position:relative;overflow:hidden}
-.cover::before{content:'';position:absolute;right:-80px;top:-80px;width:360px;height:360px;border-radius:50%;background:rgba(255,85,0,0.08);pointer-events:none}
-.cover::after{content:'';position:absolute;right:60px;bottom:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none}
+.cover{background:linear-gradient(140deg,#040e1d 0%,#0b1e38 55%,#071522 100%);color:#fff;padding:56px 60px;display:flex;justify-content:space-between;align-items:center;gap:32px;min-height:240px;position:relative;overflow:hidden;border-bottom:3px solid #FF5500}
+.cover::before{content:'';position:absolute;right:-55px;top:-55px;width:340px;height:340px;border-radius:50%;border:1px solid rgba(255,85,0,.16);pointer-events:none}
+.cover::after{content:'';position:absolute;right:65px;bottom:-75px;width:210px;height:210px;border-radius:50%;border:1px solid rgba(255,255,255,.05);pointer-events:none}
 .cover-left{position:relative;z-index:1;flex:1}
-.cover-tag{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:10px}
-.cover-sub{font-size:13px;color:rgba(255,255,255,.60);margin-bottom:22px}
-.cover-title{font-size:34px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:14px}
+.cover-tag{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:10px}
+.cover-sub{font-size:13px;color:rgba(255,255,255,.52);margin-bottom:20px}
+.cover-title{font-size:38px;font-weight:800;color:#fff;line-height:1.10;margin-bottom:16px}
 .cover-title span{color:#FF5500}
-.cover-date{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.40);letter-spacing:.06em}
+.cover-date{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.32);letter-spacing:.06em}
 
 /* Cover KPI boxes */
-.cover-kpis{display:flex;flex-direction:column;gap:10px;min-width:180px;position:relative;z-index:1}
-.kpi-box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:14px 18px;text-align:center}
-.kpi-box--red{border-color:rgba(220,38,38,.40);background:rgba(220,38,38,.10)}
-.kpi-box--green{border-color:rgba(22,163,74,.40);background:rgba(22,163,74,.10)}
-.kpi-val{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:#FF5500;line-height:1}
+.cover-kpis{display:flex;flex-direction:column;gap:10px;min-width:175px;position:relative;z-index:1}
+.kpi-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:12px;padding:16px 20px;text-align:center}
+.kpi-box--red{border-color:rgba(239,68,68,.32);background:rgba(239,68,68,.08)}
+.kpi-box--green{border-color:rgba(34,197,94,.32);background:rgba(34,197,94,.08)}
+.kpi-val{font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:#FF5500;line-height:1}
 .kpi-val--red{color:#f87171}
 .kpi-val--green{color:#4ade80}
-.kpi-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.10em;color:rgba(255,255,255,.45);margin-top:4px}
+.kpi-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.38);margin-top:5px}
 
 /* ── Content wrapper ────────────────────────────────────────────── */
-.content{max-width:900px;margin:0 auto;padding:44px 48px 60px;background:#fff}
+.content{max-width:920px;margin:0 auto;padding:48px 52px 64px;background:#fff}
 
 /* ── Section ────────────────────────────────────────────────────── */
-.section{margin-bottom:44px}
-.section-header{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:14px;border-bottom:2px solid #FF5500}
-.section-num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:#FF5500;background:rgba(255,85,0,.09);padding:3px 9px;border-radius:4px;letter-spacing:.06em}
-.section-title{font-size:17px;font-weight:700;color:#0a1628}
+.section{margin-bottom:50px}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #FF5500}
+.section-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#fff;background:#FF5500;padding:4px 11px;border-radius:6px;letter-spacing:.04em;flex-shrink:0}
+.section-title{font-size:18px;font-weight:700;color:#0a1628;letter-spacing:-.01em}
 
 /* ── Executive summary ──────────────────────────────────────────── */
-.exec-card{background:linear-gradient(135deg,rgba(255,85,0,.04),rgba(30,58,95,.05));border:1px solid rgba(255,85,0,.18);border-left:4px solid #FF5500;border-radius:10px;padding:22px 26px;font-size:14.5px;line-height:1.8;color:#334155}
+.exec-card{background:linear-gradient(135deg,rgba(255,85,0,.03) 0%,rgba(14,30,60,.04) 100%);border:1px solid rgba(255,85,0,.18);border-left:4px solid #FF5500;border-radius:12px;padding:24px 28px;font-size:15px;line-height:1.82;color:#1e293b}
 
 /* ── Scorecard table ────────────────────────────────────────────── */
+.scorecard-wrap{border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
 .scorecard-table{width:100%;border-collapse:collapse;font-size:13px}
 .scorecard-table thead tr{background:#0a1628}
-.scorecard-table th{padding:11px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.10em;color:rgba(255,255,255,.55)}
-.scorecard-table td{padding:13px 14px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.scorecard-table th{padding:12px 16px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.55)}
+.scorecard-table td{padding:14px 16px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.scorecard-table tbody tr:nth-child(even) td{background:#fafbfc}
 .scorecard-table tbody tr:last-child td{border-bottom:none}
-.scorecard-table tbody tr:hover td{background:#fafafa}
-.prog-name{font-weight:600;color:#0f172a}
-.key-concern{font-size:12px;color:#64748b;max-width:200px}
+.scorecard-table tbody tr:hover td{background:#fff8f5}
+.prog-name{font-weight:600;color:#0f172a;font-size:13.5px}
+.key-concern{font-size:12px;color:#64748b;max-width:190px;line-height:1.4}
 
 /* ── Progress bar ───────────────────────────────────────────────── */
 .prog-bar-wrap{display:flex;align-items:center;gap:8px}
 .prog-bar{flex:1;height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;min-width:60px}
-.prog-bar-fill{height:100%;border-radius:3px;transition:width .3s}
+.prog-bar-fill{height:100%;border-radius:3px}
 .prog-bar-text{font-family:'JetBrains Mono',monospace;font-size:11px;color:#64748b;white-space:nowrap}
 
 /* ── Status badges ──────────────────────────────────────────────── */
-.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;white-space:nowrap;border:1px solid transparent}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 11px;border-radius:100px;white-space:nowrap;border:1px solid transparent}
 .badge-critical{background:#fef2f2;color:#991b1b;border-color:#fca5a5}
 .badge-caution{background:#fffbeb;color:#92400e;border-color:#fcd34d}
 .badge-ontrack{background:#f0fdf4;color:#166534;border-color:#86efac}
@@ -255,53 +258,56 @@ body{font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;color:#1e293b
 
 /* KD breakdown chips */
 .kd-chips{display:flex;gap:5px;flex-wrap:wrap}
-.kd-chip{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;border:1px solid;white-space:nowrap}
+.kd-chip{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;padding:2px 9px;border-radius:5px;border:1px solid;white-space:nowrap}
 .kd-chip-red{background:#fef2f2;color:#991b1b;border-color:#fca5a5}
 .kd-chip-yellow{background:#fffbeb;color:#92400e;border-color:#fcd34d}
 .kd-chip-green{background:#f0fdf4;color:#166534;border-color:#86efac}
 
 /* ── Priority cards ─────────────────────────────────────────────── */
-.priority-card{border:1px solid #e2e8f0;border-top:4px solid #dc2626;border-radius:10px;padding:24px 26px;margin-bottom:18px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.priority-card{border:1px solid #e8ecf0;border-top:3px solid #dc2626;border-radius:12px;padding:26px 28px;margin-bottom:20px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04)}
 .priority-card--caution{border-top-color:#d97706}
-.priority-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.priority-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .priority-prog-name{font-size:15px;font-weight:700;color:#0a1628}
-.kd-data-table{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0 16px}
-.kd-data-table th{background:#f8fafc;color:#64748b;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:7px 12px;text-align:left;border-bottom:2px solid #e2e8f0}
-.kd-data-table td{padding:9px 12px;border-bottom:1px solid #f1f5f9;color:#374151;vertical-align:top}
+.kd-data-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:14px 0 18px}
+.kd-data-table th{background:#f8fafc;color:#64748b;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;padding:8px 14px;text-align:left;border-bottom:1px solid #e2e8f0}
+.kd-data-table td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#374151;vertical-align:top}
 .kd-data-table tr:last-child td{border-bottom:none}
 .mono{font-family:'JetBrains Mono',monospace;font-size:11.5px}
-.gap-pct{font-family:'JetBrains Mono',monospace;font-size:11px;color:#dc2626;font-weight:600}
-.priority-analysis{font-size:13.5px;line-height:1.75;color:#374151;padding-top:14px;border-top:1px solid #f1f5f9;font-style:italic}
+.gap-pct{font-family:'JetBrains Mono',monospace;font-size:11px;color:#dc2626;font-weight:700}
+.priority-analysis{margin-top:16px;padding:16px 20px;background:#fffbf5;border:1px solid rgba(255,85,0,.16);border-left:3px solid #FF5500;border-radius:8px}
+.priority-analysis-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#FF5500;margin-bottom:8px}
+.priority-analysis-text{font-size:13.5px;line-height:1.75;color:#334155}
 
 /* ── What is working ────────────────────────────────────────────── */
 .working-list{list-style:none;display:flex;flex-direction:column;gap:10px}
-.working-item{display:flex;gap:14px;align-items:flex-start;padding:14px 18px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px}
-.working-icon{flex-shrink:0;width:22px;height:22px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.working-item{display:flex;gap:14px;align-items:flex-start;padding:16px 20px;background:#f0fdf4;border:1px solid #bbf7d0;border-left:3px solid #16a34a;border-radius:10px}
+.working-icon{flex-shrink:0;width:24px;height:24px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:1px}
 .working-icon svg{width:12px;height:12px}
-.working-text{font-size:13.5px;line-height:1.65;color:#14532d}
+.working-text{font-size:13.5px;line-height:1.65;color:#14532d;font-weight:500}
 
 /* ── Recommendations ────────────────────────────────────────────── */
-.rec-list{display:flex;flex-direction:column;gap:10px}
-.rec-item{display:grid;grid-template-columns:44px 1fr;gap:0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
-.rec-num-col{background:#FF5500;display:flex;align-items:center;justify-content:center;padding:18px 0}
-.rec-num-val{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:#fff}
-.rec-body{padding:16px 20px}
-.rec-text{font-size:13.5px;line-height:1.65;color:#1e293b;font-weight:500}
-.rec-meta{display:flex;gap:18px;margin-top:9px;flex-wrap:wrap}
-.rec-tag{font-size:11px;color:#64748b;display:flex;align-items:center;gap:5px}
-.rec-tag-label{font-weight:700;color:#0a1628}
-.rec-tag-dot{width:3px;height:3px;background:#cbd5e1;border-radius:50%;flex-shrink:0}
+.rec-list{display:flex;flex-direction:column;gap:12px}
+.rec-item{display:grid;grid-template-columns:52px 1fr;background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.rec-num-col{background:#FF5500;display:flex;align-items:center;justify-content:center;padding:20px 0}
+.rec-num-val{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:#fff}
+.rec-body{padding:18px 22px}
+.rec-text{font-size:13.5px;line-height:1.7;color:#1e293b;font-weight:500}
+.rec-meta{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.rec-tag{font-size:11px;color:#64748b;display:flex;align-items:center;gap:6px}
+.rec-tag-label{font-weight:700;color:#fff;background:#0a1628;padding:2px 8px;border-radius:4px;font-size:10px;letter-spacing:.04em}
+.rec-tag-sep{width:3px;height:3px;background:#cbd5e1;border-radius:50%;flex-shrink:0}
 
 /* ── Appendix ───────────────────────────────────────────────────── */
+.appendix-wrap{border:1px solid #e2e8f0;border-radius:8px;overflow:hidden}
 .appendix-table{width:100%;border-collapse:collapse;font-size:12px}
-.appendix-table th{background:#f8fafc;color:#64748b;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:8px 12px;border-top:1px solid #e2e8f0;border-bottom:2px solid #e2e8f0;text-align:left}
-.appendix-table td{padding:9px 12px;border-bottom:1px solid #f8fafc;color:#374151;vertical-align:middle}
-.appendix-table tr.prog-divider td{background:#f1f5f9;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#0a1628;border-top:2px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:8px 12px}
+.appendix-table th{background:#f8fafc;color:#64748b;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;padding:8px 14px;border-bottom:1px solid #e2e8f0;text-align:left}
+.appendix-table td{padding:9px 14px;border-bottom:1px solid #f8fafc;color:#374151;vertical-align:middle}
+.appendix-table tr.prog-divider td{background:#0a1628;color:rgba(255,255,255,.80);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:9px 14px;border-bottom:none}
 .appendix-table tr:last-child td{border-bottom:none}
 .kd-no{font-family:'JetBrains Mono',monospace;font-size:10px;color:#94a3b8}
 
 /* ── Footer ─────────────────────────────────────────────────────── */
-.report-footer{margin-top:48px;padding-top:18px;border-top:2px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#94a3b8;font-family:'JetBrains Mono',monospace}
+.report-footer{margin-top:52px;padding-top:20px;border-top:2px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#94a3b8;font-family:'JetBrains Mono',monospace;letter-spacing:.03em}
 .footer-pif{color:#FF5500;font-weight:700}
 
 /* ── Print ───────────────────────────────────────────────────────── */
@@ -372,7 +378,7 @@ function scorecardSection(programmes) {
       <td><span class="prog-name">${esc(p.name)}</span></td>
       <td>${statusBadge(p.status)}</td>
       <td><div class="kd-chips">${chips || '<span style="color:#94a3b8">—</span>'}</div></td>
-      <td><span class="key-concern">${esc(p.worstKD?.indicator ?? '—')}</span></td>
+      <td><span class="key-concern">${esc(p.worstKD?.indicator ?? 'N/A')}</span></td>
       <td>${achBar(p.counts.achieved, p.total)}</td>
     </tr>`;
   }).join('');
@@ -382,12 +388,14 @@ function scorecardSection(programmes) {
     <span class="section-num">02</span>
     <span class="section-title">Programme Performance Overview</span>
   </div>
-  <table class="scorecard-table">
-    <thead><tr>
-      <th>Programme</th><th>Status</th><th>KD Breakdown</th><th>Key Concern</th><th>Progress</th>
-    </tr></thead>
-    <tbody>${rows}</tbody>
-  </table>
+  <div class="scorecard-wrap">
+    <table class="scorecard-table">
+      <thead><tr>
+        <th>Programme</th><th>Status</th><th>KD Breakdown</th><th>Key Concern</th><th>Progress</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>
 </div>`;
 }
 
@@ -411,7 +419,7 @@ function prioritySection(programmes, analyses) {
         <td class="mono">${esc(kd.achievedLabel ?? kd.achievement ?? '—')}</td>
         <td class="mono">${esc(kd.targetLabel ?? kd.target ?? '—')}</td>
         <td class="mono">${ratio ? ratio + '%' : '—'}</td>
-        <td class="gap-pct">${gapPct ? '–' + gapPct + '%' : '—'}</td>
+        <td class="gap-pct">${gapPct ? '-' + gapPct + '%' : 'N/A'}</td>
         <td>${kdBadge('gap')}</td>
       </tr>`;
     }).join('');
@@ -432,7 +440,7 @@ function prioritySection(programmes, analyses) {
         <thead><tr><th>Indicator</th><th>Achievement</th><th>Target</th><th>% of Target</th><th>Gap</th><th>Status</th></tr></thead>
         <tbody>${kdTableRows}</tbody>
       </table>` : ''}
-      ${analysis ? `<div class="priority-analysis">${esc(analysis)}</div>` : ''}
+      ${analysis ? `<div class="priority-analysis"><div class="priority-analysis-label">Analysis</div><div class="priority-analysis-text">${esc(analysis)}</div></div>` : ''}
     </div>`;
   }).join('');
 
@@ -495,8 +503,8 @@ function recsSection(recsText) {
       <div class="rec-body">
         <div class="rec-text">${esc(text)}</div>
         ${(respM || timeM) ? `<div class="rec-meta">
-          ${respM ? `<span class="rec-tag"><span class="rec-tag-label">Responsible</span><span class="rec-tag-dot"></span>${esc(respM[1].replace(/[·]/g,'').trim())}</span>` : ''}
-          ${timeM ? `<span class="rec-tag"><span class="rec-tag-label">Timeline</span><span class="rec-tag-dot"></span>${esc(timeM[1].replace(/[·]/g,'').trim())}</span>` : ''}
+          ${respM ? `<span class="rec-tag"><span class="rec-tag-label">Responsible</span><span class="rec-tag-sep"></span>${esc(respM[1].replace(/[·]/g,'').trim())}</span>` : ''}
+          ${timeM ? `<span class="rec-tag"><span class="rec-tag-label">Timeline</span><span class="rec-tag-sep"></span>${esc(timeM[1].replace(/[·]/g,'').trim())}</span>` : ''}
         </div>` : ''}
       </div>
     </div>`;
@@ -520,8 +528,8 @@ function appendixSection(programmes) {
       return `<tr>
         <td class="kd-no">KD${kd.no ?? ''}</td>
         <td>${esc(kd.indicator)}</td>
-        <td class="mono">${esc(kd.targetLabel ?? kd.target ?? '—')}</td>
-        <td class="mono">${esc(kd.achievedLabel ?? kd.achievement ?? '—')}</td>
+        <td class="mono">${esc(kd.targetLabel ?? kd.target ?? 'N/A')}</td>
+        <td class="mono">${esc(kd.achievedLabel ?? kd.achievement ?? 'N/A')}</td>
         <td class="mono">${ratio}</td>
         <td>${kdBadge(st)}</td>
       </tr>`;
@@ -532,12 +540,14 @@ function appendixSection(programmes) {
   return `<div class="section">
   <div class="section-header">
     <span class="section-num">A</span>
-    <span class="section-title">Appendix — Full Key Deliverables</span>
+    <span class="section-title">Appendix: Full Key Deliverables</span>
   </div>
-  <table class="appendix-table">
-    <thead><tr><th>KD</th><th>Indicator</th><th>Target</th><th>Achievement</th><th>% of Target</th><th>Status</th></tr></thead>
-    <tbody>${rows}</tbody>
-  </table>
+  <div class="appendix-wrap">
+    <table class="appendix-table">
+      <thead><tr><th>KD</th><th>Indicator</th><th>Target</th><th>Achievement</th><th>% of Target</th><th>Status</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>
 </div>`;
 }
 
@@ -622,7 +632,9 @@ export default async function handler(req, res) {
     /* Step 2 — build HTML from template */
     send({ type: 'step', idx: 2 });
     const today = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-    const html = buildDocument(divData, today, narrative);
+    // Strip em dashes and en dashes from LLM output
+    const cleanNarrative = narrative.replace(/—/g, '-').replace(/–/g, '-');
+    const html = buildDocument(divData, today, cleanNarrative);
 
     /* Step 3 — done */
     send({ type: 'step', idx: 3 });
