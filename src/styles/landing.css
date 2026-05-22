@@ -1200,7 +1200,7 @@
     0 0 32px rgba(0,181,204,0.08);
   padding: 18px 20px 20px;
 }
-.lnd-prog-section-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; margin: 0 0 14px; flex-shrink: 0; }
+.lnd-prog-section-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; margin: 0 0 14px; flex-shrink: 0; text-align: center; width: 100%; }
 .lnd-prog-scroll { display: flex; gap: 16px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none; align-items: stretch; flex: 1; min-height: 0; }
 .lnd-prog-scroll::-webkit-scrollbar { display: none; }
 /* Programme card — donut-centred, status-coded */
