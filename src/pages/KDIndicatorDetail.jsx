@@ -916,25 +916,50 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
                 {nfhsRows.map((d, i) => {
                   const diff = d.nfhs4 != null && d.nfhs5 != null
                     ? (d.nfhs5 - d.nfhs4).toFixed(1) : null;
-                  const improved = diff != null
+                  const absDiff   = diff != null ? Math.abs(parseFloat(diff)) : 0;
+                  const improved  = diff != null
                     ? (d.lowerIsBetter ? d.nfhs5 < d.nfhs4 : d.nfhs5 > d.nfhs4) : null;
-                  const diffColor = improved == null ? '#94A3B8' : improved ? '#059669' : '#DC2626';
+
+                  /* Per-row normalisation — bars always fill relative to each other */
+                  const rowMax = Math.max(d.nfhs4 ?? 0, d.nfhs5 ?? 0) || 1;
+                  const pct4   = d.nfhs4 != null ? Math.round((d.nfhs4 / rowMax) * 100) : 0;
+                  const pct5   = d.nfhs5 != null ? Math.round((d.nfhs5 / rowMax) * 100) : 0;
+
+                  /* Heatmap chip — saturates at ~20-unit change */
+                  const intensity = Math.min(absDiff / 20, 1);
+                  let heatBg = 'rgba(148,163,184,.14)';
+                  if (improved === true)  heatBg = `hsl(142,${Math.round(40 + intensity * 52)}%,${Math.round(88 - intensity * 40)}%)`;
+                  if (improved === false) heatBg = `hsl(4,${Math.round(40 + intensity * 52)}%,${Math.round(88 - intensity * 40)}%)`;
+
                   return (
                     <div key={i} className="kdi-nfhs-row">
                       <div className="kdi-nfhs-label">{d.label}</div>
                       <div className="kdi-nfhs-vals">
-                        <span className="nfhs-val nfhs4">
-                          {d.nfhs4 != null ? `${d.nfhs4}${d.unit}` : '—'}
-                        </span>
-                        <span className="nfhs-arrow">→</span>
-                        <span className="nfhs-val nfhs5">
-                          {d.nfhs5 != null ? `${d.nfhs5}${d.unit}` : '—'}
-                        </span>
-                        {diff != null && (
-                          <span className={`nfhs-diff${improved == null ? '' : improved ? ' nfhs-diff--up' : ' nfhs-diff--dn'}`}>
-                            {improved ? '↑' : '↓'} {parseFloat(diff) > 0 ? '+' : ''}{diff}{d.unit}
-                          </span>
-                        )}
+                        <div className="nfhs-bars">
+                          <div className="nfhs-bar-row">
+                            <span className="nfhs-bar-tag nfhs-bar-tag--4">N4</span>
+                            <div className="nfhs-bar-track">
+                              <div className="nfhs-bar nfhs-bar--4" style={{ width: `${pct4}%` }} />
+                            </div>
+                            <span className="nfhs-bar-num">
+                              {d.nfhs4 != null ? `${d.nfhs4}${d.unit}` : '—'}
+                            </span>
+                          </div>
+                          <div className="nfhs-bar-row">
+                            <span className="nfhs-bar-tag nfhs-bar-tag--5">N5</span>
+                            <div className="nfhs-bar-track">
+                              <div className="nfhs-bar nfhs-bar--5" style={{ width: `${pct5}%` }} />
+                            </div>
+                            <span className="nfhs-bar-num">
+                              {d.nfhs5 != null ? `${d.nfhs5}${d.unit}` : '—'}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="nfhs-diff--heat" style={{ background: heatBg }}>
+                          {diff != null
+                            ? `${parseFloat(diff) > 0 ? '+' : ''}${diff}${d.unit}`
+                            : '—'}
+                        </div>
                       </div>
                     </div>
                   );

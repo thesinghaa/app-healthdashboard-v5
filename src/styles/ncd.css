@@ -5313,3 +5313,92 @@ h1, h2, h3, h4 {
   background: rgba(255,85,0,0.18);
   border-color: rgba(255,85,0,0.55);
 }
+
+/* ── NFHS Comparison Bars (redesigned) ───────────────────────────── */
+.kdi-nfhs-row     { align-items: flex-start; }
+.kdi-nfhs-vals    { min-width: 300px; align-items: flex-start; gap: 0; }
+
+.nfhs-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  padding-right: 12px;
+}
+.nfhs-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.nfhs-bar-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  min-width: 18px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+.nfhs-bar-tag--4 { color: #D97706; }
+.nfhs-bar-tag--5 { color: #7C3AED; }
+
+.nfhs-bar-track {
+  flex: 1;
+  height: 7px;
+  background: rgba(148,163,184,.18);
+  border-radius: 4px;
+  overflow: hidden;
+  min-width: 80px;
+}
+.nfhs-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  min-width: 3px;
+}
+.nfhs-bar--4 { background: #D97706; }
+.nfhs-bar--5 { background: #7C3AED; }
+
+.nfhs-bar-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  min-width: 48px;
+  text-align: right;
+  flex-shrink: 0;
+  letter-spacing: 0.01em;
+}
+
+/* ── NFHS Heatmap change chip ────────────────────────────────────── */
+.nfhs-diff--heat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 6px;
+  min-width: 68px;
+  text-align: center;
+  letter-spacing: 0.01em;
+  flex-shrink: 0;
+  color: #111111;
+  align-self: center;
+  transition: background 0.3s ease;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .nfhs-bar-track  { background: rgba(148,163,184,.12); }
+[data-theme="dark"] .nfhs-bar-num    { color: #94A3B8; }
+[data-theme="dark"] .nfhs-diff--heat { color: #111111; }
+
+/* Responsive */
+@media (max-width: 860px) {
+  .kdi-nfhs-vals { min-width: 260px; }
+  .nfhs-bar-track { min-width: 60px; }
+}
+@media (max-width: 580px) {
+  .kdi-nfhs-vals    { flex-direction: column; align-items: stretch; gap: 6px; }
+  .nfhs-bars        { padding-right: 0; }
+  .nfhs-diff--heat  { align-self: flex-start; }
+}
