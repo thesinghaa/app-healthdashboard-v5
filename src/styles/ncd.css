@@ -1658,6 +1658,56 @@
   overflow: visible;
 }
 
+/* ── Two-chart split layout ─────────────────────────────────────── */
+.kdi-dial-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.kdi-dial-pair--split {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 18px;
+}
+.kdi-dial-pair--split .kdi-dial-card {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Data source tags in card header ────────────────────────────── */
+.kdi-data-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px solid;
+}
+.kdi-data-tag--govt {
+  color: #FF5500;
+  background: rgba(255,85,0,.08);
+  border-color: rgba(255,85,0,.30);
+}
+.kdi-data-tag--public {
+  color: #7C3AED;
+  background: rgba(124,58,237,.07);
+  border-color: rgba(124,58,237,.25);
+}
+
+/* Light mode overrides */
+[data-theme="light"] .kdi-data-tag--govt {
+  color: #C04000;
+  background: rgba(192,64,0,.08);
+  border-color: rgba(192,64,0,.28);
+}
+[data-theme="light"] .kdi-data-tag--public {
+  color: #6D28D9;
+  background: rgba(109,40,217,.06);
+  border-color: rgba(109,40,217,.22);
+}
+
 /* ── Plotly override — remove plotly toolbar chrome ─────────────── */
 .js-plotly-plot .plotly .modebar { display: none !important; }
 .js-plotly-plot .plotly-notifier { display: none !important; }

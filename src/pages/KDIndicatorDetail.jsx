@@ -110,158 +110,155 @@ async function fetchHMIS(hmisCode, hmisCat) {
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   PLOTLY ACHIEVEMENT CHART — sunburst showing FY / NFHS-5 / NFHS-4
+   SHARED PALETTE HELPERS
    ══════════════════════════════════════════════════════════════════ */
-function PlotlyAchievementChart({ indicator, status, nfhsRows }) {
-  /* Normalise to 0-100 scale */
+const ACH_PAL = {
+  achieved: { branch: '#047857', leaf: '#10B981', empty: '#6EE7B7' },
+  close:    { branch: '#B45309', leaf: '#F59E0B', empty: '#FCD34D' },
+  gap:      { branch: '#BE123C', leaf: '#F43F5E', empty: '#FCA5A5' },
+  neutral:  { branch: '#475569', leaf: '#64748B', empty: '#CBD5E1' },
+};
+const N5_PAL = { branch: '#6D28D9', leaf: '#7C3AED', empty: '#DDD6FE' };
+const N4_PAL = { branch: '#B45309', leaf: '#D97706', empty: '#FDE68A' };
+
+function normPctFor(val, target, unit) {
+  if (val == null) return null;
+  if (unit === '%') return Math.min(Math.max(val, 0), 100);
+  if (target) return Math.min(Math.max((val / target) * 100, 0), 100);
+  return null;
+}
+
+/* ── Chart 1: FY 2025-26 Government Data ─────────────────────── */
+function PlotlyFYChart({ indicator, status }) {
   const achievement = indicator?.achievement;
   const target      = indicator?.target;
   const unit        = indicator?.unit ?? '%';
+  const pal         = ACH_PAL[status] || ACH_PAL.neutral;
+  const achNorm     = normPctFor(achievement, target, unit);
+  const achPct      = achNorm ?? 0;
   const isPercent   = unit === '%';
 
-  function normPct(val) {
-    if (val == null) return null;
-    if (isPercent) return Math.min(Math.max(val, 0), 100);
-    if (target) return Math.min(Math.max((val / target) * 100, 0), 100);
-    return null;
-  }
-
-  const achNorm = normPct(achievement);
-  const achPct  = achNorm ?? 0;
-
-  /* NFHS context */
-  const nfhs5Row = nfhsRows?.find(r => r.unit === '%' && r.nfhs5 != null);
-  const nfhs4Row = nfhsRows?.find(r => r.unit === '%' && r.nfhs4 != null);
-  const n5Pct    = nfhs5Row?.nfhs5 != null ? Math.min(Math.max(nfhs5Row.nfhs5, 0), 100) : null;
-  const n4Pct    = nfhs4Row?.nfhs4 != null ? Math.min(Math.max(nfhs4Row.nfhs4, 0), 100) : null;
-
-  /* Per-status vivid palette: deep branch colour + bright leaf colour */
-  const ACH_PAL = {
-    achieved: { branch: '#047857', leaf: '#10B981', empty: '#6EE7B7' },
-    close:    { branch: '#B45309', leaf: '#F59E0B', empty: '#FCD34D' },
-    gap:      { branch: '#BE123C', leaf: '#F43F5E', empty: '#FCA5A5' },
-    neutral:  { branch: '#475569', leaf: '#64748B', empty: '#CBD5E1' },
-  };
-  const pal = ACH_PAL[status] || ACH_PAL.neutral;
-
-  /* NFHS fixed palettes — purple + amber */
-  const N5 = { branch: '#6D28D9', leaf: '#7C3AED', empty: '#DDD6FE' };
-  const N4 = { branch: '#B45309', leaf: '#D97706', empty: '#FDE68A' };
-
-  /* Center annotation values */
   const centerVal = achievement != null
     ? (isPercent ? `${Number(achievement).toFixed(1)}%` : fmt(achievement))
-    : '—';
+    : 'N/A';
   const targetStr = target != null
     ? (isPercent ? `target ${target}%` : `target ${fmt(target)}`)
     : '';
 
-  /* Build sunburst data */
-  let ids, labels, parents, values, colors, hovertemplates;
-
-  if (n5Pct == null) {
-    /* Single-ring: just FY branch */
-    ids     = ['root', 'fy-a', 'fy-r'];
-    labels  = ['', `${achPct.toFixed(1)}%`, ''];
-    parents = ['', 'root', 'root'];
-    values  = [100, achPct, 100 - achPct];
-    colors  = ['rgba(0,0,0,0)', pal.leaf, pal.empty];
-    hovertemplates = [
-      '<extra></extra>',
-      `<b>FY 2025-26 Achieved</b><br>${indicator?.achievedLabel ?? centerVal}<extra></extra>`,
-      `<b>Gap to target</b><br>${targetStr}<extra></extra>`,
-    ];
-  } else {
-    /* Full three-branch sunburst */
-    ids     = ['root', 'fy', 'n5', 'n4', 'fy-a', 'fy-r', 'n5-a', 'n5-r', 'n4-a', 'n4-r'];
-    labels  = [
-      '',
-      'FY 2025-26', 'NFHS-5', 'NFHS-4',
-      `${achPct.toFixed(1)}%`, '',
-      `${n5Pct.toFixed(1)}%`, '',
-      `${(n4Pct ?? 0).toFixed(1)}%`, '',
-    ];
-    parents = ['', 'root', 'root', 'root', 'fy', 'fy', 'n5', 'n5', 'n4', 'n4'];
-    values  = [
-      300, 100, 100, 100,
-      achPct, 100 - achPct,
-      n5Pct, 100 - n5Pct,
-      n4Pct ?? 50, n4Pct != null ? 100 - n4Pct : 50,
-    ];
-    colors = [
-      'rgba(0,0,0,0)',
-      pal.branch, N5.branch, N4.branch,   /* inner ring — deep anchor tones  */
-      pal.leaf,   pal.empty,              /* FY: vivid achieved + warm empty  */
-      N5.leaf,    N5.empty,               /* N5: electric blue + sky empty    */
-      N4.leaf,    N4.empty,               /* N4: vivid violet + lavender empty */
-    ];
-    hovertemplates = [
-      '<extra></extra>',
-      `<b>FY 2025-26</b><extra></extra>`,
-      `<b>NFHS-5</b><extra></extra>`,
-      `<b>NFHS-4</b><extra></extra>`,
-      `<b>FY 2025-26 Achieved</b><br>${indicator?.achievedLabel ?? centerVal}<extra></extra>`,
-      `<b>Gap to target</b><br>${targetStr}<extra></extra>`,
-      `<b>NFHS-5</b><br>${nfhs5Row?.nfhs5}${nfhs5Row?.unit ?? ''}<extra></extra>`,
-      `<b>NFHS-5 Remaining</b><extra></extra>`,
-      `<b>NFHS-4</b><br>${nfhs4Row?.nfhs4 ?? '—'}${nfhs4Row?.unit ?? ''}<extra></extra>`,
-      `<b>NFHS-4 Remaining</b><extra></extra>`,
-    ];
-  }
-
   const trace = {
     type: 'sunburst',
-    ids,
-    labels,
-    parents,
-    values,
+    ids:     ['root', 'fy-a', 'fy-r'],
+    labels:  ['', `${achPct.toFixed(1)}%`, ''],
+    parents: ['', 'root', 'root'],
+    values:  [100, achPct, 100 - achPct],
     branchvalues: 'total',
-    marker: { colors, line: { color: '#ffffff', width: 2 } },
-    hovertemplate: hovertemplates,
+    marker: { colors: ['rgba(0,0,0,0)', pal.leaf, pal.empty], line: { color: '#ffffff', width: 2 } },
+    hovertemplate: [
+      '<extra></extra>',
+      `<b>FY 2025-26 Achieved</b><br>${indicator?.achievedLabel ?? centerVal}<extra></extra>`,
+      `<b>Gap to target</b><br>${targetStr}<extra></extra>`,
+    ],
     textfont: { family: "'Inter', sans-serif", size: 13, color: '#ffffff' },
     insidetextorientation: 'radial',
     leaf: { opacity: 1 },
   };
 
   const layout = {
-    paper_bgcolor: 'transparent',
-    plot_bgcolor:  'transparent',
-    margin: { t: 10, b: 10, l: 10, r: 10 },
-    height: 440,
+    paper_bgcolor: 'transparent', plot_bgcolor: 'transparent',
+    margin: { t: 10, b: 10, l: 10, r: 10 }, height: 340,
     annotations: [{
-      x: 0.5, y: 0.5,
-      xref: 'paper', yref: 'paper',
+      x: 0.5, y: 0.5, xref: 'paper', yref: 'paper',
       text: `<b>${centerVal}</b><br><span style="font-size:12px;color:#64748B">${targetStr}</span>`,
       showarrow: false,
-      font: {
-        family: "'JetBrains Mono', monospace",
-        size: 30,
-        color: achNorm != null ? pal.branch : '#CBD5E1',
-      },
+      font: { family: "'JetBrains Mono', monospace", size: 28, color: achNorm != null ? pal.branch : '#CBD5E1' },
       align: 'center',
     }],
   };
 
-  const config = { displayModeBar: false, responsive: true };
-
   return (
     <div className="sunburst-wrap">
-      <Plot
-        data={[trace]}
-        layout={layout}
-        config={config}
-        style={{ width: '100%' }}
-        useResizeHandler
-      />
-      {/* Legend row */}
+      <Plot data={[trace]} layout={layout} config={{ displayModeBar: false, responsive: true }}
+        style={{ width: '100%' }} useResizeHandler />
       <div className="sb-legend">
         <div className="sb-leg-item">
           <span className="sb-leg-swatch" style={{ background: pal.leaf }} />
-          <span><strong>FY 2025-26:</strong> {indicator?.achievedLabel ?? '—'}</span>
+          <span><strong>Achieved:</strong> {indicator?.achievedLabel ?? centerVal}</span>
         </div>
+        {target != null && (
+          <div className="sb-leg-item">
+            <span className="sb-leg-tick" />
+            <span><strong>Target:</strong> {indicator?.targetLabel ?? target}</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── Chart 2: NFHS Baseline Comparison (Public Data) ─────────── */
+function PlotlyNFHSChart({ indicator, nfhsRows }) {
+  const target = indicator?.target;
+  const unit   = indicator?.unit ?? '%';
+
+  const nfhs5Row = nfhsRows?.find(r => r.unit === '%' && r.nfhs5 != null);
+  const nfhs4Row = nfhsRows?.find(r => r.unit === '%' && r.nfhs4 != null);
+  const n5Pct    = nfhs5Row ? Math.min(Math.max(nfhs5Row.nfhs5, 0), 100) : null;
+  const n4Pct    = nfhs4Row ? Math.min(Math.max(nfhs4Row.nfhs4, 0), 100) : null;
+
+  const centerVal = n5Pct != null ? `${n5Pct.toFixed(1)}%` : 'N/A';
+
+  const trace = {
+    type: 'sunburst',
+    ids:     ['root', 'n5', 'n4', 'n5-a', 'n5-r', 'n4-a', 'n4-r'],
+    labels:  ['', 'NFHS-5', 'NFHS-4',
+               `${(n5Pct ?? 0).toFixed(1)}%`, '',
+               `${(n4Pct ?? 0).toFixed(1)}%`, ''],
+    parents: ['', 'root', 'root', 'n5', 'n5', 'n4', 'n4'],
+    values:  [200, 100, 100,
+               n5Pct ?? 50, n5Pct != null ? 100 - n5Pct : 50,
+               n4Pct ?? 50, n4Pct != null ? 100 - n4Pct : 50],
+    branchvalues: 'total',
+    marker: {
+      colors: ['rgba(0,0,0,0)',
+               N5_PAL.branch, N4_PAL.branch,
+               N5_PAL.leaf, N5_PAL.empty,
+               N4_PAL.leaf, N4_PAL.empty],
+      line: { color: '#ffffff', width: 2 },
+    },
+    hovertemplate: [
+      '<extra></extra>',
+      '<b>NFHS-5 (2019-21)</b><extra></extra>',
+      '<b>NFHS-4 (2015-16)</b><extra></extra>',
+      `<b>NFHS-5</b><br>${nfhs5Row?.nfhs5}${nfhs5Row?.unit ?? ''}<extra></extra>`,
+      '<b>NFHS-5 Remaining</b><extra></extra>',
+      `<b>NFHS-4</b><br>${nfhs4Row?.nfhs4 ?? 'N/A'}${nfhs4Row?.unit ?? ''}<extra></extra>`,
+      '<b>NFHS-4 Remaining</b><extra></extra>',
+    ],
+    textfont: { family: "'Inter', sans-serif", size: 13, color: '#ffffff' },
+    insidetextorientation: 'radial',
+    leaf: { opacity: 1 },
+  };
+
+  const layout = {
+    paper_bgcolor: 'transparent', plot_bgcolor: 'transparent',
+    margin: { t: 10, b: 10, l: 10, r: 10 }, height: 340,
+    annotations: [{
+      x: 0.5, y: 0.5, xref: 'paper', yref: 'paper',
+      text: `<b>${centerVal}</b><br><span style="font-size:12px;color:#64748B">NFHS-5</span>`,
+      showarrow: false,
+      font: { family: "'JetBrains Mono', monospace", size: 28, color: N5_PAL.branch },
+      align: 'center',
+    }],
+  };
+
+  return (
+    <div className="sunburst-wrap">
+      <Plot data={[trace]} layout={layout} config={{ displayModeBar: false, responsive: true }}
+        style={{ width: '100%' }} useResizeHandler />
+      <div className="sb-legend">
         {n5Pct != null && (
           <div className="sb-leg-item">
-            <span className="sb-leg-swatch" style={{ background: N5.leaf }} />
+            <span className="sb-leg-swatch" style={{ background: N5_PAL.leaf }} />
             <span><strong>NFHS-5:</strong> {nfhs5Row?.nfhs5}{nfhs5Row?.unit}&ensp;
               <span className="sb-leg-caption">{nfhs5Row?.label?.slice(0, 46)}</span>
             </span>
@@ -269,14 +266,8 @@ function PlotlyAchievementChart({ indicator, status, nfhsRows }) {
         )}
         {n4Pct != null && (
           <div className="sb-leg-item">
-            <span className="sb-leg-swatch" style={{ background: N4.leaf }} />
+            <span className="sb-leg-swatch" style={{ background: N4_PAL.leaf }} />
             <span><strong>NFHS-4:</strong> {nfhs4Row?.nfhs4}{nfhs4Row?.unit}</span>
-          </div>
-        )}
-        {target != null && (
-          <div className="sb-leg-item">
-            <span className="sb-leg-tick" />
-            <span><strong>Target:</strong> {indicator?.targetLabel ?? target}</span>
           </div>
         )}
       </div>
@@ -513,21 +504,31 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
         </div>
 
         {/* ════════════════════════════════════════════════════════════
-            PLOTLY ACHIEVEMENT SUNBURST — contextual view after headline numbers
+            ACHIEVEMENT CHARTS — split: FY (govt) + NFHS (public)
             ════════════════════════════════════════════════════════════ */}
         <div className="kdi-section">
-          <div className="ncd-card kdi-dial-card">
-            <div className="ncd-card-header">
-              <h3>Achievement Overview — FY 2025-26</h3>
-              <span className="ncd-card-note">
-                Inner ring: time periods (FY 25-26 / NFHS-5 / NFHS-4)&ensp;&middot;&ensp;Outer ring: achieved vs gap
-              </span>
+          <div className={`kdi-dial-pair${nfhsRows.length > 0 ? ' kdi-dial-pair--split' : ''}`}>
+
+            {/* Left: FY 2025-26 — Government Data */}
+            <div className="ncd-card kdi-dial-card">
+              <div className="ncd-card-header">
+                <h3>FY 2025-26 Performance</h3>
+                <span className="ncd-card-note kdi-data-tag kdi-data-tag--govt">Government Data</span>
+              </div>
+              <PlotlyFYChart indicator={indicator} status={st} />
             </div>
-            <PlotlyAchievementChart
-              indicator={indicator}
-              status={st}
-              nfhsRows={nfhsRows}
-            />
+
+            {/* Right: NFHS Comparison — only if data exists */}
+            {nfhsRows.length > 0 && (
+              <div className="ncd-card kdi-dial-card">
+                <div className="ncd-card-header">
+                  <h3>NFHS Baseline Comparison</h3>
+                  <span className="ncd-card-note kdi-data-tag kdi-data-tag--public">Publicly Available · Survey Data</span>
+                </div>
+                <PlotlyNFHSChart indicator={indicator} nfhsRows={nfhsRows} />
+              </div>
+            )}
+
           </div>
         </div>
 
