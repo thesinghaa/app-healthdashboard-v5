@@ -265,11 +265,11 @@ function DistrictMap({ distData, isLight }) {
       },
     },
     hovertemplate: [
-      '<span style="font-size:10px;letter-spacing:1.2px;color:rgba(255,255,255,0.50)">DISTRICT</span>',
-      '<br><b style="font-size:15px">%{location}</b>',
-      '<br><span style="color:rgba(255,255,255,0.25)">────────────</span>',
-      '<br><span style="font-size:10px;letter-spacing:1.2px;color:rgba(255,255,255,0.50)">VALUE</span>',
-      '<br><b style="font-size:18px">%{z:,}</b>',
+      '<span style="font-size:10px;letter-spacing:1.5px;color:#ffffff;display:block;text-align:center">DISTRICT</span>',
+      '<br><b style="font-size:15px;display:block;text-align:center">%{location}</b>',
+      '<br><span style="color:rgba(255,255,255,0.35)">────────────</span>',
+      '<br><span style="font-size:10px;letter-spacing:1.5px;color:#ffffff;display:block;text-align:center">VALUE</span>',
+      '<br><b style="font-size:20px;display:block;text-align:center">%{z:,}</b>',
       '<extra></extra>',
     ].join(''),
   };
@@ -307,7 +307,7 @@ function DistrictMap({ distData, isLight }) {
       bgcolor:     isLight ? 'rgba(15,23,42,0.94)' : 'rgba(5,7,18,0.97)',
       bordercolor: 'rgba(0,181,204,0.60)',
       font: { color: '#ffffff', size: 14, family: "'JetBrains Mono', monospace" },
-      align: 'left',
+      align: 'center',
       namelength: -1,
     },
   };
