@@ -543,6 +543,7 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
                   style={{
                     flexShrink: 0,
                     alignSelf: 'center',
+                    marginTop: 10,
                     filter: `drop-shadow(0 0 10px ${SEG_GLOW[glowSeg]}0.28)) drop-shadow(0 0 4px ${SEG_GLOW[glowSeg]}0.18))`,
                   }}
                 >
