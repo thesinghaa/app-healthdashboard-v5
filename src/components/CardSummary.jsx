@@ -511,6 +511,19 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
 
             const totalKDs = pb.gap + pb.close + pb.achieved;
 
+            const gaps   = getProgKDsByStatus(divisionId, prog.id, 'gap');
+            const closes = getProgKDsByStatus(divisionId, prog.id, 'close');
+            const achs   = getProgKDsByStatus(divisionId, prog.id, 'achieved');
+            const domSeg = gaps.length > 0 ? 'gap' : closes.length > 0 ? 'close' : 'achieved';
+            const headerText =
+              domSeg === 'gap'      ? 'TOP CRITICAL' :
+              domSeg === 'close'    ? 'TOP CAUTION'  : 'TOP ON TRACK';
+            const pool = [
+              ...gaps.map(kd   => ({ kd, seg: 'gap'      })),
+              ...closes.map(kd => ({ kd, seg: 'close'    })),
+              ...achs.map(kd   => ({ kd, seg: 'achieved' })),
+            ].slice(0, 2);
+
             return (
               <div
                 key={prog.id}
@@ -521,6 +534,13 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
                   if (worstKD && onKDClick) onKDClick(worstKD, prog.id);
                 }}
               >
+                {/* Status header — top of card */}
+                {pool.length > 0 && (
+                  <div className="lnd-pc-ind-header" style={{ color: SEG_COLORS[domSeg] }}>
+                    {headerText}
+                  </div>
+                )}
+
                 {/* Speedometer gauge */}
                 <div
                   ref={el => { progDonutRefs.current[i] = el; }}
@@ -535,25 +555,20 @@ export default function CardSummary({ divisionId, programmes = [], activeFilter,
                 {/* Programme name */}
                 <p className="lnd-pc-name">{prog.label || prog.name}</p>
 
-                {/* Top indicators by priority: gap first, then close, then achieved */}
-                <div className="lnd-pc-ind-list">
-                  {(() => {
-                    const gaps   = getProgKDsByStatus(divisionId, prog.id, 'gap');
-                    const closes = getProgKDsByStatus(divisionId, prog.id, 'close');
-                    const achs   = getProgKDsByStatus(divisionId, prog.id, 'achieved');
-                    const pool = [
-                      ...gaps.map(kd   => ({ kd, seg: 'gap'      })),
-                      ...closes.map(kd => ({ kd, seg: 'close'    })),
-                      ...achs.map(kd   => ({ kd, seg: 'achieved' })),
-                    ].slice(0, 2);
-                    return pool.map(({ kd, seg }, j) => (
-                      <div key={j} className="lnd-pc-ind-row">
-                        <span className={`lnd-pc-ind-dot lnd-pc-ind-dot--${seg}`} />
+                {/* Top indicators */}
+                {pool.length > 0 && (
+                  <div className="lnd-pc-ind-list">
+                    {pool.map(({ kd }, j) => (
+                      <div
+                        key={j}
+                        className="lnd-pc-ind-row"
+                        onClick={(e) => { e.stopPropagation(); if (onKDClick) onKDClick(kd, prog.id); }}
+                      >
                         <span className="lnd-pc-ind-name">{kd.indicator}</span>
                       </div>
-                    ));
-                  })()}
-                </div>
+                    ))}
+                  </div>
+                )}
 
                 {/* Mini counts */}
                 <div className="lnd-pc-counts">
