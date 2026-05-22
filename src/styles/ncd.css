@@ -5424,7 +5424,7 @@ h1, h2, h3, h4 {
 [data-theme="light"] .kdi-nfhs-head-label,
 [data-theme="dark"]  .kdi-nfhs-head-label {
   color: #ffffff !important;
-  font-size: 13px !important;
+  font-size: 16px !important;
 }
 .kdi-nfhs-head-val.h4,
 .kdi-nfhs-head-val.h5,
@@ -5433,11 +5433,11 @@ h1, h2, h3, h4 {
 [data-theme="dark"]  .kdi-nfhs-head-val.h4,
 [data-theme="dark"]  .kdi-nfhs-head-val.h5 {
   color: #ffffff !important;
-  font-size: 12px !important;
+  font-size: 15px !important;
 }
 .kdi-nfhs-head-change,
 [data-theme="light"] .kdi-nfhs-head-change,
 [data-theme="dark"]  .kdi-nfhs-head-change {
-  color: rgba(255,255,255,.80) !important;
-  font-size: 12px !important;
+  color: rgba(255,255,255,.90) !important;
+  font-size: 15px !important;
 }
