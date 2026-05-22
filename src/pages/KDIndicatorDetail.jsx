@@ -907,9 +907,6 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
                 <div className="kdi-nfhs-head">
                   <div className="kdi-nfhs-head-label">Indicator</div>
                   <div className="kdi-nfhs-head-vals">
-                    <span className="kdi-nfhs-head-val h4">NFHS-4</span>
-                    <span className="kdi-nfhs-head-arrow" />
-                    <span className="kdi-nfhs-head-val h5">NFHS-5</span>
                     <span className="kdi-nfhs-head-change">Change</span>
                   </div>
                 </div>
