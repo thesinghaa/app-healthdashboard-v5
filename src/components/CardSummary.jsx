@@ -165,7 +165,7 @@ const LAYOUT_BASE = {
 /* ── Programme speedometer gauge (half-circle arc) ─────────────── */
 function ProgGauge({ gap, close, achieved }) {
   const total  = Math.max(1, gap + close + achieved);
-  const W = 110, RO = 55, RI = 37; // outer/inner radii → 18px track
+  const W = 160, RO = 80, RI = 54; // outer/inner radii → 26px track
 
   const gA = (gap   / total) * 180;
   const cA = (close / total) * 180;
