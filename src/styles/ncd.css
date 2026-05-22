@@ -5413,11 +5413,14 @@ h1, h2, h3, h4 {
 .nfhs-bar-num       { font-size: 13.5px; min-width: 58px; }
 .nfhs-diff--heat    { font-size: 13.5px; min-width: 82px; padding: 6px 12px; }
 
-/* ── NFHS head — orange bar, black text ──────────────────────────── */
+/* ── NFHS head — orange (light) / blue (dark) ────────────────────── */
 .kdi-nfhs-head,
-[data-theme="light"] .kdi-nfhs-head,
-[data-theme="dark"]  .kdi-nfhs-head {
+[data-theme="light"] .kdi-nfhs-head {
   background: #FF5500;
+  border-radius: 8px 8px 0 0;
+}
+[data-theme="dark"] .kdi-nfhs-head {
+  background: #1D4ED8;
   border-radius: 8px 8px 0 0;
 }
 .kdi-nfhs-head-label,
