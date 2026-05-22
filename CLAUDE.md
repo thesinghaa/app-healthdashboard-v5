@@ -180,11 +180,18 @@ See `kdData.js` for all 27.
 
 ---
 
-## Districts (25 in AP)
+## Districts (27 in AP)
 
-Changlang, Dibang Valley, East Kameng, Anjaw, East Siang, Kamle, Kra Daadi, Kurung Kumey, Leparada, Lohit, Longding, Lower Dibang Valley, Lower Siang, Lower Subansiri, Namsai, Pakke Kessang, Papum Pare, Shi Yomi, Siang, Tawang, Tirap, Upper Siang, Upper Subansiri, West Kameng, West Siang.
+Changlang, Dibang Valley, East Kameng, Anjaw, East Siang, Kamle, Kra Daadi, Kurung Kumey, Leparada, Lohit, Longding, Lower Dibang Valley, Lower Siang, Lower Subansiri, Namsai, Pakke Kessang, Papum Pare, Shi Yomi, Siang, Tawang, Tirap, Upper Siang, Upper Subansiri, West Kameng, West Siang, Bichom, Keyi Panyor.
 
-**Itanagar/Capital Complex** is missing from the Google Sheet — user is aware.
+**Itanagar Capital Complex** is missing from the Google Sheet and from the shapefile (too new) — user is aware.
+
+## AP Choropleth Map (`src/data/apDistricts.json`)
+
+GeoJSON with 27 AP districts, WGS84, RDP-simplified (~234 KB). Vite JSON import.
+- Feature key: `properties.DISTRICT` (e.g. `"Papum Pare"`, `"Changlang"`)
+- Source: Shapefile from `DISTRICT_BOUNDARY.shp` (all-India, LCC projection), converted + reprojected with Python
+- All 27 districts present including Bichom + Keyi Panyor
 
 ---
 
@@ -195,8 +202,9 @@ Changlang, Dibang Valley, East Kameng, Anjaw, East Siang, Kamle, Kra Daadi, Kuru
 3. **Achievement Overview** — Plotly sunburst (3 branches: FY 25-26 / NFHS-5 / NFHS-4, each split achieved vs remaining)
 4. **FY 2025-26 Performance** — Target / Achievement / Status numbers card
 5. **HMIS Monthly Trend** — Recharts AreaChart (only if `hmisCode` set)
-6. **District Performance** — two-column: Plotly sunburst (left) + insight panel (right: state total, top 3, bottom 3, narrative)
-7. **NFHS Baseline table** — NFHS-4 → NFHS-5 comparison with pill badges and change indicator
+6. **District Performance** — two-column: `DistrictMap` choropleth (left) + insight panel (right: state total, top 3, bottom 3, narrative). Map uses `AP_SCALES = [52,78,117,175,263]` for zoom steps via `projection.scale`. +/- zoom buttons overlay bottom-left.
+7. **NFHS Baseline Comparison** — `PlotlyNFHSChart` horizontal stacked bar (NOT sunburst — converted May 2026). Purple for NFHS-5, amber for NFHS-4. Shows % values on bars.
+8. **NFHS Baseline table** — NFHS-4 → NFHS-5 comparison with pill badges and change indicator
 
 ---
 
