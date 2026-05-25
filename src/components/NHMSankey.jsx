@@ -65,36 +65,30 @@ function buildSankeyData() {
     addNode(`div_${divId}`, div.label, 'division', divId);
 
     const tree = KD_TREE[divId];
-    if (!tree || !tree.programmes) {
-      /* HRH — no KD data; flow from division directly to Not Mapped  */
-      /* We give each HRH programme a sentinel value of 1 */
-      const progCount = (div.programs || []).length;
-      divTotals[divId] = (divTotals[divId] || 0) + progCount;
 
-      div.programs.forEach(prog => {
-        const nodeId = `prog_${divId}_${prog.id}`;
-        addNode(nodeId, prog.name || prog.id, 'programme', divId);
-        links.push({ source: `div_${divId}`, target: nodeId,  value: 1 });
+    /* Use programs.js as the source of truth for the 37 programmes.
+       Look up KDs from KD_TREE by matching progId; sentinel-1 if no match. */
+    (div.programs || []).forEach(prog => {
+      const nodeId = `prog_${divId}_${prog.id}`;
+      addNode(nodeId, prog.name || prog.id, 'programme', divId);
+
+      const kdProg = tree?.programmes?.[prog.id];
+      const kds    = kdProg?.kds || [];
+
+      if (kds.length === 0) {
+        /* No KD data mapped yet → thin sentinel link to Not Mapped */
+        divTotals[divId] = (divTotals[divId] || 0) + 1;
+        links.push({ source: `div_${divId}`, target: nodeId,     value: 1 });
         links.push({ source: nodeId,          target: 'Not Mapped', value: 1 });
-      });
-      return;
-    }
+        return;
+      }
 
-    /* Divisions with KD data — use KD_TREE programmes */
-    Object.entries(tree.programmes).forEach(([progId, prog]) => {
-      const kds = prog.kds || [];
-      if (kds.length === 0) return;
+      const total  = kds.length;
+      divTotals[divId] = (divTotals[divId] || 0) + total;
+      links.push({ source: `div_${divId}`, target: nodeId, value: total });
 
       const counts = { 'On Track': 0, 'Caution': 0, 'Critical': 0, 'Not Mapped': 0 };
       kds.forEach(kd => counts[kdStatus(kd)]++);
-
-      const total = kds.length;
-      divTotals[divId] = (divTotals[divId] || 0) + total;
-
-      const nodeId = `prog_${divId}_${progId}`;
-      addNode(nodeId, prog.name || progId, 'programme', divId);
-      links.push({ source: `div_${divId}`, target: nodeId, value: total });
-
       STATUS_IDS.forEach(st => {
         if (counts[st] > 0) {
           links.push({ source: nodeId, target: st, value: counts[st] });
