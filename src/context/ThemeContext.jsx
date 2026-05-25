@@ -4,7 +4,7 @@ const ThemeContext = createContext({ theme: 'light', toggleTheme: () => {} });
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(
-    () => localStorage.getItem('pif-theme') || 'light'
+    () => localStorage.getItem('pif-theme') || 'dark'
   );
 
   useEffect(() => {

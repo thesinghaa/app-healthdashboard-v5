@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Style Variations</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #0c0c14;
+    padding: 30px 24px;
+  }
+  .page-title {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255,255,255,0.20); margin-bottom: 22px;
+  }
+  .row { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+
+  .col { display: flex; flex-direction: column; gap: 10px; width: 164px; }
+  .col-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(255,255,255,0.30); text-align: center;
+  }
+
+  .card-dark {
+    background: rgba(12,8,28,0.96);
+    border: 1.5px solid rgba(255,255,255,0.09);
+    border-radius: 16px; padding: 20px 18px 18px;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+  }
+  .card-light {
+    background: #FAFAFA;
+    border: 1.5px solid rgba(0,0,0,0.09);
+    border-radius: 16px; padding: 20px 18px 18px;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+  }
+
+  .donut-wrap { position: relative; width: 120px; height: 120px; }
+  .half-wrap  { position: relative; width: 120px; height: 68px; overflow: hidden; }
+  svg { display: block; }
+
+  .dc { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .dc-half { position: absolute; bottom: 0; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; padding-bottom: 4px; }
+
+  .legend { width: 100%; display: flex; flex-direction: column; gap: 5px; }
+  .leg-row { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .concentric-labels { width: 100%; display: flex; flex-direction: column; gap: 5px; }
+  .con-row { display: flex; align-items: center; gap: 6px; }
+  .con-bar-wrap { flex: 1; height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; }
+  .con-bar-wrap-l { flex: 1; height: 4px; background: rgba(0,0,0,0.07); border-radius: 2px; overflow: hidden; }
+  .con-bar { height: 100%; border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="page-title">5 Style Variations — same red / yellow / green semantics</div>
+<div class="row" id="root"></div>
+
+<script>
+const RED = '#EF4444', YEL = '#EAB308', GRN = '#22C55E';
+const RED_D = '#FF4D6A', YEL_D = '#FFD700', GRN_D = '#00E87E'; // plasma glow neons for dark
+const vals = { gap: 28, close: 14, achieved: 19 };
+const total = 61;
+const LABELS = { gap: 'Critical', close: 'Caution', achieved: 'On Track' };
+
+// ── geometry helpers ───────────────────────────────────────────────────────
+function polar(cx, cy, r, deg) {
+  const rad = (deg - 90) * Math.PI / 180;
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+function arcPath(cx, cy, r, s, e) {
+  const large = (e - s) > 180 ? 1 : 0;
+  const p1 = polar(cx, cy, r, s), p2 = polar(cx, cy, r, e);
+  return `M ${p1.x} ${p1.y} A ${r} ${r} 0 ${large} 1 ${p2.x} ${p2.y}`;
+}
+
+// ── shared legend ──────────────────────────────────────────────────────────
+function legend(dark, neons) {
+  const c = neons
+    ? { gap: RED_D, close: YEL_D, achieved: GRN_D }
+    : { gap: RED,   close: YEL,   achieved: GRN };
+  return ['gap','close','achieved'].map((k,i) => {
+    const n = [28,14,19][i];
+    const glow = dark && neons ? `box-shadow:0 0 6px ${c[k]}` : '';
+    return `<div class="leg-row">
+      <div class="dot" style="background:${c[k]};${glow}"></div>
+      <span style="font-size:12px;font-weight:700;min-width:18px;font-family:monospace;color:${dark?'#fff':'#1A1610'}">${n}</span>
+      <span style="font-size:10px;color:${dark?'rgba(255,255,255,0.38)':'rgba(26,22,16,0.48)'}">${LABELS[k]}</span>
+    </div>`;
+  }).join('');
+}
+
+function center(dark, small) {
+  const fs = small ? '18px' : '22px';
+  const fc = dark ? '#fff' : '#1A1610';
+  const sc = dark ? 'rgba(255,255,255,0.25)' : 'rgba(26,22,16,0.30)';
+  return `<span style="font-size:${fs};font-weight:800;color:${fc};font-family:monospace;line-height:1">61</span>
+    <span style="font-size:7px;letter-spacing:.10em;text-transform:uppercase;color:${sc};margin-top:2px">Indicators</span>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// 1. GRADIENT FILLS
+// ══════════════════════════════════════════════════════════════════════════
+function gradientDonut(dark) {
+  const segs = [
+    { key:'gap',      color: dark ? RED_D : RED,   darkFrom: '#FF2050', darkTo: '#FF8FA0', lightFrom: '#DC2626', lightTo: '#FCA5A5' },
+    { key:'close',    color: dark ? YEL_D : YEL,   darkFrom: '#FFD700', darkTo: '#FFE87A', lightFrom: '#CA8A04', lightTo: '#FDE047' },
+    { key:'achieved', color: dark ? GRN_D : GRN,   darkFrom: '#00E87E', darkTo: '#A0F5D0', lightFrom: '#15803D', lightTo: '#86EFAC' },
+  ];
+  const CX=60,CY=60,SW=17,R=(48+31)/2;
+  let deg = 0;
+  const defs = segs.map((s,i) => {
+    const sweep = (vals[s.key]/total)*360;
+    const mid = deg + sweep/2;
+    const p = polar(CX,CY,R,mid);
+    const from = dark ? s.darkFrom : s.lightFrom;
+    const to   = dark ? s.darkTo   : s.lightTo;
+    deg += sweep;
+    return `<linearGradient id="g${i}" x1="${CX}" y1="${CY}" x2="${p.x}" y2="${p.y}" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="${from}"/>
+      <stop offset="100%" stop-color="${to}"/>
+    </linearGradient>`;
+  }).join('');
+
+  deg = 0;
+  const paths = segs.map((s,i) => {
+    const sweep = (vals[s.key]/total)*360;
+    const d = arcPath(CX,CY,R,deg,deg+sweep-0.8);
+    deg += sweep;
+    return `<path d="${d}" stroke="url(#g${i})" stroke-width="${SW}" fill="none" stroke-linecap="butt"/>`;
+  }).join('');
+
+  const track = dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)';
+  return `<svg width="120" height="120" viewBox="0 0 120 120">
+    <defs>${defs}</defs>
+    <circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${track}" stroke-width="${SW}"/>
+    ${paths}
+  </svg>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// 2. SOFT GLOW + ROUNDED CAPS
+// ══════════════════════════════════════════════════════════════════════════
+function glowRoundedDonut(dark) {
+  const c = dark
+    ? { gap:RED_D, close:YEL_D, achieved:GRN_D }
+    : { gap:RED,   close:YEL,   achieved:GRN };
+  const CX=60,CY=60,SW=14,R=(48+32)/2;
+  const track = dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.06)';
+  let deg = 0;
+  const paths = ['gap','close','achieved'].map(k => {
+    const sweep = (vals[k]/total)*360;
+    const d = arcPath(CX,CY,R,deg+1,deg+sweep-1);
+    deg += sweep;
+    const glow = dark ? `filter:drop-shadow(0 0 6px ${c[k]}cc) drop-shadow(0 0 3px ${c[k]}88)` : `filter:drop-shadow(0 0 4px ${c[k]}66)`;
+    return `<path d="${d}" stroke="${c[k]}" stroke-width="${SW}" fill="none" stroke-linecap="round" style="${glow}"/>`;
+  }).join('');
+  return `<svg width="120" height="120" viewBox="0 0 120 120">
+    <circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${track}" stroke-width="${SW}"/>
+    ${paths}
+  </svg>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// 3. CONCENTRIC RINGS
+// ══════════════════════════════════════════════════════════════════════════
+function concentricRings(dark) {
+  const c = dark
+    ? { gap:RED_D, close:YEL_D, achieved:GRN_D }
+    : { gap:RED,   close:YEL,   achieved:GRN };
+  const rings = [
+    { key:'gap',      r:50, sw:9 },
+    { key:'close',    r:37, sw:9 },
+    { key:'achieved', r:24, sw:9 },
+  ];
+  const CX=60,CY=60;
+  const track = dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)';
+  const paths = rings.map(rg => {
+    const pct = vals[rg.key] / total;
+    const circ = 2 * Math.PI * rg.r;
+    const dash = pct * circ;
+    const glow = dark ? `filter:drop-shadow(0 0 5px ${c[rg.key]}aa)` : '';
+    return `
+      <circle cx="${CX}" cy="${CY}" r="${rg.r}" fill="none" stroke="${track}" stroke-width="${rg.sw}" stroke-linecap="round"/>
+      <circle cx="${CX}" cy="${CY}" r="${rg.r}" fill="none" stroke="${c[rg.key]}" stroke-width="${rg.sw}"
+        stroke-dasharray="${dash} ${circ}" stroke-dashoffset="${circ/4}"
+        stroke-linecap="round" style="${glow}"/>`;
+  }).join('');
+  return `<svg width="120" height="120" viewBox="0 0 120 120">${paths}</svg>`;
+}
+
+function concentricLegend(dark) {
+  const c = dark
+    ? { gap:RED_D, close:YEL_D, achieved:GRN_D }
+    : { gap:RED,   close:YEL,   achieved:GRN };
+  return ['gap','close','achieved'].map((k,i) => {
+    const n=[28,14,19][i], pct=n/total;
+    const glow = dark ? `box-shadow:0 0 6px ${c[k]}` : '';
+    const bwrap = dark ? 'con-bar-wrap' : 'con-bar-wrap-l';
+    return `<div class="con-row">
+      <div class="dot" style="background:${c[k]};${glow}"></div>
+      <span style="font-size:11px;font-weight:700;min-width:16px;font-family:monospace;color:${dark?'#fff':'#1A1610'}">${n}</span>
+      <div class="${bwrap}"><div class="con-bar" style="width:${pct*100*2.2}%;background:${c[k]};${dark?'box-shadow:0 0 4px '+c[k]:''}"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// 4. HALF GAUGE
+// ══════════════════════════════════════════════════════════════════════════
+function halfGauge(dark) {
+  const c = dark
+    ? { gap:RED_D, close:YEL_D, achieved:GRN_D }
+    : { gap:RED,   close:YEL,   achieved:GRN };
+  const CX=60,CY=60,SW=16,R=(50+34)/2;
+  const track = dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)';
+  // half = 180 degrees, map values to 0-180
+  let deg = 0;
+  const paths = ['gap','close','achieved'].map(k => {
+    const sweep = (vals[k]/total)*180;
+    const d = arcPath(CX,CY,R, 180+deg+0.8, 180+deg+sweep-0.8);
+    deg += sweep;
+    const glow = dark ? `filter:drop-shadow(0 0 6px ${c[k]}cc)` : `filter:drop-shadow(0 0 3px ${c[k]}55)`;
+    return `<path d="${d}" stroke="${c[k]}" stroke-width="${SW}" fill="none" stroke-linecap="round" style="${glow}"/>`;
+  }).join('');
+  return `<svg width="120" height="68" viewBox="0 0 120 68">
+    <path d="${arcPath(CX,CY,R,180,360)}" fill="none" stroke="${track}" stroke-width="${SW}" stroke-linecap="round"/>
+    ${paths}
+  </svg>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// 5. SOLID BOLD (thick, flat, no glow)
+// ══════════════════════════════════════════════════════════════════════════
+function solidBoldDonut(dark) {
+  const c = dark
+    ? { gap:RED_D, close:YEL_D, achieved:GRN_D }
+    : { gap:'#DC2626', close:'#CA8A04', achieved:'#16A34A' };
+  const CX=60,CY=60,SW=22,R=(52+30)/2;
+  const track = dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.08)';
+  let deg = 0;
+  const paths = ['gap','close','achieved'].map(k => {
+    const sweep = (vals[k]/total)*360;
+    const d = arcPath(CX,CY,R,deg+0.5,deg+sweep-0.5);
+    deg += sweep;
+    return `<path d="${d}" stroke="${c[k]}" stroke-width="${SW}" fill="none" stroke-linecap="butt"/>`;
+  }).join('');
+  return `<svg width="120" height="120" viewBox="0 0 120 120">
+    <circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${track}" stroke-width="${SW}"/>
+    ${paths}
+  </svg>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════════════════════════
+function makeCol(name, darkSVG, lightSVG, darkLegend, lightLegend, halfMode) {
+  const darkWrapClass  = halfMode ? 'half-wrap' : 'donut-wrap';
+  const lightWrapClass = halfMode ? 'half-wrap' : 'donut-wrap';
+  const dcClass = halfMode ? 'dc-half' : 'dc';
+
+  return `<div class="col">
+    <div class="col-label">${name}</div>
+    <div class="card-dark">
+      <div class="${darkWrapClass}">
+        ${darkSVG}
+        <div class="${dcClass}">${center(true, halfMode)}</div>
+      </div>
+      <div class="legend">${darkLegend}</div>
+    </div>
+    <div class="card-light">
+      <div class="${lightWrapClass}">
+        ${lightSVG}
+        <div class="${dcClass}">${center(false, halfMode)}</div>
+      </div>
+      <div class="legend">${lightLegend}</div>
+    </div>
+  </div>`;
+}
+
+document.getElementById('root').innerHTML = [
+  makeCol('1 · Gradient Fill',
+    gradientDonut(true), gradientDonut(false),
+    legend(true,true), legend(false,false)
+  ),
+  makeCol('2 · Glow + Rounded',
+    glowRoundedDonut(true), glowRoundedDonut(false),
+    legend(true,true), legend(false,false)
+  ),
+  makeCol('3 · Concentric Rings',
+    concentricRings(true), concentricRings(false),
+    concentricLegend(true), concentricLegend(false)
+  ),
+  makeCol('4 · Half Gauge',
+    halfGauge(true), halfGauge(false),
+    legend(true,true), legend(false,false),
+    true
+  ),
+  makeCol('5 · Solid Bold',
+    solidBoldDonut(true), solidBoldDonut(false),
+    legend(true,true), legend(false,false)
+  ),
+].join('');
+</script>
+</body>
+</html>
