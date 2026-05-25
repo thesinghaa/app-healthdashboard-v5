@@ -1,8 +1,8 @@
-# PIF Health Dashboard V3 — NHM Arunachal Pradesh (CLAUDE.md)
+# PIF Health Dashboard V4 — NHM Arunachal Pradesh (CLAUDE.md)
 
 This file gives any Claude session immediate context on the project so you can contribute without needing prior conversation history.
 
-> **V3 is the ONLY active version.** V1 (`PIFHealthDashboard/`) and V2 (`PIFHealthDashboard-v2/`) are frozen — do not touch them.
+> **V4 is the ONLY active version** at `/Users/thesinghaa/PIFHealthDashboard-v4/`. V1, V2, and V3 are frozen — do not touch them.
 
 ---
 
@@ -35,11 +35,12 @@ What to update:
 
 A React + Vite **health dashboard** tracking NHM Arunachal Pradesh programme performance across 5 divisions and 37 programmes. Built for **Pahlé India Foundation (PIF)**.
 
-- **Local**: `/Users/thesinghaa/PIFHealthDashboard-v3/`
-- **GitHub**: `https://github.com/thesinghaa/app-healthdashboard-v3`
-- **Live**: `https://pif-health-dashboard-v3.vercel.app`
+- **Local**: `/Users/thesinghaa/PIFHealthDashboard-v4/`
+- **GitHub**: `https://github.com/thesinghaa/app-healthdashboard-v3` (same repo, V4 branch is main)
+- **Live**: `https://arunachalhealthdashboard.vercel.app`
 - **Git identity**: `thesinghaa <aryanjarvis32@gmail.com>` (set via `git config --local`) — do NOT use `--author` flag
 - **Deploy method**: `vercel build --prod` → `vercel deploy --prod --prebuilt` (fast, ~30s)
+- **vercel.json**: `experimentalServices` for backend-py REMOVED (May 2026) — backend-py is local only, was causing 591MB bundle error. vercel.json now just sets `buildCommand`, `outputDirectory: dist`, `framework: vite`, and SPA rewrite rules.
 
 ---
 
@@ -57,10 +58,59 @@ A React + Vite **health dashboard** tracking NHM Arunachal Pradesh programme per
 
 ---
 
+## V4 Landing Page — Scrollable Command Center (added May 2026)
+
+**Complete redesign** of `LandingPage.jsx` + `landing-v4.css`. Old cinema-reel layout fully replaced.
+
+### Layout (scrollable story)
+1. **Hero** — full-viewport dark panel, giant animated health score (%), KPI status strip, scroll cue
+2. **Map** — AP choropleth (react-simple-maps) + district ranking sidebar
+3. **Division Cards** — 5-column grid, each card has progress ring, KD breakdown, mini KD bars
+4. **Critical Alerts** — table of top gap KDs across all divisions
+5. **NFHS Progress** — recharts BarChart (layout="vertical") comparing NFHS-4 vs NFHS-5
+6. **Wins Callouts** — 3 highlight cards for big improvements
+7. **Footer** — nav links
+
+### CSS file: `src/styles/landing-v4.css`
+- Class namespace: `.v4c-*` (avoids conflicts with old `.v4b-*` / `.lnd-*`)
+- Token system: `--v4-hero: #030810`, `--v4-bg: #060d19`, `--v4-s1: #0a1525`, `--v4-s2: #0f1d30`
+- Status colors: `--v4-gap: #FF3B5C`, `--v4-close: #FFB020`, `--v4-ok: #00C97A`
+- Division colors: `--v4-rch: #4F8EF7`, `--v4-ndcp: #F7B23B`, `--v4-ncd: #9B6FEB`, `--v4-hss: #2DD4BF`, `--v4-hrh: #F7614F`
+- `.v4c-root { height: 100%; overflow-y: auto }` — scrollable within `.flip-page`
+- `.v4c-reveal` + `.v4c-in` — IntersectionObserver scroll-reveal pattern (threshold 0.10)
+- Light mode overrides via `[data-theme="light"]` block at end of file
+- Sticky navbar: `--v4-nav-h: 64px`; backdrop blur 20px
+
+### Key data constants (in LandingPage.jsx)
+- `DIST_SCORES` — 27 districts, scores 27–68 (composite health, illustrative FY25-26)
+  - Keys match GeoJSON `properties.DISTRICT` exactly (title-case, e.g. `'Papum Pare'`)
+- `DIV_META` — per-division: color, heroVal, heroLbl, spot KDs for alert table
+- `NFHS_CHART` — 5 indicators comparing NFHS-4 vs NFHS-5
+- `WINS` — 3 callout cards: Institutional Births +26.9pp, PNC +27.5pp, IMR -44%
+
+### Animations
+- GSAP timeline on mount: nav → hero text → score → status strip
+- Hero score count-up: `gsap.to({n:0}, { n: onTrackPct, onUpdate: write to scoreRef.current.textContent })` — no React re-renders
+- IntersectionObserver adds `.v4c-in` to `.v4c-reveal` elements as they enter viewport
+- Progress rings: CSS `conic-gradient` updated via inline style `--pct`
+
+### Map
+- `react-simple-maps` (ComposableMap, Geographies, Geography)
+- GeoJSON: `/public/ap-districts.geojson` (same file, title-case DISTRICT keys)
+- `projectionConfig: { center: [94.483, 28.056], scale: 2780 }`
+- `distColor(score)`: ≥60 → `--v4-ok`, ≥45 → `--v4-close`, <45 → `--v4-gap`
+- Hover tooltip: `.v4c-map-tip` absolutely positioned
+
+### ThemeContext change
+- Default theme changed from `'light'` to `'dark'` (localStorage fallback)
+
+---
+
 ## Navigation (5 layers)
 
 ```
-LandingPage — cinema reel, select division or "All Programmes"
+LandingPage — scrollable command center (V4, May 2026)
+  ├── [old] Cinema reel (removed — fully replaced by scrollable story layout)
   ├── DivisionPage (division programme grid)
   │     └── KDProgrammePage / HRHCadrePage / DrugsDiagnosticsPage
   │           ├── KDIndicatorDetail (single KD deep-dive)
