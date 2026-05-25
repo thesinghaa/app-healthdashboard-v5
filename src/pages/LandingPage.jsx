@@ -8,6 +8,7 @@ import { DIVISIONS } from '../data/programs';
 import { KD_TREE } from '../data/kdData';
 import ThemeToggle from '../components/ThemeToggle';
 import ReportModal from '../components/ReportModal';
+import ProgrammeOverview from '../components/ProgrammeOverview';
 import '../styles/landing-v4.css';
 
 const NHMSankey = lazy(() => import('../components/NHMSankey'));
@@ -298,102 +299,14 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
-          SECTION 1 — NHM PROGRAMME OVERVIEW
+          SECTION 1 — NHM PROGRAMME OVERVIEW (interactive zones)
           ══════════════════════════════════════════════════════════════════ */}
-      <section className="v4l-overview v4l-reveal" ref={overviewRef}>
-        <div className="v4l-section-header">
-          <div className="v4l-section-tag">NHM Programme Overview</div>
-          <h2 className="v4l-section-title">5 Divisions · 37 Programmes · {totals.total} Key Deliverables</h2>
-          <p className="v4l-section-sub">Arunachal Pradesh · FY 2025-26 · Source: NPCC, HMIS, NFHS-5</p>
-        </div>
-
-        {/* Icon illustration zones (5 columns, like Power Sector Overview) */}
-        <div className="v4l-ov-zones">
-          {DIVISIONS.map(div => {
-            const clr = DIV_COLORS[div.id] || DIV_COLORS.rch;
-            const icons = DIV_ICONS[div.id] || [];
-            return (
-              <div key={div.id} className="v4l-ov-zone"
-                   onClick={() => onSelectDivision(div)}
-                   style={{ '--zone-clr': clr.main }}>
-                <div className="v4l-ov-zone-icons">
-                  {icons.map((icon, i) => (
-                    <div key={i} className="v4l-ov-icon-wrap"
-                         style={{
-                           position: 'absolute',
-                           top: ICON_POSITIONS[i].top,
-                           left: ICON_POSITIONS[i].left,
-                           color: clr.main,
-                         }}>
-                      {icon}
-                    </div>
-                  ))}
-                </div>
-                <div className="v4l-ov-zone-label" style={{ color: clr.text }}>
-                  {div.label}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Divider lines between zones (like ICED) */}
-        <div className="v4l-ov-dividers">
-          {DIVISIONS.map((_, i) => i < DIVISIONS.length - 1 && (
-            <div key={i} className="v4l-ov-divider" />
-          ))}
-        </div>
-
-        {/* KPI stat cards — one per division */}
-        <div className="v4l-ov-cards">
-          {divStats.map(({ div, brk, onTrackPct }) => {
-            const clr = DIV_COLORS[div.id] || DIV_COLORS.rch;
-            return (
-              <div key={div.id}
-                   className="v4l-ov-card"
-                   style={{ '--card-clr': clr.main, '--card-bg': clr.light, '--card-txt': clr.text }}
-                   onClick={() => onSelectDivision(div)}>
-                <div className="v4l-ov-card-top">
-                  <span className="v4l-ov-card-label">{div.label}</span>
-                  {brk.gap > 0 && (
-                    <span className="v4l-ov-card-alert">{brk.gap} Critical</span>
-                  )}
-                </div>
-                <div className="v4l-ov-card-name">{div.fullName}</div>
-                <div className="v4l-ov-card-metric">
-                  <span className="v4l-ov-card-num">{onTrackPct}%</span>
-                  <span className="v4l-ov-card-unit">On Track</span>
-                </div>
-                <div className="v4l-ov-card-sub">
-                  {brk.total > 0
-                    ? `${brk.achieved} of ${brk.total} KDs achieved`
-                    : 'KD data not yet mapped'}
-                </div>
-                {/* Mini status bar */}
-                <div className="v4l-ov-card-bar">
-                  {brk.total > 0 && <>
-                    <div className="v4l-ov-bar-seg v4l-bar-on"
-                         style={{ width: `${(brk.achieved / brk.total) * 100}%` }} />
-                    <div className="v4l-ov-bar-seg v4l-bar-cau"
-                         style={{ width: `${(brk.close / brk.total) * 100}%` }} />
-                    <div className="v4l-ov-bar-seg v4l-bar-gap"
-                         style={{ width: `${(brk.gap / brk.total) * 100}%` }} />
-                  </>}
-                </div>
-                <div className="v4l-ov-card-footer">
-                  <span style={{ color: '#00C97A' }}>{brk.achieved} on track</span>
-                  <span style={{ color: '#FFB020' }}>{brk.close} caution</span>
-                  <span style={{ color: '#FF3B5C' }}>{brk.gap} gap</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="v4l-section-source">
-          Source: NPCC Document (NHM Arunachal Pradesh, April 2026) · HMIS FY 2025-26
-        </div>
-      </section>
+      <div className="v4l-reveal" ref={overviewRef}>
+        <ProgrammeOverview
+          onSelectDivision={onSelectDivision}
+          totalKDs={totals.total}
+        />
+      </div>
 
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 2 — NHM PROGRAMME FLOW (SANKEY)
