@@ -9,32 +9,32 @@ import { ResponsiveSankey } from '@nivo/sankey';
 import { KD_TREE } from '../data/kdData';
 import { DIVISIONS } from '../data/programs';
 
-/* ── Colour palette ─────────────────────────────────────────────────────── */
+/* ── Premium colour palette ──────────────────────────────────────────────── */
 const DIV_COLORS = {
-  rch:  '#4F8EF7',
-  ndcp: '#F7B23B',
-  ncd:  '#9B6FEB',
-  hss:  '#2DD4BF',
-  hrh:  '#F7614F',
+  rch:  '#1B6FF5',   /* electric blue */
+  ndcp: '#D97706',   /* warm amber    */
+  ncd:  '#7C3AED',   /* rich violet   */
+  hss:  '#0F9B82',   /* deep teal     */
+  hrh:  '#DC4B2A',   /* vermillion    */
 };
 
-/* Programme nodes get a lightened version of their parent division colour */
+/* Programme tints — visible mid-saturation, not washed-out pastels */
 const PROG_TINTS = {
-  rch:  '#93C5FD',
-  ndcp: '#FCD34D',
-  ncd:  '#C4B5FD',
-  hss:  '#99F6E4',
-  hrh:  '#FDBA74',
+  rch:  '#5B9BF8',
+  ndcp: '#F4A83A',
+  ncd:  '#A67AF4',
+  hss:  '#34C9A8',
+  hrh:  '#F07256',
 };
 
 const STATUS_COLORS = {
-  'Critical':   '#FF3B5C',
-  'Caution':    '#FFB020',
-  'On Track':   '#00C97A',
-  'Not Mapped': '#94A3B8',
+  'On Track':   '#059669',   /* emerald        */
+  'Caution':    '#D97706',   /* editorial amber */
+  'Critical':   '#DC2626',   /* proper red      */
+  'Not Mapped': '#71717A',   /* zinc grey       */
 };
 
-const NHM_COLOR  = '#1E3A5F';
+const NHM_COLOR  = '#0C1F3F';   /* deep navy */
 const STATUS_IDS = ['On Track', 'Caution', 'Critical', 'Not Mapped'];
 
 /* ── kdStatus helper ─────────────────────────────────────────────────────── */
@@ -219,31 +219,31 @@ export default function NHMSankey({ onSelectDivision, onSelectProgramme, theme =
       {visible && (
         <ResponsiveSankey
           data={{ nodes, links }}
-          margin={{ top: 20, right: 160, bottom: 20, left: 160 }}
+          margin={{ top: 32, right: 200, bottom: 32, left: 100 }}
           align="justify"
           sort="input"
           nodeOpacity={1}
-          nodeHoverOthersOpacity={0.25}
-          nodeThickness={14}
-          nodeSpacing={6}
-          nodePaddingX={5}
+          nodeHoverOthersOpacity={0.20}
+          nodeThickness={20}
+          nodeSpacing={8}
+          nodePaddingX={6}
           nodeBorderWidth={0}
-          nodeBorderRadius={3}
-          linkOpacity={0.22}
-          linkHoverOthersOpacity={0.06}
-          linkContract={2}
+          nodeBorderRadius={4}
+          linkOpacity={0.30}
+          linkHoverOthersOpacity={0.05}
+          linkContract={3}
           enableLinkGradient={true}
           labelPosition="outside"
           labelOrientation="horizontal"
-          labelPadding={14}
+          labelPadding={16}
           label={shortLabel}
           labelTextColor={labelColor}
           colors={nodeColor}
           animate={true}
           motionConfig={{
             mass: 1,
-            tension: 180,
-            friction: 26,
+            tension: 160,
+            friction: 28,
             clamp: false,
             precision: 0.01,
             velocity: 0,
