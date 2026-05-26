@@ -1023,20 +1023,20 @@
   gap: 14px;
 }
 .v4l-brand-logo {
-  height: 44px;
+  height: 60px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
 }
 .v4l-brand-divider {
   width: 1.5px;
-  height: 44px;
+  height: 60px;
   background: rgba(15, 23, 42, 0.18);
   margin: 0 4px;
   flex-shrink: 0;
 }
 .v4l-brand-nhm {
-  height: 44px;
+  height: 60px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
@@ -1044,10 +1044,10 @@
 .v4l-brand-text {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 .v4l-brand-name {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 800;
   color: #0F172A;
   line-height: 1.2;
@@ -2336,3 +2336,16 @@
 [data-theme="dark"] .dacc-close-btn { color: var(--bmid); background: rgba(var(--brgb),0.16); border-color: rgba(var(--brgb),0.35); }
 [data-theme="dark"] .dacc-exp-kd-bar { background: rgba(var(--brgb),0.15); }
 [data-theme="dark"] .dacc-exp-map-wrap { background: rgba(var(--brgb),0.14); border-color: rgba(var(--brgb),0.28); }
+
+/* ── Section bar ─────────────────────────────────────────────────────────── */
+.dacc-section-bar {
+  width: 100%;
+  background: #0F172A;
+  color: #ffffff;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 12px 0;
+}

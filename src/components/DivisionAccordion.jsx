@@ -277,8 +277,8 @@ export default function DivisionAccordion({ onSelectDivision, totalKDs = 0 }) {
   return (
     <div className="dacc-wrap">
 
+      <div className="dacc-section-bar">NHM Programmes</div>
       <div className="v4l-section-header">
-        <div className="v4l-section-tag">NHM Programme Overview</div>
         <h2 className="v4l-section-title">5 Divisions · 37 Programmes · {totalKDs} Key Deliverables</h2>
         <p className="v4l-section-sub">
           Arunachal Pradesh · FY 2025-26 · Click a division to explore its overview
