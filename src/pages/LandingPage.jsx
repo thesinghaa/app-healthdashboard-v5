@@ -266,37 +266,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         </div>
       </header>
 
-      {/* ── Hero strip ──────────────────────────────────────────────────── */}
-      <section className="v4l-hero">
-        <div className="v4l-hero-inner">
-          <div className="v4l-hero-badge">NHM Arunachal Pradesh</div>
-          <h1 className="v4l-hero-title">Programme Performance Monitor</h1>
-          <p className="v4l-hero-sub">
-            Real-time tracking of {totals.total} Key Deliverables across 5 NHM divisions
-          </p>
-          <div className="v4l-hero-kpis">
-            <div className="v4l-hero-kpi v4l-hero-kpi--on">
-              <span className="v4l-hero-kpi-val">{totals.achieved}</span>
-              <span className="v4l-hero-kpi-lbl">On Track</span>
-            </div>
-            <div className="v4l-hero-kpi-sep" />
-            <div className="v4l-hero-kpi v4l-hero-kpi--cau">
-              <span className="v4l-hero-kpi-val">{totals.close}</span>
-              <span className="v4l-hero-kpi-lbl">Caution</span>
-            </div>
-            <div className="v4l-hero-kpi-sep" />
-            <div className="v4l-hero-kpi v4l-hero-kpi--gap">
-              <span className="v4l-hero-kpi-val">{totals.gap}</span>
-              <span className="v4l-hero-kpi-lbl">Critical Gap</span>
-            </div>
-            <div className="v4l-hero-kpi-sep" />
-            <div className="v4l-hero-kpi v4l-hero-kpi--pct">
-              <span className="v4l-hero-kpi-val">{onTrackPct}%</span>
-              <span className="v4l-hero-kpi-lbl">Overall On Track</span>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 1 — NHM PROGRAMME OVERVIEW (interactive zones)
