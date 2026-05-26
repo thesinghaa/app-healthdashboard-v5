@@ -1886,3 +1886,352 @@
 [data-theme="dark"] .pov-card-name { color: rgba(238,244,255,0.55); }
 [data-theme="dark"] .pov-card-sub  { color: rgba(238,244,255,0.35); }
 [data-theme="dark"] .pov-card-alert { background: rgba(190,18,60,0.15); color: #FCA5A5; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DIVISION ACCORDION — 5 vertical bars, expand on click  (added May 2026)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.dacc-wrap {
+  background: #fff;
+  background-image: radial-gradient(circle, rgba(15,23,42,0.065) 1px, transparent 1px);
+  background-size: 28px 28px;
+  padding: 64px 0 56px;
+}
+
+/* ── Bar track ──────────────────────────────────────────────────────────── */
+.dacc-track {
+  max-width: 1400px;
+  margin: 36px auto 0;
+  padding: 0 24px;
+  display: flex;
+  gap: 10px;
+  height: 560px;
+}
+
+/* ── Individual bar ─────────────────────────────────────────────────────── */
+.dacc-bar {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  min-width: 56px;
+  border-radius: 22px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: flex-grow 0.52s cubic-bezier(0.4, 0, 0.2, 1),
+              border-radius 0.52s ease,
+              box-shadow 0.3s ease;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12), 0 1px 6px rgba(0,0,0,0.08);
+}
+.dacc-bar:hover:not(.dacc-bar--active) {
+  box-shadow: 0 8px 36px rgba(0,0,0,0.20), 0 2px 8px rgba(0,0,0,0.10);
+}
+.dacc-bar--active {
+  flex-grow: 5.2;
+  cursor: default;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.22), 0 4px 16px rgba(0,0,0,0.12);
+}
+.dacc-bar--compressed {
+  flex-grow: 0.45;
+}
+
+/* ── Collapsed face ─────────────────────────────────────────────────────── */
+.dacc-face {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 10px 24px;
+  gap: 14px;
+  color: white;
+  user-select: none;
+}
+.dacc-face-icon {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.20));
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.dacc-bar:hover:not(.dacc-bar--active) .dacc-face-icon {
+  transform: translateY(-4px) scale(1.06);
+}
+.dacc-face-icon svg { width: 100%; height: 100%; }
+
+.dacc-face-label {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: writing-mode 0.1s, transform 0.1s;
+}
+.dacc-face-full {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 160px;
+}
+.dacc-face-kpi {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  color: rgba(255,255,255,0.90);
+  background: rgba(255,255,255,0.18);
+  border-radius: 20px;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+/* slim state — bar is compressed, others are active */
+.dacc-face--slim .dacc-face-icon {
+  width: 48px;
+  height: 48px;
+  opacity: 0.65;
+}
+.dacc-face--slim .dacc-face-label {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+/* ── Expanded content ───────────────────────────────────────────────────── */
+.dacc-expanded {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  animation: dacc-reveal 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+@keyframes dacc-reveal {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dacc-close-btn {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 34px; height: 34px;
+  background: rgba(255,255,255,0.18);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s, transform 0.2s;
+  padding: 0;
+}
+.dacc-close-btn:hover {
+  background: rgba(255,255,255,0.32);
+  transform: scale(1.1);
+}
+.dacc-close-btn svg { width: 14px; height: 14px; }
+
+.dacc-exp-head {
+  padding: 24px 60px 0 28px;
+  flex-shrink: 0;
+}
+.dacc-exp-label {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: white;
+  line-height: 1;
+}
+.dacc-exp-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.72);
+  margin-top: 5px;
+  letter-spacing: 0.02em;
+}
+
+/* two-column body */
+.dacc-exp-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px 24px 24px 28px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Left column — stats ────────────────────────────────────────────────── */
+.dacc-exp-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+.dacc-exp-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.dacc-exp-stat {
+  background: rgba(255,255,255,0.14);
+  border-radius: 12px;
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.dacc-stat--crit .dacc-exp-stat-num { color: #FCA5A5; }
+.dacc-exp-stat-num {
+  font-size: 26px;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  color: white;
+  line-height: 1;
+}
+.dacc-exp-stat-lbl {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.dacc-exp-bar-wrap { flex-shrink: 0; }
+.dacc-exp-bar-ttl {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 6px;
+}
+.dacc-exp-kd-bar {
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  background: rgba(255,255,255,0.12);
+}
+.dacc-exp-kd-bar > div { height: 100%; transition: width 0.6s ease 0.5s; }
+.dacc-exp-legend {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+.dacc-exp-legend span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.72);
+  font-weight: 600;
+}
+.dacc-exp-legend i {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.dacc-exp-prog-ttl {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: rgba(255,255,255,0.55);
+  flex-shrink: 0;
+}
+.dacc-exp-progs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  overflow: hidden;
+  max-height: 64px;
+}
+.dacc-exp-prog-chip {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: white;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 20px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+.dacc-chip--more {
+  background: rgba(255,255,255,0.08);
+  border-style: dashed;
+}
+
+.dacc-exp-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  background: rgba(255,255,255,0.22);
+  border: 1.5px solid rgba(255,255,255,0.50);
+  border-radius: 24px;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 9px 18px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+.dacc-exp-cta:hover {
+  background: rgba(255,255,255,0.34);
+  transform: translateX(3px);
+}
+
+/* ── Right column — map ─────────────────────────────────────────────────── */
+.dacc-exp-right {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+}
+.dacc-exp-map-ttl {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: rgba(255,255,255,0.55);
+  flex-shrink: 0;
+}
+.dacc-exp-map-wrap {
+  flex: 1;
+  min-height: 0;
+  background: rgba(255,255,255,0.08);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dacc-exp-map-note {
+  font-size: 9px;
+  color: rgba(255,255,255,0.40);
+  font-weight: 500;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ── Dark mode overrides ────────────────────────────────────────────────── */
+[data-theme="dark"] .dacc-wrap {
+  background: #060d19;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}

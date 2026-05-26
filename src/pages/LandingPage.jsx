@@ -8,7 +8,7 @@ import { DIVISIONS } from '../data/programs';
 import { KD_TREE } from '../data/kdData';
 import ThemeToggle from '../components/ThemeToggle';
 import ReportModal from '../components/ReportModal';
-import ProgrammeOverview from '../components/ProgrammeOverview';
+import DivisionAccordion from '../components/DivisionAccordion';
 import '../styles/landing-v4.css';
 
 const NHMSankey = lazy(() => import('../components/NHMSankey'));
@@ -302,7 +302,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           SECTION 1 — NHM PROGRAMME OVERVIEW (interactive zones)
           ══════════════════════════════════════════════════════════════════ */}
       <div className="v4l-reveal" ref={overviewRef}>
-        <ProgrammeOverview
+        <DivisionAccordion
           onSelectDivision={onSelectDivision}
           totalKDs={totals.total}
         />
