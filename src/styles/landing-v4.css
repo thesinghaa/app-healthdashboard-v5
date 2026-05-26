@@ -1012,7 +1012,7 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 40px;
-  height: 64px;
+  height: 128px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1020,24 +1020,26 @@
 .v4l-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 18px;
 }
 .v4l-brand-logo {
-  height: 36px;
+  height: 72px;
   width: auto;
   object-fit: contain;
 }
 .v4l-brand-name {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 800;
   color: #0F172A;
   line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 .v4l-brand-sub {
-  font-size: 11px;
+  font-size: 12px;
   color: #64748B;
   font-weight: 400;
   letter-spacing: 0.02em;
+  margin-top: 3px;
 }
 .v4l-nav-links {
   display: flex;

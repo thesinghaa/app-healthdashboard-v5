@@ -253,10 +253,43 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       <header className="v4l-nav">
         <div className="v4l-nav-inner">
           <div className="v4l-brand">
-            <img src="/nhm-logo.png" alt="NHM" className="v4l-brand-logo" />
+            <svg className="v4l-brand-logo" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* Outer ring */}
+              <circle cx="36" cy="36" r="34" stroke="#1A3A6B" strokeWidth="2.5"/>
+              <circle cx="36" cy="36" r="30" stroke="#1A3A6B" strokeWidth="0.8"/>
+              {/* Sky gradient background */}
+              <clipPath id="emblem-clip"><circle cx="36" cy="36" r="29"/></clipPath>
+              <rect x="7" y="7" width="58" height="58" fill="#EAF3FF" clipPath="url(#emblem-clip)"/>
+              {/* Sun rays */}
+              {[0,30,60,90,120,150,180,210,240,270,300,330].map(a => (
+                <line key={a}
+                  x1={36 + 12*Math.cos((a-90)*Math.PI/180)}
+                  y1={36 + 12*Math.sin((a-90)*Math.PI/180)}
+                  x2={36 + 20*Math.cos((a-90)*Math.PI/180)}
+                  y2={36 + 20*Math.sin((a-90)*Math.PI/180)}
+                  stroke="#F59E0B" strokeWidth="1.4" strokeLinecap="round"/>
+              ))}
+              {/* Sun */}
+              <circle cx="36" cy="36" r="8" fill="#FBBF24"/>
+              <circle cx="36" cy="36" r="5.5" fill="#F59E0B"/>
+              {/* Mountains */}
+              <path d="M7 54 L18 34 L26 44 L34 28 L44 44 L52 32 L65 54Z"
+                fill="#2D5A8E" opacity="0.85" clipPath="url(#emblem-clip)"/>
+              <path d="M7 54 L20 42 L28 50 L36 38 L46 50 L56 40 L65 54Z"
+                fill="#1A3A6B" clipPath="url(#emblem-clip)"/>
+              {/* Snow caps */}
+              <path d="M18 34 L21 39 L15 39Z" fill="white" opacity="0.9"/>
+              <path d="M34 28 L37.5 34 L30.5 34Z" fill="white" opacity="0.9"/>
+              <path d="M52 32 L55 37 L49 37Z" fill="white" opacity="0.9"/>
+              {/* Bottom text arc — "ARUNACHAL PRADESH" */}
+              <path id="ap-arc" d="M 10 48 A 28 28 0 0 0 62 48" fill="none"/>
+              <text fontSize="5.2" fontWeight="700" fill="#1A3A6B" fontFamily="Inter, sans-serif" letterSpacing="0.5">
+                <textPath href="#ap-arc" startOffset="8%">ARUNACHAL PRADESH</textPath>
+              </text>
+            </svg>
             <div>
               <div className="v4l-brand-name">Arunachal Pradesh</div>
-              <div className="v4l-brand-sub">Unified Health Dashboard · FY 2025-26</div>
+              <div className="v4l-brand-sub">National Health Mission · Unified Health Dashboard · FY 2025-26</div>
             </div>
           </div>
           <nav className="v4l-nav-links">
