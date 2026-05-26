@@ -1,8 +1,8 @@
-# PIF Health Dashboard V4 — NHM Arunachal Pradesh (CLAUDE.md)
+# PIF Health Dashboard V5 — NHM Arunachal Pradesh (CLAUDE.md)
 
 This file gives any Claude session immediate context on the project so you can contribute without needing prior conversation history.
 
-> **V4 is the ONLY active version** at `/Users/thesinghaa/PIFHealthDashboard-v4/`. V1, V2, and V3 are frozen — do not touch them.
+> **V5 is the ONLY active version** at `/Users/thesinghaa/PIFHealthDashboard-v5/`. V1, V2, V3, and V4 are frozen — do not touch them.
 
 ---
 
@@ -35,12 +35,13 @@ What to update:
 
 A React + Vite **health dashboard** tracking NHM Arunachal Pradesh programme performance across 5 divisions and 37 programmes. Built for **Pahlé India Foundation (PIF)**.
 
-- **Local**: `/Users/thesinghaa/PIFHealthDashboard-v4/`
-- **GitHub**: `https://github.com/thesinghaa/app-healthdashboard-v3` (same repo, V4 branch is main)
-- **Live**: `https://arunachalhealthdashboard.vercel.app`
+- **Local**: `/Users/thesinghaa/PIFHealthDashboard-v5/`
+- **GitHub**: `https://github.com/thesinghaa/app-healthdashboard-v5`
+- **Live**: `https://pif-health-v4.vercel.app` · `https://arunachalhealthdashboard.vercel.app`
 - **Git identity**: `thesinghaa <aryanjarvis32@gmail.com>` (set via `git config --local`) — do NOT use `--author` flag
-- **Deploy method**: `vercel build --prod` → `vercel deploy --prod --prebuilt` (fast, ~30s)
-- **vercel.json**: `experimentalServices` for backend-py REMOVED (May 2026) — backend-py is local only, was causing 591MB bundle error. vercel.json now just sets `buildCommand`, `outputDirectory: dist`, `framework: vite`, and SPA rewrite rules.
+- **Deploy method**: `vercel build --prod` → `vercel deploy --prod --prebuilt` → manually alias both URLs
+- **Push**: `GH_TOKEN=<token-in-memory> git push origin main` (token stored in remote URL, do not commit it)
+- **After every deploy**: `vercel alias set <hash>.vercel.app pif-health-v4.vercel.app` AND `vercel alias set <hash>.vercel.app arunachalhealthdashboard.vercel.app`
 
 ---
 
@@ -475,16 +476,17 @@ FastAPI + CrewAI + matplotlib alternative. Not deployed. Run locally: `cd backen
 
 ## Hard rules (follow exactly)
 
-1. **V3 only** — never touch `/Users/thesinghaa/PIFHealthDashboard/` (v1) or `/Users/thesinghaa/PIFHealthDashboard-v2/` (v2)
+1. **V5 only** — never touch `/PIFHealthDashboard/` (v1), `/PIFHealthDashboard-v2/` (v2), `/PIFHealthDashboard-v3/` (v3), `/PIFHealthDashboard-v4/` (v4) — all frozen
 2. **Git identity** — `thesinghaa <aryanjarvis32@gmail.com>` via `git config --local`. Do NOT use `--author` flag
 3. **No emojis** anywhere — not in code, CSS, or commit messages
-4. **CSS** — append new rules at the bottom of `ncd.css`, never rewrite the whole file
+4. **CSS** — append new rules at the bottom of CSS files, never rewrite whole file
 5. **Subagents** — do NOT give them access to large files without reading offsets; they will truncate
 6. **NCD_compiled sheet** — do not connect until user asks
 7. **No feature flags, no backwards-compat shims** — just change the code
 8. **Bundle size warning** is expected (~5.8MB due to plotly.js + KD_TREE import) — acceptable, do not split unless asked
-9. **Deploy** — `vercel build --prod && vercel deploy --prod --prebuilt` from `/Users/thesinghaa/PIFHealthDashboard-v3/`
-10. **Local dev with API routes** — use `npx vercel dev --listen 3001` (NOT `npm run dev`). Plain Vite dev server returns 404 for `/api/report/[divisionId]`. `GROQ_API_KEY` must be exported as a shell env var BEFORE starting vercel dev (`.env.local` is NOT picked up by vercel dev). Launch config in `.claude/launch.json` uses port 3001.
+9. **Deploy** — `vercel build --prod && vercel deploy --prod --prebuilt` from `/Users/thesinghaa/PIFHealthDashboard-v5/` then alias both URLs
+10. **vite.config.js** — do NOT add `if (id.includes('node_modules')) return 'vendor'` — this causes circular chunk crash (charts→vendor→charts) in production. Only split plotly, gsap, recharts/d3.
+11. **Color theme** — AP Health Govt colors: Forest Green `#17823e`, Teal `#1f7d70`, Dark Blue-Teal `#2a6078` (from health.arunachal.gov.in)
 
 ---
 
