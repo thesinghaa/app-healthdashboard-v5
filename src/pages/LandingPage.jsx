@@ -269,6 +269,31 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       </header>
 
 
+      {/* ── Hero identity bar ───────────────────────────────────────────── */}
+      <div className="v5-hero-bar">
+        <div className="v5-hero-left">
+          <h1 className="v5-hero-title">Our state's health, district by district</h1>
+          <p className="v5-hero-meta">37 programmes · 27 districts · FY 2025–26</p>
+        </div>
+        <div className="v5-hero-right">
+          <div className="v5-role-btns">
+            <button className="v5-role-btn v5-role-btn--active">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="19" cy="7" r="2"/><path d="M23 21v-1a3 3 0 0 0-3-3"/></svg>
+              Public
+            </button>
+            <button className="v5-role-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+              Programme Officers
+            </button>
+            <button className="v5-role-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Administrators
+            </button>
+          </div>
+          <p className="v5-role-hint">View adapts labels &amp; detail to your role</p>
+        </div>
+      </div>
+
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 1 — NHM PROGRAMME OVERVIEW (interactive zones)
           ══════════════════════════════════════════════════════════════════ */}

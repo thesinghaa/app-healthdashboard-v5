@@ -2352,3 +2352,76 @@
   border-radius: 14px;
   margin: 0 24px 20px;
 }
+
+/* ── V5 Hero identity bar ────────────────────────────────────────────────── */
+.v5-hero-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 32px 48px;
+  background: #fff;
+  border-bottom: 1px solid rgba(23, 130, 62, 0.12);
+}
+.v5-hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.v5-hero-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.v5-hero-meta {
+  font-size: 13px;
+  color: #64748B;
+  font-weight: 400;
+  margin: 0;
+}
+.v5-hero-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.v5-role-btns {
+  display: flex;
+  gap: 10px;
+}
+.v5-role-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 8px;
+  background: #fff;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.v5-role-btn:hover {
+  border-color: #17823e;
+  color: #17823e;
+  background: #f0faf4;
+}
+.v5-role-btn--active {
+  border-color: #17823e;
+  color: #17823e;
+  background: #f0faf4;
+  font-weight: 600;
+}
+.v5-role-hint {
+  font-size: 11px;
+  color: #94A3B8;
+  margin: 0;
+  font-style: italic;
+}
