@@ -2944,8 +2944,8 @@ td:last-child { padding: 8px 10px; }
 .v5-stat-strip--3d {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 14px;
-  padding: 0 32px 8px;
+  gap: 20px;
+  padding: 16px 48px 32px;
 }
 
 /* ── Outer scene (perspective host) ─────────────────────────────────────── */
@@ -2977,7 +2977,7 @@ td:last-child { padding: 8px 10px; }
   background: #fff;
   border: 2px solid var(--accent, #4F8EF7);
   box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05);
-  padding: 20px 24px;
+  padding: 24px 28px;
   display: flex;
   flex-direction: column;
   gap: 0;
