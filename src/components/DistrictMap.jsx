@@ -33,39 +33,66 @@ const STATUS_COLORS = {
   neutral:  { bg: '#f1f5f9', text: '#475569', label: 'No Data'  },
 };
 
-/* ── Curated programme highlights (4 items per division) ──────────────────── */
-const HIGHLIGHTS = {
-  rch: [
-    { icon: '🤰', title: 'Institutional deliveries — 16,947 / 24,229', sub: 'Target 90% · 70% achieved · KD #6 · HMIS M2',                              pct: 70,  status: 'close'    },
-    { icon: '🩺', title: '4+ ANC check-ups — 16,460 / 24,229',         sub: 'Target 80% · 1st trimester registration 64.8% · KD #3',                    pct: 68,  status: 'close'    },
-    { icon: '💉', title: 'Full immunisation (FIC) — 18,024 / 19,823',  sub: 'Target 90% · MR-2 95% · Penta-1 to 3 dropout 0.3% · KD #28',              pct: 91,  status: 'achieved' },
-    { icon: '👨‍⚕️', title: 'Male sterilisation — 0 conducted',            sub: '0% increase from 2022-23 baseline · PPIUCD acceptance 2.13% · KD #47',    label: 'Critical', status: 'gap' },
-  ],
-  ndcp: [
-    { icon: '🦟', title: 'Malaria — 25/25 districts API<1',            sub: '18 districts certified malaria-free · ABER 10.76% · KD #89',               pct: 100, status: 'achieved' },
-    { icon: '🫁', title: 'TB — Presumptive exam 2,205/lakh',           sub: '86% tested for Rifampicin resistance · NPY 95% · KD #72-73',               label: 'Above target', status: 'achieved' },
-    { icon: '🐕', title: 'Rabies — ARV availability only 23%',         sub: 'Target 70% · RIG availability 9% · critical stock-out at PHC level · KD #79', label: 'Critical', status: 'gap' },
-    { icon: '🩸', title: 'Hepatitis C — 2,314 patients treated',       sub: '77% of target · Hep B 47% · pregnant women screened 60% · KD #82-84',      pct: 77,  status: 'close'    },
-  ],
-  ncd: [
-    { icon: '🩺', title: 'NCD screening — HTN/DM at 19%',             sub: '77% population registered · target 30% screened · KD #112-114',            label: 'Below target', status: 'close' },
-    { icon: '💊', title: 'Dialysis (PMNDP) — 16/15 districts',        sub: '119% of session target · peritoneal dialysis 100% · KD #120-122',          pct: 107, status: 'achieved' },
-    { icon: '👁️', title: 'Cataract ops — 2,642 of 4,500 target',      sub: '59% achievement · eye donation 0 of 10 target · KD #117-118',              pct: 59,  status: 'gap'      },
-    { icon: '🧠', title: 'Mental Health — 16/28 districts functional', sub: '8,855 persons catered (Q3) · 79% of persons target · KD #107-108',         pct: 57,  status: 'close'    },
-  ],
-  hss: [
-    { icon: '🏥', title: 'Ayushman Arogya Mandir — 412/582 functional', sub: '70.79% operational · 99% providing 12 expanded services · KD #153-154',  pct: 71,  status: 'close'    },
-    { icon: '📋', title: 'NQAS certification — 10 nationally certified',sub: '6% of target · Kayakalp >70%: 45 of 126 facilities · KD #141-142',        label: 'Critical', status: 'gap' },
-    { icon: '🔧', title: 'Biomedical equipment uptime (BMMP)',          sub: '9,040 equipment tagged · DH 99.96% · CHC 99.98% · PHC 99.99% · KD #171', pct: 100, status: 'achieved' },
-    { icon: '🩸', title: 'Voluntary blood donation — 9,206 units',      sub: '88.6% of 10,392 target till Feb 2026 · component separator: 0/3 · KD #147', pct: 89, status: 'close'  },
-  ],
-  hrh: [
-    { icon: '👥', title: 'NHM HR in position — 87% of approved posts',  sub: 'Target 100% · 13% vacancy gap across all cadres · KD #168',              pct: 87,  status: 'close'    },
-    { icon: '👨‍⚕️', title: 'Medical Officers (MBBS) — 96% of IPHS norm', sub: 'Target 85% · exceeds benchmark · KD #169',                              pct: 96,  status: 'achieved' },
-    { icon: '🔬', title: 'Clinical specialists — 47% of IPHS norm',     sub: 'Target 50% · marginally below benchmark · KD #169',                      pct: 47,  status: 'close'    },
-    { icon: '💊', title: 'Pharmacists 97% · Lab technicians 100%',      sub: 'Pharmacist target 85% · Lab tech target 55% · both exceed norms · KD #169', label: 'On track', status: 'achieved' },
-  ],
+/* ── Icon map: programme id → emoji ──────────────────────────────────────── */
+const PROG_ICONS = {
+  'maternal-health': '🤰', 'child-health': '👶',   'immunization': '💉',
+  'family-planning':  '👨‍👩‍👧', 'nutrition':    '🥗',   'adolescent-health': '🧑',
+  'cac':              '✂️',  'pcpndt':       '⚖️',   'niddcp':         '🩺',
+  'rch-portal':       '💻',
+  'ntep':             '🫁',  'nvbdcp':       '🦟',   'nlep':           '🩹',
+  'nvhcp':            '🐕',  'nrcp':         '🩸',   'idsp':           '📊',
+  'ntcp':             '🚬',  'nmhp':         '🧠',   'nphce':          '🏥',
+  'np-ncd':           '🩺',  'npcbvi':       '👁️',   'pmndp':          '💊',
+  'nppcd':            '👂',  'nppc':         '🦷',   'nohp':           '👁️',
+  'npcchh':           '❤️',
+  'hss-urban':        '🏙️',  'qa':           '📋',   'blood-services': '🩸',
+  'cphc':             '🏥',  'hrh':          '👥',   'bmmp':           '🔧',
+  'hmis-reporting':   '📊',  'ambulance':    '🚑',
 };
+
+/* ── Pick 4 most newsworthy KDs from a division ───────────────────────────── */
+function getDivHighlights(divId) {
+  const tree = KD_TREE[divId];
+  if (!tree) return [];
+
+  /* flatten all KDs, attach progId */
+  const all = [];
+  Object.entries(tree.programmes || {}).forEach(([progId, prog]) => {
+    (prog.kds || []).forEach(kd => all.push({ ...kd, progId }));
+  });
+
+  /* score each KD: gap=0, close=1, achieved=2, neutral=3 */
+  const rank = { gap: 0, close: 1, achieved: 2, neutral: 3 };
+  all.sort((a, b) => rank[kdStatus(a)] - rank[kdStatus(b)]);
+
+  /* pick 2 worst + 1 close + 1 best for balanced view */
+  const gaps     = all.filter(k => kdStatus(k) === 'gap').slice(0, 2);
+  const closes   = all.filter(k => kdStatus(k) === 'close').slice(0, 1);
+  const achieved = all.filter(k => kdStatus(k) === 'achieved').slice(0, 1);
+  const selected = [...gaps, ...closes, ...achieved].slice(0, 4);
+
+  return selected.map(kd => {
+    const s   = kdStatus(kd);
+    const pct = (kd.achievement != null && kd.target)
+      ? Math.round((kd.achievement / kd.target) * 100) : null;
+    const titleMetric = kd.achievedLabel
+      ? `${kd.indicator} — ${kd.achievedLabel}`
+      : kd.indicator;
+    const subText = [
+      kd.targetLabel ? `Target ${kd.targetLabel}` : null,
+      `KD #${kd.no}`,
+    ].filter(Boolean).join(' · ');
+
+    return {
+      icon:   PROG_ICONS[kd.progId] || '📊',
+      title:  titleMetric,
+      sub:    subText,
+      pct,
+      label:  s === 'gap' ? 'Critical' : null,
+      status: s,
+    };
+  });
+}
 
 /* ── Main Component ───────────────────────────────────────────────────────── */
 export default function DistrictMap() {
@@ -78,10 +105,6 @@ export default function DistrictMap() {
   const panelRef = useRef(null);
   const mapRef   = useRef(null);
 
-  /* All KDs for the selected division */
-  const divKDs = selectedDiv
-    ? Object.values(KD_TREE[selectedDiv]?.programmes || {}).flatMap(p => p.kds || [])
-    : [];
 
   /* ── Animate panel open ── */
   useEffect(() => {
@@ -254,7 +277,7 @@ export default function DistrictMap() {
                 </div>
 
                 <div className="v5-map-hl-list">
-                  {(HIGHLIGHTS[selectedDiv] || []).map((item, i) => (
+                  {getDivHighlights(selectedDiv).map((item, i) => (
                     <div key={i} className={`v5-map-hl-row v5-map-hl-row--${item.status}`}>
                       <span className="v5-map-hl-icon">{item.icon}</span>
                       <div className="v5-map-hl-body">
