@@ -133,6 +133,48 @@ ICED-style interactive section. 5 horizontal zone columns, each representing an 
 
 ---
 
+## V5 Landing Page — New Sections (added May 2026)
+
+`LandingPage.jsx` + `landing-v4.css` — CSS namespace `.v5-*`
+
+### Layout (top to bottom)
+1. **Hero identity bar** (`.v5-hero-bar`) — title "Our state's health, district by district" + 3 role-selector buttons (Public / Programme Officers / Administrators). Golden-orange `#C8860A` fill, white font, no border, glow shadow. Half-width green gradient underline via `::after`.
+
+2. **Stat strip** (`.v5-stat-strip`) — 5-column grid. One hero metric per NHM division. Each card (`.v5-stat-card`) has:
+   - `--accent` CSS var for border color (rch=`#4F8EF7`, ndcp=`#F7B23B`, ncd=`#9B6FEB`, hss=`#2DD4BF`, hrh=`#F7614F`)
+   - Illustration PNG (`/statcards/RCH.png` etc.) positioned absolute right, `mix-blend-mode: multiply`, white gradient mask via `::before`
+   - Number, label, programme pill at bottom
+   - Images live in `/public/statcards/` (RCH.png, NDCP.png, NCD.png, HSS.png, HRH.png)
+
+3. **District Map** (`DistrictMap.jsx`, lazy-loaded) — See below.
+
+### DistrictMap component (`src/components/DistrictMap.jsx`) — added May 2026
+
+Self-contained interactive map. No props.
+
+**States:**
+- No district: full-width map, pulsing green CTA pill "Select a district to begin"
+- District selected: GSAP animates map to 58% width, right panel slides in (42%, x:60→0, opacity:0→1, 0.45s power3.out)
+- District + programme: KD achievement table (Indicator / Achievement / Target / Status badge)
+
+**GSAP:** refs `mapRef` + `panelRef`. `panelOpen` state drives animations. Close button collapses with 0.3s power2.in, `setTimeout(300)` clears state after animation.
+
+**Data:** Uses `KD_TREE[divId].programmes` (state-level — not per district). Table note: "State-level data — district-level breakdown coming soon".
+
+**Colours:** District default `#4aab6d`, hover `#17823e`, selected `#0f6b30`. Division colours in `DIV_COLORS` constant.
+
+**Title logic:**
+- Default: "Arunachal Pradesh Health Performance"
+- Selected: "Arunachal Pradesh — {district} Performance" (district name in green `#17823e`)
+
+**CSS classes:** `.v5-map-section`, `.v5-map-header`, `.v5-map-title`, `.v5-map-cta-pill` (pulsing), `.v5-map-body` (display:flex), `.v5-map-left` (width:100% shrinks via GSAP), `.v5-map-right` (width:0 grows via GSAP), `.v5-map-district-panel`, `.v5-map-prog-btn`, `.v5-map-kd-panel`, `.v5-map-kd-table`, `.v5-kd-badge`, `.v5-map-close-btn`
+
+**Division field names:** Use `div.fullName` (not `div.name`) and `div.id`. The `programs` array in division objects uses `programs` key. `KD_TREE` uses `programmes` key.
+
+**vite.config.js maps chunk:** Only `react-simple-maps` + `topojson` — do NOT include `d3-geo` (causes circular chunk with `charts` which catches all `d3-` via prefix).
+
+---
+
 ## Navigation (5 layers)
 
 ```
