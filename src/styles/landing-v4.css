@@ -2933,3 +2933,262 @@ td:last-child { padding: 8px 10px; }
 .v5-map-hl-pill--achieved { background: #22c55e; color: #fff; }
 .v5-map-hl-pill--close    { background: #f59e0b; color: #fff; }
 .v5-map-hl-pill--gap      { background: #f43f5e; color: #fff; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   sc3d — 3-face GSAP rotating prism stat cards (V5 stat strip)
+   CSS namespace: .sc3d-*
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Strip container ─────────────────────────────────────────────────────── */
+.v5-stat-strip--3d {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  padding: 0 32px 8px;
+}
+
+/* ── Outer scene (perspective host) ─────────────────────────────────────── */
+.sc3d-scene {
+  position: relative;
+  height: 210px;
+  perspective: 900px;
+  cursor: pointer;
+  border-radius: 18px;
+  /* Clip faces during rotation */
+  overflow: hidden;
+}
+
+/* Division label strip (above prism) */
+.sc3d-label {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  padding: 10px 14px 4px;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* ── 3-face prism container ──────────────────────────────────────────────── */
+.sc3d-prism {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* GSAP will set rotateY */
+}
+
+/* ── Individual face ─────────────────────────────────────────────────────── */
+.sc3d-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* Border uses accent var set on .sc3d-scene */
+  border: 1.5px solid color-mix(in srgb, var(--sc3d-accent, #4F8EF7) 40%, transparent);
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+}
+
+/* Face rotation positions — MUST match GSAP increments of -120deg */
+.sc3d-face--0 { transform: rotateY(0deg);   }
+.sc3d-face--1 { transform: rotateY(120deg);  }
+.sc3d-face--2 { transform: rotateY(240deg);  }
+
+/* ── Background illustration ─────────────────────────────────────────────── */
+.sc3d-face-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center right;
+  /* Fade left so text is always readable */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.18) 40%, rgba(0,0,0,0.55) 100%);
+  mask-image:         linear-gradient(to right, transparent 0%, rgba(0,0,0,0.18) 40%, rgba(0,0,0,0.55) 100%);
+  pointer-events: none;
+}
+
+/* ── Face content layout ─────────────────────────────────────────────────── */
+.sc3d-face-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 28px 14px 12px; /* top is 28 to clear the label strip */
+  gap: 6px;
+  /* Reserve right side for illustration */
+  padding-right: 44%;
+}
+
+/* Top row: dots + status badge */
+.sc3d-face-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.sc3d-face-dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.sc3d-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #CBD5E1;
+  transition: background 0.3s;
+}
+.sc3d-dot--active {
+  width: 14px;
+  border-radius: 99px;
+  /* background set inline via accent */
+}
+
+.sc3d-face-badge {
+  font-size: 9px;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 99px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Body: big value + indicator name */
+.sc3d-face-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-height: 0;
+}
+
+.sc3d-face-value {
+  font-size: 28px;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  /* color set inline via accent */
+}
+
+.sc3d-face-indicator {
+  font-size: 11px;
+  font-weight: 600;
+  color: #334155;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Footer: programme pill + progress bar */
+.sc3d-face-foot {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sc3d-face-prog {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  color: #475569;
+  padding: 2px 8px;
+  border-radius: 99px;
+  border: 1px solid;
+  /* border-color set inline via accent */
+  background: rgba(255,255,255,0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.sc3d-face-bar-track {
+  position: relative;
+  height: 4px;
+  background: #E2E8F0;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.sc3d-face-bar-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  border-radius: 99px;
+  max-width: 100%;
+  transition: width 0.6s ease;
+}
+.sc3d-face-pct {
+  display: block;
+  font-size: 9px;
+  color: #94A3B8;
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 2px;
+}
+
+/* ── Hover CTA (appears on hover) ────────────────────────────────────────── */
+.sc3d-hover-cta {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  padding: 5px 10px;
+  border-radius: 99px;
+  border: 1.5px solid;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.sc3d-scene:hover .sc3d-hover-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Scene hover lift ────────────────────────────────────────────────────── */
+.sc3d-scene:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ── Dark mode ───────────────────────────────────────────────────────────── */
+[data-theme="dark"] .sc3d-face {
+  background: #0a1628;
+  border-color: color-mix(in srgb, var(--sc3d-accent, #4F8EF7) 30%, transparent);
+}
+[data-theme="dark"] .sc3d-face-indicator { color: #CBD5E1; }
+[data-theme="dark"] .sc3d-face-prog      { color: #94A3B8; background: rgba(10,22,40,0.7); }
+[data-theme="dark"] .sc3d-face-bar-track { background: #1e3a5f; }
+[data-theme="dark"] .sc3d-face-pct       { color: #475569; }
+[data-theme="dark"] .sc3d-hover-cta      { background: rgba(10,22,40,0.9); color: inherit; }
+[data-theme="dark"] .sc3d-dot            { background: #334155; }
+
+[data-theme="dark"] .sc3d-face-bg {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.08) 40%, rgba(0,0,0,0.35) 100%);
+  mask-image:         linear-gradient(to right, transparent 0%, rgba(0,0,0,0.08) 40%, rgba(0,0,0,0.35) 100%);
+}

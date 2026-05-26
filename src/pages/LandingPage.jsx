@@ -9,6 +9,8 @@ import { KD_TREE } from '../data/kdData';
 import ThemeToggle from '../components/ThemeToggle';
 import ReportModal from '../components/ReportModal';
 import DivisionAccordion from '../components/DivisionAccordion';
+import StatCard3D from '../components/StatCard3D';
+import { getDivisionStats } from '../data/getDivisionStats';
 import '../styles/landing-v4.css';
 
 const NHMSankey    = lazy(() => import('../components/NHMSankey'));
@@ -194,6 +196,23 @@ const ICON_POSITIONS = [
   { top: '48%', left: '35%' },
 ];
 
+/* ── StatCard3D config ───────────────────────────────────────────────────── */
+const SC3D_IMAGES = {
+  rch:  ['/statcards/RCH_1.png',  '/statcards/RCH_2.png',  '/statcards/RCH_3.png'],
+  ndcp: ['/statcards/NDCP_1.png', '/statcards/NDCP_2.png', '/statcards/NDCP_3.png'],
+  ncd:  ['/statcards/NCD_1.png',  '/statcards/NCD_2.png',  '/statcards/NCD_3.png'],
+  hss:  ['/statcards/HSS_1.png',  '/statcards/HSS_2.png',  '/statcards/HSS_3.png'],
+  hrh:  ['/statcards/HRH_1.png',  '/statcards/HRH_2.png',  '/statcards/HRH_3.png'],
+};
+
+const SC3D_ACCENTS = {
+  rch:  '#4F8EF7',
+  ndcp: '#F7B23B',
+  ncd:  '#9B6FEB',
+  hss:  '#2DD4BF',
+  hrh:  '#F7614F',
+};
+
 /* ── Computed summary stats ──────────────────────────────────────────────── */
 function useDivStats() {
   return useMemo(() => {
@@ -293,49 +312,19 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         </div>
       </div>
 
-      {/* ── Thing 2 — Programme Hero Stat Strip ──────────────────────────── */}
-      <div className="v5-stat-strip">
-
-        {/* RCH */}
-        <div className="v5-stat-card" style={{ '--accent': '#4F8EF7' }}>
-          <div className="v5-stat-number">18,024</div>
-          <div className="v5-stat-label">Children fully immunised</div>
-          <div className="v5-stat-prog">Reproductive &amp; Child Health</div>
-          <img src="/statcards/RCH.png" className="v5-stat-card-img" alt="" />
-        </div>
-
-        {/* NDCP */}
-        <div className="v5-stat-card" style={{ '--accent': '#F7B23B' }}>
-          <div className="v5-stat-number">2,314</div>
-          <div className="v5-stat-label">Hepatitis C patients in treatment</div>
-          <div className="v5-stat-prog">National Disease Control</div>
-          <img src="/statcards/NDCP.png" className="v5-stat-card-img" alt="" />
-        </div>
-
-        {/* NCD */}
-        <div className="v5-stat-card" style={{ '--accent': '#9B6FEB' }}>
-          <div className="v5-stat-number">255</div>
-          <div className="v5-stat-label">People rehabilitated with hearing aids</div>
-          <div className="v5-stat-prog">Non-Communicable Diseases</div>
-          <img src="/statcards/NCD.png" className="v5-stat-card-img" alt="" />
-        </div>
-
-        {/* HSS */}
-        <div className="v5-stat-card" style={{ '--accent': '#2DD4BF' }}>
-          <div className="v5-stat-number">408</div>
-          <div className="v5-stat-label">Ayushman Arogya Mandirs with full 12 services</div>
-          <div className="v5-stat-prog">Health Systems Strengthening</div>
-          <img src="/statcards/HSS.png" className="v5-stat-card-img" alt="" />
-        </div>
-
-        {/* HRH */}
-        <div className="v5-stat-card" style={{ '--accent': '#F7614F' }}>
-          <div className="v5-stat-number">96%</div>
-          <div className="v5-stat-label">MO-MBBS positions filled per IPHS norms</div>
-          <div className="v5-stat-prog">Human Resources for Health</div>
-          <img src="/statcards/HRH.png" className="v5-stat-card-img" alt="" />
-        </div>
-
+      {/* ── Stat Strip — 3D rotating prism cards ─────────────────────────── */}
+      <div className="v5-stat-strip v5-stat-strip--3d">
+        {DIVISIONS.map((div, i) => (
+          <StatCard3D
+            key={div.id}
+            divLabel={div.label}
+            accent={SC3D_ACCENTS[div.id]}
+            stats={getDivisionStats(div.id)}
+            images={SC3D_IMAGES[div.id] || []}
+            onClick={() => onSelectDivision(div)}
+            startDelay={i * 3500}
+          />
+        ))}
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════
