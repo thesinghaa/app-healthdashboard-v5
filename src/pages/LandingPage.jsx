@@ -322,7 +322,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
             stats={getDivisionStats(div.id)}
             images={SC3D_IMAGES[div.id] || []}
             onClick={() => onSelectDivision(div)}
-            startDelay={i * 3500}
+            startDelay={0}
           />
         ))}
       </div>

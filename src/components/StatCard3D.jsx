@@ -67,8 +67,8 @@ export default function StatCard3D({
     if (pausedRef.current) return;
     faceIdxRef.current = (faceIdxRef.current + 1) % 3;
     gsap.to(prismRef.current, {
-      rotateY:  -faceIdxRef.current * 120,
-      duration: 1.1,
+      rotateX:  faceIdxRef.current * 120,
+      duration: 0.9,
       ease:     'power3.inOut',
     });
   }

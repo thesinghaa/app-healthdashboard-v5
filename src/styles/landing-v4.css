@@ -2981,10 +2981,10 @@ td:last-child { padding: 8px 10px; }
   gap: 0;
 }
 
-/* Face rotation positions — match GSAP increments of −120 deg */
-.sc3d-face--0 { transform: rotateY(0deg);   }
-.sc3d-face--1 { transform: rotateY(120deg);  }
-.sc3d-face--2 { transform: rotateY(240deg);  }
+/* Face rotation positions — match GSAP increments of 120 deg on X axis */
+.sc3d-face--0 { transform: rotateX(0deg);    }
+.sc3d-face--1 { transform: rotateX(-120deg); }
+.sc3d-face--2 { transform: rotateX(-240deg); }
 
 /* ── Gradient overlay — keeps text readable over the illustration ────────── */
 .sc3d-face-overlay {
