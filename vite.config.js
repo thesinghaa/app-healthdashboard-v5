@@ -17,6 +17,9 @@ export default defineConfig({
           if (id.includes('recharts') || id.includes('d3-') || id.includes('victory-')) {
             return 'charts';
           }
+          if (id.includes('react-simple-maps') || id.includes('topojson')) {
+            return 'maps';
+          }
         },
       },
     },

@@ -11,7 +11,8 @@ import ReportModal from '../components/ReportModal';
 import DivisionAccordion from '../components/DivisionAccordion';
 import '../styles/landing-v4.css';
 
-const NHMSankey = lazy(() => import('../components/NHMSankey'));
+const NHMSankey    = lazy(() => import('../components/NHMSankey'));
+const DistrictMap  = lazy(() => import('../components/DistrictMap'));
 
 /* ── Status helpers ─────────────────────────────────────────────────────── */
 function kdStatus(kd) {
@@ -273,7 +274,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       <div className="v5-hero-bar">
         <div className="v5-hero-left">
           <h1 className="v5-hero-title">Our state's health, district by district</h1>
-          <p className="v5-hero-meta">37 programmes · 27 districts · FY 2025–26</p>
         </div>
         <div className="v5-hero-right">
           <div className="v5-role-btns">
@@ -290,18 +290,61 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
               Administrators
             </button>
           </div>
-          <p className="v5-role-hint">View adapts labels &amp; detail to your role</p>
         </div>
       </div>
 
+      {/* ── Thing 2 — Programme Hero Stat Strip ──────────────────────────── */}
+      <div className="v5-stat-strip">
+
+        {/* RCH */}
+        <div className="v5-stat-card" style={{ '--accent': '#4F8EF7' }}>
+          <div className="v5-stat-number">18,024</div>
+          <div className="v5-stat-label">Children fully immunised</div>
+          <div className="v5-stat-prog">Reproductive &amp; Child Health</div>
+          <img src="/statcards/RCH.png" className="v5-stat-card-img" alt="" />
+        </div>
+
+        {/* NDCP */}
+        <div className="v5-stat-card" style={{ '--accent': '#F7B23B' }}>
+          <div className="v5-stat-number">2,314</div>
+          <div className="v5-stat-label">Hepatitis C patients in treatment</div>
+          <div className="v5-stat-prog">National Disease Control</div>
+          <img src="/statcards/NDCP.png" className="v5-stat-card-img" alt="" />
+        </div>
+
+        {/* NCD */}
+        <div className="v5-stat-card" style={{ '--accent': '#9B6FEB' }}>
+          <div className="v5-stat-number">255</div>
+          <div className="v5-stat-label">People rehabilitated with hearing aids</div>
+          <div className="v5-stat-prog">Non-Communicable Diseases</div>
+          <img src="/statcards/NCD.png" className="v5-stat-card-img" alt="" />
+        </div>
+
+        {/* HSS */}
+        <div className="v5-stat-card" style={{ '--accent': '#2DD4BF' }}>
+          <div className="v5-stat-number">408</div>
+          <div className="v5-stat-label">Ayushman Arogya Mandirs with full 12 services</div>
+          <div className="v5-stat-prog">Health Systems Strengthening</div>
+          <img src="/statcards/HSS.png" className="v5-stat-card-img" alt="" />
+        </div>
+
+        {/* HRH */}
+        <div className="v5-stat-card" style={{ '--accent': '#F7614F' }}>
+          <div className="v5-stat-number">96%</div>
+          <div className="v5-stat-label">MO-MBBS positions filled per IPHS norms</div>
+          <div className="v5-stat-prog">Human Resources for Health</div>
+          <img src="/statcards/HRH.png" className="v5-stat-card-img" alt="" />
+        </div>
+
+      </div>
+
       {/* ══════════════════════════════════════════════════════════════════
-          SECTION 1 — NHM PROGRAMME OVERVIEW (interactive zones)
+          SECTION 1 — DISTRICT MAP
           ══════════════════════════════════════════════════════════════════ */}
       <div className="v4l-reveal" ref={overviewRef}>
-        <DivisionAccordion
-          onSelectDivision={onSelectDivision}
-          totalKDs={totals.total}
-        />
+        <Suspense fallback={<div style={{ padding: '60px', textAlign: 'center', color: '#64748B' }}>Loading map…</div>}>
+          <DistrictMap />
+        </Suspense>
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════
