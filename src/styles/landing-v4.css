@@ -2944,8 +2944,11 @@ td:last-child { padding: 8px 10px; }
 .v5-stat-strip--3d {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-  padding: 16px 48px 32px;
+  gap: 18px;
+  padding: 28px 48px 44px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 /* ── Outer scene (perspective host) ─────────────────────────────────────── */
