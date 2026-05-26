@@ -14,11 +14,8 @@ export default defineConfig({
           if (id.includes('gsap')) {
             return 'gsap';
           }
-          if (id.includes('recharts') || id.includes('d3-') || id.includes('victory-')) {
+          if (id.includes('recharts') || id.includes('d3-') || id.includes('victory-') || id.includes('react-simple-maps') || id.includes('topojson')) {
             return 'charts';
-          }
-          if (id.includes('react-simple-maps') || id.includes('topojson')) {
-            return 'maps';
           }
         },
       },
