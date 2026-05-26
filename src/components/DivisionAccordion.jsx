@@ -317,11 +317,25 @@ export default function DivisionAccordion({ onSelectDivision, totalKDs = 0 }) {
                     {isOther ? div.label : div.fullName}
                   </div>
                   {!hasActive && (
-                    <div className="dacc-face-kpi">
-                      {brk.total > 0
-                        ? `${Math.round((brk.achieved / brk.total) * 100)}% on track`
-                        : `${div.programs?.length || 0} programmes`}
-                    </div>
+                    <>
+                      <div className="dacc-face-kpi">
+                        {brk.total > 0
+                          ? `${Math.round((brk.achieved / brk.total) * 100)}% on track`
+                          : `${div.programs?.length || 0} programmes`}
+                      </div>
+                      <button
+                        className="dacc-face-explore"
+                        onClick={e => { e.stopPropagation(); onSelectDivision(div); }}
+                      >
+                        Explore
+                        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                             strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                             width="11" height="11">
+                          <line x1="2" y1="7" x2="12" y2="7"/>
+                          <polyline points="8,3 12,7 8,11"/>
+                        </svg>
+                      </button>
+                    </>
                   )}
                 </div>
               )}

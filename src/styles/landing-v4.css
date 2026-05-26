@@ -2003,6 +2003,33 @@
   white-space: nowrap;
 }
 
+.dacc-face-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--bclr);
+  background: rgba(var(--brgb), 0.09);
+  border: 1.5px solid rgba(var(--brgb), 0.24);
+  border-radius: 20px;
+  padding: 5px 13px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  margin-top: 2px;
+}
+.dacc-face-explore:hover {
+  background: rgba(var(--brgb), 0.17);
+  border-color: rgba(var(--brgb), 0.40);
+  transform: translateX(2px);
+}
+[data-theme="dark"] .dacc-face-explore {
+  color: var(--bmid);
+  background: rgba(var(--brgb), 0.18);
+  border-color: rgba(var(--brgb), 0.38);
+}
+
 /* slim state — bar is compressed, others are active */
 .dacc-face--slim .dacc-face-icon {
   width: 40px;
