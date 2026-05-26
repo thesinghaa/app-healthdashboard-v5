@@ -2851,3 +2851,85 @@ td:last-child { padding: 8px 10px; }
   flex-shrink: 0;
   background: #fff;
 }
+
+/* ── Programme Highlights (DistrictMap State 3) ───────────────────────────── */
+.v5-map-hl-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 20px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.v5-map-hl-title-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.v5-map-hl-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0F172A;
+  font-family: 'Inter', sans-serif;
+}
+.v5-map-hl-sub {
+  font-size: 11px;
+  color: #94A3B8;
+  font-family: 'Inter', sans-serif;
+}
+.v5-map-hl-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.v5-map-hl-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+}
+.v5-map-hl-row--achieved { background: #f0fdf4; }
+.v5-map-hl-row--close    { background: #fffbeb; }
+.v5-map-hl-row--gap      { background: #fff1f2; }
+.v5-map-hl-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  width: 32px;
+  text-align: center;
+}
+.v5-map-hl-body {
+  flex: 1;
+  min-width: 0;
+}
+.v5-map-hl-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.4;
+}
+.v5-map-hl-row--achieved .v5-map-hl-name { color: #14532d; }
+.v5-map-hl-row--close    .v5-map-hl-name { color: '#78350f'; }
+.v5-map-hl-row--gap      .v5-map-hl-name { color: #9f1239; }
+.v5-map-hl-desc {
+  font-size: 10px;
+  color: #64748B;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+.v5-map-hl-row--achieved .v5-map-hl-desc { color: #166534; }
+.v5-map-hl-row--close    .v5-map-hl-desc { color: '#92400e'; }
+.v5-map-hl-row--gap      .v5-map-hl-desc { color: '#9f1239'; }
+.v5-map-hl-pill {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+.v5-map-hl-pill--achieved { background: #22c55e; color: #fff; }
+.v5-map-hl-pill--close    { background: #f59e0b; color: #fff; }
+.v5-map-hl-pill--gap      { background: #f43f5e; color: #fff; }
