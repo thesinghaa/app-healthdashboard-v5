@@ -2952,9 +2952,11 @@ td:last-child { padding: 8px 10px; }
 .sc3d-scene {
   position: relative;
   height: 200px;
-  perspective: 900px;
+  perspective: 600px;   /* lower = more dramatic depth */
+  perspective-origin: 50% 50%;
   cursor: pointer;
   border-radius: 14px;
+  /* NO overflow:hidden — it flattens preserve-3d in all browsers */
 }
 
 /* ── 3-face prism container — GSAP rotates this ─────────────────────────── */
@@ -2981,10 +2983,15 @@ td:last-child { padding: 8px 10px; }
   gap: 0;
 }
 
-/* Face rotation positions — match GSAP increments of 120 deg on X axis */
-.sc3d-face--0 { transform: rotateX(0deg);    }
-.sc3d-face--1 { transform: rotateX(-120deg); }
-.sc3d-face--2 { transform: rotateX(-240deg); }
+/* ── True 3D triangular prism ────────────────────────────────────────────
+   Each face pushed outward by translateZ(58px) — the inradius of an
+   equilateral triangle whose side equals the card height (200px).
+   Formula: r = h / (2 × tan 60°) ≈ 58px.
+   As the prism rotates you see the edge between faces — the die roll.
+   ──────────────────────────────────────────────────────────────────────── */
+.sc3d-face--0 { transform: rotateX(0deg)    translateZ(58px); }
+.sc3d-face--1 { transform: rotateX(-120deg) translateZ(58px); }
+.sc3d-face--2 { transform: rotateX(-240deg) translateZ(58px); }
 
 /* ── Gradient overlay — keeps text readable over the illustration ────────── */
 .sc3d-face-overlay {

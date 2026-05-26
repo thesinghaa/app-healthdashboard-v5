@@ -66,10 +66,11 @@ export default function StatCard3D({
   function rollNext() {
     if (pausedRef.current) return;
     faceIdxRef.current = (faceIdxRef.current + 1) % 3;
+    /* '+= 120' — always roll forward, never reverse on 3rd flip */
     gsap.to(prismRef.current, {
-      rotateX:  faceIdxRef.current * 120,
-      duration: 0.9,
-      ease:     'power3.inOut',
+      rotateX:  '+=120',
+      duration: 0.85,
+      ease:     'power4.inOut',  /* fast snap in, hard decelerate = physical die */
     });
   }
 
