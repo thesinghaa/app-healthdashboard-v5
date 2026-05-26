@@ -104,15 +104,6 @@ export default function StatCard3D({
         ))}
       </div>
 
-      {/* Hover CTA */}
-      <div className="sc3d-hover-cta" style={{ borderColor: accent, color: accent }}>
-        Explore Division
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
-             stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-          <line x1="2" y1="6" x2="10" y2="6"/>
-          <polyline points="7,3 10,6 7,9"/>
-        </svg>
-      </div>
     </div>
   );
 }
