@@ -35,12 +35,18 @@ function getDivBreakdown(divId) {
 }
 
 /* ── palette ──────────────────────────────────────────────────────────────── */
+/* Colors grounded in global health programme conventions:
+   RCH  → rose-pink   (Safe Motherhood ribbon, UNICEF maternal)
+   NDCP → amber       (Stop TB orange, disease-alert amber)
+   NCD  → crimson     (World Heart Day red, cardiovascular dominant)
+   HSS  → royal blue  (WHO institutional blue, health systems)
+   HRH  → forest green (public health human development green)  */
 const DIV_COLORS = {
-  rch:  { main: '#1A3FC4', dark: '#060E2B', light: '#DBEAFE', mid: '#6B9DF5' },
-  ndcp: { main: '#B14E0A', dark: '#3A1200', light: '#FEF3C7', mid: '#F0A030' },
-  ncd:  { main: '#5B1ECC', dark: '#130826', light: '#EDE9FE', mid: '#9D6FF0' },
-  hss:  { main: '#0A6960', dark: '#021C1B', light: '#CCFBF1', mid: '#20B5A8' },
-  hrh:  { main: '#A81515', dark: '#280404', light: '#FEE2E2', mid: '#E05252' },
+  rch:  { main: '#A31545', dark: '#280610', light: '#FCE4EC', mid: '#D96080' },
+  ndcp: { main: '#B45309', dark: '#271100', light: '#FEF3C7', mid: '#E07820' },
+  ncd:  { main: '#B01010', dark: '#1C0000', light: '#FEE2E2', mid: '#DC4040' },
+  hss:  { main: '#1A44C8', dark: '#030B24', light: '#E0EAFF', mid: '#5A84F0' },
+  hrh:  { main: '#166534', dark: '#041208', light: '#DCFCE7', mid: '#3DAA5E' },
 };
 
 /* ── hero icons (white on coloured background) ────────────────────────────── */
