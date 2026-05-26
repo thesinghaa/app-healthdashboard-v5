@@ -13,7 +13,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
 /* ── Single face ─────────────────────────────────────────────────────────── */
-function Face({ stat, image, faceIdx, accent, divLabel }) {
+function Face({ stat, image, faceIdx, accent, divFullName }) {
   return (
     <div
       className={`sc3d-face sc3d-face--${faceIdx}`}
@@ -26,10 +26,9 @@ function Face({ stat, image, faceIdx, accent, divLabel }) {
       <div className="sc3d-face-overlay" />
 
       {/* Content stack — mirrors original v5-stat-card */}
-      <span className="sc3d-face-div">{divLabel}</span>
       <div className="v5-stat-number">{stat?.value ?? '—'}</div>
       <div className="v5-stat-label">{stat?.label ?? ''}</div>
-      <div className="v5-stat-prog">{stat?.programme ?? ''}</div>
+      <div className="v5-stat-prog">{divFullName}</div>
     </div>
   );
 }
@@ -39,6 +38,7 @@ function Face({ stat, image, faceIdx, accent, divLabel }) {
    ═══════════════════════════════════════════════════════════════════════════ */
 export default function StatCard3D({
   divLabel,
+  divFullName,
   accent = '#4F8EF7',
   stats  = [],      // array of up to 3 face objects from getDivisionStats
   images = [],      // array of 3 image URLs
@@ -99,7 +99,7 @@ export default function StatCard3D({
             image={imgs[i]}
             faceIdx={i}
             accent={accent}
-            divLabel={divLabel}
+            divFullName={divFullName}
           />
         ))}
       </div>

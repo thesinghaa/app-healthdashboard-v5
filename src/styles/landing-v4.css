@@ -2995,20 +2995,6 @@ td:last-child { padding: 8px 10px; }
   pointer-events: none;
 }
 
-/* ── Small division id tag at top of each face ───────────────────────────── */
-.sc3d-face-div {
-  position: relative;
-  z-index: 2;
-  font-size: 10px;
-  font-weight: 800;
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent, #4F8EF7);
-  margin-bottom: 4px;
-  flex-shrink: 0;
-}
-
 /* Ensure content sits above gradient */
 .sc3d-face .v5-stat-number,
 .sc3d-face .v5-stat-label,

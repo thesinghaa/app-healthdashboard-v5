@@ -32,6 +32,15 @@ function deficit(kd) {
 
 /* ── Flatten all KDs for a division ─────────────────────────────────────── */
 function flattenKDs(divId) {
+  /* HRH KDs live inside hss.programmes.hrh — not a top-level KD_TREE key */
+  if (divId === 'hrh') {
+    const hrhProg = KD_TREE['hss']?.programmes?.['hrh'];
+    if (!hrhProg) return [];
+    return (hrhProg.kds || [])
+      .filter(kd => kd.achievement != null && kd.target != null && kd.target !== 0)
+      .map(kd => ({ ...kd, progName: hrhProg.name || 'Human Resources for Health' }));
+  }
+
   const tree = KD_TREE[divId];
   if (!tree) return [];
   const all = [];
@@ -95,7 +104,7 @@ export function getDivisionStats(divId) {
                 ?? achieved.find(k => !usedNos.has(k.no))
                 ?? gaps.find(k => !usedNos.has(k.no));
 
-  return [face0KD, face1KD, face2KD]
-    .filter(Boolean)
-    .map(buildFace);
+  const faces = [face0KD, face1KD, face2KD].filter(Boolean).map(buildFace);
+  /* Pad to exactly 3 by cycling — ensures no card ever shows "—" */
+  return [0, 1, 2].map(i => faces[i % faces.length]);
 }

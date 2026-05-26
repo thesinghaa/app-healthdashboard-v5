@@ -318,6 +318,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           <StatCard3D
             key={div.id}
             divLabel={div.label}
+            divFullName={div.fullName}
             accent={SC3D_ACCENTS[div.id]}
             stats={getDivisionStats(div.id)}
             images={SC3D_IMAGES[div.id] || []}
