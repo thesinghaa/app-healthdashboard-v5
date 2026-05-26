@@ -1003,10 +1003,10 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.96);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(15,23,42,0.08);
+  border-bottom: 2px solid rgba(23, 130, 62, 0.25);
 }
 .v4l-nav-inner {
   max-width: 1400px;
@@ -1031,7 +1031,7 @@
 .v4l-brand-divider {
   width: 1.5px;
   height: 60px;
-  background: rgba(15, 23, 42, 0.18);
+  background: rgba(23, 130, 62, 0.35);
   margin: 0 4px;
   flex-shrink: 0;
 }
@@ -1049,14 +1049,14 @@
 .v4l-brand-name {
   font-size: 22px;
   font-weight: 800;
-  color: #0F172A;
+  color: #17823e;
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
 .v4l-brand-ministry {
   font-size: 11px;
-  font-weight: 500;
-  color: #64748B;
+  font-weight: 600;
+  color: #1f7d70;
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
@@ -1073,7 +1073,7 @@
   gap: 12px;
 }
 .v4l-nav-btn {
-  background: #FF5500;
+  background: #17823e;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -1084,7 +1084,7 @@
   transition: background 0.18s;
   font-family: 'Inter', sans-serif;
 }
-.v4l-nav-btn:hover { background: #E04800; }
+.v4l-nav-btn:hover { background: #115c2c; }
 
 /* ── Hero strip ──────────────────────────────────────────────────────────── */
 .v4l-hero {
@@ -2340,7 +2340,7 @@
 /* ── Section bar ─────────────────────────────────────────────────────────── */
 .dacc-section-bar {
   display: block;
-  background: #0F172A;
+  background: #17823e;
   color: #ffffff;
   text-align: center;
   font-size: 18px;
@@ -2348,7 +2348,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 20px 0;
-  border: 2px solid #0F172A;
+  border: 2px solid #115c2c;
   border-radius: 14px;
   margin: 0 24px 20px;
 }
