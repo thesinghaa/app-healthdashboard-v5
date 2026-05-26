@@ -1960,20 +1960,15 @@
 .dacc-face-icon svg { width: 100%; height: 100%; }
 
 .dacc-face-label {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  transition: writing-mode 0.1s, transform 0.1s;
-}
-.dacc-face-full {
-  font-size: 10px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.75);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: none;
   text-align: center;
-  line-height: 1.4;
-  max-width: 160px;
+  line-height: 1.35;
+  max-width: 190px;
+  white-space: normal;
+  transition: writing-mode 0.1s, transform 0.1s;
 }
 .dacc-face-kpi {
   font-size: 11px;
@@ -1997,7 +1992,10 @@
   text-orientation: mixed;
   transform: rotate(180deg);
   font-size: 11px;
-  letter-spacing: 0.12em;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* ── Expanded content ───────────────────────────────────────────────────── */

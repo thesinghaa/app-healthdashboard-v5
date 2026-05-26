@@ -36,11 +36,11 @@ function getDivBreakdown(divId) {
 
 /* ── palette ──────────────────────────────────────────────────────────────── */
 const DIV_COLORS = {
-  rch:  { main: '#1B6FF5', dark: '#1246A8', light: '#DBEAFE', mid: '#60A5FA' },
-  ndcp: { main: '#D97706', dark: '#78350F', light: '#FEF3C7', mid: '#FBBF24' },
-  ncd:  { main: '#7C3AED', dark: '#4C1D95', light: '#EDE9FE', mid: '#A78BFA' },
-  hss:  { main: '#0F9B82', dark: '#064E3B', light: '#CCFBF1', mid: '#34D399' },
-  hrh:  { main: '#DC4B2A', dark: '#7C1D0C', light: '#FEE2E2', mid: '#F87171' },
+  rch:  { main: '#1A3FC4', dark: '#060E2B', light: '#DBEAFE', mid: '#6B9DF5' },
+  ndcp: { main: '#B14E0A', dark: '#3A1200', light: '#FEF3C7', mid: '#F0A030' },
+  ncd:  { main: '#5B1ECC', dark: '#130826', light: '#EDE9FE', mid: '#9D6FF0' },
+  hss:  { main: '#0A6960', dark: '#021C1B', light: '#CCFBF1', mid: '#20B5A8' },
+  hrh:  { main: '#A81515', dark: '#280404', light: '#FEE2E2', mid: '#E05252' },
 };
 
 /* ── hero icons (white on coloured background) ────────────────────────────── */
@@ -300,16 +300,15 @@ export default function DivisionAccordion({ onSelectDivision, totalKDs = 0 }) {
                   <div className="dacc-face-icon">
                     {HERO_ICONS[div.id]}
                   </div>
-                  <div className="dacc-face-label">{div.label}</div>
+                  <div className="dacc-face-label">
+                    {isOther ? div.label : div.fullName}
+                  </div>
                   {!hasActive && (
-                    <>
-                      <div className="dacc-face-full">{div.fullName}</div>
-                      <div className="dacc-face-kpi">
-                        {brk.total > 0
-                          ? `${Math.round((brk.achieved / brk.total) * 100)}% on track`
-                          : `${div.programs?.length || 0} programmes`}
-                      </div>
-                    </>
+                    <div className="dacc-face-kpi">
+                      {brk.total > 0
+                        ? `${Math.round((brk.achieved / brk.total) * 100)}% on track`
+                        : `${div.programs?.length || 0} programmes`}
+                    </div>
                   )}
                 </div>
               )}
