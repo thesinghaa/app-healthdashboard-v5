@@ -1,87 +1,35 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    StatCard3D.jsx — 3-face GSAP rotating prism stat card
 
-   Layout: 3 faces at rotateY(0 / 120 / 240 deg), backface-hidden.
+   Each face uses the original v5-stat-card visual layout:
+     division id tag · big number · label · programme pill · illustration
+
    Container (.sc3d-prism) rotates −120° per step via GSAP.
-   Auto-advances every 20 s. Click pauses + navigates.
+   Auto-advances every 20 s. startDelay staggers cards so they don't all
+   flip simultaneously. Click pauses and navigates to DivisionPage.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-/* ── Status display config ───────────────────────────────────────────────── */
-const STATUS_CFG = {
-  achieved: { label: 'On Track',     color: '#059669', bg: 'rgba(5,150,105,0.12)',  bar: '#059669' },
-  close:    { label: 'Caution',      color: '#D97706', bg: 'rgba(217,119,6,0.12)',  bar: '#F59E0B' },
-  gap:      { label: 'Critical Gap', color: '#DC2626', bg: 'rgba(220,38,38,0.12)',  bar: '#EF4444' },
-  neutral:  { label: 'No Data',      color: '#94A3B8', bg: 'rgba(148,163,184,0.12)', bar: '#94A3B8' },
-};
-
-/* ── Face component ─────────────────────────────────────────────────────── */
-function Face({ stat, image, faceIdx, accent }) {
-  const cfg = STATUS_CFG[stat?.status] ?? STATUS_CFG.neutral;
-
+/* ── Single face ─────────────────────────────────────────────────────────── */
+function Face({ stat, image, faceIdx, accent, divLabel }) {
   return (
-    <div className={`sc3d-face sc3d-face--${faceIdx}`}>
-      {/* Background illustration */}
-      <div
-        className="sc3d-face-bg"
-        style={{ backgroundImage: `url(${image})` }}
-      />
-      {/* Content */}
-      <div className="sc3d-face-content">
-        {/* Top row: face index dot + status badge */}
-        <div className="sc3d-face-top">
-          <div className="sc3d-face-dots">
-            {[0, 1, 2].map(i => (
-              <span
-                key={i}
-                className={`sc3d-dot ${i === faceIdx ? 'sc3d-dot--active' : ''}`}
-                style={i === faceIdx ? { background: accent } : {}}
-              />
-            ))}
-          </div>
-          {stat?.status && (
-            <span
-              className="sc3d-face-badge"
-              style={{ color: cfg.color, background: cfg.bg }}
-            >
-              {cfg.label}
-            </span>
-          )}
-        </div>
+    <div
+      className={`sc3d-face sc3d-face--${faceIdx}`}
+      style={{ '--accent': accent }}
+    >
+      {/* Illustration (right side, behind gradient) */}
+      {image && <img src={image} className="v5-stat-card-img" alt="" />}
 
-        {/* Main value */}
-        <div className="sc3d-face-body">
-          <div className="sc3d-face-value" style={{ color: accent }}>
-            {stat?.value ?? '—'}
-          </div>
-          <div className="sc3d-face-indicator">
-            {stat?.label ?? ''}
-          </div>
-        </div>
+      {/* Gradient so text stays readable over the illustration */}
+      <div className="sc3d-face-overlay" />
 
-        {/* Footer: programme name + progress bar */}
-        <div className="sc3d-face-foot">
-          <span className="sc3d-face-prog" style={{ borderColor: accent }}>
-            {stat?.programme ?? ''}
-          </span>
-          {stat?.pct != null && (
-            <div className="sc3d-face-bar-track">
-              <div
-                className="sc3d-face-bar-fill"
-                style={{
-                  width: `${Math.min(150, Math.max(0, stat.pct))}%`,
-                  background: cfg.bar,
-                }}
-              />
-              <span className="sc3d-face-pct">
-                {stat.pct}% vs target {stat.targetLabel}
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
+      {/* Content stack — mirrors original v5-stat-card */}
+      <span className="sc3d-face-div">{divLabel}</span>
+      <div className="v5-stat-number">{stat?.value ?? '—'}</div>
+      <div className="v5-stat-label">{stat?.label ?? ''}</div>
+      <div className="v5-stat-prog">{stat?.programme ?? ''}</div>
     </div>
   );
 }
@@ -92,19 +40,18 @@ function Face({ stat, image, faceIdx, accent }) {
 export default function StatCard3D({
   divLabel,
   accent = '#4F8EF7',
-  stats = [],          // array of up to 3 face objects from getDivisionStats
-  images = [],         // array of 3 image URLs
+  stats  = [],      // array of up to 3 face objects from getDivisionStats
+  images = [],      // array of 3 image URLs
   onClick,
-  startDelay = 0,      // ms to stagger first roll (so all 5 cards don't roll at once)
+  startDelay = 0,   // ms stagger before first auto-roll
 }) {
-  const prismRef   = useRef(null);
-  const faceIdxRef = useRef(0);
-  const pausedRef  = useRef(false);
-  const timerRef   = useRef(null);
+  const prismRef    = useRef(null);
+  const faceIdxRef  = useRef(0);
+  const pausedRef   = useRef(false);
+  const timerRef    = useRef(null);
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    /* Staggered start */
     timerRef.current = setTimeout(() => {
       intervalRef.current = setInterval(rollNext, 20_000);
     }, startDelay);
@@ -127,16 +74,14 @@ export default function StatCard3D({
   }
 
   function handleClick() {
-    /* Pause auto-rotation then navigate */
     pausedRef.current = true;
     clearTimeout(timerRef.current);
     clearInterval(intervalRef.current);
     onClick?.();
   }
 
-  /* Ensure we always have 3 slots (pad with nulls if needed) */
-  const faces  = [stats[0] ?? null, stats[1] ?? null, stats[2] ?? null];
-  const imgs   = [images[0] ?? '', images[1] ?? '', images[2] ?? ''];
+  const faces = [stats[0] ?? null, stats[1] ?? null, stats[2] ?? null];
+  const imgs  = [images[0] ?? '', images[1] ?? '', images[2] ?? ''];
 
   return (
     <div
@@ -145,12 +90,7 @@ export default function StatCard3D({
       onClick={handleClick}
       title={`${divLabel} — click to explore`}
     >
-      {/* Division label strip at top */}
-      <div className="sc3d-label" style={{ color: accent }}>
-        {divLabel}
-      </div>
-
-      {/* 3-face prism */}
+      {/* 3-face prism — GSAP targets this element */}
       <div className="sc3d-prism" ref={prismRef}>
         {faces.map((stat, i) => (
           <Face
@@ -159,6 +99,7 @@ export default function StatCard3D({
             image={imgs[i]}
             faceIdx={i}
             accent={accent}
+            divLabel={divLabel}
           />
         ))}
       </div>
