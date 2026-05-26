@@ -11,14 +11,11 @@ export default defineConfig({
           if (id.includes('plotly.js') || id.includes('react-plotly')) {
             return 'plotly';
           }
-          if (id.includes('recharts') || id.includes('d3-') || id.includes('victory-')) {
-            return 'charts';
-          }
           if (id.includes('gsap')) {
             return 'gsap';
           }
-          if (id.includes('node_modules')) {
-            return 'vendor';
+          if (id.includes('recharts') || id.includes('d3-') || id.includes('victory-')) {
+            return 'charts';
           }
         },
       },
