@@ -515,7 +515,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         <Suspense fallback={<div style={{ padding: '60px', textAlign: 'center', color: '#64748B' }}>Loading map…</div>}>
           <DistrictMap />
         </Suspense>
-        <AbbrevLegend items={ABBREV.map} />
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════
@@ -566,7 +565,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         <div className="v4l-section-source">
           <MarkAbbrev text="Node width proportional to number of Key Deliverables · HRH staffing KDs pending mapping" />
         </div>
-        <AbbrevLegend items={ABBREV.sankey} />
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
@@ -575,7 +573,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       <Suspense fallback={<div style={{ height: 200 }} />}>
         <ProgrammeProgressChart />
       </Suspense>
-      <AbbrevLegend items={ABBREV.chart} />
 
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 3 — UPDATES
@@ -650,7 +647,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           </div>
 
         </div>
-        <AbbrevLegend items={ABBREV.updates} />
       </section>
 
       {/* ── Footer ──────────────────────────────────────────────────────── */}
