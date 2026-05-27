@@ -2,16 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "pif-v4",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "name": "pif-v5",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": ["-c", "cd /Users/thesinghaa/PIFHealthDashboard-v5 && npx vite --port 3002 --force"],
       "port": 3002
-    },
-    {
-      "name": "pif-v4-prod",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["vite", "preview", "--port", "4173"],
-      "port": 4173
     }
   ]
 }
