@@ -249,9 +249,9 @@ export default function DistrictMap() {
 
           <ComposableMap
             projection="geoMercator"
-            projectionConfig={{ center: [94.4, 28.0], scale: 7000 }}
+            projectionConfig={{ center: [94.4, 28.2], scale: 7000 }}
             width={800}
-            height={430}
+            height={460}
             style={{ width: '100%', height: '100%' }}
           >
             <Geographies geography={geoData}>

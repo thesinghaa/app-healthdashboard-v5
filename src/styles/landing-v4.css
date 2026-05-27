@@ -2876,7 +2876,7 @@
 .v5-map-body {
   display: flex;
   flex-direction: row;
-  height: 580px;
+  height: 660px;
   gap: 0;
   overflow: hidden;
 }
