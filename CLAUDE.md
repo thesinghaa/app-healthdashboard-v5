@@ -121,6 +121,19 @@ ICED-style interactive section. 5 horizontal zone columns, each representing an 
 - IntersectionObserver adds `.v4c-in` to `.v4c-reveal` elements as they enter viewport
 - Progress rings: CSS `conic-gradient` updated via inline style `--pct`
 
+### Navbar banner (updated May 2026 — dissolve crossfade)
+- 3 banner images rotate every 5s via GSAP opacity crossfade (dissolve, not 3D roll)
+- `bannerRefs = useRef([])`, `bannerIdx = useRef(0)` in LandingPage.jsx
+- GSAP: `gsap.to(slides[prev], {opacity:0, duration:1.4, ease:'power2.inOut'})` + `gsap.to(slides[next], {opacity:1, ...})`
+- Container class: `.v4l-nav-banner-dissolve` — `position:absolute; left:50%; transform:translateX(-50%); width:100vw; height:100%; z-index:0`
+- Image class: `.v4l-nav-banner-slide` — `position:absolute; top:50%; transform:translateY(-50%); width:100%; opacity:0`
+- Overlay also full-bleed: `left:50%; transform:translateX(-50%); width:100vw; height:100%`
+- Images: `/banners/banner1.jpeg`, `banner2.jpeg`, `banner3.jpeg` — placed in `/public/banners/`
+- Banner container inside `.v4l-nav-inner` (max-width:1400px) — full-bleed trick breaks out of container
+
+### Sankey (updated May 2026)
+- Heading: "How Programmes distribute across divisions and outcome status" (was "How KDs distribute...")
+
 ### Map
 - `react-simple-maps` (ComposableMap, Geographies, Geography)
 - GeoJSON: `/public/ap-districts.geojson` (same file, title-case DISTRICT keys)
@@ -148,30 +161,102 @@ ICED-style interactive section. 5 horizontal zone columns, each representing an 
 
 3. **District Map** (`DistrictMap.jsx`, lazy-loaded) — See below.
 
-### DistrictMap component (`src/components/DistrictMap.jsx`) — added May 2026
+### DistrictMap component (`src/components/DistrictMap.jsx`) — updated May 2026
 
 Self-contained interactive map. No props.
 
-**States:**
-- No district: full-width map, pulsing green CTA pill "Select a district to begin"
-- District selected: GSAP animates map to 58% width, right panel slides in (42%, x:60→0, opacity:0→1, 0.45s power3.out)
-- District + programme: KD achievement table (Indicator / Achievement / Target / Status badge)
+**Default state (no district clicked):** Full choropleth view. Two layer toggles in header — Population and Density. Map uses demographic heatmap from `districtDemography.js`.
 
-**GSAP:** refs `mapRef` + `panelRef`. `panelOpen` state drives animations. Close button collapses with 0.3s power2.in, `setTimeout(300)` clears state after animation.
+**District selected:** GSAP animates map to 58% width, right panel slides in (42%, x:60→0, opacity:0→1, 0.45s power3.out). Close button collapses with 0.3s power2.in, `setTimeout(300)` clears state after animation.
 
-**Data:** Uses `KD_TREE[divId].programmes` (state-level — not per district). Table note: "State-level data — district-level breakdown coming soon".
+**District + programme:** KD achievement table (Indicator / Achievement / Target / Status badge). Table note: "State-level data — district-level breakdown coming soon".
 
-**Colours:** District default `#4aab6d`, hover `#17823e`, selected `#0f6b30`. Division colours in `DIV_COLORS` constant.
+**Demographic data source:** `src/data/districtDemography.js` (see below). Imports `DISTRICT_DEMOGRAPHY`, `STATE_POP_2021`.
 
-**Title logic:**
-- Default: "Arunachal Pradesh Health Performance"
-- Selected: "Arunachal Pradesh — {district} Performance" (district name in green `#17823e`)
+**Colour scales (hardcoded):**
+```js
+POP_COLORS = [
+  { max: 25000,    fill: '#d1fae5', stroke: '#a7f3d0' },
+  { max: 50000,    fill: '#6ee7b7', stroke: '#34d399' },
+  { max: 80000,    fill: '#10b981', stroke: '#059669' },
+  { max: 120000,   fill: '#047857', stroke: '#065f46' },
+  { max: Infinity, fill: '#064e3b', stroke: '#022c22' },
+]
+DEN_COLORS = [
+  { max: 5,        fill: '#ede9fe', stroke: '#ddd6fe' },
+  { max: 15,       fill: '#a78bfa', stroke: '#8b5cf6' },
+  { max: 35,       fill: '#7c3aed', stroke: '#6d28d9' },
+  { max: Infinity, fill: '#4c1d95', stroke: '#3b0764' },
+]
+```
 
-**CSS classes:** `.v5-map-section`, `.v5-map-header`, `.v5-map-title`, `.v5-map-cta-pill` (pulsing), `.v5-map-body` (display:flex), `.v5-map-left` (width:100% shrinks via GSAP), `.v5-map-right` (width:0 grows via GSAP), `.v5-map-district-panel`, `.v5-map-prog-btn`, `.v5-map-kd-panel`, `.v5-map-kd-table`, `.v5-kd-badge`, `.v5-map-close-btn`
+**Demobanner:** Absolute overlay top-left of map box. Shows state-level stats: 16.8L pop | 88k km² area | 19/km² density | 27 districts. Class: `.v5-map-demobanner`.
 
-**Division field names:** Use `div.fullName` (not `div.name`) and `div.id`. The `programs` array in division objects uses `programs` key. `KD_TREE` uses `programmes` key.
+**Scale bar:** Absolute bottom-centre of map box. Coloured segments with tick labels. Shows current layer's colour breaks. Class: `.v5-map-scalebar`.
+
+**Hover tooltip:** `position:fixed` follows cursor via `e.clientX/Y` on `onMouseMove`. Shows district name, pop2021, density, HQ. Class: `.v5-map-hover-tip`.
+
+**Selected district fill:** `#0f5f2e` (dark green, overrides choropleth colour).
+
+**Map body:** `height:520px` explicit (NOT min-height — prevents ComposableMap stretch).
+
+**GSAP:** refs `mapRef` + `panelRef`. `panelOpen` state drives animations.
+
+**Colours (selected district panel):** Division colours in `DIV_COLORS` constant. Default district `#4aab6d`, hover `#17823e`.
+
+**CSS classes:** `.v5-map-section`, `.v5-map-header`, `.v5-map-layer-btn`, `.v5-map-layer-btn--active`, `.v5-map-title`, `.v5-map-cta-pill` (pulsing), `.v5-map-body` (display:flex, height:520px), `.v5-map-left` (height:100%), `.v5-map-right`, `.v5-map-district-panel`, `.v5-map-prog-btn`, `.v5-map-kd-panel`, `.v5-map-kd-table`, `.v5-kd-badge`, `.v5-map-close-btn`, `.v5-map-demobanner`, `.v5-map-demostat`, `.v5-map-demostat-val`, `.v5-map-demostat-lbl`, `.v5-map-demostat-div`, `.v5-map-scalebar`, `.v5-map-scalebar-title`, `.v5-map-scalebar-track`, `.v5-map-scalebar-seg`, `.v5-map-scalebar-tick`, `.v5-map-hover-tip`
+
+**Division field names:** Use `div.fullName` (not `div.name`) and `div.id`. `KD_TREE` uses `programmes` key.
 
 **vite.config.js maps chunk:** Only `react-simple-maps` + `topojson` — do NOT include `d3-geo` (causes circular chunk with `charts` which catches all `d3-` via prefix).
+
+---
+
+### District demography data (`src/data/districtDemography.js`) — added May 2026
+
+All 27 AP districts. Keys match GeoJSON `properties.DISTRICT` exactly (title-case).
+
+Fields per district: `hq, pop2011, pop2021, areaSqKm, density2011, source`
+
+Sources:
+- Census 2011 actuals for original 16 districts
+- Post-2011 districts (11): estimated by subtracting carved population from parent district totals
+- pop2021 = pop2011 x 1.22 (22% decadal growth rate, AP/NE India trend)
+
+State totals (computed): `STATE_POP_2011` ~1.13M, `STATE_POP_2021` ~1.38M, `STATE_AREA` ~83,743 km², `STATE_DENSITY` ~19/km²
+
+Exports: `DISTRICT_DEMOGRAPHY`, `STATE_POP_2011`, `STATE_POP_2021`, `popQuintile(name)`, `densityCategory(name)`
+
+---
+
+### ProgrammeProgressChart component (`src/components/ProgrammeProgressChart.jsx`) — added May 2026
+
+Stacked monthly bar chart showing HMIS indicator throughput per NHM programme, FY 2024-25 and 2025-26.
+
+**Data:** Hardcoded from NCD_Compiled.xlsx. Only RCH has data currently; all other programmes show empty state.
+
+**Indicators + colours (dark punchy palette):**
+```js
+{ key:'anc',   label:'ANC registrations',        color:'#8B0052' }  // deep magenta
+{ key:'del',   label:'Institutional deliveries',  color:'#1A5E20' }  // forest green
+{ key:'imm',   label:'Fully immunised children',  color:'#005F60' }  // ocean green
+{ key:'fp',    label:'Family planning acceptors', color:'#5D3A1A' }  // brown
+{ key:'anaem', label:'Anaemia on treatment',      color:'#BF4000' }  // burnt orange
+```
+
+**Chart:** Recharts `BarChart`, `height:380px`, `barSize:26`. Top bar has `radius:[3,3,0,0]`, others no radius.
+
+**Controls:** Programme selector pill (left) + FY selector (right) in header.
+
+**Summary panel (right):** FY totals with proportional bar per indicator. Hover syncs with chart (opacity dim/focus on `hoveredKey`).
+
+**Tooltip:** Custom `CustomTooltip`, `position:fixed`-like (Recharts cursor). Light theme hardcoded.
+
+**CSS namespace:** `.ppc-*` — all values hardcoded (no CSS vars) to avoid dark/light theme conflicts.
+- `.ppc-section`: `background:#F4F7FC`
+- `.ppc-card`: `background:#FFFFFF; border:1px solid rgba(0,0,0,0.07); box-shadow:0 2px 16px rgba(0,0,0,0.06)`
+- `.ppc-title`: `font-size:20px; font-weight:600; color:#0F172A`
+- `.ppc-sum-val`: `font-size:15px; font-weight:600; color:#111827; font-family:'JetBrains Mono'`
 
 ---
 
@@ -221,6 +306,8 @@ State lives in `App.jsx`:
 | `src/pages/NCDDetailPage.jsx` | Legacy NCD detail (keep, not removed) |
 | `src/data/kdData.js` | KD tree — all ~157 Key Deliverables |
 | `src/data/programs.js` | Division → programme metadata |
+| `src/data/districtDemography.js` | All 27 AP districts — pop2011/2021, area, density, HQ, source |
+| `src/components/ProgrammeProgressChart.jsx` | Stacked monthly bar chart (HMIS RCH throughput, FY 2024-25 + 2025-26) |
 | `src/styles/ncd.css` | All CSS (append overrides at the bottom) |
 
 ---
