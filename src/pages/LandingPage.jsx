@@ -3,7 +3,7 @@
    Light-mode scrollable: Programme Overview → NHM Flow (Sankey) → Alerts
    ═══════════════════════════════════════════════════════════════════════════ */
 
-import { useState, useEffect, useMemo, useRef, lazy, Suspense } from 'react';
+import { useState, useEffect, useMemo, useRef, lazy, Suspense, createContext, useContext } from 'react';
 import { gsap } from 'gsap';
 import { DIVISIONS } from '../data/programs';
 import { KD_TREE } from '../data/kdData';
@@ -18,20 +18,17 @@ const NHMSankey              = lazy(() => import('../components/NHMSankey'));
 const DistrictMap            = lazy(() => import('../components/DistrictMap'));
 const ProgrammeProgressChart = lazy(() => import('../components/ProgrammeProgressChart'));
 
-/* ── Abbreviation legend strip ───────────────────────────────────────────── */
-function AbbrevLegend({ items }) {
-  return (
-    <div className="abbrev-legend">
-      {items.map(([short, full]) => (
-        <span key={short} className="abbrev-legend-item">
-          <span className="abbrev-legend-star">★</span>
-          <strong className="abbrev-legend-short">{short}</strong>
-          <span className="abbrev-legend-dash">—</span>
-          <span className="abbrev-legend-full">{full}</span>
-        </span>
-      ))}
-    </div>
-  );
+/* ── Abbreviation hover context ─────────────────────────────────────────── */
+const AbbrevCtx = createContext(null);
+
+function AbbrevProvider({ children }) {
+  const [hovered, setHovered] = useState(null);
+  useEffect(() => {
+    const onOver = e => setHovered(e.target.closest('[data-abbr]')?.dataset.abbr ?? null);
+    document.addEventListener('mouseover', onOver);
+    return () => document.removeEventListener('mouseover', onOver);
+  }, []);
+  return <AbbrevCtx.Provider value={hovered}>{children}</AbbrevCtx.Provider>;
 }
 
 const ABBREV = {
@@ -95,6 +92,80 @@ const ABBREV = {
     ['HRH',  'Human Resources for Health'],
   ],
 };
+
+/* ── Flat lookup of every abbreviation (all sections merged) ─────────────── */
+const ALL_ABBREVS = Object.fromEntries(Object.values(ABBREV).flatMap(a => a));
+
+/* ── Regex that matches any abbreviation as a whole word (longest first) ─── */
+const ABBREV_PAT = new RegExp(
+  `\\b(${
+    Object.keys(ALL_ABBREVS)
+      .map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+      .sort((a, b) => b.length - a.length)
+      .join('|')
+  })\\b`,
+  'g',
+);
+
+/* ── Tooltip that follows the cursor and shows the expansion ─────────────── */
+function AbbrevTooltip() {
+  const hovered = useContext(AbbrevCtx);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    const onMove = e => setPos({ x: e.clientX, y: e.clientY });
+    document.addEventListener('mousemove', onMove);
+    return () => document.removeEventListener('mousemove', onMove);
+  }, []);
+  if (!hovered || !ALL_ABBREVS[hovered]) return null;
+  return (
+    <div className="abbrev-tooltip" style={{ left: pos.x + 14, top: pos.y - 36 }}>
+      <strong>{hovered}</strong> — {ALL_ABBREVS[hovered]}
+    </div>
+  );
+}
+
+/* ── Legend strip — active item pulses when its abbreviation is hovered ───── */
+function AbbrevLegend({ items }) {
+  const hovered = useContext(AbbrevCtx);
+  return (
+    <div className="abbrev-legend">
+      {items.map(([short, full]) => (
+        <span
+          key={short}
+          className={`abbrev-legend-item${hovered === short ? ' abbrev-legend-item--active' : ''}`}
+        >
+          <span className="abbrev-legend-star">★</span>
+          <strong className="abbrev-legend-short">{short}</strong>
+          <span className="abbrev-legend-dash">—</span>
+          <span className="abbrev-legend-full">{full}</span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+/* ── MarkAbbrev — scans prose and wraps abbreviation tokens with data-abbr ── */
+function MarkAbbrev({ text }) {
+  const parts = [];
+  let last = 0;
+  ABBREV_PAT.lastIndex = 0;
+  let m;
+  while ((m = ABBREV_PAT.exec(text)) !== null) {
+    if (m.index > last) parts.push(text.slice(last, m.index));
+    parts.push({ abbr: m[0] });
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return (
+    <>
+      {parts.map((t, i) =>
+        typeof t === 'string'
+          ? t
+          : <span key={i} data-abbr={t.abbr} className="abbrev-inline">{t.abbr}</span>
+      )}
+    </>
+  );
+}
 
 /* ── Status helpers ─────────────────────────────────────────────────────── */
 function kdStatus(kd) {
@@ -355,7 +426,9 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
   const onTrackPct = totals.total > 0 ? Math.round((totals.achieved / totals.total) * 100) : 0;
 
   return (
-    <div className="v4l-root">
+    <AbbrevProvider>
+      <AbbrevTooltip />
+      <div className="v4l-root">
 
       {/* ── Left side navigation panel ──────────────────────────────────── */}
       <LeftSideNav onSelectDivision={onSelectDivision} />
@@ -431,7 +504,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
               <img src={`/statcards/${div.label}.png`} className="v5-stat-card-img" alt="" />
               <div className="v5-stat-number">{face0?.value ?? '—'}</div>
               <div className="v5-stat-label">{face0?.label ?? ''}</div>
-              <div className="v5-stat-prog">{div.fullName}</div>
+              <div className="v5-stat-prog" data-abbr={div.label}>{div.fullName}</div>
             </div>
           );
         })}
@@ -533,8 +606,8 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
             ].map((item, i) => (
               <div key={i} className="v4l-updates-item">
                 <span className="v4l-updates-date">{item.date}</span>
-                <p className="v4l-updates-title">{item.title}</p>
-                <span className="v4l-updates-tag" style={{ '--uc': '#4F8EF7' }}>{item.tag}</span>
+                <p className="v4l-updates-title"><MarkAbbrev text={item.title} /></p>
+                <span className="v4l-updates-tag" style={{ '--uc': '#4F8EF7' }} data-abbr={ALL_ABBREVS[item.tag] ? item.tag : undefined}>{item.tag}</span>
               </div>
             ))}
           </div>
@@ -553,8 +626,8 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
             ].map((item, i) => (
               <div key={i} className="v4l-updates-item">
                 <span className="v4l-updates-date">{item.date}</span>
-                <p className="v4l-updates-title">{item.title}</p>
-                <span className="v4l-updates-tag" style={{ '--uc': '#F7B23B' }}>{item.tag}</span>
+                <p className="v4l-updates-title"><MarkAbbrev text={item.title} /></p>
+                <span className="v4l-updates-tag" style={{ '--uc': '#F7B23B' }} data-abbr={ALL_ABBREVS[item.tag] ? item.tag : undefined}>{item.tag}</span>
               </div>
             ))}
           </div>
@@ -573,8 +646,8 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
             ].map((item, i) => (
               <div key={i} className="v4l-updates-item">
                 <span className="v4l-updates-date">{item.date}</span>
-                <p className="v4l-updates-title">{item.title}</p>
-                <span className="v4l-updates-tag" style={{ '--uc': '#9B6FEB' }}>{item.tag}</span>
+                <p className="v4l-updates-title"><MarkAbbrev text={item.title} /></p>
+                <span className="v4l-updates-tag" style={{ '--uc': '#9B6FEB' }} data-abbr={ALL_ABBREVS[item.tag] ? item.tag : undefined}>{item.tag}</span>
               </div>
             ))}
           </div>
@@ -607,6 +680,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       {reportDiv && (
         <ReportModal division={reportDiv} onClose={() => setReportDiv(null)} />
       )}
-    </div>
+      </div>
+    </AbbrevProvider>
   );
 }

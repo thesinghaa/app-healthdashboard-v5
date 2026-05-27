@@ -4028,3 +4028,68 @@ td:last-child { padding: 8px 10px; }
   color: #475569;
   font-family: 'Inter', sans-serif;
 }
+
+/* ── Active legend item — pulses when its abbreviation is hovered ─────────── */
+.abbrev-legend-item {
+  transition: background 0.18s, border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+.abbrev-legend-item--active {
+  background: #FEF3C7 !important;
+  border-color: #F59E0B !important;
+  transform: scale(1.07) !important;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3), 0 2px 8px rgba(245, 158, 11, 0.18) !important;
+  animation: abbrev-pulse 0.5s ease forwards;
+}
+@keyframes abbrev-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.55), 0 2px 8px rgba(245, 158, 11, 0.18); }
+  60%  { box-shadow: 0 0 0 7px rgba(245, 158, 11, 0), 0 2px 8px rgba(245, 158, 11, 0.18); }
+  100% { box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3), 0 2px 8px rgba(245, 158, 11, 0.18); }
+}
+[data-theme="dark"] .abbrev-legend-item--active {
+  background: rgba(245, 158, 11, 0.16) !important;
+  border-color: #F59E0B !important;
+}
+
+/* ── Inline abbreviation spans (dotted underline = interactive) ───────────── */
+.abbrev-inline {
+  border-bottom: 1.5px dotted currentColor;
+  cursor: default;
+  border-radius: 2px;
+  padding: 0 1px;
+  transition: background 0.15s;
+}
+.abbrev-inline:hover {
+  background: rgba(245, 158, 11, 0.12);
+  border-radius: 2px;
+}
+
+/* ── Floating tooltip ────────────────────────────────────────────────────── */
+.abbrev-tooltip {
+  position: fixed;
+  z-index: 9999;
+  background: #1E293B;
+  color: #F1F5F9;
+  padding: 5px 12px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-family: 'Inter', sans-serif;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  animation: abbrev-tip-in 0.1s ease;
+  line-height: 1.55;
+}
+.abbrev-tooltip strong {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #FCD34D;
+  margin-right: 2px;
+}
+@keyframes abbrev-tip-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+[data-theme="dark"] .abbrev-tooltip {
+  background: #0F172A;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
