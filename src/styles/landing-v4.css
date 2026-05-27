@@ -1012,9 +1012,7 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 40px;
-  height: auto;
-  min-height: 110px;
-  aspect-ratio: 1600 / 639;
+  height: 110px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1110,12 +1108,11 @@
 /* Each slide stacked — GSAP fades between them */
 .v4l-nav-banner-slide {
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 0;
+  transform: translateY(-50%);
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
+  height: auto;
   opacity: 0;
 }
 /* Gradient — white left (brand) → transparent right — full-bleed */
