@@ -22,11 +22,18 @@ import { KD_TREE } from './kdData.js';
    These are the featured stats shown on each frozen card (face 0).
    KD numbers are sourced from KD_TREE; fmt() formats the achievement value.
    ─────────────────────────────────────────────────────────────────────────── */
+/* ── Helper: extract numerator from achievedLabel like "18024/19823" ──────── */
+function numeratorFrom(kd) {
+  const raw = (kd.achievedLabel || String(kd.achievement || '')).trim();
+  const num = Number(raw.split('/')[0].replace(/[^0-9]/g, ''));
+  return isNaN(num) ? raw : num;
+}
+
 const FACE0_PINNED = {
-  rch:  { no: 28,  label: 'Children fully immunised',                     fmt: kd => Number(kd.achievement).toLocaleString('en-IN') },
-  ndcp: { no: 82,  label: 'Hepatitis C patients in treatment',             fmt: kd => Number(kd.achievement).toLocaleString('en-IN') },
-  ncd:  { no: 125, label: 'People rehabilitated with hearing aids',        fmt: kd => String(kd.achievement) },
-  hss:  { no: 154, label: 'Ayushman Arogya Mandirs with full 12 services', fmt: kd => String(kd.achievement) },
+  rch:  { no: 28,  label: 'Children fully immunised',                     fmt: kd => numeratorFrom(kd).toLocaleString('en-IN') },
+  ndcp: { no: 82,  label: 'Hepatitis C patients in treatment',             fmt: kd => numeratorFrom(kd).toLocaleString('en-IN') },
+  ncd:  { no: 125, label: 'People rehabilitated with hearing aids',        fmt: kd => String(numeratorFrom(kd)) },
+  hss:  { no: 154, label: 'Ayushman Arogya Mandirs with full 12 services', fmt: kd => String(numeratorFrom(kd)) },
   hrh:  { no: 169, label: 'MO-MBBS positions filled per IPHS norms',       fmt: () => '96%' },
 };
 
