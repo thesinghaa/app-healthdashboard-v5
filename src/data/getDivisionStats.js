@@ -18,6 +18,41 @@
 
 import { KD_TREE } from './kdData.js';
 
+/* ── Pinned face-0 config ────────────────────────────────────────────────────
+   These are the featured stats shown on each frozen card (face 0).
+   KD numbers are sourced from KD_TREE; fmt() formats the achievement value.
+   ─────────────────────────────────────────────────────────────────────────── */
+const FACE0_PINNED = {
+  rch:  { no: 28,  label: 'Children fully immunised',                     fmt: kd => Number(kd.achievement).toLocaleString('en-IN') },
+  ndcp: { no: 82,  label: 'Hepatitis C patients in treatment',             fmt: kd => Number(kd.achievement).toLocaleString('en-IN') },
+  ncd:  { no: 125, label: 'People rehabilitated with hearing aids',        fmt: kd => String(kd.achievement) },
+  hss:  { no: 154, label: 'Ayushman Arogya Mandirs with full 12 services', fmt: kd => String(kd.achievement) },
+  hrh:  { no: 169, label: 'MO-MBBS positions filled per IPHS norms',       fmt: () => '96%' },
+};
+
+/** Build pinned face-0 for a division, reading live value from KD_TREE. */
+function buildPinnedFace(divId) {
+  const pin = FACE0_PINNED[divId];
+  if (!pin) return null;
+
+  /* flatten all KDs for this division and find the pinned KD by number */
+  const allKDs = [];
+  const treeSrc = divId === 'hrh' ? KD_TREE['hss'] : KD_TREE[divId];
+  if (!treeSrc) return null;
+  Object.values(treeSrc.programmes || {}).forEach(prog =>
+    (prog.kds || []).forEach(kd => allKDs.push(kd))
+  );
+  const kd = allKDs.find(k => k.no === pin.no);
+  if (!kd) return null;
+
+  return {
+    value:  pin.fmt(kd),
+    label:  pin.label,
+    status: 'achieved',
+    pct:    kd.target > 0 ? Math.round((kd.achievement / kd.target) * 100) : null,
+  };
+}
+
 /* ── Status helpers ──────────────────────────────────────────────────────── */
 function kdStatus(kd) {
   if (kd.achievement == null || kd.target == null || kd.target === 0) return 'neutral';
@@ -91,8 +126,11 @@ function buildFace(kd) {
  * Pads to 3 by cycling if fewer than 3 positives exist.
  */
 export function getDivisionStats(divId) {
+  /* Face 0 — always the pinned featured stat */
+  const pinned = buildPinnedFace(divId);
+
   const all = flattenKDs(divId);
-  if (!all.length) return [];
+  if (!all.length) return pinned ? [pinned, pinned, pinned] : [];
 
   /* Keep only meaningful positive values */
   const positive = all.filter(isPositive);
@@ -107,29 +145,33 @@ export function getDivisionStats(divId) {
     .filter(k => kdStatus(k) === 'close')
     .sort((a, b) => (deficit(a) ?? 0) - (deficit(b) ?? 0));
 
-  /* Merge: achieved first, then close — pick 3 unique */
-  const pool = [...achieved, ...closes];
+  /* Merge: achieved first, then close — skip pinned KD for faces 1 & 2 */
+  const pinnedNo = FACE0_PINNED[divId]?.no;
+  const pool = [...achieved, ...closes].filter(k => k.no !== pinnedNo);
   const used = new Set();
-  const top3 = [];
+  const rest = [];
   for (const kd of pool) {
-    if (top3.length >= 3) break;
+    if (rest.length >= 2) break;
     if (!used.has(kd.no)) {
-      top3.push(kd);
+      rest.push(kd);
       used.add(kd.no);
     }
   }
 
   /* If nothing positive exists at all, fall back to best non-zero KD */
-  if (!top3.length) {
+  if (!rest.length) {
     const fallback = all
-      .filter(isPositive)
+      .filter(k => isPositive(k) && k.no !== pinnedNo)
       .sort((a, b) => (deficit(a) ?? 0) - (deficit(b) ?? 0));
-    if (fallback[0]) top3.push(fallback[0]);
+    if (fallback[0]) rest.push(fallback[0]);
+    if (fallback[1]) rest.push(fallback[1]);
   }
 
-  if (!top3.length) return [];
+  /* Build faces 1 & 2 from auto-algorithm; face 0 is always pinned */
+  const face0 = pinned ?? (rest[0] ? buildFace(rest[0]) : null);
+  const face1 = rest[0] ? buildFace(rest[0]) : face0;
+  const face2 = rest[1] ? buildFace(rest[1]) : face1;
 
-  const faces = top3.map(buildFace);
-  /* Pad to exactly 3 by cycling */
-  return [0, 1, 2].map(i => faces[i % faces.length]);
+  if (!face0) return [];
+  return [face0, face1, face2];
 }
