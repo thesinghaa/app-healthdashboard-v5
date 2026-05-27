@@ -192,19 +192,23 @@ DEN_COLORS = [
 
 **Demobanner:** Absolute overlay top-left of map box. Shows state-level stats: 16.8L pop | 88k km² area | 19/km² density | 27 districts. Class: `.v5-map-demobanner`.
 
-**Scale bar:** Absolute bottom-centre of map box. Coloured segments with tick labels. Shows current layer's colour breaks. Class: `.v5-map-scalebar`.
+**Scale bar:** Full-width bar pinned to bottom of map box (`position:absolute; left:0; right:0; bottom:0`). Auto-resizes when right panel opens (since it's inside `.v5-map-left`). Coloured segments span full width. Class: `.v5-map-scalebar`.
 
 **Hover tooltip:** `position:fixed` follows cursor via `e.clientX/Y` on `onMouseMove`. Shows district name, pop2021, density, HQ. Class: `.v5-map-hover-tip`.
 
 **Selected district fill:** `#0f5f2e` (dark green, overrides choropleth colour).
 
-**Map body:** `height:520px` explicit (NOT min-height — prevents ComposableMap stretch).
+**Section heading:** `<h2 className="v5-map-section-heading">Demographic Distribution</h2>` — 28px/800 Inter, above the header row.
+
+**Map body:** `height:660px`. ComposableMap: `width={800} height={460}`, `projectionConfig: { center:[94.4, 28.2], scale:7000 }` — fills the box with clear bottom margin above scalebar.
 
 **GSAP:** refs `mapRef` + `panelRef`. `panelOpen` state drives animations.
 
+**Demobanner stat values:** `font-size:20px` JetBrains Mono.
+
 **Colours (selected district panel):** Division colours in `DIV_COLORS` constant. Default district `#4aab6d`, hover `#17823e`.
 
-**CSS classes:** `.v5-map-section`, `.v5-map-header`, `.v5-map-layer-btn`, `.v5-map-layer-btn--active`, `.v5-map-title`, `.v5-map-cta-pill` (pulsing), `.v5-map-body` (display:flex, height:520px), `.v5-map-left` (height:100%), `.v5-map-right`, `.v5-map-district-panel`, `.v5-map-prog-btn`, `.v5-map-kd-panel`, `.v5-map-kd-table`, `.v5-kd-badge`, `.v5-map-close-btn`, `.v5-map-demobanner`, `.v5-map-demostat`, `.v5-map-demostat-val`, `.v5-map-demostat-lbl`, `.v5-map-demostat-div`, `.v5-map-scalebar`, `.v5-map-scalebar-title`, `.v5-map-scalebar-track`, `.v5-map-scalebar-seg`, `.v5-map-scalebar-tick`, `.v5-map-hover-tip`
+**CSS classes:** `.v5-map-section`, `.v5-map-section-heading`, `.v5-map-header`, `.v5-map-layer-btn`, `.v5-map-layer-btn--active`, `.v5-map-title`, `.v5-map-cta-pill` (pulsing), `.v5-map-body` (display:flex, height:660px), `.v5-map-left` (height:100%), `.v5-map-right`, `.v5-map-district-panel`, `.v5-map-prog-btn`, `.v5-map-kd-panel`, `.v5-map-kd-table`, `.v5-kd-badge`, `.v5-map-close-btn`, `.v5-map-demobanner`, `.v5-map-demostat`, `.v5-map-demostat-val`, `.v5-map-demostat-lbl`, `.v5-map-demostat-div`, `.v5-map-scalebar`, `.v5-map-scalebar-title`, `.v5-map-scalebar-track`, `.v5-map-scalebar-seg`, `.v5-map-scalebar-tick`, `.v5-map-hover-tip`
 
 **Division field names:** Use `div.fullName` (not `div.name`) and `div.id`. `KD_TREE` uses `programmes` key.
 
