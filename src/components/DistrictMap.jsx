@@ -247,53 +247,56 @@ export default function DistrictMap() {
             </div>
           </div>
 
-          <ComposableMap
-            projection="geoMercator"
-            projectionConfig={{ center: [94.4, 28.2], scale: 7000 }}
-            width={800}
-            height={460}
-            style={{ width: '100%', height: '100%' }}
-          >
-            <Geographies geography={geoData}>
-              {({ geographies }) =>
-                geographies.map(geo => {
-                  const name       = geo.properties.DISTRICT || '';
-                  const isSelected = selectedDistrict === name;
-                  const isHovered  = hoveredDistrict === name;
-                  const clr        = getLayerColor(name, activeLayer);
-                  return (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      onClick={() => handleDistrictClick(name)}
-                      onMouseEnter={e => {
-                        setHoveredDistrict(name);
-                        setTooltipPos({ x: e.clientX, y: e.clientY });
-                      }}
-                      onMouseMove={e => setTooltipPos({ x: e.clientX, y: e.clientY })}
-                      onMouseLeave={() => setHoveredDistrict(null)}
-                      style={{
-                        default: {
-                          fill:        isSelected ? '#0f5f2e' : clr.fill,
-                          stroke:      isSelected ? '#fff' : clr.stroke,
-                          strokeWidth: isSelected ? 1.8 : 0.7,
-                          outline:     'none',
-                          cursor:      'pointer',
-                          opacity:     isSelected ? 1 : isHovered ? 1 : 0.88,
-                          filter:      isSelected ? 'brightness(1.0)' : isHovered ? 'brightness(1.12)' : 'none',
-                          transition:  'fill 0.2s, opacity 0.15s',
-                        },
-                        hover:   { fill: clr.fill, stroke: '#fff', strokeWidth: 1.2, outline: 'none', cursor: 'pointer', filter: 'brightness(1.15)' },
-                        pressed: { fill: '#0f5f2e', outline: 'none' },
-                      }}
-                    />
-                  );
-                })
-              }
-            </Geographies>
-          </ComposableMap>
+          {/* Map canvas — flex:1, never overlaps scalebar */}
+          <div className="v5-map-canvas">
+            <ComposableMap
+              projection="geoMercator"
+              projectionConfig={{ center: [94.4, 28.1], scale: 7000 }}
+              width={800}
+              height={460}
+              style={{ width: '100%', height: '100%' }}
+            >
+              <Geographies geography={geoData}>
+                {({ geographies }) =>
+                  geographies.map(geo => {
+                    const name       = geo.properties.DISTRICT || '';
+                    const isSelected = selectedDistrict === name;
+                    const isHovered  = hoveredDistrict === name;
+                    const clr        = getLayerColor(name, activeLayer);
+                    return (
+                      <Geography
+                        key={geo.rsmKey}
+                        geography={geo}
+                        onClick={() => handleDistrictClick(name)}
+                        onMouseEnter={e => {
+                          setHoveredDistrict(name);
+                          setTooltipPos({ x: e.clientX, y: e.clientY });
+                        }}
+                        onMouseMove={e => setTooltipPos({ x: e.clientX, y: e.clientY })}
+                        onMouseLeave={() => setHoveredDistrict(null)}
+                        style={{
+                          default: {
+                            fill:        isSelected ? '#0f5f2e' : clr.fill,
+                            stroke:      isSelected ? '#fff' : clr.stroke,
+                            strokeWidth: isSelected ? 1.8 : 0.7,
+                            outline:     'none',
+                            cursor:      'pointer',
+                            opacity:     isSelected ? 1 : isHovered ? 1 : 0.88,
+                            filter:      isSelected ? 'brightness(1.0)' : isHovered ? 'brightness(1.12)' : 'none',
+                            transition:  'fill 0.2s, opacity 0.15s',
+                          },
+                          hover:   { fill: clr.fill, stroke: '#fff', strokeWidth: 1.2, outline: 'none', cursor: 'pointer', filter: 'brightness(1.15)' },
+                          pressed: { fill: '#0f5f2e', outline: 'none' },
+                        }}
+                      />
+                    );
+                  })
+                }
+              </Geographies>
+            </ComposableMap>
+          </div>
 
-          {/* Color scale bar — bottom of map box */}
+          {/* Color scale bar — normal flow below map, never overlaps */}
           <div className="v5-map-scalebar">
             <span className="v5-map-scalebar-title">
               {activeLayer === 'population' ? 'Population (2021 est.)' : 'Density per km² (2011)'}

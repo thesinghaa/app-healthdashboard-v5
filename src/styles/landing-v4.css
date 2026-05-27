@@ -2705,17 +2705,12 @@
   flex-shrink: 0;
 }
 
-/* ── Color scale bar — bottom inside map box, full width ── */
+/* ── Color scale bar — normal flex child below map, full width ── */
 .v5-map-scalebar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 4;
-  background: rgba(255,255,255,0.94);
-  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.97);
   border-top: 1px solid rgba(0,0,0,0.07);
-  padding: 8px 16px 28px;
+  padding: 8px 16px 26px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -2889,6 +2884,13 @@
   width: 100%;
   height: 100%;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+.v5-map-canvas {
+  flex: 1;
+  min-height: 0;
+  position: relative;
 }
 .v5-map-tooltip {
   position: absolute;
