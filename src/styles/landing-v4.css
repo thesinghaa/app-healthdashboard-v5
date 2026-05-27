@@ -2613,6 +2613,15 @@
   background: #fff;
   padding: 40px 48px;
 }
+.v5-map-section-heading {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.03em;
+  font-family: 'Inter', sans-serif;
+  margin: 0 0 20px;
+  line-height: 1.15;
+}
 .v5-map-header {
   display: flex;
   align-items: flex-start;
@@ -2677,14 +2686,14 @@
   gap: 2px;
 }
 .v5-map-demostat-val {
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 700;
   color: #0F172A;
   font-family: 'JetBrains Mono', monospace;
   line-height: 1;
 }
 .v5-map-demostat-lbl {
-  font-size: 10px;
+  font-size: 11px;
   color: #94A3B8;
   white-space: nowrap;
   font-family: 'Inter', sans-serif;
@@ -2696,27 +2705,24 @@
   flex-shrink: 0;
 }
 
-/* ── Color scale bar — bottom inside map box ── */
+/* ── Color scale bar — bottom inside map box, full width ── */
 .v5-map-scalebar {
   position: absolute;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 4;
-  background: rgba(255,255,255,0.90);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 10px;
-  padding: 8px 14px 6px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(0,0,0,0.07);
+  padding: 8px 16px 28px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: 6px;
-  min-width: 280px;
 }
 .v5-map-scalebar-title {
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 600;
   color: #64748B;
   text-transform: uppercase;
@@ -2726,21 +2732,19 @@
 .v5-map-scalebar-track {
   display: flex;
   width: 100%;
-  border-radius: 4px;
-  overflow: visible;
-  gap: 2px;
+  gap: 3px;
 }
 .v5-map-scalebar-seg {
   flex: 1;
-  height: 14px;
-  border-radius: 3px;
+  height: 16px;
+  border-radius: 4px;
   position: relative;
   display: flex;
   justify-content: center;
 }
 .v5-map-scalebar-tick {
   position: absolute;
-  top: 18px;
+  top: 20px;
   font-size: 9.5px;
   color: #64748B;
   white-space: nowrap;
@@ -2872,7 +2876,7 @@
 .v5-map-body {
   display: flex;
   flex-direction: row;
-  height: 520px;
+  height: 580px;
   gap: 0;
   overflow: hidden;
 }

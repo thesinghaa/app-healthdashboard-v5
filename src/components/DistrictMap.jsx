@@ -185,6 +185,9 @@ export default function DistrictMap() {
   return (
     <section className="v5-map-section">
 
+      {/* ── Section heading ── */}
+      <h2 className="v5-map-section-heading">Demographic Distribution</h2>
+
       {/* ── Header ── */}
       <div className="v5-map-header">
         <div className="v5-map-header-left">
@@ -246,7 +249,9 @@ export default function DistrictMap() {
 
           <ComposableMap
             projection="geoMercator"
-            projectionConfig={{ center: [94.5, 27.9], scale: 5500 }}
+            projectionConfig={{ center: [94.4, 28.0], scale: 7000 }}
+            width={800}
+            height={430}
             style={{ width: '100%', height: '100%' }}
           >
             <Geographies geography={geoData}>
