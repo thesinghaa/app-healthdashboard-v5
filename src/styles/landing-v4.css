@@ -4057,11 +4057,27 @@ td:last-child { padding: 8px 10px; }
   border-color: #17823E !important;
 }
 
-/* ── Inline abbreviation spans — subtle dotted underline only, no hover flash */
+/* ── Inline abbreviation spans — always shows full form below ────────────── */
 .abbrev-inline {
-  border-bottom: 1px dotted rgba(0,0,0,0.25);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: baseline;
   cursor: default;
-  padding: 0 1px;
+  line-height: normal;
+}
+.abbrev-sub {
+  display: block;
+  font-size: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: #17823E;
+  white-space: nowrap;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+[data-theme="dark"] .abbrev-sub {
+  color: #4ade80;
 }
 
 /* ── Floating tooltip ────────────────────────────────────────────────────── */

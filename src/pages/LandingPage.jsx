@@ -173,7 +173,12 @@ function MarkAbbrev({ text }) {
       {parts.map((t, i) =>
         typeof t === 'string'
           ? t
-          : <span key={i} data-abbr={t.abbr} className="abbrev-inline">{t.abbr}</span>
+          : (
+            <span key={i} data-abbr={t.abbr} className="abbrev-inline">
+              {t.abbr}
+              <span className="abbrev-sub">{ALL_ABBREVS[t.abbr]}</span>
+            </span>
+          )
       )}
     </>
   );
@@ -439,7 +444,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
 
   return (
     <AbbrevProvider>
-      <AbbrevMiniLabel />
       <div className="v4l-root">
 
       {/* ── Left side navigation panel ──────────────────────────────────── */}
