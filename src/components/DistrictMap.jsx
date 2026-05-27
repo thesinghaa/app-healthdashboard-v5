@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    DistrictMap.jsx — Interactive AP District Choropleth
-   Full-width map → click district → GSAP panel slides in from right
+   Default: demographic heatmap with layer toggle (population / density)
+   Click district: GSAP panel slides in with programme KD highlights
    ═══════════════════════════════════════════════════════════════════════════ */
 
 import { useState, useRef, useEffect } from 'react';
@@ -9,8 +10,68 @@ import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import geoData from '../data/apDistricts.json';
 import { KD_TREE } from '../data/kdData';
 import { DIVISIONS } from '../data/programs';
+import { DISTRICT_DEMOGRAPHY, STATE_POP_2021 } from '../data/districtDemography';
 
-/* ── Helpers ──────────────────────────────────────────────────────────────── */
+/* ── State-level demographic totals ────────────────────────────────────── */
+const STATE_AREA   = Object.values(DISTRICT_DEMOGRAPHY).reduce((s, d) => s + d.areaSqKm, 0);
+const STATE_DENSITY = Math.round(STATE_POP_2021 / STATE_AREA);
+
+/* ── Layer configs ──────────────────────────────────────────────────────── */
+const LAYERS = [
+  { id: 'population', label: 'Population' },
+  { id: 'density',    label: 'Pop. Density' },
+];
+
+/* Population quintile thresholds (pop2021) */
+const POP_COLORS = [
+  { max: 25000,    fill: '#d1fae5', stroke: '#a7f3d0' }, // very low
+  { max: 50000,    fill: '#6ee7b7', stroke: '#34d399' }, // low
+  { max: 80000,    fill: '#10b981', stroke: '#059669' }, // medium
+  { max: 120000,   fill: '#047857', stroke: '#065f46' }, // high
+  { max: Infinity, fill: '#064e3b', stroke: '#022c22' }, // very high
+];
+
+/* Density thresholds (/km²) */
+const DEN_COLORS = [
+  { max: 5,        fill: '#ede9fe', stroke: '#ddd6fe' }, // very sparse
+  { max: 15,       fill: '#a78bfa', stroke: '#8b5cf6' }, // sparse
+  { max: 35,       fill: '#7c3aed', stroke: '#6d28d9' }, // moderate
+  { max: Infinity, fill: '#4c1d95', stroke: '#3b0764' }, // dense
+];
+
+const POP_LEGEND = [
+  { label: '<25k',    fill: '#d1fae5' },
+  { label: '25–50k',  fill: '#6ee7b7' },
+  { label: '50–80k',  fill: '#10b981' },
+  { label: '80–120k', fill: '#047857' },
+  { label: '>120k',   fill: '#064e3b' },
+];
+
+const DEN_LEGEND = [
+  { label: '<5/km²',  fill: '#ede9fe' },
+  { label: '5–15',    fill: '#a78bfa' },
+  { label: '15–35',   fill: '#7c3aed' },
+  { label: '>35',     fill: '#4c1d95' },
+];
+
+function getLayerColor(name, layer) {
+  const d = DISTRICT_DEMOGRAPHY[name];
+  if (!d) return { fill: '#e5e7eb', stroke: '#d1d5db' };
+  if (layer === 'population') {
+    const v = d.pop2021;
+    return POP_COLORS.find(c => v <= c.max) ?? POP_COLORS.at(-1);
+  }
+  const v = d.density2011;
+  return DEN_COLORS.find(c => v <= c.max) ?? DEN_COLORS.at(-1);
+}
+
+function fmtPop(n) {
+  if (n >= 100000) return `${(n / 100000).toFixed(1)}L`;
+  if (n >= 1000)   return `${(n / 1000).toFixed(0)}k`;
+  return String(n);
+}
+
+/* ── KD helpers ─────────────────────────────────────────────────────────── */
 function kdStatus(kd) {
   if (kd.achievement == null || kd.target == null || kd.target === 0) return 'neutral';
   const r = kd.achievement / kd.target;
@@ -26,14 +87,6 @@ const DIV_COLORS = {
   hrh:  { main: '#F7614F', light: '#FFF1EE' },
 };
 
-const STATUS_COLORS = {
-  achieved: { bg: '#dcfce7', text: '#166534', label: 'On Track' },
-  close:    { bg: '#fef9c3', text: '#854d0e', label: 'Caution'  },
-  gap:      { bg: '#fee2e2', text: '#991b1b', label: 'Gap'      },
-  neutral:  { bg: '#f1f5f9', text: '#475569', label: 'No Data'  },
-};
-
-/* ── Icon map: programme id → emoji ──────────────────────────────────────── */
 const PROG_ICONS = {
   'maternal-health': '🤰', 'child-health': '👶',   'immunization': '💉',
   'family-planning':  '👨‍👩‍👧', 'nutrition':    '🥗',   'adolescent-health': '🧑',
@@ -50,43 +103,26 @@ const PROG_ICONS = {
   'hmis-reporting':   '📊',  'ambulance':    '🚑',
 };
 
-/* ── Pick 4 most newsworthy KDs from a division ───────────────────────────── */
 function getDivHighlights(divId) {
   const tree = KD_TREE[divId];
   if (!tree) return [];
-
-  /* flatten all KDs, attach progId */
   const all = [];
   Object.entries(tree.programmes || {}).forEach(([progId, prog]) => {
     (prog.kds || []).forEach(kd => all.push({ ...kd, progId }));
   });
-
-  /* score each KD: gap=0, close=1, achieved=2, neutral=3 */
   const rank = { gap: 0, close: 1, achieved: 2, neutral: 3 };
   all.sort((a, b) => rank[kdStatus(a)] - rank[kdStatus(b)]);
-
-  /* pick 2 worst + 1 close + 1 best for balanced view */
   const gaps     = all.filter(k => kdStatus(k) === 'gap').slice(0, 2);
   const closes   = all.filter(k => kdStatus(k) === 'close').slice(0, 1);
   const achieved = all.filter(k => kdStatus(k) === 'achieved').slice(0, 1);
-  const selected = [...gaps, ...closes, ...achieved].slice(0, 4);
-
-  return selected.map(kd => {
+  return [...gaps, ...closes, ...achieved].slice(0, 4).map(kd => {
     const s   = kdStatus(kd);
     const pct = (kd.achievement != null && kd.target)
       ? Math.round((kd.achievement / kd.target) * 100) : null;
-    const titleMetric = kd.achievedLabel
-      ? `${kd.indicator} — ${kd.achievedLabel}`
-      : kd.indicator;
-    const subText = [
-      kd.targetLabel ? `Target ${kd.targetLabel}` : null,
-      `KD #${kd.no}`,
-    ].filter(Boolean).join(' · ');
-
     return {
       icon:   PROG_ICONS[kd.progId] || '📊',
-      title:  titleMetric,
-      sub:    subText,
+      title:  kd.achievedLabel ? `${kd.indicator} — ${kd.achievedLabel}` : kd.indicator,
+      sub:    [kd.targetLabel ? `Target ${kd.targetLabel}` : null, `KD #${kd.no}`].filter(Boolean).join(' · '),
       pct,
       label:  s === 'gap' ? 'Critical' : null,
       status: s,
@@ -94,40 +130,35 @@ function getDivHighlights(divId) {
   });
 }
 
-/* ── Main Component ───────────────────────────────────────────────────────── */
+/* ── Main Component ─────────────────────────────────────────────────────── */
 export default function DistrictMap() {
+  const [activeLayer,      setActiveLayer]      = useState('population');
   const [selectedDistrict, setSelectedDistrict] = useState(null);
-  const [selectedDiv, setSelectedDiv]           = useState(null);
-  const [hoveredDistrict, setHoveredDistrict]   = useState(null);
-  const [panelOpen, setPanelOpen]               = useState(false);
+  const [selectedDiv,      setSelectedDiv]      = useState(null);
+  const [hoveredDistrict,  setHoveredDistrict]  = useState(null);
+  const [tooltipPos,       setTooltipPos]       = useState({ x: 0, y: 0 });
+  const [panelOpen,        setPanelOpen]        = useState(false);
 
   const bodyRef  = useRef(null);
   const panelRef = useRef(null);
   const mapRef   = useRef(null);
 
-
-  /* ── Animate panel open ── */
+  /* ── Panel open/close animation ── */
   useEffect(() => {
     if (!panelRef.current || !mapRef.current) return;
-
     if (panelOpen) {
-      /* Slide panel in from right, shrink map */
-      gsap.fromTo(
-        panelRef.current,
+      gsap.fromTo(panelRef.current,
         { width: 0, opacity: 0, x: 60 },
         { width: '42%', opacity: 1, x: 0, duration: 0.45, ease: 'power3.out' }
       );
       gsap.to(mapRef.current, { width: '58%', duration: 0.45, ease: 'power3.out' });
     } else {
-      /* Collapse panel, restore map to full width */
-      gsap.to(panelRef.current, {
-        width: 0, opacity: 0, x: 40, duration: 0.3, ease: 'power2.in',
-      });
-      gsap.to(mapRef.current, { width: '100%', duration: 0.3, ease: 'power2.in' });
+      gsap.to(panelRef.current, { width: 0, opacity: 0, x: 40, duration: 0.3, ease: 'power2.in' });
+      gsap.to(mapRef.current,   { width: '100%', duration: 0.3, ease: 'power2.in' });
     }
   }, [panelOpen]);
 
-  /* Animate content inside panel when district changes */
+  /* ── Animate panel content on district change ── */
   useEffect(() => {
     if (!panelRef.current || !selectedDistrict) return;
     gsap.fromTo(
@@ -138,33 +169,49 @@ export default function DistrictMap() {
   }, [selectedDistrict, selectedDiv]);
 
   function handleDistrictClick(name) {
-    const opening = !panelOpen;
     setSelectedDistrict(name);
     setSelectedDiv(null);
-    if (opening) setPanelOpen(true);
+    if (!panelOpen) setPanelOpen(true);
   }
 
   function handleClose() {
     setPanelOpen(false);
-    setTimeout(() => {
-      setSelectedDistrict(null);
-      setSelectedDiv(null);
-    }, 300);
+    setTimeout(() => { setSelectedDistrict(null); setSelectedDiv(null); }, 300);
   }
+
+  const legend = activeLayer === 'population' ? POP_LEGEND : DEN_LEGEND;
+  const hovData = hoveredDistrict ? DISTRICT_DEMOGRAPHY[hoveredDistrict] : null;
 
   return (
     <section className="v5-map-section">
 
-      {/* ── Section header ── */}
+      {/* ── Header ── */}
       <div className="v5-map-header">
-        <h2 className="v5-map-title">
-          {selectedDistrict
-            ? <><span className="v5-map-title-state">Arunachal Pradesh</span><span className="v5-map-title-sep"> — </span><span className="v5-map-title-district">{selectedDistrict}</span><span className="v5-map-title-perf"> Performance</span></>
-            : 'Arunachal Pradesh Health Performance'
-          }
-        </h2>
+        <div className="v5-map-header-left">
+          <h2 className="v5-map-title">
+            {selectedDistrict
+              ? <><span className="v5-map-title-state">Arunachal Pradesh</span><span className="v5-map-title-sep"> — </span><span className="v5-map-title-district">{selectedDistrict}</span><span className="v5-map-title-perf"> Performance</span></>
+              : 'Arunachal Pradesh Health Performance'
+            }
+          </h2>
+          {!selectedDistrict && (
+            <p className="v5-map-sub">Click any district to view programme indicators</p>
+          )}
+        </div>
+
+        {/* Layer toggle — only in default state */}
         {!selectedDistrict && (
-          <span className="v5-map-cta-pill">Select a district to begin</span>
+          <div className="v5-map-layer-toggle">
+            {LAYERS.map(l => (
+              <button
+                key={l.id}
+                className={`v5-map-layer-btn${activeLayer === l.id ? ' v5-map-layer-btn--active' : ''}`}
+                onClick={() => setActiveLayer(l.id)}
+              >
+                {l.label}
+              </button>
+            ))}
+          </div>
         )}
       </div>
 
@@ -173,6 +220,30 @@ export default function DistrictMap() {
 
         {/* LEFT — Choropleth map */}
         <div className="v5-map-left" ref={mapRef}>
+
+          {/* Demographic info strip — top of map box */}
+          <div className="v5-map-demobanner">
+            <div className="v5-map-demostat">
+              <span className="v5-map-demostat-val">{(STATE_POP_2021 / 100000).toFixed(1)}L</span>
+              <span className="v5-map-demostat-lbl">Population (2021 est.)</span>
+            </div>
+            <div className="v5-map-demostat-div" />
+            <div className="v5-map-demostat">
+              <span className="v5-map-demostat-val">{(STATE_AREA / 1000).toFixed(0)}k km²</span>
+              <span className="v5-map-demostat-lbl">Total Area</span>
+            </div>
+            <div className="v5-map-demostat-div" />
+            <div className="v5-map-demostat">
+              <span className="v5-map-demostat-val">{STATE_DENSITY}<span style={{fontSize:10,fontWeight:400}}>/km²</span></span>
+              <span className="v5-map-demostat-lbl">Avg Density</span>
+            </div>
+            <div className="v5-map-demostat-div" />
+            <div className="v5-map-demostat">
+              <span className="v5-map-demostat-val">27</span>
+              <span className="v5-map-demostat-lbl">Districts</span>
+            </div>
+          </div>
+
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{ center: [94.5, 27.9], scale: 5500 }}
@@ -181,33 +252,34 @@ export default function DistrictMap() {
             <Geographies geography={geoData}>
               {({ geographies }) =>
                 geographies.map(geo => {
-                  const name = geo.properties.DISTRICT || '';
+                  const name       = geo.properties.DISTRICT || '';
                   const isSelected = selectedDistrict === name;
+                  const isHovered  = hoveredDistrict === name;
+                  const clr        = getLayerColor(name, activeLayer);
                   return (
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
                       onClick={() => handleDistrictClick(name)}
-                      onMouseEnter={() => setHoveredDistrict(name)}
+                      onMouseEnter={e => {
+                        setHoveredDistrict(name);
+                        setTooltipPos({ x: e.clientX, y: e.clientY });
+                      }}
+                      onMouseMove={e => setTooltipPos({ x: e.clientX, y: e.clientY })}
                       onMouseLeave={() => setHoveredDistrict(null)}
                       style={{
                         default: {
-                          fill: isSelected ? '#0f6b30' : '#4aab6d',
-                          stroke: '#fff',
-                          strokeWidth: isSelected ? 1.8 : 0.6,
-                          outline: 'none',
-                          cursor: 'pointer',
-                          opacity: isSelected ? 1 : 0.82,
+                          fill:        isSelected ? '#0f5f2e' : clr.fill,
+                          stroke:      isSelected ? '#fff' : clr.stroke,
+                          strokeWidth: isSelected ? 1.8 : 0.7,
+                          outline:     'none',
+                          cursor:      'pointer',
+                          opacity:     isSelected ? 1 : isHovered ? 1 : 0.88,
+                          filter:      isSelected ? 'brightness(1.0)' : isHovered ? 'brightness(1.12)' : 'none',
+                          transition:  'fill 0.2s, opacity 0.15s',
                         },
-                        hover: {
-                          fill: '#17823e',
-                          stroke: '#fff',
-                          strokeWidth: 1,
-                          outline: 'none',
-                          cursor: 'pointer',
-                          opacity: 1,
-                        },
-                        pressed: { fill: '#0f6b30', outline: 'none' },
+                        hover:   { fill: clr.fill, stroke: '#fff', strokeWidth: 1.2, outline: 'none', cursor: 'pointer', filter: 'brightness(1.15)' },
+                        pressed: { fill: '#0f5f2e', outline: 'none' },
                       }}
                     />
                   );
@@ -216,43 +288,75 @@ export default function DistrictMap() {
             </Geographies>
           </ComposableMap>
 
-          {hoveredDistrict && (
-            <div className="v5-map-tooltip">{hoveredDistrict}</div>
-          )}
+          {/* Color scale bar — bottom of map box */}
+          <div className="v5-map-scalebar">
+            <span className="v5-map-scalebar-title">
+              {activeLayer === 'population' ? 'Population (2021 est.)' : 'Density per km² (2011)'}
+            </span>
+            <div className="v5-map-scalebar-track">
+              {legend.map((l, i) => (
+                <div key={i} className="v5-map-scalebar-seg" style={{ background: l.fill }}>
+                  <span className="v5-map-scalebar-tick">{l.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* RIGHT — Sliding panel */}
         <div className="v5-map-right" ref={panelRef}>
 
-          {/* State 2 — district selected, pick programme */}
-          {selectedDistrict && !selectedDiv && (
-            <div className="v5-map-district-panel">
-              <div className="v5-map-district-name">
-                <span className="v5-map-district-pin">📍</span>
-                {selectedDistrict}
-                <button className="v5-map-close-btn" onClick={handleClose}>✕</button>
-              </div>
-              <p className="v5-map-district-hint">Select a programme to view indicators</p>
-              <div className="v5-map-prog-grid">
-                {DIVISIONS.map(div => {
-                  const clr = DIV_COLORS[div.id];
-                  return (
-                    <button
-                      key={div.id}
-                      className="v5-map-prog-btn"
-                      style={{ '--prog-main': clr.main, '--prog-light': clr.light }}
-                      onClick={() => setSelectedDiv(div.id)}
-                    >
-                      <span className="v5-map-prog-dot" />
-                      {div.fullName}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+          {selectedDistrict && !selectedDiv && (() => {
+            const demo = DISTRICT_DEMOGRAPHY[selectedDistrict];
+            return (
+              <div className="v5-map-district-panel">
+                <div className="v5-map-district-name">
+                  <span className="v5-map-district-pin">📍</span>
+                  {selectedDistrict}
+                  <button className="v5-map-close-btn" onClick={handleClose}>✕</button>
+                </div>
 
-          {/* State 3 — district + programme → Highlights */}
+                {/* Demographic strip */}
+                {demo && (
+                  <div className="v5-map-demo-strip">
+                    <div className="v5-map-demo-item">
+                      <span className="v5-map-demo-val">{fmtPop(demo.pop2021)}</span>
+                      <span className="v5-map-demo-lbl">Population (2021 est.)</span>
+                    </div>
+                    <div className="v5-map-demo-divider" />
+                    <div className="v5-map-demo-item">
+                      <span className="v5-map-demo-val">{demo.density2011}<span style={{fontSize:11,fontWeight:400}}>/km²</span></span>
+                      <span className="v5-map-demo-lbl">Density (2011)</span>
+                    </div>
+                    <div className="v5-map-demo-divider" />
+                    <div className="v5-map-demo-item">
+                      <span className="v5-map-demo-val">{(demo.areaSqKm / 1000).toFixed(1)}k</span>
+                      <span className="v5-map-demo-lbl">Area km²</span>
+                    </div>
+                  </div>
+                )}
+
+                <p className="v5-map-district-hint">Select a programme to view indicators</p>
+                <div className="v5-map-prog-grid">
+                  {DIVISIONS.map(div => {
+                    const clr = DIV_COLORS[div.id];
+                    return (
+                      <button
+                        key={div.id}
+                        className="v5-map-prog-btn"
+                        style={{ '--prog-main': clr.main, '--prog-light': clr.light }}
+                        onClick={() => setSelectedDiv(div.id)}
+                      >
+                        <span className="v5-map-prog-dot" />
+                        {div.fullName}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
+
           {selectedDistrict && selectedDiv && (
             <div className="v5-map-kd-panel">
               <div className="v5-map-kd-header">
@@ -273,9 +377,8 @@ export default function DistrictMap() {
                   <span className="v5-map-hl-title">
                     {DIVISIONS.find(d => d.id === selectedDiv)?.label} Programme Highlights
                   </span>
-                  <span className="v5-map-hl-sub">Selected key deliverable achievements · FY 2025-26</span>
+                  <span className="v5-map-hl-sub">Key deliverable achievements · FY 2025-26</span>
                 </div>
-
                 <div className="v5-map-hl-list">
                   {getDivHighlights(selectedDiv).map((item, i) => (
                     <div key={i} className={`v5-map-hl-row v5-map-hl-row--${item.status}`}>
@@ -297,9 +400,31 @@ export default function DistrictMap() {
               </p>
             </div>
           )}
-
         </div>
       </div>
+
+      {/* ── Hover tooltip (portal-style, fixed to cursor) ── */}
+      {hoveredDistrict && hovData && (
+        <div
+          className="v5-map-hover-tip"
+          style={{ left: tooltipPos.x + 14, top: tooltipPos.y - 10 }}
+        >
+          <div className="v5-map-hover-tip-name">{hoveredDistrict}</div>
+          <div className="v5-map-hover-tip-row">
+            <span>Population (2021)</span>
+            <span>{hovData.pop2021.toLocaleString('en-IN')}</span>
+          </div>
+          <div className="v5-map-hover-tip-row">
+            <span>Density</span>
+            <span>{hovData.density2011}/km²</span>
+          </div>
+          <div className="v5-map-hover-tip-row">
+            <span>HQ</span>
+            <span>{hovData.hq}</span>
+          </div>
+        </div>
+      )}
+
     </section>
   );
 }
