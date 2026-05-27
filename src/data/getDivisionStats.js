@@ -1,11 +1,17 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   getDivisionStats.js — Dynamic top-3 KD stats per NHM division
+   getDivisionStats.js — Top-3 positive KD stats per NHM division
    Used by StatCard3D to populate each face of the rotating prism.
 
    Algorithm (runs against KD_TREE at runtime — auto-updates when data changes):
-     Face 0 — Most critical gap KD (biggest deficit vs NHM target)
-     Face 1 — Best achieved KD (highest % over target)
-     Face 2 — Best caution/close KD (in progress); falls back to 2nd achieved
+     Only shows KDs that are visibly positive — achieved or close status,
+     with a non-zero, non-"Not done" achievement value.
+
+     Priority order:
+       1. Achieved KDs — sorted by most over-target first
+       2. Close KDs    — sorted by best ratio (closest to achieved)
+
+     Zeros, "Not done", null values are excluded entirely.
+     Pad to exactly 3 faces by cycling if fewer positives exist.
 
    Output per face: { value, label, programme, status, pct, targetLabel }
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -20,14 +26,25 @@ function kdStatus(kd) {
   return r >= 1 ? 'achieved' : r >= 0.75 ? 'close' : 'gap';
 }
 
-/**
- * Deficit score — positive = worse performance.
- * gap KDs have positive deficit; achieved have negative.
- */
+/** Deficit score — negative = good (achieved), positive = bad (gap). */
 function deficit(kd) {
   if (kd.achievement == null || kd.target == null || kd.target === 0) return null;
   const r = kd.achievement / kd.target;
   return kd.lowerIsBetter ? r - 1 : 1 - r;
+}
+
+/**
+ * Returns true when a KD has a meaningful positive value worth showing.
+ * Excludes: zero achievements, "Not done", "0%", "0/x (0%)" patterns.
+ */
+function isPositive(kd) {
+  if (kd.achievement == null || kd.achievement === 0) return false;
+  const lbl = (kd.achievedLabel || String(kd.achievement)).trim().toLowerCase();
+  if (lbl === 'not done') return false;
+  if (lbl === '0' || lbl === '0%') return false;
+  /* "0/x (0%)" pattern */
+  if (/^0\//.test(lbl)) return false;
+  return true;
 }
 
 /* ── Flatten all KDs for a division ─────────────────────────────────────── */
@@ -70,41 +87,49 @@ function buildFace(kd) {
 /* ── Main export ─────────────────────────────────────────────────────────── */
 /**
  * Returns exactly 3 face objects for the given division.
- * Falls back gracefully if there aren't enough distinct KDs.
+ * Only surfaces positive, visibly-good KDs (achieved or close, non-zero).
+ * Pads to 3 by cycling if fewer than 3 positives exist.
  */
 export function getDivisionStats(divId) {
   const all = flattenKDs(divId);
   if (!all.length) return [];
 
-  /* Separate by status, sort each bucket */
-  const gaps  = all
-    .filter(k => kdStatus(k) === 'gap')
-    .sort((a, b) => (deficit(b) ?? 0) - (deficit(a) ?? 0));   // worst first
+  /* Keep only meaningful positive values */
+  const positive = all.filter(isPositive);
 
-  const closes = all
-    .filter(k => kdStatus(k) === 'close')
-    .sort((a, b) => (deficit(b) ?? 0) - (deficit(a) ?? 0));   // closest-to-gap first
-
-  const achieved = all
+  /* Achieved — most over-target first */
+  const achieved = positive
     .filter(k => kdStatus(k) === 'achieved')
-    .sort((a, b) => (deficit(a) ?? 0) - (deficit(b) ?? 0));   // most over-achieved first
+    .sort((a, b) => (deficit(a) ?? 0) - (deficit(b) ?? 0));
 
-  /* Face 0 — most critical gap KD */
-  const face0KD = gaps[0] ?? closes[0] ?? achieved[0];
+  /* Close — best ratio first (smallest deficit) */
+  const closes = positive
+    .filter(k => kdStatus(k) === 'close')
+    .sort((a, b) => (deficit(a) ?? 0) - (deficit(b) ?? 0));
 
-  /* Face 1 — best achieved KD (pick first that isn't face0) */
-  const usedNos = new Set([face0KD?.no]);
-  const face1KD = achieved.find(k => !usedNos.has(k.no))
-                ?? closes.find(k => !usedNos.has(k.no))
-                ?? gaps.find(k => !usedNos.has(k.no));
+  /* Merge: achieved first, then close — pick 3 unique */
+  const pool = [...achieved, ...closes];
+  const used = new Set();
+  const top3 = [];
+  for (const kd of pool) {
+    if (top3.length >= 3) break;
+    if (!used.has(kd.no)) {
+      top3.push(kd);
+      used.add(kd.no);
+    }
+  }
 
-  /* Face 2 — best close/caution KD (pick first unused) */
-  usedNos.add(face1KD?.no);
-  const face2KD = closes.find(k => !usedNos.has(k.no))
-                ?? achieved.find(k => !usedNos.has(k.no))
-                ?? gaps.find(k => !usedNos.has(k.no));
+  /* If nothing positive exists at all, fall back to best non-zero KD */
+  if (!top3.length) {
+    const fallback = all
+      .filter(isPositive)
+      .sort((a, b) => (deficit(a) ?? 0) - (deficit(b) ?? 0));
+    if (fallback[0]) top3.push(fallback[0]);
+  }
 
-  const faces = [face0KD, face1KD, face2KD].filter(Boolean).map(buildFace);
-  /* Pad to exactly 3 by cycling — ensures no card ever shows "—" */
+  if (!top3.length) return [];
+
+  const faces = top3.map(buildFace);
+  /* Pad to exactly 3 by cycling */
   return [0, 1, 2].map(i => faces[i % faces.length]);
 }

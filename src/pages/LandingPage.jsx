@@ -4,6 +4,7 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 import { useState, useEffect, useMemo, useRef, lazy, Suspense } from 'react';
+import { gsap } from 'gsap';
 import { DIVISIONS } from '../data/programs';
 import { KD_TREE } from '../data/kdData';
 import ThemeToggle from '../components/ThemeToggle';
@@ -13,8 +14,9 @@ import StatCard3D from '../components/StatCard3D';
 import { getDivisionStats } from '../data/getDivisionStats';
 import '../styles/landing-v4.css';
 
-const NHMSankey    = lazy(() => import('../components/NHMSankey'));
-const DistrictMap  = lazy(() => import('../components/DistrictMap'));
+const NHMSankey              = lazy(() => import('../components/NHMSankey'));
+const DistrictMap            = lazy(() => import('../components/DistrictMap'));
+const ProgrammeProgressChart = lazy(() => import('../components/ProgrammeProgressChart'));
 
 /* ── Status helpers ─────────────────────────────────────────────────────── */
 function kdStatus(kd) {
@@ -254,6 +256,24 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
   useReveal(flowRef);
   useReveal(alertsRef);
 
+  /* nav banner dissolve */
+  const bannerRefs = useRef([]);
+  const bannerIdx  = useRef(0);
+  useEffect(() => {
+    const slides = bannerRefs.current;
+    if (!slides.length) return;
+    gsap.set(slides[0], { opacity: 1 });
+    slides.slice(1).forEach(s => gsap.set(s, { opacity: 0 }));
+    const id = setInterval(() => {
+      const prev = bannerIdx.current;
+      const next = (prev + 1) % slides.length;
+      gsap.to(slides[prev], { opacity: 0, duration: 1.4, ease: 'power2.inOut' });
+      gsap.to(slides[next], { opacity: 1, duration: 1.4, ease: 'power2.inOut' });
+      bannerIdx.current = next;
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
+
   /* overall totals for the hero strip */
   const totals = useMemo(() => {
     let achieved = 0, close = 0, gap = 0, total = 0;
@@ -272,6 +292,21 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       {/* ── Navbar ──────────────────────────────────────────────────────── */}
       <header className="v4l-nav">
         <div className="v4l-nav-inner">
+          {/* ── Dissolve banner ─────────────────────────────────────────── */}
+          <div className="v4l-nav-banner-dissolve">
+            {[1, 2, 3].map((n, i) => (
+              <img
+                key={i}
+                ref={el => bannerRefs.current[i] = el}
+                src={`/banners/banner${n}.jpeg`}
+                alt=""
+                className="v4l-nav-banner-slide"
+              />
+            ))}
+          </div>
+          {/* Gradient so brand text stays readable over images */}
+          <div className="v4l-nav-banner-overlay" />
+
           <div className="v4l-brand">
             <img src="/ap-emblem.svg" alt="Arunachal Pradesh Emblem" className="v4l-brand-logo" />
             <div className="v4l-brand-divider" />
@@ -282,8 +317,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
             </div>
           </div>
           <nav className="v4l-nav-links">
-            <button className="v4l-nav-btn" onClick={onViewSummary}>All Programmes</button>
-            <ThemeToggle />
           </nav>
         </div>
       </header>
@@ -343,7 +376,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       <section className="v4l-flow v4l-reveal" ref={flowRef}>
         <div className="v4l-section-header">
           <div className="v4l-section-tag">NHM Programme Flow</div>
-          <h2 className="v4l-section-title">How KDs distribute across divisions, programmes, and outcome status</h2>
+          <h2 className="v4l-section-title">How Programmes distribute across divisions and outcome status</h2>
           <p className="v4l-section-sub">
             FY 2025-26 · Click any division or programme node to drill in
           </p>
@@ -386,6 +419,13 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           Node width proportional to number of Key Deliverables · HRH staffing KDs pending mapping
         </div>
       </section>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          SECTION 2.5 — PROGRAMME PROGRESS CHART
+          ══════════════════════════════════════════════════════════════════ */}
+      <Suspense fallback={<div style={{ height: 200 }} />}>
+        <ProgrammeProgressChart />
+      </Suspense>
 
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 3 — CRITICAL ALERTS
