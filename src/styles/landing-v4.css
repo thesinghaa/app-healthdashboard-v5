@@ -4057,17 +4057,11 @@ td:last-child { padding: 8px 10px; }
   border-color: #17823E !important;
 }
 
-/* ── Inline abbreviation spans (dotted underline = interactive) ───────────── */
+/* ── Inline abbreviation spans — subtle dotted underline only, no hover flash */
 .abbrev-inline {
-  border-bottom: 1.5px dotted currentColor;
+  border-bottom: 1px dotted rgba(0,0,0,0.25);
   cursor: default;
-  border-radius: 2px;
   padding: 0 1px;
-  transition: background 0.15s;
-}
-.abbrev-inline:hover {
-  background: rgba(245, 158, 11, 0.12);
-  border-radius: 2px;
 }
 
 /* ── Floating tooltip ────────────────────────────────────────────────────── */

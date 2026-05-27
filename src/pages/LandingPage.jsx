@@ -427,7 +427,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
 
   return (
     <AbbrevProvider>
-      <AbbrevTooltip />
       <div className="v4l-root">
 
       {/* ── Left side navigation panel ──────────────────────────────────── */}
@@ -503,7 +502,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
             >
               <img src={`/statcards/${div.label}.png`} className="v5-stat-card-img" alt="" />
               <div className="v5-stat-number">{face0?.value ?? '—'}</div>
-              <div className="v5-stat-label">{face0?.label ?? ''}</div>
+              <div className="v5-stat-label"><MarkAbbrev text={face0?.label ?? ''} /></div>
               <div className="v5-stat-prog" data-abbr={div.label}>{div.fullName}</div>
             </div>
           );
