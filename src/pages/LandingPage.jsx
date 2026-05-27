@@ -237,7 +237,6 @@ function useReveal(ref) {
 export default function LandingPage({ onSelectDivision, onViewSummary, onDirectKD }) {
   const [reportDiv, setReportDiv] = useState(null);
   const divStats = useDivStats();
-  const topGaps   = useMemo(() => getTopGaps(8), []);
 
   /* section refs for scroll-reveal */
   const overviewRef = useRef(null);
@@ -427,49 +426,77 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       </Suspense>
 
       {/* ══════════════════════════════════════════════════════════════════
-          SECTION 3 — CRITICAL ALERTS
+          SECTION 3 — UPDATES
           ══════════════════════════════════════════════════════════════════ */}
-      <section className="v4l-alerts v4l-reveal" ref={alertsRef}>
+      <section className="v4l-updates v4l-reveal" ref={alertsRef}>
         <div className="v4l-section-header">
-          <div className="v4l-section-tag v4l-section-tag--red">Critical Alerts</div>
-          <h2 className="v4l-section-title">Top gaps requiring immediate attention</h2>
-          <p className="v4l-section-sub">Ranked by deficit magnitude against NHM FY 2025-26 targets</p>
+          <div className="v4l-section-tag">Updates</div>
+          <h2 className="v4l-section-title">Latest from NHM Arunachal Pradesh</h2>
+          <p className="v4l-section-sub">News, circulars and notifications — FY 2025-26</p>
         </div>
 
-        <div className="v4l-alerts-table">
-          <div className="v4l-alerts-head">
-            <span>#</span>
-            <span>Division</span>
-            <span>Programme</span>
-            <span>Indicator</span>
-            <span>Target</span>
-            <span>Achievement</span>
-            <span>Gap</span>
-          </div>
-          {topGaps.map((kd, i) => {
-            const clr = DIV_COLORS[kd.divId] || DIV_COLORS.rch;
-            const gapPct = kd.lowerIsBetter
-              ? `+${Math.round((kd.achievement / kd.target - 1) * 100)}%`
-              : `-${Math.round((1 - kd.achievement / kd.target) * 100)}%`;
-            return (
-              <div key={i} className="v4l-alerts-row" onClick={() => onSelectDivision(
-                DIVISIONS.find(d => d.id === kd.divId)
-              )}>
-                <span className="v4l-alerts-rank">{i + 1}</span>
-                <span>
-                  <span className="v4l-alerts-div-chip"
-                        style={{ background: clr.light, color: clr.text }}>
-                    {kd.divLabel}
-                  </span>
-                </span>
-                <span className="v4l-alerts-prog">{kd.progName}</span>
-                <span className="v4l-alerts-ind">{kd.indicator}</span>
-                <span className="v4l-alerts-target">{kd.targetLabel}</span>
-                <span className="v4l-alerts-ach">{kd.achievedLabel}</span>
-                <span className="v4l-alerts-gap">{gapPct}</span>
+        <div className="v4l-updates-grid">
+
+          {/* ── News ── */}
+          <div className="v4l-updates-col">
+            <div className="v4l-updates-col-hdr" style={{ '--uc': '#4F8EF7' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
+              News
+            </div>
+            {[
+              { date: 'May 2026', title: 'NHM AP achieves 91% Full Immunization Coverage in FY 2025-26', tag: 'RCH' },
+              { date: 'Apr 2026', title: '408 Ayushman Arogya Mandirs now fully operational with 12-service package', tag: 'HSS' },
+              { date: 'Mar 2026', title: 'Hepatitis C treatment scale-up: 2,314 patients under active treatment', tag: 'NDCP' },
+              { date: 'Feb 2026', title: '255 persons rehabilitated with hearing aids under NCD programme', tag: 'NCD' },
+            ].map((item, i) => (
+              <div key={i} className="v4l-updates-item">
+                <span className="v4l-updates-date">{item.date}</span>
+                <p className="v4l-updates-title">{item.title}</p>
+                <span className="v4l-updates-tag" style={{ '--uc': '#4F8EF7' }}>{item.tag}</span>
               </div>
-            );
-          })}
+            ))}
+          </div>
+
+          {/* ── Circulars ── */}
+          <div className="v4l-updates-col">
+            <div className="v4l-updates-col-hdr" style={{ '--uc': '#F7B23B' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              Circulars
+            </div>
+            {[
+              { date: 'May 2026', title: 'Annual HMIS data validation — all districts to submit reports by 30 June 2026', tag: 'HSS' },
+              { date: 'Apr 2026', title: 'Revised NPCC targets for Q1 FY 2026-27 shared with programme officers', tag: 'All' },
+              { date: 'Mar 2026', title: 'NTEP: Updated drug management guidelines issued to district TB units', tag: 'NDCP' },
+              { date: 'Feb 2026', title: 'IEC materials for anaemia awareness campaign dispatched to all districts', tag: 'RCH' },
+            ].map((item, i) => (
+              <div key={i} className="v4l-updates-item">
+                <span className="v4l-updates-date">{item.date}</span>
+                <p className="v4l-updates-title">{item.title}</p>
+                <span className="v4l-updates-tag" style={{ '--uc': '#F7B23B' }}>{item.tag}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Notifications ── */}
+          <div className="v4l-updates-col">
+            <div className="v4l-updates-col-hdr" style={{ '--uc': '#9B6FEB' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              Notifications
+            </div>
+            {[
+              { date: 'May 2026', title: 'MusQan Certification drive — all districts to initiate certification by July 2026', tag: 'RCH' },
+              { date: 'Apr 2026', title: 'MO-MBBS vacancy filling: remaining positions under active recruitment process', tag: 'HRH' },
+              { date: 'Mar 2026', title: 'NCD screening camps scheduled across 10 districts — June-July 2026', tag: 'NCD' },
+              { date: 'Feb 2026', title: 'NLEP district review meetings rescheduled — see updated calendar', tag: 'NDCP' },
+            ].map((item, i) => (
+              <div key={i} className="v4l-updates-item">
+                <span className="v4l-updates-date">{item.date}</span>
+                <p className="v4l-updates-title">{item.title}</p>
+                <span className="v4l-updates-tag" style={{ '--uc': '#9B6FEB' }}>{item.tag}</span>
+              </div>
+            ))}
+          </div>
+
         </div>
       </section>
 
