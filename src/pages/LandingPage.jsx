@@ -10,6 +10,7 @@ import { KD_TREE } from '../data/kdData';
 import ThemeToggle from '../components/ThemeToggle';
 import ReportModal from '../components/ReportModal';
 import DivisionAccordion from '../components/DivisionAccordion';
+import LeftSideNav from '../components/LeftSideNav';
 import StatCard3D from '../components/StatCard3D';
 import { getDivisionStats } from '../data/getDivisionStats';
 import '../styles/landing-v4.css';
@@ -288,6 +289,9 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
 
   return (
     <div className="v4l-root">
+
+      {/* ── Left side navigation panel ──────────────────────────────────── */}
+      <LeftSideNav onSelectDivision={onSelectDivision} />
 
       {/* ── Navbar ──────────────────────────────────────────────────────── */}
       <header className="v4l-nav">

@@ -3590,3 +3590,308 @@ td:last-child { padding: 8px 10px; }
   font-weight: 600;
   font-size: 13.5px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LEFT SIDE NAV — .lsnav-*
+   Slide-in division panel + persona picker modal
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Panel container — starts off-screen to the left */
+.lsnav-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 280px;
+  z-index: 1100;
+  transform: translateX(-280px);
+  overflow: visible;
+  pointer-events: auto;
+}
+
+/* Toggle tab — extends to the right of the panel, always visible */
+.lsnav-tab {
+  position: absolute;
+  top: 50%;
+  right: -40px;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 64px;
+  background: #17823e;
+  color: #fff;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 0 16px rgba(23,130,62,0.30);
+  transition: background 0.18s, width 0.18s;
+  z-index: 2;
+}
+.lsnav-tab:hover {
+  background: #0f5f2e;
+  width: 44px;
+}
+.lsnav-tab--open {
+  background: #0f5f2e;
+}
+
+/* Inner panel — white card with scrollable content */
+.lsnav-inner {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  border-right: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 4px 0 32px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  padding: 28px 20px 24px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+/* Panel header text */
+.lsnav-heading {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0F172A;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+}
+.lsnav-sub {
+  font-size: 12px;
+  color: #94A3B8;
+  font-family: 'Inter', sans-serif;
+  margin: 0 0 20px;
+}
+
+/* Division list */
+.lsnav-divlist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+/* Each division row button */
+.lsnav-div-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(0,0,0,0.07);
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.16s, border-color 0.16s, transform 0.14s;
+  width: 100%;
+}
+.lsnav-div-row:hover {
+  background: var(--db);
+  border-color: var(--dc);
+  transform: translateX(3px);
+}
+.lsnav-div-row:hover .lsnav-div-short {
+  color: var(--dc);
+}
+.lsnav-div-row svg {
+  color: #CBD5E1;
+  flex-shrink: 0;
+  transition: color 0.16s;
+}
+.lsnav-div-row:hover svg {
+  color: var(--dc);
+}
+
+/* Coloured dot */
+.lsnav-div-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--dc);
+  flex-shrink: 0;
+}
+
+/* Division text block */
+.lsnav-div-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.lsnav-div-short {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.16s;
+}
+.lsnav-div-name {
+  font-size: 11px;
+  color: #64748B;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Footer note */
+.lsnav-footer {
+  font-size: 10.5px;
+  color: #CBD5E1;
+  font-family: 'Inter', sans-serif;
+  margin: 20px 0 0;
+  text-align: center;
+}
+
+/* Backdrop */
+.lsnav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.22);
+  z-index: 1099;
+  backdrop-filter: blur(2px);
+}
+
+/* ── Persona modal overlay ── */
+.lsnav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.30);
+  backdrop-filter: blur(4px);
+}
+.lsnav-modal {
+  background: #fff;
+  border-radius: 20px;
+  width: 420px;
+  max-width: calc(100vw - 40px);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+  overflow: hidden;
+}
+
+/* Modal header */
+.lsnav-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 22px 18px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  border-top: 4px solid;
+}
+.lsnav-modal-div-chip {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 4px 10px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.lsnav-modal-heading {
+  flex: 1;
+  min-width: 0;
+}
+.lsnav-modal-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0F172A;
+  font-family: 'Inter', sans-serif;
+  margin: 0 0 2px;
+  letter-spacing: -0.02em;
+}
+.lsnav-modal-sub {
+  font-size: 12px;
+  color: #64748B;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+}
+.lsnav-modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.09);
+  background: #F8FAFC;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748B;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.lsnav-modal-close:hover { background: #F1F5F9; color: #0F172A; }
+
+/* Persona card list */
+.lsnav-persona-list {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px 18px;
+  gap: 8px;
+}
+.lsnav-persona-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(0,0,0,0.08);
+  background: #FAFAFA;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background 0.16s, border-color 0.16s, transform 0.14s;
+}
+.lsnav-persona-card:hover {
+  background: var(--p-bg);
+  border-color: var(--p-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+.lsnav-persona-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--p-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.16s;
+}
+.lsnav-persona-card:hover .lsnav-persona-icon {
+  background: rgba(255,255,255,0.7);
+}
+.lsnav-persona-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.lsnav-persona-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F172A;
+  font-family: 'Inter', sans-serif;
+}
+.lsnav-persona-desc {
+  font-size: 12px;
+  color: #64748B;
+  font-family: 'Inter', sans-serif;
+}
+.lsnav-persona-arrow {
+  color: #CBD5E1;
+  flex-shrink: 0;
+  transition: color 0.15s, transform 0.15s;
+}
+.lsnav-persona-card:hover .lsnav-persona-arrow {
+  color: var(--p-color);
+  transform: translateX(3px);
+}
