@@ -2522,6 +2522,12 @@
   position: relative;
   overflow: hidden;
   min-height: 160px;
+  cursor: pointer;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+.v5-stat-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  transform: translateY(-2px);
 }
 .v5-stat-card::before {
   content: '';

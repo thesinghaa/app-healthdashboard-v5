@@ -11,7 +11,6 @@ import ThemeToggle from '../components/ThemeToggle';
 import ReportModal from '../components/ReportModal';
 import DivisionAccordion from '../components/DivisionAccordion';
 import LeftSideNav from '../components/LeftSideNav';
-import StatCard3D from '../components/StatCard3D';
 import { getDivisionStats } from '../data/getDivisionStats';
 import '../styles/landing-v4.css';
 
@@ -199,15 +198,6 @@ const ICON_POSITIONS = [
   { top: '48%', left: '35%' },
 ];
 
-/* ── StatCard3D config ───────────────────────────────────────────────────── */
-const SC3D_IMAGES = {
-  rch:  ['/statcards/RCH_1.png',  '/statcards/RCH_2.png',  '/statcards/RCH_3.png'],
-  ndcp: ['/statcards/NDCP_1.png', '/statcards/NDCP_2.png', '/statcards/NDCP_3.png'],
-  ncd:  ['/statcards/NCD_1.png',  '/statcards/NCD_2.png',  '/statcards/NCD_3.png'],
-  hss:  ['/statcards/HSS_1.png',  '/statcards/HSS_2.png',  '/statcards/HSS_3.png'],
-  hrh:  ['/statcards/HRH_1.png',  '/statcards/HRH_2.png',  '/statcards/HRH_3.png'],
-};
-
 const SC3D_ACCENTS = {
   rch:  '#4F8EF7',
   ndcp: '#F7B23B',
@@ -349,20 +339,25 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         </div>
       </div>
 
-      {/* ── Stat Strip — 3D rotating prism cards ─────────────────────────── */}
-      <div className="v5-stat-strip v5-stat-strip--3d">
-        {DIVISIONS.map((div, i) => (
-          <StatCard3D
-            key={div.id}
-            divLabel={div.label}
-            divFullName={div.fullName}
-            accent={SC3D_ACCENTS[div.id]}
-            stats={getDivisionStats(div.id)}
-            images={SC3D_IMAGES[div.id] || []}
-            onClick={() => onSelectDivision(div)}
-            startDelay={0}
-          />
-        ))}
+      {/* ── Stat Strip — static cards ────────────────────────────────────── */}
+      <div className="v5-stat-strip">
+        {DIVISIONS.map(div => {
+          const face0 = getDivisionStats(div.id)[0];
+          const accent = SC3D_ACCENTS[div.id];
+          return (
+            <div
+              key={div.id}
+              className="v5-stat-card"
+              style={{ '--accent': accent }}
+              onClick={() => onSelectDivision(div)}
+            >
+              <img src={`/statcards/${div.label}.png`} className="v5-stat-card-img" alt="" />
+              <div className="v5-stat-number">{face0?.value ?? '—'}</div>
+              <div className="v5-stat-label">{face0?.label ?? ''}</div>
+              <div className="v5-stat-prog">{div.fullName}</div>
+            </div>
+          );
+        })}
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════
