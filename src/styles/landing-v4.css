@@ -4094,3 +4094,33 @@ td:last-child { padding: 8px 10px; }
   background: #0F172A;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
+
+/* ── Mini label anchored directly below hovered abbreviation ─────────────── */
+.abbrev-mini-label {
+  position: fixed;
+  z-index: 9999;
+  transform: translateX(-50%);
+  font-size: 9.5px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: #17823E;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(23, 130, 62, 0.25);
+  border-radius: 4px;
+  padding: 1px 6px 2px;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(23, 130, 62, 0.12);
+  animation: abbrev-mini-in 0.12s ease;
+  line-height: 1.4;
+}
+@keyframes abbrev-mini-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-3px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+[data-theme="dark"] .abbrev-mini-label {
+  background: rgba(15, 23, 42, 0.96);
+  border-color: rgba(23, 130, 62, 0.4);
+  color: #4ade80;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}

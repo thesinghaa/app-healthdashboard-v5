@@ -19,16 +19,21 @@ const DistrictMap            = lazy(() => import('../components/DistrictMap'));
 const ProgrammeProgressChart = lazy(() => import('../components/ProgrammeProgressChart'));
 
 /* ── Abbreviation hover context ─────────────────────────────────────────── */
-const AbbrevCtx = createContext(null);
+const AbbrevCtx = createContext({ hovered: null, hoveredEl: null });
 
 function AbbrevProvider({ children }) {
-  const [hovered, setHovered] = useState(null);
+  const [hovered,   setHovered]   = useState(null);
+  const [hoveredEl, setHoveredEl] = useState(null);
   useEffect(() => {
-    const onOver = e => setHovered(e.target.closest('[data-abbr]')?.dataset.abbr ?? null);
+    const onOver = e => {
+      const el = e.target.closest('[data-abbr]');
+      setHovered(el?.dataset.abbr ?? null);
+      setHoveredEl(el ?? null);
+    };
     document.addEventListener('mouseover', onOver);
     return () => document.removeEventListener('mouseover', onOver);
   }, []);
-  return <AbbrevCtx.Provider value={hovered}>{children}</AbbrevCtx.Provider>;
+  return <AbbrevCtx.Provider value={{ hovered, hoveredEl }}>{children}</AbbrevCtx.Provider>;
 }
 
 const ABBREV = {
@@ -107,26 +112,33 @@ const ABBREV_PAT = new RegExp(
   'g',
 );
 
-/* ── Tooltip that follows the cursor and shows the expansion ─────────────── */
-function AbbrevTooltip() {
-  const hovered = useContext(AbbrevCtx);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
+/* ── Mini label anchored below the hovered element ──────────────────────── */
+function AbbrevMiniLabel() {
+  const { hovered, hoveredEl } = useContext(AbbrevCtx);
+  const [pos, setPos] = useState(null);
+
   useEffect(() => {
-    const onMove = e => setPos({ x: e.clientX, y: e.clientY });
-    document.addEventListener('mousemove', onMove);
-    return () => document.removeEventListener('mousemove', onMove);
-  }, []);
-  if (!hovered || !ALL_ABBREVS[hovered]) return null;
+    if (!hoveredEl) { setPos(null); return; }
+    const update = () => {
+      const r = hoveredEl.getBoundingClientRect();
+      setPos({ x: (r.left + r.right) / 2, y: r.bottom });
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, [hoveredEl]);
+
+  if (!hovered || !pos || !ALL_ABBREVS[hovered]) return null;
   return (
-    <div className="abbrev-tooltip" style={{ left: pos.x + 14, top: pos.y - 36 }}>
-      <strong>{hovered}</strong> — {ALL_ABBREVS[hovered]}
+    <div className="abbrev-mini-label" style={{ left: pos.x, top: pos.y + 4 }}>
+      {ALL_ABBREVS[hovered]}
     </div>
   );
 }
 
 /* ── Legend strip — active item pulses when its abbreviation is hovered ───── */
 function AbbrevLegend({ items }) {
-  const hovered = useContext(AbbrevCtx);
+  const { hovered } = useContext(AbbrevCtx);
   return (
     <div className="abbrev-legend">
       {items.map(([short, full]) => (
@@ -427,6 +439,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
 
   return (
     <AbbrevProvider>
+      <AbbrevMiniLabel />
       <div className="v4l-root">
 
       {/* ── Left side navigation panel ──────────────────────────────────── */}
