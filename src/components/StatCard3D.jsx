@@ -51,17 +51,13 @@ export default function StatCard3D({
   const timerRef    = useRef(null);
   const intervalRef = useRef(null);
 
+  /* auto-roll frozen — cards show first face only */
   useEffect(() => {
-    timerRef.current = setTimeout(() => {
-      intervalRef.current = setInterval(rollNext, 20_000);
-    }, startDelay);
-
     return () => {
       clearTimeout(timerRef.current);
       clearInterval(intervalRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startDelay]);
+  }, []);
 
   function rollNext() {
     if (pausedRef.current) return;
