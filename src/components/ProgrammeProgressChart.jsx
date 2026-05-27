@@ -15,11 +15,11 @@ import {
 const MONTHS = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
 
 const INDICATORS = [
-  { key: 'anc',   label: 'ANC registrations',        color: '#8B0052' },
-  { key: 'del',   label: 'Institutional deliveries',  color: '#1A5E20' },
-  { key: 'imm',   label: 'Fully immunised children',  color: '#005F60' },
-  { key: 'fp',    label: 'Family planning acceptors', color: '#5D3A1A' },
-  { key: 'anaem', label: 'Anaemia on treatment',      color: '#BF4000' },
+  { key: 'anc',   label: 'ANC registrations',        color: '#F59E0B' },
+  { key: 'del',   label: 'Institutional deliveries',  color: '#10B981' },
+  { key: 'imm',   label: 'Fully immunised children',  color: '#3B82F6' },
+  { key: 'fp',    label: 'Family planning acceptors', color: '#8B5CF6' },
+  { key: 'anaem', label: 'Anaemia on treatment',      color: '#EF4444' },
 ];
 
 const RAW = {
