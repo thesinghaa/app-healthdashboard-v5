@@ -508,8 +508,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           );
         })}
       </div>
-      <AbbrevLegend items={ABBREV.statStrip} />
-
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 1 — DISTRICT MAP
           ══════════════════════════════════════════════════════════════════ */}
