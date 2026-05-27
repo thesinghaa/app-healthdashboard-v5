@@ -158,6 +158,14 @@ ICED-style interactive section. 5 horizontal zone columns, each representing an 
    - Illustration PNG (`/statcards/RCH.png` etc.) positioned absolute right, `mix-blend-mode: multiply`, white gradient mask via `::before`
    - Number, label, programme pill at bottom
    - Images live in `/public/statcards/` (RCH.png, NDCP.png, NCD.png, HSS.png, HRH.png)
+   - **Now uses `StatCard3D` component** — 3-face GSAP prism, currently **frozen on face 0** (auto-roll removed)
+   - Face 0 is always the **pinned featured stat** from `FACE0_PINNED` in `getDivisionStats.js`:
+     - RCH: 18,024 Children fully immunised (KD #28)
+     - NDCP: 2,314 Hepatitis C patients in treatment (KD #82)
+     - NCD: 255 People rehabilitated with hearing aids (KD #125)
+     - HSS: 408 Ayushman Arogya Mandirs with full 12 services (KD #154)
+     - HRH: 96% MO-MBBS positions filled per IPHS norms (KD #169, hardcoded fmt)
+   - Faces 1 & 2 auto-populated by algorithm (achieved-first, sorted by over-target ratio), excluding the pinned KD
 
 3. **District Map** (`DistrictMap.jsx`, lazy-loaded) — See below.
 
@@ -239,13 +247,13 @@ Stacked monthly bar chart showing HMIS indicator throughput per NHM programme, F
 
 **Data:** Hardcoded from NCD_Compiled.xlsx. Only RCH has data currently; all other programmes show empty state.
 
-**Indicators + colours (dark punchy palette):**
+**Indicators + colours (updated May 2026 — reference screenshot palette):**
 ```js
-{ key:'anc',   label:'ANC registrations',        color:'#8B0052' }  // deep magenta
-{ key:'del',   label:'Institutional deliveries',  color:'#1A5E20' }  // forest green
-{ key:'imm',   label:'Fully immunised children',  color:'#005F60' }  // ocean green
-{ key:'fp',    label:'Family planning acceptors', color:'#5D3A1A' }  // brown
-{ key:'anaem', label:'Anaemia on treatment',      color:'#BF4000' }  // burnt orange
+{ key:'anc',   label:'ANC registrations',        color:'#F59E0B' }  // amber
+{ key:'del',   label:'Institutional deliveries',  color:'#10B981' }  // emerald
+{ key:'imm',   label:'Fully immunised children',  color:'#06B6D4' }  // ocean cyan
+{ key:'fp',    label:'Family planning acceptors', color:'#6B7280' }  // grey
+{ key:'anaem', label:'Anaemia on treatment',      color:'#FF1744' }  // bright red
 ```
 
 **Chart:** Recharts `BarChart`, `height:380px`, `barSize:26`. Top bar has `radius:[3,3,0,0]`, others no radius.
@@ -261,6 +269,30 @@ Stacked monthly bar chart showing HMIS indicator throughput per NHM programme, F
 - `.ppc-card`: `background:#FFFFFF; border:1px solid rgba(0,0,0,0.07); box-shadow:0 2px 16px rgba(0,0,0,0.06)`
 - `.ppc-title`: `font-size:20px; font-weight:600; color:#0F172A`
 - `.ppc-sum-val`: `font-size:15px; font-weight:600; color:#111827; font-family:'JetBrains Mono'`
+
+---
+
+### LeftSideNav component (`src/components/LeftSideNav.jsx`) — added May 2026
+
+Slide-in left panel with 5 NHM division shortcuts. Imported and rendered in `LandingPage.jsx`.
+
+**Behaviour:**
+- Fixed panel `width:280px`, starts at `x:-280` (off-screen), GSAP slides to `x:0` on open
+- Toggle tab: `position:absolute; right:-40px; top:50%` — always visible at viewport left edge
+- Clicking a division row opens `PersonaModal` (not the panel link directly)
+- `PersonaModal`: GSAP scale+fade (`opacity:0, y:24, scale:0.96 → opacity:1, y:0, scale:1`, 0.32s power3.out)
+- 3 personas: Citizen / Programme Officer / Administrative Officer with SVG icons
+- Persona select → `onSelectDivision({ id, fullName, label })` → navigates to DivisionPage
+- GSAP fix: `gsap.set(panelRef.current, { x: -280 })` in mount useEffect to force off-screen before first render (CSS `transform` ignored by GSAP)
+
+**GSAP fix details:** CSS `transform: translateX(-280px)` is NOT read by GSAP. Must call `gsap.set()` on mount to initialise the value that GSAP will animate. Without this the panel starts visible on load.
+
+**CSS namespace:** `.lsnav-*` (appended at bottom of `landing-v4.css`)
+- `.lsnav-panel`: `position:fixed; left:0; top:0; bottom:0; width:280px; z-index:1000`
+- `.lsnav-tab`: toggle button, `position:absolute; right:-40px; top:50%; width:40px; height:56px`
+- `.lsnav-div-row`: division row button with `--dc` (color) + `--db` (bg) CSS vars
+- `.lsnav-overlay` + `.lsnav-modal`: persona picker fullscreen overlay + centered card
+- `.lsnav-backdrop`: dark backdrop behind panel when open
 
 ---
 
@@ -310,7 +342,10 @@ State lives in `App.jsx`:
 | `src/pages/NCDDetailPage.jsx` | Legacy NCD detail (keep, not removed) |
 | `src/data/kdData.js` | KD tree — all ~157 Key Deliverables |
 | `src/data/programs.js` | Division → programme metadata |
+| `src/data/getDivisionStats.js` | Top-3 positive KD stats per division for stat strip; face 0 always pinned via `FACE0_PINNED` |
 | `src/data/districtDemography.js` | All 27 AP districts — pop2011/2021, area, density, HQ, source |
+| `src/components/StatCard3D.jsx` | 3-face GSAP prism card; frozen on face 0 (auto-roll removed) |
+| `src/components/LeftSideNav.jsx` | Slide-in left panel — 5 NHM division shortcuts + persona picker popup |
 | `src/components/ProgrammeProgressChart.jsx` | Stacked monthly bar chart (HMIS RCH throughput, FY 2024-25 + 2025-26) |
 | `src/styles/ncd.css` | All CSS (append overrides at the bottom) |
 
