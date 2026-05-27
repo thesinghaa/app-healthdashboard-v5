@@ -34,7 +34,7 @@ const FACE0_PINNED = {
   ndcp: { no: 82,  label: 'Hepatitis C patients in treatment',             fmt: kd => numeratorFrom(kd).toLocaleString('en-IN') },
   ncd:  { no: 125, label: 'People rehabilitated with hearing aids',        fmt: kd => String(numeratorFrom(kd)) },
   hss:  { no: 154, label: 'Ayushman Arogya Mandirs with full 12 services', fmt: kd => String(numeratorFrom(kd)) },
-  hrh:  { no: 169, label: 'MO-MBBS positions filled per IPHS norms',       fmt: () => '96%' },
+  hrh:  { no: 169, label: 'Medical Officer (MBBS) positions filled per Indian Public Health Standards norms', fmt: () => '96%' },
 };
 
 /** Build pinned face-0 for a division, reading live value from KD_TREE. */

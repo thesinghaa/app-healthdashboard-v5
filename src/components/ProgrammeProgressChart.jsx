@@ -15,11 +15,11 @@ import {
 const MONTHS = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
 
 const INDICATORS = [
-  { key: 'anc',   label: 'ANC registrations',        abbr: 'ANC',  color: '#F59E0B' },
-  { key: 'del',   label: 'Institutional deliveries',  abbr: null,   color: '#10B981' },
-  { key: 'imm',   label: 'Fully immunised children',  abbr: null,   color: '#06B6D4' },
-  { key: 'fp',    label: 'Family planning acceptors', abbr: null,   color: '#6B7280' },
-  { key: 'anaem', label: 'Anaemia on treatment',      abbr: null,   color: '#FF1744' },
+  { key: 'anc',   label: 'Antenatal Care (ANC) registrations', abbr: null,  color: '#F59E0B' },
+  { key: 'del',   label: 'Institutional deliveries',           abbr: null,  color: '#10B981' },
+  { key: 'imm',   label: 'Fully immunised children',           abbr: null,  color: '#06B6D4' },
+  { key: 'fp',    label: 'Family planning acceptors',          abbr: null,  color: '#6B7280' },
+  { key: 'anaem', label: 'Anaemia on treatment',               abbr: null,  color: '#FF1744' },
 ];
 
 const RAW = {
@@ -214,13 +214,13 @@ export default function ProgrammeProgressChart() {
                       onMouseLeave={() => setHovered(null)}
                     >
                       <span className="ppc-leg-swatch" style={{ background: ind.color }} />
-                      {ind.abbr ? <><span data-abbr={ind.abbr}>{ind.abbr}</span>{ind.label.slice(ind.abbr.length)}</> : ind.label}
+                      {ind.label}
                     </span>
                   ))}
                 </div>
 
                 <p className="ppc-source">
-                  Source: <span data-abbr="HMIS">HMIS</span>, Arunachal Pradesh · <span data-abbr="FY">{fyLabel}</span> actuals ({fyDates})
+                  Source: Health Management Information System (HMIS), Arunachal Pradesh · {fyLabel} actuals ({fyDates})
                 </p>
               </>
             ) : (

@@ -147,10 +147,10 @@ function NodeTooltip({ node }) {
       </div>
       <div style={{ color: '#64748B', fontSize: 12 }}>
         {node.group === 'status'
-          ? `${node.value} KDs`
+          ? `${node.value} Indicators`
           : node.group === 'programme'
-          ? `${node.value} indicators`
-          : `${node.value} KDs total`}
+          ? `${node.value} Indicators`
+          : `${node.value} Indicators total`}
       </div>
       {(node.group === 'division' || node.group === 'programme') && (
         <div style={{ color: bg, fontSize: 11, marginTop: 4, fontWeight: 600 }}>
@@ -177,7 +177,7 @@ function LinkTooltip({ link }) {
           ? <span data-abbr={link.target.label}>{link.target.label}</span>
           : link.target.label}
         {': '}
-        <strong style={{ color: '#1A2340' }}>{link.value} <span data-abbr="KD">KD</span>s</strong>
+        <strong style={{ color: '#1A2340' }}>{link.value} Indicators</strong>
       </span>
     </div>
   );

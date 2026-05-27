@@ -156,15 +156,17 @@ function AbbrevLegend({ items }) {
   );
 }
 
-/* ── MarkAbbrev — scans prose and wraps abbreviation tokens with data-abbr ── */
+/* ── MarkAbbrev — scans prose, renders text normally, footnotes at end ─────── */
 function MarkAbbrev({ text }) {
   const parts = [];
+  const found = []; /* unique abbrevs in order of appearance */
   let last = 0;
   ABBREV_PAT.lastIndex = 0;
   let m;
   while ((m = ABBREV_PAT.exec(text)) !== null) {
     if (m.index > last) parts.push(text.slice(last, m.index));
     parts.push({ abbr: m[0] });
+    if (!found.includes(m[0])) found.push(m[0]);
     last = m.index + m[0].length;
   }
   if (last < text.length) parts.push(text.slice(last));
@@ -173,12 +175,19 @@ function MarkAbbrev({ text }) {
       {parts.map((t, i) =>
         typeof t === 'string'
           ? t
-          : (
-            <span key={i} data-abbr={t.abbr} className="abbrev-inline">
-              {t.abbr}
-              <span className="abbrev-sub">{ALL_ABBREVS[t.abbr]}</span>
+          : <span key={i} data-abbr={t.abbr} className="abbrev-mark">{t.abbr}</span>
+      )}
+      {found.length > 0 && (
+        <span className="abbrev-footnote">
+          {found.map(abbr => (
+            <span key={abbr} className="abbrev-fn-item">
+              <span className="abbrev-fn-star">*</span>
+              <span className="abbrev-fn-abbr">{abbr}</span>
+              <span className="abbrev-fn-dash">—</span>
+              <span className="abbrev-fn-full">{ALL_ABBREVS[abbr]}</span>
             </span>
-          )
+          ))}
+        </span>
       )}
     </>
   );
@@ -580,7 +589,21 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         </div>
 
         <div className="v4l-section-source">
-          <MarkAbbrev text="Node width proportional to number of Key Deliverables · HRH staffing KDs pending mapping" />
+          Node width proportional to number of Indicators · HRH staffing Indicators pending mapping
+        </div>
+
+        {/* ── Sankey abbreviation footnotes ── */}
+        <div className="sankey-abbrev-footnotes">
+          <span className="abbrev-footnote">
+            {[...ABBREV.statStrip, ...ABBREV.sankey].map(([short, full]) => (
+              <span key={short} className="abbrev-fn-item">
+                <span className="abbrev-fn-star">*</span>
+                <span className="abbrev-fn-abbr">{short}</span>
+                <span className="abbrev-fn-dash">—</span>
+                <span className="abbrev-fn-full">{full}</span>
+              </span>
+            ))}
+          </span>
         </div>
       </section>
 
@@ -597,8 +620,8 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       <section className="v4l-updates v4l-reveal" ref={alertsRef}>
         <div className="v4l-section-header">
           <div className="v4l-section-tag">Updates</div>
-          <h2 className="v4l-section-title"><MarkAbbrev text="Latest from NHM Arunachal Pradesh" /></h2>
-          <p className="v4l-section-sub"><MarkAbbrev text="News, circulars and notifications — FY 2025-26" /></p>
+          <h2 className="v4l-section-title">Latest from National Health Mission Arunachal Pradesh</h2>
+          <p className="v4l-section-sub">News, circulars and notifications — Financial Year 2025-26</p>
         </div>
 
         <div className="v4l-updates-grid">
@@ -610,15 +633,15 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
               News
             </div>
             {[
-              { date: 'May 2026', title: 'NHM AP achieves 91% Full Immunization Coverage in FY 2025-26', tag: 'RCH' },
+              { date: 'May 2026', title: 'National Health Mission (NHM) AP achieves 91% Full Immunization Coverage in Financial Year (FY) 2025-26', tag: 'RCH' },
               { date: 'Apr 2026', title: '408 Ayushman Arogya Mandirs now fully operational with 12-service package', tag: 'HSS' },
               { date: 'Mar 2026', title: 'Hepatitis C treatment scale-up: 2,314 patients under active treatment', tag: 'NDCP' },
-              { date: 'Feb 2026', title: '255 persons rehabilitated with hearing aids under NCD programme', tag: 'NCD' },
+              { date: 'Feb 2026', title: '255 persons rehabilitated with hearing aids under Non-Communicable Diseases (NCD) programme', tag: 'NCD' },
             ].map((item, i) => (
               <div key={i} className="v4l-updates-item">
                 <span className="v4l-updates-date">{item.date}</span>
-                <p className="v4l-updates-title"><MarkAbbrev text={item.title} /></p>
-                <span className="v4l-updates-tag" style={{ '--uc': '#4F8EF7' }} data-abbr={ALL_ABBREVS[item.tag] ? item.tag : undefined}>{item.tag}</span>
+                <p className="v4l-updates-title">{item.title}</p>
+                <span className="v4l-updates-tag" style={{ '--uc': '#4F8EF7' }}>{ALL_ABBREVS[item.tag] || item.tag}</span>
               </div>
             ))}
           </div>
@@ -630,15 +653,15 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
               Circulars
             </div>
             {[
-              { date: 'May 2026', title: 'Annual HMIS data validation — all districts to submit reports by 30 June 2026', tag: 'HSS' },
-              { date: 'Apr 2026', title: 'Revised NPCC targets for Q1 FY 2026-27 shared with programme officers', tag: 'All' },
-              { date: 'Mar 2026', title: 'NTEP: Updated drug management guidelines issued to district TB units', tag: 'NDCP' },
-              { date: 'Feb 2026', title: 'IEC materials for anaemia awareness campaign dispatched to all districts', tag: 'RCH' },
+              { date: 'May 2026', title: 'Annual Health Management Information System (HMIS) data validation — all districts to submit reports by 30 June 2026', tag: 'HSS' },
+              { date: 'Apr 2026', title: 'Revised National Programme for Prevention & Control of Cancer (NPCC) targets for Q1 Financial Year (FY) 2026-27 shared with programme officers', tag: 'All' },
+              { date: 'Mar 2026', title: 'National Tuberculosis Elimination Programme (NTEP): Updated drug management guidelines issued to district TB units', tag: 'NDCP' },
+              { date: 'Feb 2026', title: 'Information, Education & Communication (IEC) materials for anaemia awareness campaign dispatched to all districts', tag: 'RCH' },
             ].map((item, i) => (
               <div key={i} className="v4l-updates-item">
                 <span className="v4l-updates-date">{item.date}</span>
-                <p className="v4l-updates-title"><MarkAbbrev text={item.title} /></p>
-                <span className="v4l-updates-tag" style={{ '--uc': '#F7B23B' }} data-abbr={ALL_ABBREVS[item.tag] ? item.tag : undefined}>{item.tag}</span>
+                <p className="v4l-updates-title">{item.title}</p>
+                <span className="v4l-updates-tag" style={{ '--uc': '#F7B23B' }}>{ALL_ABBREVS[item.tag] || item.tag}</span>
               </div>
             ))}
           </div>
@@ -651,14 +674,14 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
             </div>
             {[
               { date: 'May 2026', title: 'MusQan Certification drive — all districts to initiate certification by July 2026', tag: 'RCH' },
-              { date: 'Apr 2026', title: 'MO-MBBS vacancy filling: remaining positions under active recruitment process', tag: 'HRH' },
-              { date: 'Mar 2026', title: 'NCD screening camps scheduled across 10 districts — June-July 2026', tag: 'NCD' },
-              { date: 'Feb 2026', title: 'NLEP district review meetings rescheduled — see updated calendar', tag: 'NDCP' },
+              { date: 'Apr 2026', title: 'Medical Officer MBBS (MO-MBBS) vacancy filling: remaining positions under active recruitment process', tag: 'HRH' },
+              { date: 'Mar 2026', title: 'Non-Communicable Diseases (NCD) screening camps scheduled across 10 districts — June-July 2026', tag: 'NCD' },
+              { date: 'Feb 2026', title: 'National Leprosy Eradication Programme (NLEP) district review meetings rescheduled — see updated calendar', tag: 'NDCP' },
             ].map((item, i) => (
               <div key={i} className="v4l-updates-item">
                 <span className="v4l-updates-date">{item.date}</span>
-                <p className="v4l-updates-title"><MarkAbbrev text={item.title} /></p>
-                <span className="v4l-updates-tag" style={{ '--uc': '#9B6FEB' }} data-abbr={ALL_ABBREVS[item.tag] ? item.tag : undefined}>{item.tag}</span>
+                <p className="v4l-updates-title">{item.title}</p>
+                <span className="v4l-updates-tag" style={{ '--uc': '#9B6FEB' }}>{ALL_ABBREVS[item.tag] || item.tag}</span>
               </div>
             ))}
           </div>
