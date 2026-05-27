@@ -18,6 +18,84 @@ const NHMSankey              = lazy(() => import('../components/NHMSankey'));
 const DistrictMap            = lazy(() => import('../components/DistrictMap'));
 const ProgrammeProgressChart = lazy(() => import('../components/ProgrammeProgressChart'));
 
+/* ── Abbreviation legend strip ───────────────────────────────────────────── */
+function AbbrevLegend({ items }) {
+  return (
+    <div className="abbrev-legend">
+      {items.map(([short, full]) => (
+        <span key={short} className="abbrev-legend-item">
+          <span className="abbrev-legend-star">★</span>
+          <strong className="abbrev-legend-short">{short}</strong>
+          <span className="abbrev-legend-dash">—</span>
+          <span className="abbrev-legend-full">{full}</span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+const ABBREV = {
+  statStrip: [
+    ['NHM',     'National Health Mission'],
+    ['RCH',     'Reproductive & Child Health'],
+    ['NDCP',    'National Disease Control Programmes'],
+    ['NCD',     'Non-Communicable Diseases'],
+    ['HSS',     'Health Systems Strengthening'],
+    ['HRH',     'Human Resources for Health'],
+    ['MO-MBBS', 'Medical Officer (MBBS)'],
+    ['IPHS',    'Indian Public Health Standards'],
+    ['DEIC',    'District Early Intervention Centre'],
+    ['NQAS',    'National Quality Assurance Standards'],
+    ['API',     'Annual Parasitic Incidence'],
+    ['ICHH',    'Integrated Community Health Hub'],
+  ],
+  map: [
+    ['FY',   'Financial Year'],
+    ['Pop.', 'Population'],
+    ['Avg',  'Average'],
+    ['Est.', 'Estimate'],
+  ],
+  sankey: [
+    ['JSY',      'Janani Suraksha Yojana'],
+    ['CAC',      'Comprehensive Abortion Care'],
+    ['PCPNDT',   'Pre-Conception & Pre-Natal Diagnostic Techniques'],
+    ['NVHCP',    'National Viral Hepatitis Control Programme'],
+    ['NLEP',     'National Leprosy Eradication Programme'],
+    ['NCVBDCP',  'National Centre for Vector Borne Diseases Control Programme'],
+    ['IDSP',     'Integrated Disease Surveillance Programme'],
+    ['NSCAEM',   'National Sickle Cell Anaemia Elimination Mission'],
+    ['NP-NCD',   'National Programme for Non-Communicable Diseases'],
+    ['PMNDP',    'Pradhan Mantri National Dialysis Programme'],
+    ['NPPC',     'National Programme for Prevention & Control of Cancer, Diabetes, CVD & Stroke'],
+    ['NMHP',     'National Mental Health Programme'],
+    ['NPHCE',    'National Programme for Health Care of the Elderly'],
+    ['NPCBVI',   'National Programme for Control of Blindness & Visual Impairment'],
+    ['NPPCD',    'National Programme for Prevention & Control of Deafness'],
+    ['NOHP',     'National Oral Health Programme'],
+    ['NIDDCP',   'National Iodine Deficiency Disorders Control Programme'],
+    ['NTCP',     'National Tobacco Control Programme'],
+    ['NPCCHH',   'National Programme on Climate Change & Human Health'],
+    ['MPW',      'Multi-Purpose Worker'],
+    ['CHO',      'Community Health Officer'],
+    ['PM-ABHIM', 'Pradhan Mantri Ayushman Bharat Health Infrastructure Mission'],
+    ['KD',       'Key Deliverable'],
+  ],
+  chart: [
+    ['ANC',  'Antenatal Care'],
+    ['HMIS', 'Health Management Information System'],
+    ['FY',   'Financial Year'],
+    ['RCH',  'Reproductive & Child Health'],
+  ],
+  updates: [
+    ['HMIS', 'Health Management Information System'],
+    ['NPCC', 'National Programme for Prevention & Control of Cancer'],
+    ['NTEP', 'National Tuberculosis Elimination Programme'],
+    ['IEC',  'Information, Education & Communication'],
+    ['NLEP', 'National Leprosy Eradication Programme'],
+    ['HRH',  'Human Resources for Health'],
+  ],
+};
+
 /* ── Status helpers ─────────────────────────────────────────────────────── */
 function kdStatus(kd) {
   if (kd.achievement == null || kd.target == null || kd.target === 0) return 'neutral';
@@ -358,6 +436,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           );
         })}
       </div>
+      <AbbrevLegend items={ABBREV.statStrip} />
 
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 1 — DISTRICT MAP
@@ -366,6 +445,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         <Suspense fallback={<div style={{ padding: '60px', textAlign: 'center', color: '#64748B' }}>Loading map…</div>}>
           <DistrictMap />
         </Suspense>
+        <AbbrevLegend items={ABBREV.map} />
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════
@@ -416,6 +496,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         <div className="v4l-section-source">
           Node width proportional to number of Key Deliverables · HRH staffing KDs pending mapping
         </div>
+        <AbbrevLegend items={ABBREV.sankey} />
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
@@ -424,6 +505,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       <Suspense fallback={<div style={{ height: 200 }} />}>
         <ProgrammeProgressChart />
       </Suspense>
+      <AbbrevLegend items={ABBREV.chart} />
 
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 3 — UPDATES
@@ -498,6 +580,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           </div>
 
         </div>
+        <AbbrevLegend items={ABBREV.updates} />
       </section>
 
       {/* ── Footer ──────────────────────────────────────────────────────── */}

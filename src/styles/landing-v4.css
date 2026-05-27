@@ -3986,3 +3986,45 @@ td:last-child { padding: 8px 10px; }
   color: color-mix(in srgb, var(--uc) 85%, #000);
   border: 1px solid color-mix(in srgb, var(--uc) 30%, transparent);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ABBREVIATION LEGEND STRIP
+   ★ SHORT — Full form  ·  rendered below each major section
+   ═══════════════════════════════════════════════════════════════════════════ */
+.abbrev-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 18px;
+  padding: 12px 48px;
+  background: #EEF2F7;
+  border-top: 1px solid #DDE3EC;
+}
+.abbrev-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.abbrev-legend-star {
+  font-size: 8px;
+  color: #94A3B8;
+  line-height: 1;
+}
+.abbrev-legend-short {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1E3A5F;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.02em;
+}
+.abbrev-legend-dash {
+  font-size: 11px;
+  color: #CBD5E1;
+}
+.abbrev-legend-full {
+  font-size: 11px;
+  font-weight: 400;
+  color: #475569;
+  font-family: 'Inter', sans-serif;
+}
