@@ -140,7 +140,11 @@ function NodeTooltip({ node }) {
       fontSize: 13, fontFamily: 'Inter, sans-serif',
       pointerEvents: 'none',
     }}>
-      <div style={{ fontWeight: 700, color: '#1A2340', marginBottom: 2 }}>{node.label}</div>
+      <div style={{ fontWeight: 700, color: '#1A2340', marginBottom: 2 }}>
+        {(node.group === 'division' || node.group === 'nhm')
+          ? <span data-abbr={node.label || node.id.replace('div_', '').toUpperCase()}>{node.label}</span>
+          : node.label}
+      </div>
       <div style={{ color: '#64748B', fontSize: 12 }}>
         {node.group === 'status'
           ? `${node.value} KDs`
@@ -165,8 +169,15 @@ function LinkTooltip({ link }) {
       fontSize: 12, fontFamily: 'Inter, sans-serif', pointerEvents: 'none',
     }}>
       <span style={{ color: '#64748B' }}>
-        {link.source.label} → {link.target.label}:{' '}
-        <strong style={{ color: '#1A2340' }}>{link.value} KDs</strong>
+        {['division','nhm'].includes(link.source.group)
+          ? <span data-abbr={link.source.label}>{link.source.label}</span>
+          : link.source.label}
+        {' → '}
+        {['division','nhm'].includes(link.target.group)
+          ? <span data-abbr={link.target.label}>{link.target.label}</span>
+          : link.target.label}
+        {': '}
+        <strong style={{ color: '#1A2340' }}>{link.value} <span data-abbr="KD">KD</span>s</strong>
       </span>
     </div>
   );

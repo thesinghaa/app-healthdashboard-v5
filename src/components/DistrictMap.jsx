@@ -238,7 +238,7 @@ export default function DistrictMap() {
             <div className="v5-map-demostat-div" />
             <div className="v5-map-demostat">
               <span className="v5-map-demostat-val">{STATE_DENSITY}<span style={{fontSize:10,fontWeight:400}}>/km²</span></span>
-              <span className="v5-map-demostat-lbl">Avg Density</span>
+              <span className="v5-map-demostat-lbl"><span data-abbr="Avg">Avg</span> Density</span>
             </div>
             <div className="v5-map-demostat-div" />
             <div className="v5-map-demostat">
@@ -383,9 +383,9 @@ export default function DistrictMap() {
               <div className="v5-map-hl-wrap">
                 <div className="v5-map-hl-title-row">
                   <span className="v5-map-hl-title">
-                    {DIVISIONS.find(d => d.id === selectedDiv)?.label} Programme Highlights
+                    {(() => { const lbl = DIVISIONS.find(d => d.id === selectedDiv)?.label; return lbl ? <><span data-abbr={lbl}>{lbl}</span> Programme Highlights</> : 'Programme Highlights'; })()}
                   </span>
-                  <span className="v5-map-hl-sub">Key deliverable achievements · FY 2025-26</span>
+                  <span className="v5-map-hl-sub">Key deliverable achievements · <span data-abbr="FY">FY</span> 2025-26</span>
                 </div>
                 <div className="v5-map-hl-list">
                   {getDivHighlights(selectedDiv).map((item, i) => (
@@ -404,7 +404,7 @@ export default function DistrictMap() {
               </div>
 
               <p className="v5-map-data-note">
-                * State-level data · FY 2025-26 · District-level breakdown coming soon
+                * State-level data · <span data-abbr="FY">FY</span> 2025-26 · District-level breakdown coming soon
               </p>
             </div>
           )}

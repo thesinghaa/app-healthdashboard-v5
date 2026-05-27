@@ -526,10 +526,10 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           ══════════════════════════════════════════════════════════════════ */}
       <section className="v4l-flow v4l-reveal" ref={flowRef}>
         <div className="v4l-section-header">
-          <div className="v4l-section-tag">NHM Programme Flow</div>
+          <div className="v4l-section-tag"><MarkAbbrev text="NHM Programme Flow" /></div>
           <h2 className="v4l-section-title">How Programmes distribute across divisions and outcome status</h2>
           <p className="v4l-section-sub">
-            FY 2025-26 · Click any division or programme node to drill in
+            <MarkAbbrev text="FY 2025-26 · Click any division or programme node to drill in" />
           </p>
         </div>
 
@@ -567,7 +567,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         </div>
 
         <div className="v4l-section-source">
-          Node width proportional to number of Key Deliverables · HRH staffing KDs pending mapping
+          <MarkAbbrev text="Node width proportional to number of Key Deliverables · HRH staffing KDs pending mapping" />
         </div>
         <AbbrevLegend items={ABBREV.sankey} />
       </section>
@@ -586,8 +586,8 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       <section className="v4l-updates v4l-reveal" ref={alertsRef}>
         <div className="v4l-section-header">
           <div className="v4l-section-tag">Updates</div>
-          <h2 className="v4l-section-title">Latest from NHM Arunachal Pradesh</h2>
-          <p className="v4l-section-sub">News, circulars and notifications — FY 2025-26</p>
+          <h2 className="v4l-section-title"><MarkAbbrev text="Latest from NHM Arunachal Pradesh" /></h2>
+          <p className="v4l-section-sub"><MarkAbbrev text="News, circulars and notifications — FY 2025-26" /></p>
         </div>
 
         <div className="v4l-updates-grid">
@@ -661,11 +661,11 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         <div className="v4l-footer-inner">
           <div className="v4l-footer-brand">
             <span className="v4l-footer-name">Pahlé India Foundation</span>
-            <span className="v4l-footer-sub">NHM Arunachal Pradesh · FY 2025-26</span>
+            <span className="v4l-footer-sub"><MarkAbbrev text="NHM Arunachal Pradesh · FY 2025-26" /></span>
           </div>
           <nav className="v4l-footer-nav">
             {DIVISIONS.map(div => (
-              <button key={div.id} className="v4l-footer-link"
+              <button key={div.id} className="v4l-footer-link" data-abbr={div.label}
                       onClick={() => onSelectDivision(div)}>
                 {div.label}
               </button>

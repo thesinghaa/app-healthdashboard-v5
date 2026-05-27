@@ -15,11 +15,11 @@ import {
 const MONTHS = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
 
 const INDICATORS = [
-  { key: 'anc',   label: 'ANC registrations',        color: '#F59E0B' },
-  { key: 'del',   label: 'Institutional deliveries',  color: '#10B981' },
-  { key: 'imm',   label: 'Fully immunised children',  color: '#06B6D4' },
-  { key: 'fp',    label: 'Family planning acceptors', color: '#6B7280' },
-  { key: 'anaem', label: 'Anaemia on treatment',      color: '#FF1744' },
+  { key: 'anc',   label: 'ANC registrations',        abbr: 'ANC',  color: '#F59E0B' },
+  { key: 'del',   label: 'Institutional deliveries',  abbr: null,   color: '#10B981' },
+  { key: 'imm',   label: 'Fully immunised children',  abbr: null,   color: '#06B6D4' },
+  { key: 'fp',    label: 'Family planning acceptors', abbr: null,   color: '#6B7280' },
+  { key: 'anaem', label: 'Anaemia on treatment',      abbr: null,   color: '#FF1744' },
 ];
 
 const RAW = {
@@ -130,7 +130,7 @@ export default function ProgrammeProgressChart() {
         <div className="ppc-header">
           {/* Programme selector pill */}
           <div className="ppc-prog-pill">
-            <span className="ppc-prog-label">{progLabel}</span>
+            <span className="ppc-prog-label"><span data-abbr={prog}>{prog}</span> Programme</span>
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6"/></svg>
             <select
               className="ppc-prog-select"
@@ -214,13 +214,13 @@ export default function ProgrammeProgressChart() {
                       onMouseLeave={() => setHovered(null)}
                     >
                       <span className="ppc-leg-swatch" style={{ background: ind.color }} />
-                      {ind.label}
+                      {ind.abbr ? <><span data-abbr={ind.abbr}>{ind.abbr}</span>{ind.label.slice(ind.abbr.length)}</> : ind.label}
                     </span>
                   ))}
                 </div>
 
                 <p className="ppc-source">
-                  Source: HMIS, Arunachal Pradesh · {fyLabel} actuals ({fyDates})
+                  Source: <span data-abbr="HMIS">HMIS</span>, Arunachal Pradesh · <span data-abbr="FY">{fyLabel}</span> actuals ({fyDates})
                 </p>
               </>
             ) : (
