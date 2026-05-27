@@ -17,7 +17,7 @@ const MONTHS = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb
 const INDICATORS = [
   { key: 'anc',   label: 'ANC registrations',        color: '#F59E0B' },
   { key: 'del',   label: 'Institutional deliveries',  color: '#10B981' },
-  { key: 'imm',   label: 'Fully immunised children',  color: '#3B82F6' },
+  { key: 'imm',   label: 'Fully immunised children',  color: '#06B6D4' },
   { key: 'fp',    label: 'Family planning acceptors', color: '#6B7280' },
   { key: 'anaem', label: 'Anaemia on treatment',      color: '#FF1744' },
 ];
