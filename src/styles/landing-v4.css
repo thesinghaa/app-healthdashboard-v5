@@ -1007,6 +1007,7 @@
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 2px solid rgba(23, 130, 62, 0.25);
+  overflow: hidden;
 }
 .v4l-nav-inner {
   max-width: 1400px;
@@ -1089,7 +1090,7 @@
 /* ── Nav banner — 3-face rolling prism (same geometry as stat cards) ─────── */
 /*   nav-inner height: 128px → inradius = 128 / (2×tan60°) ≈ 37px            */
 .v4l-nav-inner {
-  position: relative;
+  position: static;
   /* NO overflow:hidden — would flatten preserve-3d */
 }
 /* Perspective host */
