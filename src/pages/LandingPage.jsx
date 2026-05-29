@@ -33,6 +33,12 @@ function AbbrevProvider({ children }) {
 
   useEffect(() => {
     const onOver = e => {
+      /* Ignore events from the legend itself — prevents scroll feedback loop
+         where scrollIntoView brings a legend item under the cursor which fires
+         another mouseover → another scrollIntoView → infinite drift.        */
+      if (e.target.closest('.abbrev-legend')) return;
+      /* Ignore synthetic (programmatic) events — only real user gestures     */
+      if (!e.isTrusted) return;
       const el = e.target.closest('[data-abbr]');
       setHovered(el?.dataset.abbr ?? null);
       setHoveredEl(el ?? null);
