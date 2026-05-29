@@ -178,11 +178,17 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   const LBL_R  = ICON_R + 26;
   const SIZE   = 600;
 
-  /* lock underlying page scroll for the lifetime of this overlay */
+  /* lock ALL scroll containers while this overlay is visible */
   useEffect(() => {
-    const prev = document.body.style.overflow;
+    const root = document.querySelector('.v4l-root');
+    const prevBody = document.body.style.overflow;
+    const prevRoot = root ? root.style.overflow : '';
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = prev; };
+    if (root) root.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevBody;
+      if (root) root.style.overflow = prevRoot;
+    };
   }, []);
 
   useEffect(() => {

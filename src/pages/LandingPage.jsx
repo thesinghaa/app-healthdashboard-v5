@@ -20,21 +20,36 @@ const ProgrammeProgressChart = lazy(() => import('../components/ProgrammeProgres
 
 
 /* ── Abbreviation hover context ─────────────────────────────────────────── */
-const AbbrevCtx = createContext({ hovered: null, hoveredEl: null });
+const AbbrevCtx = createContext({ hovered: null, hoveredEl: null, setAbbrev: () => {} });
 
 function AbbrevProvider({ children }) {
   const [hovered,   setHovered]   = useState(null);
   const [hoveredEl, setHoveredEl] = useState(null);
+
+  const setAbbrev = (abbr) => {
+    setHovered(abbr ?? null);
+    setHoveredEl(null);
+  };
+
   useEffect(() => {
     const onOver = e => {
       const el = e.target.closest('[data-abbr]');
       setHovered(el?.dataset.abbr ?? null);
       setHoveredEl(el ?? null);
     };
+    /* Custom event fired by Sankey / other SVG components */
+    const onCustom = e => {
+      setHovered(e.detail?.abbr ?? null);
+      setHoveredEl(null);
+    };
     document.addEventListener('mouseover', onOver);
-    return () => document.removeEventListener('mouseover', onOver);
+    document.addEventListener('abbrev:set', onCustom);
+    return () => {
+      document.removeEventListener('mouseover', onOver);
+      document.removeEventListener('abbrev:set', onCustom);
+    };
   }, []);
-  return <AbbrevCtx.Provider value={{ hovered, hoveredEl }}>{children}</AbbrevCtx.Provider>;
+  return <AbbrevCtx.Provider value={{ hovered, hoveredEl, setAbbrev }}>{children}</AbbrevCtx.Provider>;
 }
 
 const ABBREV = {
@@ -140,19 +155,36 @@ function AbbrevMiniLabel() {
 /* ── Legend strip — active item pulses when its abbreviation is hovered ───── */
 function AbbrevLegend({ items }) {
   const { hovered } = useContext(AbbrevCtx);
+  const activeRef  = useRef(null);
+  const mounted    = useRef(false);
+
+  useEffect(() => { mounted.current = true; }, []);
+
+  useEffect(() => {
+    if (!mounted.current) return;   /* skip initial render — prevents spurious scroll */
+    if (hovered && activeRef.current) {
+      activeRef.current.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+    }
+  }, [hovered]);
+
   return (
     <div className="abbrev-legend">
-      {items.map(([short, full]) => (
-        <span
-          key={short}
-          className={`abbrev-legend-item${hovered === short ? ' abbrev-legend-item--active' : ''}`}
-        >
-          <span className="abbrev-legend-star">★</span>
-          <strong className="abbrev-legend-short">{short}</strong>
-          <span className="abbrev-legend-dash">—</span>
-          <span className="abbrev-legend-full">{full}</span>
-        </span>
-      ))}
+      {items.map(([short, full]) => {
+        const isActive = hovered === short;
+        return (
+          <span
+            key={short}
+            ref={isActive ? activeRef : null}
+            data-abbr={short}
+            className={`abbrev-legend-item${isActive ? ' abbrev-legend-item--active' : ''}`}
+          >
+            <span className="abbrev-legend-star">★</span>
+            <strong className="abbrev-legend-short">{short}</strong>
+            <span className="abbrev-legend-dash">—</span>
+            <span className="abbrev-legend-full">{full}</span>
+          </span>
+        );
+      })}
     </div>
   );
 }
@@ -410,7 +442,7 @@ function useReveal(ref) {
 /* ═══════════════════════════════════════════════════════════════════════════
    MAIN COMPONENT
    ═══════════════════════════════════════════════════════════════════════════ */
-export default function LandingPage({ onSelectDivision, onViewSummary, onDirectKD }) {
+export default function LandingPage({ onSelectDivision, onViewSummary, onDirectKD, onSelectProgramme }) {
   const [reportDiv, setReportDiv] = useState(null);
   const divStats = useDivStats();
 
@@ -424,13 +456,13 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
 
   /* nav banner — instant switch, no crossfade */
   const BANNERS = [
-    { n: 1, pos: 'right 70%' },   // health camp — scene at bottom
-    { n: 2, pos: 'right 68%' },   // mobile van + patients — slightly lower
-    { n: 3, pos: 'right 78%' },   // Ziro stilt houses — very bottom (reflections)
-    { n: 4, pos: 'right 72%' },   // tribal mother+baby — figures at bottom
-    { n: 5, pos: 'right 52%' },   // ASHA worker — figure is mid-height
-    { n: 6, pos: 'right 80%' },   // 5 health workers — full figures at bottom
-    { n: 8, pos: 'right 68%' },   // Tawang monastery — building + prayer flags
+    { n: 1, pos: 'right 42%' },   // health camp — faces at ~40% from top
+    { n: 2, pos: 'right 36%' },   // mobile van — doctor+patient faces at ~35%
+    { n: 3, pos: 'right 50%' },   // Ziro stilt houses — landscape, center crop
+    { n: 4, pos: 'right 35%' },   // tribal mother+baby — faces at ~33%
+    { n: 5, pos: 'right 52%' },   // ASHA worker — face at ~50%, skip bright sky at top
+    { n: 6, pos: 'right 20%' },   // 5 health workers portrait — faces at ~18%
+    { n: 8, pos: 'right 45%' },   // Tawang monastery — building at ~45%
   ];
   const [bannerIdx, setBannerIdx] = useState(0);
   useEffect(() => {
@@ -457,7 +489,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       <div className="v4l-root">
 
       {/* ── Left side navigation panel ──────────────────────────────────── */}
-      <LeftSideNav onSelectDivision={onSelectDivision} />
+      <LeftSideNav onSelectDivision={onSelectDivision} onSelectProgramme={onSelectProgramme} />
 
       {/* ── Navbar ──────────────────────────────────────────────────────── */}
       <header className="v4l-nav">
@@ -605,16 +637,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
 
         {/* ── Sankey abbreviation footnotes ── */}
         <div className="sankey-abbrev-footnotes">
-          <span className="abbrev-footnote">
-            {[...ABBREV.statStrip, ...ABBREV.sankey].map(([short, full]) => (
-              <span key={short} className="abbrev-fn-item">
-                <span className="abbrev-fn-star">*</span>
-                <span className="abbrev-fn-abbr">{short}</span>
-                <span className="abbrev-fn-dash">—</span>
-                <span className="abbrev-fn-full">{full}</span>
-              </span>
-            ))}
-          </span>
+          <AbbrevLegend items={[...ABBREV.statStrip, ...ABBREV.sankey]} />
         </div>
       </section>
 
