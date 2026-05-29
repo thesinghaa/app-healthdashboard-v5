@@ -4968,13 +4968,19 @@ td:last-child { padding: 8px 10px; }
 
 /* ── Stat strip section heading ─────────────────────────────────────────── */
 .v5-stat-strip-heading {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: #64748B;
-  padding: 0 32px 10px;
+  display: flex;
+  padding: 0 32px 14px;
   max-width: 1440px;
   margin: 0 auto;
+}
+.v5-stat-strip-heading span {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  background: linear-gradient(135deg, #C9821A 0%, #E6A020 60%, #C9821A 100%);
+  padding: 6px 20px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(201, 130, 26, 0.35);
 }
