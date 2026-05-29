@@ -6,6 +6,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { DIVISIONS as DIV_DATA } from '../data/programs';
+import { KD_TREE } from '../data/kdData';
 
 /* ── Division display meta ──────────────────────────────────────────────── */
 const DIVISIONS = [
@@ -108,6 +109,20 @@ function ringPath(iR, oR, a0, a1) {
   return `M${x1},${y1}A${oR},${oR} 0 ${lg} 1 ${x2},${y2}L${x3},${y3}A${iR},${iR} 0 ${lg} 0 ${x4},${y4}Z`;
 }
 
+/* ── KD status helper ────────────────────────────────────────────────────── */
+function kdStatus(kd) {
+  if (kd.achievement == null || kd.target == null || kd.target === 0) return 'neutral';
+  const ratio = kd.achievement / kd.target;
+  if (kd.lowerIsBetter) {
+    if (ratio <= 1.00) return 'achieved';
+    if (ratio <= 1.33) return 'close';
+    return 'gap';
+  }
+  if (ratio >= 1.00) return 'achieved';
+  if (ratio >= 0.75) return 'close';
+  return 'gap';
+}
+
 /* ── Programme item card (side column) ───────────────────────────────────── */
 function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
   const isHov = hovered === prog.id;
@@ -139,10 +154,13 @@ function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
 /* ── Full-page Programme Wheel ────────────────────────────────────────────── */
 function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   const [hovered, setHovered]   = useState(null);
+  const [selected, setSelected] = useState(null);
   const pageRef  = useRef(null);
   const wheelRef = useRef(null);
   const leftRef  = useRef(null);
   const rightRef = useRef(null);
+  const mainRef  = useRef(null);
+  const panelRef = useRef(null);
 
   const programs = divData?.programs || [];
   const n        = programs.length;
@@ -160,6 +178,9 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   const SIZE   = 600;
 
   useEffect(() => {
+    /* panel starts fully off-screen to the right */
+    gsap.set(panelRef.current, { x: 400 });
+
     const tl = gsap.timeline();
     tl.fromTo(pageRef.current,
       { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' });
@@ -179,11 +200,31 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         '-=0.45');
   }, []);
 
+  /* slide main left + panel in when a programme is selected */
+  useEffect(() => {
+    if (!mainRef.current || !panelRef.current) return;
+    if (selected) {
+      gsap.to(mainRef.current,  { x: -240, duration: 0.42, ease: 'power3.out' });
+      gsap.to(panelRef.current, { x: 0,    duration: 0.42, ease: 'power3.out' });
+    } else {
+      gsap.to(panelRef.current, { x: 400,  duration: 0.32, ease: 'power2.in' });
+      gsap.to(mainRef.current,  { x: 0,    duration: 0.38, ease: 'power2.out' });
+    }
+  }, [selected]);
+
   function close() {
     gsap.to(pageRef.current, { opacity: 0, scale: 0.97, duration: 0.2, onComplete: onClose });
   }
 
   function handleSelect(prog) {
+    setSelected(prev => prev?.id === prog.id ? null : prog);
+  }
+
+  function handlePanelClose() {
+    setSelected(null);
+  }
+
+  function handleViewAll(prog) {
     close();
     setTimeout(() => onSelect(prog, divData), 220);
   }
@@ -221,7 +262,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
       </header>
 
       {/* ── Main 3-column ── */}
-      <main className="wpg-main">
+      <main className="wpg-main" ref={mainRef}>
 
         {/* Left column */}
         <div className="wpg-col wpg-col--left" ref={leftRef}>
@@ -324,6 +365,71 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         </div>
 
       </main>
+
+      {/* ── KD detail panel — slides in from right on programme select ── */}
+      <div className="wpg-kd-panel" ref={panelRef}
+        style={{ '--dc': division.color, '--dl': division.light }}>
+        {selected && (() => {
+          const kdList = KD_TREE[division.id]?.programmes?.[selected.id]?.kds || [];
+          return (
+            <>
+              {/* panel header */}
+              <div className="wpg-kd-hdr">
+                <div className="wpg-kd-hdr-text">
+                  <span className="wpg-kd-hdr-chip">{division.short}</span>
+                  <h2 className="wpg-kd-prog-title">{selected.name}</h2>
+                  <p className="wpg-kd-count">{kdList.length} Key Deliverables</p>
+                </div>
+                <button className="wpg-kd-close-btn" onClick={handlePanelClose} aria-label="Close panel">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
+
+              {/* indicator list */}
+              <div className="wpg-kd-list">
+                {kdList.length === 0 ? (
+                  <p className="wpg-kd-empty">No indicators available for this programme.</p>
+                ) : kdList.map(kd => {
+                  const st = kdStatus(kd);
+                  const statusLabel = st === 'achieved' ? 'On Track' : st === 'close' ? 'Caution' : st === 'gap' ? 'Gap' : 'N/A';
+                  return (
+                    <div key={kd.no} className={`wpg-kd-row wpg-kd-row--${st}`}>
+                      <div className="wpg-kd-row-top">
+                        <span className="wpg-kd-no">KD {kd.no}</span>
+                        <span className={`wpg-kd-badge wpg-kd-badge--${st}`}>{statusLabel}</span>
+                      </div>
+                      <div className="wpg-kd-indicator-name">{kd.indicator}</div>
+                      <div className="wpg-kd-vals">
+                        <div className="wpg-kd-val">
+                          <span className="wpg-kd-val-num">{kd.achievedLabel ?? kd.achievement ?? '—'}</span>
+                          <span className="wpg-kd-val-lbl">Achievement</span>
+                        </div>
+                        <div className="wpg-kd-divider"/>
+                        <div className="wpg-kd-val">
+                          <span className="wpg-kd-val-num">{kd.targetLabel ?? kd.target ?? '—'}</span>
+                          <span className="wpg-kd-val-lbl">Target</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* navigate to full KD page */}
+              <button className="wpg-kd-view-all" onClick={() => handleViewAll(selected)}>
+                View All Indicators
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <path d="M9 18l6-6-6-6"/>
+                </svg>
+              </button>
+            </>
+          );
+        })()}
+      </div>
 
       {/* ── Footer hint ── */}
       <footer className="wpg-footer">
