@@ -178,9 +178,18 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   const LBL_R  = ICON_R + 26;
   const SIZE   = 600;
 
+  /* lock underlying page scroll for the lifetime of this overlay */
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
   useEffect(() => {
     /* panel starts fully off-screen to the right */
     gsap.set(panelRef.current, { x: 400 });
+    /* focus the container without scrolling so browser doesn't jump */
+    pageRef.current?.focus({ preventScroll: true });
 
     const tl = gsap.timeline();
     tl.fromTo(pageRef.current,
@@ -250,7 +259,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   }
 
   return (
-    <div className="wpg-page" ref={pageRef}
+    <div className="wpg-page" ref={pageRef} tabIndex="-1"
       style={{ '--dc': division.color, '--dl': division.light }}
     >
       {/* ── Header ── */}
