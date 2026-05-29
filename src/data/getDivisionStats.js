@@ -32,7 +32,7 @@ function numeratorFrom(kd) {
 const FACE0_PINNED = {
   rch:  { no: 28,  progId: 'immunization',    label: 'Children fully immunised',                     fmt: kd => `${kd.achievement}%` },
   ndcp: { no: 82,  progId: 'nvhcp',           label: 'Hepatitis C patients in treatment',             fmt: kd => `${kd.achievement}%` },
-  ncd:  { no: 125, progId: 'nppcd',           label: 'People rehabilitated with hearing aids',        fmt: kd => `${kd.achievement}%` },
+  ncd:  { no: 125, progId: 'nppcd',           label: 'People rehabilitated with hearing aids',        fmt: kd => `${Math.round((kd.achievement / kd.target) * 100)}%` },
   hss:  { no: 154, progId: null,              label: 'Ayushman Arogya Mandirs with full 12 services', fmt: kd => `${kd.achievement}%` },
   hrh:  { no: 169, progId: 'medical-officer', label: 'Medical Officer (MBBS) positions filled per Indian Public Health Standards norms', fmt: () => '96%' },
 };
