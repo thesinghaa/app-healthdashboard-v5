@@ -1010,13 +1010,13 @@
   overflow: hidden;
 }
 .v4l-nav-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 clamp(16px, 3vw, 40px);
+  max-width: 100%;
+  margin: 0;
+  padding: 0 clamp(20px, 3vw, 60px);
   height: clamp(72px, 8vw, 140px);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .v4l-brand {
   display: flex;
