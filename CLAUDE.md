@@ -294,6 +294,35 @@ Slide-in left panel with 5 NHM division shortcuts. Imported and rendered in `Lan
 - `.lsnav-overlay` + `.lsnav-modal`: persona picker fullscreen overlay + centered card
 - `.lsnav-backdrop`: dark backdrop behind panel when open
 
+### ProgrammeWheelPage — KD detail panel (added May 2026)
+
+Clicking any programme card or wheel segment opens an inline KD panel; clicking again or the close button dismisses it.
+
+**Behaviour:**
+- `selected` state in `ProgrammeWheelPage` — set to the clicked prog, toggle-off if same prog clicked again
+- `handleSelect(prog)` → `setSelected(prev => prev?.id === prog.id ? null : prog)`
+- `handlePanelClose()` → `setSelected(null)`
+- `handleViewAll(prog)` → runs page `close()` animation then calls `onSelect(prog, divData)` to navigate to KD list
+- GSAP on `selected` change: `mainRef` shifts `x:-240` (dial + columns slide left), `panelRef` slides `x:0` from `x:400`; reverses on deselect
+- Panel initialized off-screen via `gsap.set(panelRef.current, { x: 400 })` in mount effect
+
+**Panel content:**
+- Header: division chip + programme name + KD count + close button
+- Scrollable list of KD rows from `KD_TREE[division.id].programmes[prog.id].kds`
+- Each row: KD number, indicator name, achievement value, target value, On Track/Caution/Gap badge
+- Status computed by `kdStatus(kd)` helper (ratio-based, same logic as rest of app)
+- "View All Indicators" button at bottom navigates to full KD list page
+
+**CSS namespace:** `.wpg-kd-*` (appended at bottom of `landing-v4.css`)
+- `.wpg-kd-panel`: `position:absolute; top:72px; right:0; bottom:48px; width:360px; z-index:20` — dark navy background, spans only the content row of the grid
+- `.wpg-kd-hdr`, `.wpg-kd-hdr-chip`, `.wpg-kd-prog-title`, `.wpg-kd-count`, `.wpg-kd-close-btn`
+- `.wpg-kd-list`: scrollable flex column, thin custom scrollbar
+- `.wpg-kd-row` + modifier `--achieved` / `--close` / `--gap` / `--neutral` — left border color-coded
+- `.wpg-kd-row-top`, `.wpg-kd-no`, `.wpg-kd-badge` + modifiers
+- `.wpg-kd-indicator-name`, `.wpg-kd-vals`, `.wpg-kd-val`, `.wpg-kd-val-num`, `.wpg-kd-val-lbl`, `.wpg-kd-divider`
+- `.wpg-kd-empty`: shown when no KDs in tree
+- `.wpg-kd-view-all`: CTA button using `--dc` division color
+
 ---
 
 ## Navigation (5 layers)
