@@ -156,12 +156,14 @@ function AbbrevMiniLabel() {
 function AbbrevLegend({ items }) {
   const { hovered } = useContext(AbbrevCtx);
   const activeRef  = useRef(null);
-  const mounted    = useRef(false);
-
-  useEffect(() => { mounted.current = true; }, []);
+  const didMount   = useRef(false);   /* true after first effect run */
 
   useEffect(() => {
-    if (!mounted.current) return;   /* skip initial render — prevents spurious scroll */
+    /* on first render: mark as mounted and bail — avoids spurious scroll on open */
+    if (!didMount.current) {
+      didMount.current = true;
+      return;
+    }
     if (hovered && activeRef.current) {
       activeRef.current.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
     }
