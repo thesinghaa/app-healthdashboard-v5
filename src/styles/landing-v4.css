@@ -4965,3 +4965,16 @@ td:last-child { padding: 8px 10px; }
   transform: translateY(-1px);
 }
 
+
+/* ── Stat strip section heading ─────────────────────────────────────────── */
+.v5-stat-strip-heading {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: #64748B;
+  padding: 0 32px 10px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
