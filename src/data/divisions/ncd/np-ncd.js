@@ -1,7 +1,7 @@
 // NCD / NP-NCD — edit here to update this programme's data and source links
 export default {
   id: 'np-ncd',
-  name: 'NP-NCD',
+  name: 'National Programme for Non-Communicable Diseases',
   status: 'red',
   keyMetric: 'Male hypertension: 33.1%',
   statusReason: 'Hypertension: men 33.1%, women 24.9% — growing NCD crisis',

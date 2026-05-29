@@ -1,7 +1,7 @@
 // RCH / CAC — edit here to update this programme's data and source links
 export default {
   id: 'cac',
-  name: 'CAC',
+  name: 'Comprehensive Abortion Care',
   status: 'yellow',
   keyMetric: 'C-section: 14.8%',
   statusReason: 'C-section rate rising to 14.8% — private facilities at 47.3%',

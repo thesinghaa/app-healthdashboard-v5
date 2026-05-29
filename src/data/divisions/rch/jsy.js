@@ -1,7 +1,7 @@
 // RCH / JSY — edit here to update this programme's data and source links
 export default {
   id: 'jsy',
-  name: 'JSY',
+  name: 'Janani Suraksha Yojana',
   status: 'yellow',
   keyMetric: 'Inst. Births: 79.2%',
   statusReason: 'Institutional births improved 52.3%→79.2%, rural gaps persist',

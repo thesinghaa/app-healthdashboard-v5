@@ -1,7 +1,7 @@
 // NDCP / NCVBDCP — edit here to update this programme's data and source links
 export default {
   id: 'ncvbdcp',
-  name: 'NCVBDCP',
+  name: 'National Centre for Vector Borne Disease Control',
   status: 'yellow',
   keyMetric: 'NE endemic zone',
   statusReason: 'NE endemic zone for Japanese Encephalitis, filariasis and dengue',

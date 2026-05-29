@@ -1,250 +1,381 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    LeftSideNav.jsx
-   Slide-in left panel — 5 NHM division shortcuts + persona picker popup.
+   Slide-in left panel → click division → full-page Programme Wheel.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { gsap } from 'gsap';
+import { DIVISIONS as DIV_DATA } from '../data/programs';
 
+/* ── Division display meta ──────────────────────────────────────────────── */
 const DIVISIONS = [
-  { id: 'rch',  short: 'RCH',  name: 'Reproductive & Child Health',   color: '#4F8EF7', bg: '#EBF3FF' },
-  { id: 'ndcp', short: 'NDCP', name: 'National Disease Control',       color: '#F7B23B', bg: '#FFFBEB' },
-  { id: 'ncd',  short: 'NCD',  name: 'Non-Communicable Diseases',      color: '#9B6FEB', bg: '#F3EEFF' },
-  { id: 'hss',  short: 'HSS',  name: 'Health Systems Strengthening',   color: '#2DD4BF', bg: '#ECFDF5' },
-  { id: 'hrh',  short: 'HRH',  name: 'Human Resources for Health',     color: '#F7614F', bg: '#FFF1EE' },
+  { id: 'rch',  short: 'RCH',  name: 'Reproductive & Child Health',   color: '#1B6FF5', light: '#DBEAFE' },
+  { id: 'ndcp', short: 'NDCP', name: 'National Disease Control',       color: '#D97706', light: '#FEF3C7' },
+  { id: 'ncd',  short: 'NCD',  name: 'Non-Communicable Diseases',      color: '#7C3AED', light: '#EDE9FE' },
+  { id: 'hss',  short: 'HSS',  name: 'Health Systems Strengthening',   color: '#0F9B82', light: '#CCFBF1' },
+  { id: 'hrh',  short: 'HRH',  name: 'Human Resources for Health',     color: '#DC4B2A', light: '#FEE2E2' },
 ];
 
-/* ── Per-division background icons ────────────────────────────────────────── */
-const LSNAV_ICONS = {
-  rch: (
-    <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="28" cy="28" r="27" fill="#DBEAFE"/>
-      <circle cx="18" cy="14" r="7" fill="#1D4ED8"/>
-      <path d="M8 50 Q8 31 13 27 L18 25 L25 26 Q30 29 31 37 L31 50Z" fill="#1B6FF5"/>
-      <ellipse cx="26" cy="35" rx="6" ry="5" fill="#93C5FD"/>
-      <circle cx="39" cy="21" r="5.5" fill="#BFDBFE"/>
-      <circle cx="39" cy="21" r="3.5" fill="#1D4ED8"/>
-      <path d="M33 46 Q33 34 36 31 L39 29 L42 31 Q45 34 45 46Z" fill="#3B82F6"/>
-    </svg>
-  ),
-  ndcp: (
-    <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="28" cy="28" r="27" fill="#FEF3C7"/>
-      <rect x="25" y="9" width="6" height="14" rx="3" fill="#92400E"/>
-      <path d="M25 20 Q11 19 9 30 Q7 41 14 45 Q18 47 22 43 L24 36 L25 20Z" fill="#D97706"/>
-      <path d="M31 20 Q45 19 47 30 Q49 41 42 45 Q38 47 34 43 L32 36 L31 20Z" fill="#D97706"/>
-      <path d="M15 34 Q17 38 21 38" stroke="#FEF3C7" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
-      <path d="M41 34 Q39 38 35 38" stroke="#FEF3C7" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
-      <circle cx="16" cy="27" r="3.5" fill="#92400E" opacity="0.55"/>
-      <circle cx="40" cy="25" r="3"   fill="#92400E" opacity="0.55"/>
-    </svg>
-  ),
-  ncd: (
-    <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="28" cy="28" r="27" fill="#EDE9FE"/>
-      <path d="M28 43 C28 43 7 30 7 17 C7 11 12 7 17 7 C21 7 25 10 28 14 C31 10 35 7 39 7 C44 7 49 11 49 17 C49 30 28 43 28 43Z" fill="#7C3AED"/>
-      <polyline points="9,26 15,26 18,18 22,34 26,23 29,28 32,21 36,26 47,26" stroke="white" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  ),
-  hss: (
-    <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="28" cy="28" r="27" fill="#CCFBF1"/>
-      <rect x="9"  y="19" width="38" height="28" rx="2" fill="#0F9B82"/>
-      <rect x="14" y="12" width="28" height="9"  rx="1.5" fill="#065F46"/>
-      <rect x="23" y="25" width="10" height="3"  rx="1.5" fill="white"/>
-      <rect x="26" y="21" width="4"  height="11" rx="2"   fill="white"/>
-      <rect x="13" y="32" width="9"  height="8"  rx="1.5" fill="#CCFBF1"/>
-      <rect x="34" y="32" width="9"  height="8"  rx="1.5" fill="#CCFBF1"/>
-      <rect x="23" y="39" width="10" height="8"  rx="1"   fill="#065F46"/>
-      <rect x="27" y="6"  width="2"  height="8"  rx="1"   fill="#065F46"/>
-      <path d="M29 7 L35 10 L29 13Z" fill="#14B8A6"/>
-    </svg>
-  ),
-  hrh: (
-    <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="28" cy="28" r="27" fill="#FEE2E2"/>
-      <path d="M13 52 Q13 35 17 31 L23 29 L28 28 L33 29 L39 31 Q43 35 43 52Z" fill="white"/>
-      <path d="M19 31 L19 46" stroke="#DC4B2A" strokeWidth="1.8"/>
-      <path d="M37 31 L37 46" stroke="#DC4B2A" strokeWidth="1.8"/>
-      <path d="M19 31 L23 29 L28 28 L33 29 L37 31 L28 38Z" fill="#DC4B2A"/>
-      <circle cx="28" cy="17" r="9.5" fill="#FECACA"/>
-      <circle cx="28" cy="17" r="7.5" fill="#FCA5A5"/>
-      <path d="M19 13 Q21 8 28 8 Q35 8 37 13 Q35 7 28 7 Q21 7 19 13Z" fill="#9B1C1C"/>
-      <circle cx="24" cy="16" r="1.8" fill="#9B1C1C"/>
-      <circle cx="32" cy="16" r="1.8" fill="#9B1C1C"/>
-    </svg>
-  ),
+/* ── Wheel labels — full form first, short form after.
+   Single-element arrays = one line; two-element = two lines.          ── */
+const PROG_FULL = {
+  'maternal-health':   ['Maternal', 'Health'],
+  'jsy':               ['Janani', 'Suraksha Yojana'],
+  'cac':               ['Comp.', 'Abortion Care'],
+  'pcpndt':            ['PC &', 'PNDT'],
+  'child-health':      ['Child', 'Health'],
+  'immunization':      ['Immunization'],
+  'adolescent-health': ['Adolescent', 'Health'],
+  'family-planning':   ['Family', 'Planning'],
+  'nutrition':         ['Nutrition'],
+  'nvhcp':             ['Viral', 'Hepatitis Ctrl'],
+  'tb':                ['TB Mukt', 'Bharat Abhiyan'],
+  'nlep':              ['Leprosy', 'Eradication'],
+  'ncvbdcp':           ['Vector Borne', 'Disease Ctrl'],
+  'idsp':              ['Disease', 'Surveillance'],
+  'nscaem':            ['Sickle Cell', 'Elimination'],
+  'np-ncd':            ['NCD', 'Programme'],
+  'pmndp':             ['Dialysis', 'Programme'],
+  'nppc':              ['Palliative', 'Care'],
+  'nmhp':              ['Mental', 'Health'],
+  'nphce':             ['Elderly', 'Health Care'],
+  'npcbvi':            ['Blindness', 'Control'],
+  'nppcd':             ['Deafness', 'Prevention'],
+  'nohp':              ['Oral Health', 'Programme'],
+  'niddcp':            ['Iodine', 'Deficiency Ctrl'],
+  'ntcp':              ['Tobacco', 'Control'],
+  'npcchh':            ['Climate', 'Change Health'],
+  'hss-urban':         ['HSS', 'Urban'],
+  'hss-rural':         ['HSS', 'Rural'],
+  'drugs-diagnostics': ['Drugs &', 'Diagnostics'],
+  'mpw':               ['Multi-Purpose', 'Workers (F+M)'],
+  'staff-nurse':       ['Staff', 'Nurse'],
+  'cho':               ['Community', 'Health Officers'],
+  'lab-tech':          ['Lab', 'Technicians'],
+  'pharmacist':        ['Pharmacists'],
+  'medical-officer':   ['Medical', 'Officers'],
+  'specialist':        ['Clinical', 'Specialists'],
+  'pm-abhim':          ['PM-ABHIM'],
 };
 
-const PERSONAS = [
-  {
-    id: 'citizen',
-    label: 'Citizen',
-    desc: 'Public health outcomes & district data',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-        <circle cx="12" cy="7" r="4"/>
-        <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>
-      </svg>
-    ),
-  },
-  {
-    id: 'officer',
-    label: 'Programme Officer',
-    desc: 'KD targets, HMIS indicators & monitoring',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-        <rect x="3" y="3" width="18" height="18" rx="2"/>
-        <path d="M3 9h18"/>
-        <path d="M9 21V9"/>
-        <path d="M7 13h2M7 17h2M13 13h4M13 17h4"/>
-      </svg>
-    ),
-  },
-  {
-    id: 'admin',
-    label: 'Administrative Officer',
-    desc: 'Division oversight, reports & governance',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
-      </svg>
-    ),
-  },
-];
+/* ── Reusable SVG icon paths ─────────────────────────────────────────────── */
+const ICON_PATHS = {
+  person:      'M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 10c4 0 8 2 8 4v2H4v-2c0-2 4-4 8-4z',
+  baby:        'M12 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm-5 8h10v2c0 3-2 5-5 5s-5-2-5-5v-2z',
+  syringe:     'M19 3l2 2-3 3-4-4 3-3zm-5 5L4 18l-1 3 3-1 10-10-2-2zm-7 9l-2 2',
+  lung:        'M12 4v8M7 7C4 8 3 11 3 14c0 2 1 3 2 3s2-1 2-3V8m10-1c3 1 4 4 4 7 0 2-1 3-2 3s-2-1-2-3V8',
+  eye:         'M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7zm10-3a3 3 0 1 1 0 6 3 3 0 0 1 0-6z',
+  ecg:         'M3 12h4l2-7 4 14 3-7h5',
+  building:    'M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6',
+  brain:       'M9 3C6 3 4 5 4 8c0 2 1 3 2 4l6 9 6-9c1-1 2-2 2-4 0-3-2-5-5-5a4 4 0 0 0-3 1.5A4 4 0 0 0 9 3z',
+  drop:        'M12 2L7 10a6 6 0 1 0 10 0L12 2z',
+  groups:      'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2m19 0v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8',
+  cross:       'M12 5v14M5 12h14',
+  flask:       'M9 3v7L4 17a1 1 0 0 0 .9 1.5h14.2A1 1 0 0 0 20 17l-5-7V3M9 3h6',
+  ribbon:      'M12 22c0 0-8-5-8-12a8 8 0 0 1 16 0c0 7-8 12-8 12z',
+  stethoscope: 'M4.5 8C4.5 11 7 13 10 13h2m0 0v2a4 4 0 0 0 8 0v-1',
+  coin:        'M12 2a10 10 0 1 1 0 20A10 10 0 0 1 12 2zm0 5v10m-3-7.5C9 8.1 10.3 7 12 7s3 1.1 3 2.5S13.7 12 12 12s-3 1.1-3 2.5S10.3 17 12 17s3-1.1 3-2.5',
+  ear:         'M6 8a6 6 0 1 1 11.9 1.2C17.5 12 15 14 14 15.5c-.5.8-.8 1.7-.8 2.5V19a2 2 0 0 1-4 0v-.5',
+  tooth:       'M8 3C6 4 5 6 5 8c0 3 1 6 2 8l1 5 2-5h4l2 5 1-5c1-2 2-5 2-8 0-2-1-4-3-5L13 3h-2z',
+  leaf:        'M17 8C8 10 5.9 16.2 3.7 19.7 9.1 21 16 17 17 8zM3.7 19.7c2.5-1.9 5.1-3.4 8.3-2.7',
+  mosquito:    'M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM5 9L2 6M5 9H2M5 15H2M19 9l3-3M19 9h3M19 15h3',
+  badge:       'M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm4 5h10M7 14h6',
+  nosmoke:     'M2 12h12m4 0h4M18 8c2 1 3 3 3 4M18 16c2-1 3-3 3-4M4 4l16 16',
+};
 
-/* ── Persona Modal ─────────────────────────────────────────────────────────── */
-function PersonaModal({ division, onClose, onSelect }) {
-  const overlayRef = useRef(null);
-  const cardRef    = useRef(null);
+const PROG_ICON_KEY = {
+  'maternal-health':'person','jsy':'coin','cac':'cross','pcpndt':'eye',
+  'child-health':'baby','immunization':'syringe','adolescent-health':'person',
+  'family-planning':'groups','nutrition':'leaf','nvhcp':'drop','tb':'lung',
+  'nlep':'drop','ncvbdcp':'mosquito','idsp':'flask','nscaem':'drop',
+  'np-ncd':'ecg','pmndp':'drop','nppc':'ribbon','nmhp':'brain',
+  'nphce':'person','npcbvi':'eye','nppcd':'ear','nohp':'tooth',
+  'niddcp':'drop','ntcp':'nosmoke','npcchh':'leaf','hss-urban':'building',
+  'hss-rural':'building','drugs-diagnostics':'flask','mpw':'person',
+  'staff-nurse':'cross','cho':'groups','lab-tech':'flask','pharmacist':'cross',
+  'medical-officer':'stethoscope','specialist':'badge','pm-abhim':'building',
+};
+
+/* ── SVG arc helpers ─────────────────────────────────────────────────────── */
+function toXY(r, deg) {
+  const rad = ((deg - 90) * Math.PI) / 180;
+  return [r * Math.cos(rad), r * Math.sin(rad)];
+}
+function ringPath(iR, oR, a0, a1) {
+  const [x1,y1]=toXY(oR,a0), [x2,y2]=toXY(oR,a1);
+  const [x3,y3]=toXY(iR,a1), [x4,y4]=toXY(iR,a0);
+  const lg = a1-a0>180?1:0;
+  return `M${x1},${y1}A${oR},${oR} 0 ${lg} 1 ${x2},${y2}L${x3},${y3}A${iR},${iR} 0 ${lg} 0 ${x4},${y4}Z`;
+}
+
+/* ── Programme item card (side column) ───────────────────────────────────── */
+function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
+  const isHov = hovered === prog.id;
+  const iconKey = PROG_ICON_KEY[prog.id] || 'cross';
+  return (
+    <button
+      className={`wpg-prog-item${isHov ? ' wpg-prog-item--hov' : ''} wpg-prog-item--${side}`}
+      style={{ '--dc': color }}
+      onMouseEnter={() => setHovered(prog.id)}
+      onMouseLeave={() => setHovered(null)}
+      onClick={() => onSelect(prog)}
+    >
+      <span className="wpg-prog-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+          <path d={ICON_PATHS[iconKey] || ''}/>
+        </svg>
+      </span>
+      <span className="wpg-prog-name">{prog.name || prog.id}</span>
+      <span className="wpg-prog-arrow">
+        {side === 'left'
+          ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        }
+      </span>
+    </button>
+  );
+}
+
+/* ── Full-page Programme Wheel ────────────────────────────────────────────── */
+function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
+  const [hovered, setHovered]   = useState(null);
+  const pageRef  = useRef(null);
+  const wheelRef = useRef(null);
+  const leftRef  = useRef(null);
+  const rightRef = useRef(null);
+
+  const programs = divData?.programs || [];
+  const n        = programs.length;
+  const half     = Math.floor(n / 2);
+  const leftProgs  = programs.slice(0, half);
+  const rightProgs = programs.slice(half);
+
+  /* wheel geometry */
+  const GAP    = n > 9 ? 2.5 : 3.5;
+  const SEG    = (360 - n * GAP) / n;
+  const I_R    = 105;
+  const O_R    = n > 9 ? 240 : 250;
+  const ICON_R = (I_R + O_R) / 2 + 2;
+  const LBL_R  = ICON_R + 26;
+  const SIZE   = 600;
 
   useEffect(() => {
-    gsap.fromTo(overlayRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.2 }
-    );
-    gsap.fromTo(cardRef.current,
-      { opacity: 0, y: 24, scale: 0.96 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: 'power3.out' }
-    );
+    const tl = gsap.timeline();
+    tl.fromTo(pageRef.current,
+      { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' });
+    tl.fromTo(wheelRef.current,
+      { opacity: 0, scale: 0.7, rotation: -25 },
+      { opacity: 1, scale: 1, rotation: 0, duration: 0.55, ease: 'back.out(1.4)', transformOrigin: '50% 50%' },
+      '-=0.1');
+    if (leftRef.current?.children)
+      tl.fromTo(Array.from(leftRef.current.children),
+        { opacity: 0, x: -30 },
+        { opacity: 1, x: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out' },
+        '-=0.35');
+    if (rightRef.current?.children)
+      tl.fromTo(Array.from(rightRef.current.children),
+        { opacity: 0, x: 30 },
+        { opacity: 1, x: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out' },
+        '-=0.45');
   }, []);
 
   function close() {
-    gsap.to(overlayRef.current, { opacity: 0, duration: 0.18 });
-    gsap.to(cardRef.current, { opacity: 0, y: 16, duration: 0.18, onComplete: onClose });
+    gsap.to(pageRef.current, { opacity: 0, scale: 0.97, duration: 0.2, onComplete: onClose });
   }
 
-  function handleSelect(persona) {
-    onSelect(division, persona);
+  function handleSelect(prog) {
     close();
+    setTimeout(() => onSelect(prog, divData), 220);
+  }
+
+  function segFill(i, id) {
+    const base = division.color;
+    if (hovered === id) return base;
+    return i % 2 === 0 ? base : base + 'CC';
   }
 
   return (
-    <div className="lsnav-overlay" ref={overlayRef} onClick={e => e.target === overlayRef.current && close()}>
-      <div className="lsnav-modal" ref={cardRef}>
-
-        {/* Header */}
-        <div className="lsnav-modal-header" style={{ borderColor: division.color }}>
-          <span className="lsnav-modal-div-chip" style={{ background: division.bg, color: division.color }}>
-            {division.short}
-          </span>
-          <div className="lsnav-modal-heading">
-            <p className="lsnav-modal-title">Select your role</p>
-            <p className="lsnav-modal-sub">{division.name}</p>
-          </div>
-          <button className="lsnav-modal-close" onClick={close}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <div className="wpg-page" ref={pageRef}
+      style={{ '--dc': division.color, '--dl': division.light }}
+    >
+      {/* ── Header ── */}
+      <header className="wpg-header">
+        <button className="wpg-back-btn" onClick={close}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <path d="M19 12H5M12 5l-7 7 7 7"/>
+          </svg>
+          Back
+        </button>
+        <div className="wpg-header-center">
+          <span className="wpg-header-chip">{division.short}</span>
+          <h1 className="wpg-header-title">{division.name}</h1>
+        </div>
+        <div className="wpg-header-right">
+          <span className="wpg-prog-count">{n} Programmes</span>
+          <button className="wpg-close-btn" onClick={close} aria-label="Close">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M18 6L6 18M6 6l12 12"/>
             </svg>
           </button>
         </div>
+      </header>
 
-        {/* Persona cards */}
-        <div className="lsnav-persona-list">
-          {PERSONAS.map(p => (
-            <button
-              key={p.id}
-              className="lsnav-persona-card"
-              style={{ '--p-color': division.color, '--p-bg': division.bg }}
-              onClick={() => handleSelect(p)}
-            >
-              <span className="lsnav-persona-icon" style={{ color: division.color }}>
-                {p.icon}
-              </span>
-              <span className="lsnav-persona-body">
-                <span className="lsnav-persona-label">{p.label}</span>
-                <span className="lsnav-persona-desc">{p.desc}</span>
-              </span>
-              <svg className="lsnav-persona-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </button>
+      {/* ── Main 3-column ── */}
+      <main className="wpg-main">
+
+        {/* Left column */}
+        <div className="wpg-col wpg-col--left" ref={leftRef}>
+          {leftProgs.map(prog => (
+            <ProgItem key={prog.id} prog={prog} color={division.color}
+              hovered={hovered} setHovered={setHovered}
+              onSelect={handleSelect} side="left" />
           ))}
         </div>
 
-      </div>
+        {/* Centre wheel */}
+        <div className="wpg-wheel-wrap" ref={wheelRef}>
+          <svg width={SIZE} height={SIZE} viewBox={`${-SIZE/2} ${-SIZE/2} ${SIZE} ${SIZE}`} overflow="visible">
+
+{programs.map((prog, i) => {
+              const a0   = i * (SEG + GAP);
+              const a1   = a0 + SEG;
+              const midA = (a0 + a1) / 2;
+              const d    = ringPath(I_R, O_R, a0, a1);
+              const isHov = hovered === prog.id;
+              const [ix, iy] = toXY(ICON_R, midA);
+              const [lx, ly] = toXY(LBL_R, midA);
+              const iconKey  = PROG_ICON_KEY[prog.id] || 'cross';
+              const lblLines = PROG_FULL[prog.id] || [prog.name?.split(' ')[0] || prog.id];
+              /* rotate label: flip text on bottom half so it's always readable */
+              let textRot = midA;
+              if (midA > 90 && midA < 270) textRot = midA + 180;
+
+              return (
+                <g key={prog.id} className={`wheel-seg${isHov ? ' wheel-seg--hov' : ''}`}
+                  onClick={() => handleSelect(prog)}
+                  onMouseEnter={() => setHovered(prog.id)}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  <path d={d} fill={segFill(i, prog.id)}
+                    style={{ transform: isHov ? 'scale(1.06)' : 'scale(1)', transformOrigin: '0 0',
+                             transition: 'transform 0.2s ease, fill 0.2s', cursor: 'pointer',
+                             filter: isHov ? 'drop-shadow(0 4px 14px rgba(0,0,0,0.22))' : 'none' }}
+                  />
+                  <g transform={`translate(${ix-14},${iy-14})`} style={{ pointerEvents: 'none' }}>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                      stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <path d={ICON_PATHS[iconKey] || ''}/>
+                    </svg>
+                  </g>
+                  {(() => {
+                    const fs  = n > 9 ? 10 : 11;
+                    const lh  = fs + 2;
+                    const off = -(lblLines.length - 1) * lh / 2;
+                    return (
+                      <text x={lx} y={ly} textAnchor="middle"
+                        transform={`rotate(${textRot},${lx},${ly})`}
+                        fontSize={fs} fontWeight="600"
+                        fontFamily="Inter,sans-serif" fill="white"
+                        style={{ pointerEvents: 'none', userSelect: 'none' }}>
+                        {lblLines.map((ln, li) => (
+                          <tspan key={li} x={lx} dy={li === 0 ? off : lh}>{ln}</tspan>
+                        ))}
+                      </text>
+                    );
+                  })()}
+                </g>
+              );
+            })}
+
+            {/* Centre badge — white bg so image blends naturally */}
+            <circle r={I_R - 6} fill={division.light}
+              stroke={division.color} strokeWidth="3"
+              style={{ cursor: 'pointer' }}
+              onClick={() => { close(); setTimeout(() => onSelect(null, divData), 220); }}
+            />
+            <image href={`/sidebar/${division.short}.png`}
+              x={-(I_R-6)*0.62} y={-(I_R-6)*0.78}
+              width={(I_R-6)*1.24} height={(I_R-6)*1.24}
+              style={{ pointerEvents: 'none' }}
+            />
+            <text x="0" y={I_R - 22} textAnchor="middle"
+              fontSize="18" fontWeight="800" fontFamily="Inter,sans-serif" fill={division.color}
+              style={{ pointerEvents: 'none', letterSpacing: 1 }}>
+              {division.short}
+            </text>
+
+          </svg>
+
+          {/* Hovered programme name shown below wheel */}
+          <div className={`wpg-hover-label${hovered ? ' wpg-hover-label--show' : ''}`}>
+            {hovered
+              ? programs.find(p => p.id === hovered)?.name ?? ''
+              : <span>&nbsp;</span>}
+          </div>
+        </div>
+
+        {/* Right column */}
+        <div className="wpg-col wpg-col--right" ref={rightRef}>
+          {rightProgs.map(prog => (
+            <ProgItem key={prog.id} prog={prog} color={division.color}
+              hovered={hovered} setHovered={setHovered}
+              onSelect={handleSelect} side="right" />
+          ))}
+        </div>
+
+      </main>
+
+      {/* ── Footer hint ── */}
+      <footer className="wpg-footer">
+        Click a programme card or wheel segment to view Key Deliverables &nbsp;·&nbsp; Click the centre to view full division
+      </footer>
     </div>
   );
 }
 
-/* ── Main Component ────────────────────────────────────────────────────────── */
-export default function LeftSideNav({ onSelectDivision }) {
-  const [open,          setOpen]          = useState(false);
-  const [activeDivision, setActiveDivision] = useState(null);
-  const panelRef   = useRef(null);
-  const rowRefs    = useRef([]);
+/* ── Left Nav panel ───────────────────────────────────────────────────────── */
+export default function LeftSideNav({ onSelectDivision, onSelectProgramme }) {
+  const [open,      setOpen]      = useState(false);
+  const [activeDiv, setActiveDiv] = useState(null);
+  const panelRef = useRef(null);
+  const rowRefs  = useRef([]);
 
-  /* force off-screen on mount before any animation */
-  useEffect(() => {
-    gsap.set(panelRef.current, { x: -280 });
-  }, []);
+  useEffect(() => { gsap.set(panelRef.current, { x: -280 }); }, []);
 
-  /* slide panel in/out */
   useEffect(() => {
     if (!panelRef.current) return;
     if (open) {
       gsap.to(panelRef.current, { x: 0, duration: 0.38, ease: 'power3.out' });
-      gsap.fromTo(
-        rowRefs.current.filter(Boolean),
+      gsap.fromTo(rowRefs.current.filter(Boolean),
         { opacity: 0, x: -16 },
-        { opacity: 1, x: 0, duration: 0.3, stagger: 0.07, ease: 'power2.out', delay: 0.1 }
-      );
+        { opacity: 1, x: 0, duration: 0.3, stagger: 0.07, ease: 'power2.out', delay: 0.1 });
     } else {
       gsap.to(panelRef.current, { x: -280, duration: 0.3, ease: 'power2.in' });
     }
   }, [open]);
 
-  function handlePersonaSelect(division, persona) {
+  function getDivData(id) { return DIV_DATA.find(d => d.id === id) || null; }
+
+  function handleWheelSelect(prog, divData) {
     setOpen(false);
-    if (onSelectDivision) {
-      /* find the matching division object from programs.js */
-      onSelectDivision({ id: division.id, fullName: division.name, label: division.short });
-    }
+    setActiveDiv(null);
+    if (!divData) return;
+    if (prog && onSelectProgramme) onSelectProgramme(prog, divData);
+    else if (onSelectDivision)     onSelectDivision(divData);
   }
 
   return (
     <>
-      {/* ── Panel ── */}
       <div className="lsnav-panel" ref={panelRef}>
-
-        {/* Toggle tab — visible at left edge when panel is closed */}
-        <button
-          className={`lsnav-tab${open ? ' lsnav-tab--open' : ''}`}
+        <button className={`lsnav-tab${open ? ' lsnav-tab--open' : ''}`}
           onClick={() => setOpen(o => !o)}
-          aria-label={open ? 'Close navigation' : 'Open division navigation'}
-        >
+          aria-label={open ? 'Close navigation' : 'Open division navigation'}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            {open
-              ? <path d="M15 18l-6-6 6-6"/>
-              : <path d="M9 18l6-6-6-6"/>
-            }
+            {open ? <path d="M15 18l-6-6 6-6"/> : <path d="M9 18l6-6-6-6"/>}
           </svg>
         </button>
 
-        {/* Panel inner content */}
         <div className="lsnav-inner">
-
-          {/* Header with banner */}
           <div className="lsnav-header-banner">
             <img src="/banners/banner1.jpeg" className="lsnav-banner-img" alt="" />
             <div className="lsnav-header-content">
@@ -259,13 +390,9 @@ export default function LeftSideNav({ onSelectDivision }) {
 
           <div className="lsnav-divlist">
             {DIVISIONS.map((div, i) => (
-              <button
-                key={div.id}
-                ref={el => rowRefs.current[i] = el}
-                className="lsnav-div-row"
-                style={{ '--dc': div.color, '--db': div.bg }}
-                onClick={() => { setActiveDivision(div); }}
-              >
+              <button key={div.id} ref={el => rowRefs.current[i] = el}
+                className="lsnav-div-row" style={{ '--dc': div.color, '--db': div.light }}
+                onClick={() => { setOpen(false); setActiveDiv(div); }}>
                 <span className="lsnav-div-icon-bg">
                   <img src={`/sidebar/${div.short}.png`} alt="" />
                 </span>
@@ -284,17 +411,14 @@ export default function LeftSideNav({ onSelectDivision }) {
         </div>
       </div>
 
-      {/* ── Backdrop ── */}
-      {open && (
-        <div className="lsnav-backdrop" onClick={() => setOpen(false)} />
-      )}
+      {open && <div className="lsnav-backdrop" onClick={() => setOpen(false)} />}
 
-      {/* ── Persona modal ── */}
-      {activeDivision && (
-        <PersonaModal
-          division={activeDivision}
-          onClose={() => setActiveDivision(null)}
-          onSelect={handlePersonaSelect}
+      {activeDiv && (
+        <ProgrammeWheelPage
+          division={activeDiv}
+          divData={getDivData(activeDiv.id)}
+          onSelect={handleWheelSelect}
+          onClose={() => setActiveDiv(null)}
         />
       )}
     </>

@@ -262,6 +262,22 @@ export default function NHMSankey({ onSelectDivision, onSelectProgramme, theme =
           nodeTooltip={NodeTooltip}
           linkTooltip={LinkTooltip}
           onClick={handleNodeClick}
+          onMouseEnter={(node) => {
+            let abbr = null;
+            if (node.group === 'nhm') {
+              abbr = 'NHM';
+            } else if (node.group === 'division') {
+              abbr = node.label; /* 'RCH', 'NDCP', 'NCD', 'HSS', 'HRH' */
+            } else if (node.group === 'programme') {
+              /* node.id = "prog_rch_jsy" → extract "jsy" → "JSY" */
+              const parts = node.id.split('_');
+              abbr = parts.slice(2).join('_').toUpperCase();
+            }
+            document.dispatchEvent(new CustomEvent('abbrev:set', { detail: { abbr } }));
+          }}
+          onMouseLeave={() => {
+            document.dispatchEvent(new CustomEvent('abbrev:set', { detail: { abbr: null } }));
+          }}
         />
       )}
     </div>

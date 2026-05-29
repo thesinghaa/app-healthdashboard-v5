@@ -1,7 +1,7 @@
 // HRH / PM-ABHIM — PM Ayushman Bharat Health Infrastructure Mission
 export default {
   id: 'pm-abhim',
-  name: 'PM-ABHIM',
+  name: 'PM Ayushman Bharat Health Infrastructure Mission',
   status: 'yellow',
   keyMetric: 'IPHL: 5/22 complete',
   statusReason: '5 of 22 IPHLs completed; CCB work not yet started',

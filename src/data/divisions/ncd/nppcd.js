@@ -1,7 +1,7 @@
 // NCD / NPPCD — edit here to update this programme's data and source links
 export default {
   id: 'nppcd',
-  name: 'NPPCD',
+  name: 'National Programme for Prevention of Deafness',
   status: 'yellow',
   keyMetric: 'Deafness prevention',
   statusReason: 'Only 3 functional DEICs — hearing disability referral pathway weak',

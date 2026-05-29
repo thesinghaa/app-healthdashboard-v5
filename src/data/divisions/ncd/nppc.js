@@ -1,7 +1,7 @@
 // NCD / NPPC — edit here to update this programme's data and source links
 export default {
   id: 'nppc',
-  name: 'NPPC',
+  name: 'National Programme for Palliative Care',
   status: 'yellow',
   keyMetric: 'Palliative care access',
   statusReason: 'Cancer screening critically low: cervix 8.5%, breast 5.9%',

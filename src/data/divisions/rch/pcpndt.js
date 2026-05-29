@@ -1,7 +1,7 @@
 // RCH / PCPNDT — edit here to update this programme's data and source links
 export default {
   id: 'pcpndt',
-  name: 'PCPNDT',
+  name: 'Pre-Conception & Pre-Natal Diagnostic',
   status: 'yellow',
   keyMetric: 'SRB: 979 (↑ from 926)',
   statusReason: 'Sex ratio at birth 979 — still below parity target of 1,000',

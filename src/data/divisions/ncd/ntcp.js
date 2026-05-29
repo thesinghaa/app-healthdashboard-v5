@@ -1,7 +1,7 @@
 // NCD / NTCP — edit here to update this programme's data and source links
 export default {
   id: 'ntcp',
-  name: 'NTCP',
+  name: 'National Tobacco Control Programme',
   status: 'red',
   keyMetric: 'Male tobacco use: 60%',
   statusReason: 'Men tobacco 60%, alcohol 59% — highest NCD risk combination in AP',

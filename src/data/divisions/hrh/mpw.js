@@ -1,7 +1,7 @@
 // HRH / MPW (F+M) — edit here to update this cadre's data and source links
 export default {
   id: 'mpw',
-  name: 'MPW (F+M)',
+  name: 'Multi-Purpose Workers (F+M)',
   status: 'green',
   keyMetric: '880 in place',
   statusReason: '91% availability — exceeds 70% RoP target',

@@ -1,7 +1,7 @@
 // NCD / NPCBVI — edit here to update this programme's data and source links
 export default {
   id: 'npcbvi',
-  name: 'NPCBVI',
+  name: 'National Programme for Control of Blindness',
   status: 'green',
   keyMetric: 'Cataract backlog: remote districts',
   statusReason: 'Cataract surgery backlog in border districts; RBSK school screening active via DEIC network',

@@ -1,7 +1,7 @@
 // NDCP / NSCAEM & Blood Cell — edit here to update this programme's data and source links
 export default {
   id: 'nscaem',
-  name: 'NSCAEM & Blood Cell',
+  name: 'Sickle Cell Anaemia Elimination Mission',
   status: 'yellow',
   keyMetric: 'Sickle cell screening',
   statusReason: 'Tribal majority population at sickle cell risk; anaemia 56.6%',

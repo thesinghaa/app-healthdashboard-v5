@@ -1,7 +1,7 @@
 // NCD / NOHP — edit here to update this programme's data and source links
 export default {
   id: 'nohp',
-  name: 'NOHP',
+  name: 'National Oral Health Programme',
   status: 'yellow',
   keyMetric: 'Oral health coverage',
   statusReason: 'Oral cancer screening 17.5%; tobacco use among men at 60%',

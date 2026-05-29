@@ -1,7 +1,7 @@
 // NCD / NPHCE — edit here to update this programme's data and source links
 export default {
   id: 'nphce',
-  name: 'NPHCE',
+  name: 'National Programme for Health Care of Elderly',
   status: 'yellow',
   keyMetric: 'Elderly care access',
   statusReason: 'Geriatric services limited to district HQs — no block-level access',

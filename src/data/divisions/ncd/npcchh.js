@@ -1,7 +1,7 @@
 // NCD / NPCCHH — edit here to update this programme's data and source links
 export default {
   id: 'npcchh',
-  name: 'NPCCHH',
+  name: 'National Programme on Climate Change & Human Health',
   status: 'yellow',
   keyMetric: 'Climate health risk',
   statusReason: 'Himalayan border state — high climate & disaster health vulnerability',

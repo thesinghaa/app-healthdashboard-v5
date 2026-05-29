@@ -1,7 +1,7 @@
 // NCD / NIDDCP — edit here to update this programme's data and source links
 export default {
   id: 'niddcp',
-  name: 'NIDDCP',
+  name: 'National Iodine Deficiency Disorders Control',
   status: 'green',
   keyMetric: 'Iodised salt: 99.2%',
   statusReason: 'Iodised salt coverage 99.2% — IDD effectively controlled',

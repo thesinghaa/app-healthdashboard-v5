@@ -1,7 +1,7 @@
 // HRH / CHO — edit here to update this cadre's data and source links
 export default {
   id: 'cho',
-  name: 'CHO',
+  name: 'Community Health Officers',
   status: 'green',
   keyMetric: '308 in place',
   statusReason: '89% availability — 308 of 317 approved contractual posts filled',

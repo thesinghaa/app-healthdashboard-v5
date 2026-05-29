@@ -1,7 +1,7 @@
 // NCD / PMNDP — edit here to update this programme's data and source links
 export default {
   id: 'pmndp',
-  name: 'PMNDP',
+  name: 'Pradhan Mantri National Dialysis Programme',
   status: 'yellow',
   keyMetric: 'High blood sugar: 11.9%',
   statusReason: 'Men high blood sugar 11.9%; district NCD clinic capacity under review',

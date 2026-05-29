@@ -1,7 +1,7 @@
 // NDCP / NLEP — edit here to update this programme's data and source links
 export default {
   id: 'nlep',
-  name: 'NLEP',
+  name: 'National Leprosy Eradication Programme',
   status: 'yellow',
   keyMetric: 'Elimination sustained',
   statusReason: 'State-level elimination achieved — pocket areas need vigilance',

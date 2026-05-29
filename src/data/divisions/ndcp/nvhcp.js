@@ -1,7 +1,7 @@
 // NDCP / NVHCP — edit here to update this programme's data and source links
 export default {
   id: 'nvhcp',
-  name: 'NVHCP',
+  name: 'National Viral Hepatitis Control Programme',
   status: 'yellow',
   keyMetric: 'Vector-borne endemic',
   statusReason: '79.6% forest cover — persistent endemic vector-borne disease zone',

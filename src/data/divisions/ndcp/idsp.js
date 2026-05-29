@@ -1,7 +1,7 @@
 // NDCP / IDSP — edit here to update this programme's data and source links
 export default {
   id: 'idsp',
-  name: 'IDSP',
+  name: 'Integrated Disease Surveillance Programme',
   status: 'red',
   keyMetric: '17 districts: 0 deaths reported',
   statusReason: 'MPCDSR shows 0 infant deaths vs 52 reported in HMIS',

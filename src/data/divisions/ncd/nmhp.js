@@ -1,7 +1,7 @@
 // NCD / NMHP — edit here to update this programme's data and source links
 export default {
   id: 'nmhp',
-  name: 'NMHP',
+  name: 'National Mental Health Programme',
   status: 'yellow',
   keyMetric: 'Mental health access',
   statusReason: 'DMHP HR shortages persist; Tele-MANAS uptake limited in tribal areas',
