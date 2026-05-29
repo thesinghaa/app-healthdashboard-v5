@@ -1229,9 +1229,9 @@
 
 /* ── Section shared styles ───────────────────────────────────────────────── */
 .v4l-section-header {
-  max-width: 1400px;
-  margin: 0 auto 36px;
-  padding: 0 40px;
+  max-width: 100%;
+  margin: 0 0 36px;
+  padding: 0 48px;
 }
 .v4l-section-tag {
   display: inline-flex;
@@ -1464,9 +1464,9 @@
   background: #F8FAFD;
 }
 .v4l-flow-legend {
-  max-width: 1400px;
-  margin: 0 auto 24px;
-  padding: 0 40px;
+  max-width: 100%;
+  margin: 0 0 24px;
+  padding: 0 48px;
   display: flex;
   gap: 24px;
   flex-wrap: wrap;
@@ -1488,10 +1488,10 @@
   color: #475569;
 }
 .v4l-sankey-outer {
-  max-width: 1600px;
+  max-width: 100%;
   width: 100%;
-  margin: 0 auto;
-  padding: 0 24px;
+  margin: 0;
+  padding: 0 48px;
 }
 /* The actual Sankey wrap rendered by NHMSankey */
 .nhm-sankey-wrap {
