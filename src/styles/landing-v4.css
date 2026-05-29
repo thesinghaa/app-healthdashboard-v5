@@ -4976,14 +4976,15 @@ td:last-child { padding: 8px 10px; }
   display: block;
   width: 100%;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   text-align: center;
-  color: #ffffff;
-  background: linear-gradient(135deg, #C9821A 0%, #E6A020 60%, #C9821A 100%);
-  padding: 8px 20px;
+  color: #1A1A1A;
+  background: #ffffff;
+  border: 2px solid #C9821A;
+  padding: 9px 20px;
   border-radius: 999px;
-  box-shadow: 0 2px 8px rgba(201, 130, 26, 0.35);
+  box-shadow: 0 2px 8px rgba(201, 130, 26, 0.18);
   box-sizing: border-box;
 }
