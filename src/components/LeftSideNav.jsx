@@ -286,7 +286,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
       </header>
 
       {/* ── Main 3-column ── */}
-      <main className="wpg-main" ref={mainRef}>
+      <main className="wpg-main">
 
         {/* Left column */}
         <div className="wpg-col wpg-col--left" ref={leftRef}>
