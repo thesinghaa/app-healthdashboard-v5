@@ -161,19 +161,6 @@ function AbbrevMiniLabel() {
 /* ── Legend strip — active item pulses when its abbreviation is hovered ───── */
 function AbbrevLegend({ items }) {
   const { hovered } = useContext(AbbrevCtx);
-  const activeRef  = useRef(null);
-  const didMount   = useRef(false);   /* true after first effect run */
-
-  useEffect(() => {
-    /* on first render: mark as mounted and bail — avoids spurious scroll on open */
-    if (!didMount.current) {
-      didMount.current = true;
-      return;
-    }
-    if (hovered && activeRef.current) {
-      activeRef.current.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
-    }
-  }, [hovered]);
 
   return (
     <div className="abbrev-legend">
@@ -182,7 +169,6 @@ function AbbrevLegend({ items }) {
         return (
           <span
             key={short}
-            ref={isActive ? activeRef : null}
             data-abbr={short}
             className={`abbrev-legend-item${isActive ? ' abbrev-legend-item--active' : ''}`}
           >
