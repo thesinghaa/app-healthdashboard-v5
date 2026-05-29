@@ -1013,7 +1013,7 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 clamp(16px, 3vw, 40px);
-  height: clamp(72px, 8vw, 115px);
+  height: clamp(72px, 8vw, 140px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1024,20 +1024,20 @@
   gap: clamp(8px, 1vw, 14px);
 }
 .v4l-brand-logo {
-  height: clamp(36px, 4vw, 68px);
+  height: clamp(40px, 5vw, 96px);
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
 }
 .v4l-brand-divider {
   width: 1.5px;
-  height: clamp(32px, 3.5vw, 62px);
+  height: clamp(36px, 4.5vw, 88px);
   background: rgba(23, 130, 62, 0.35);
-  margin: 0 clamp(2px, 0.3vw, 4px);
+  margin: 0 clamp(2px, 0.4vw, 6px);
   flex-shrink: 0;
 }
 .v4l-brand-nhm {
-  height: clamp(36px, 4vw, 68px);
+  height: clamp(40px, 5vw, 96px);
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
@@ -1048,14 +1048,14 @@
   gap: 3px;
 }
 .v4l-brand-name {
-  font-size: clamp(13px, 1.4vw, 22px);
+  font-size: clamp(14px, 2vw, 36px);
   font-weight: 800;
   color: #17823e;
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
 .v4l-brand-ministry {
-  font-size: clamp(8px, 0.7vw, 12px);
+  font-size: clamp(9px, 1vw, 18px);
   font-weight: 600;
   color: #1f7d70;
   letter-spacing: 0.03em;
