@@ -30,11 +30,11 @@ function numeratorFrom(kd) {
 }
 
 const FACE0_PINNED = {
-  rch:  { no: 28,  label: 'Children fully immunised',                     fmt: kd => numeratorFrom(kd).toLocaleString('en-IN') },
-  ndcp: { no: 82,  label: 'Hepatitis C patients in treatment',             fmt: kd => numeratorFrom(kd).toLocaleString('en-IN') },
-  ncd:  { no: 125, label: 'People rehabilitated with hearing aids',        fmt: kd => String(numeratorFrom(kd)) },
-  hss:  { no: 154, label: 'Ayushman Arogya Mandirs with full 12 services', fmt: kd => String(numeratorFrom(kd)) },
-  hrh:  { no: 169, label: 'Medical Officer (MBBS) positions filled per Indian Public Health Standards norms', fmt: () => '96%' },
+  rch:  { no: 28,  progId: 'immunization',    label: 'Children fully immunised',                     fmt: kd => `${kd.achievement}%` },
+  ndcp: { no: 82,  progId: 'nvhcp',           label: 'Hepatitis C patients in treatment',             fmt: kd => `${kd.achievement}%` },
+  ncd:  { no: 125, progId: 'nppcd',           label: 'People rehabilitated with hearing aids',        fmt: kd => `${kd.achievement}%` },
+  hss:  { no: 154, progId: null,              label: 'Ayushman Arogya Mandirs with full 12 services', fmt: kd => `${kd.achievement}%` },
+  hrh:  { no: 169, progId: 'medical-officer', label: 'Medical Officer (MBBS) positions filled per Indian Public Health Standards norms', fmt: () => '96%' },
 };
 
 /** Build pinned face-0 for a division, reading live value from KD_TREE. */
@@ -57,6 +57,8 @@ function buildPinnedFace(divId) {
     label:  pin.label,
     status: 'achieved',
     pct:    kd.target > 0 ? Math.round((kd.achievement / kd.target) * 100) : null,
+    kd,
+    progId: pin.progId,
   };
 }
 

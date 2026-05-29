@@ -355,8 +355,16 @@ export default function DistrictMap() {
                         style={{ '--prog-main': clr.main, '--prog-light': clr.light }}
                         onClick={() => setSelectedDiv(div.id)}
                       >
-                        <span className="v5-map-prog-dot" />
-                        {div.fullName}
+                        <span className="v5-map-prog-icon">
+                          <img src={`/sidebar/${div.label}.png`} alt="" />
+                        </span>
+                        <span className="v5-map-prog-text">
+                          <span className="v5-map-prog-short">{div.label}</span>
+                          <span className="v5-map-prog-name">{div.fullName}</span>
+                        </span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <path d="M9 18l6-6-6-6"/>
+                        </svg>
                       </button>
                     );
                   })}

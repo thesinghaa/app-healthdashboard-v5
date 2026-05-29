@@ -18,6 +18,7 @@ const NHMSankey              = lazy(() => import('../components/NHMSankey'));
 const DistrictMap            = lazy(() => import('../components/DistrictMap'));
 const ProgrammeProgressChart = lazy(() => import('../components/ProgrammeProgressChart'));
 
+
 /* ── Abbreviation hover context ─────────────────────────────────────────── */
 const AbbrevCtx = createContext({ hovered: null, hoveredEl: null });
 
@@ -421,20 +422,20 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
   useReveal(flowRef);
   useReveal(alertsRef);
 
-  /* nav banner dissolve */
-  const bannerRefs = useRef([]);
-  const bannerIdx  = useRef(0);
+  /* nav banner — instant switch, no crossfade */
+  const BANNERS = [
+    { n: 1, pos: 'right 70%' },   // health camp — scene at bottom
+    { n: 2, pos: 'right 68%' },   // mobile van + patients — slightly lower
+    { n: 3, pos: 'right 78%' },   // Ziro stilt houses — very bottom (reflections)
+    { n: 4, pos: 'right 72%' },   // tribal mother+baby — figures at bottom
+    { n: 5, pos: 'right 52%' },   // ASHA worker — figure is mid-height
+    { n: 6, pos: 'right 80%' },   // 5 health workers — full figures at bottom
+    { n: 8, pos: 'right 68%' },   // Tawang monastery — building + prayer flags
+  ];
+  const [bannerIdx, setBannerIdx] = useState(0);
   useEffect(() => {
-    const slides = bannerRefs.current;
-    if (!slides.length) return;
-    gsap.set(slides[0], { opacity: 1 });
-    slides.slice(1).forEach(s => gsap.set(s, { opacity: 0 }));
     const id = setInterval(() => {
-      const prev = bannerIdx.current;
-      const next = (prev + 1) % slides.length;
-      gsap.to(slides[prev], { opacity: 0, duration: 1.4, ease: 'power2.inOut' });
-      gsap.to(slides[next], { opacity: 1, duration: 1.4, ease: 'power2.inOut' });
-      bannerIdx.current = next;
+      setBannerIdx(i => (i + 1) % BANNERS.length);
     }, 5000);
     return () => clearInterval(id);
   }, []);
@@ -461,17 +462,15 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       {/* ── Navbar ──────────────────────────────────────────────────────── */}
       <header className="v4l-nav">
         <div className="v4l-nav-inner">
-          {/* ── Dissolve banner ─────────────────────────────────────────── */}
+          {/* ── Banner — instant switch ──────────────────────────────────── */}
           <div className="v4l-nav-banner-dissolve">
-            {[1, 2, 3].map((n, i) => (
-              <img
-                key={i}
-                ref={el => bannerRefs.current[i] = el}
-                src={`/banners/banner${n}.jpeg`}
-                alt=""
-                className="v4l-nav-banner-slide"
-              />
-            ))}
+            <img
+              key={BANNERS[bannerIdx].n}
+              src={`/banners/banner${BANNERS[bannerIdx].n}.png`}
+              alt=""
+              className="v4l-nav-banner-slide"
+              style={{ objectPosition: BANNERS[bannerIdx].pos, opacity: 1 }}
+            />
           </div>
           {/* Gradient so brand text stays readable over images */}
           <div className="v4l-nav-banner-overlay" />
@@ -524,12 +523,24 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
               key={div.id}
               className="v5-stat-card"
               style={{ '--accent': accent }}
-              onClick={() => onSelectDivision(div)}
+              onClick={() => {
+                if (onDirectKD && face0?.kd) {
+                  onDirectKD(div, face0.progId, face0.kd);
+                } else {
+                  onSelectDivision(div);
+                }
+              }}
             >
               <img src={`/statcards/${div.label}.png`} className="v5-stat-card-img" alt="" />
               <div className="v5-stat-number">{face0?.value ?? '—'}</div>
-              <div className="v5-stat-label"><MarkAbbrev text={face0?.label ?? ''} /></div>
-              <div className="v5-stat-prog" data-abbr={div.label}>{div.fullName}</div>
+              <div className={`v5-stat-label${(face0?.label ?? '').length > 50 ? ' v5-stat-label--sm' : ''}`}><MarkAbbrev text={face0?.label ?? ''} /></div>
+              <div className="v5-stat-prog" data-abbr={div.label}>
+                {(() => {
+                  const w = div.fullName.split(' ');
+                  const mid = Math.ceil(w.length / 2);
+                  return <>{w.slice(0, mid).join(' ')}<br />{w.slice(mid).join(' ')}</>;
+                })()}
+              </div>
             </div>
           );
         })}
@@ -548,10 +559,10 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           ══════════════════════════════════════════════════════════════════ */}
       <section className="v4l-flow v4l-reveal" ref={flowRef}>
         <div className="v4l-section-header">
-          <div className="v4l-section-tag"><MarkAbbrev text="NHM Programme Flow" /></div>
+          <div className="v4l-section-tag">National Health Mission Programme Flow</div>
           <h2 className="v4l-section-title">How Programmes distribute across divisions and outcome status</h2>
           <p className="v4l-section-sub">
-            <MarkAbbrev text="FY 2025-26 · Click any division or programme node to drill in" />
+            Financial Year 2025-26 · Click any division or programme node to drill in
           </p>
         </div>
 
