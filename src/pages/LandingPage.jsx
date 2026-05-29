@@ -540,8 +540,8 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       </div>
 
       {/* ── Stat Strip — static cards ────────────────────────────────────── */}
-      <div className="v5-stat-strip-heading"><span>Highlights from Financial Year 2025-26</span></div>
       <div className="v5-stat-strip">
+        <div className="v5-stat-strip-heading"><span>Highlights from Financial Year 2025-26</span></div>
         {DIVISIONS.map(div => {
           const face0 = getDivisionStats(div.id)[0];
           const accent = SC3D_ACCENTS[div.id];
