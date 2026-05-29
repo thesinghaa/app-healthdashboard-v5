@@ -155,12 +155,13 @@ function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
 function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   const [hovered, setHovered]   = useState(null);
   const [selected, setSelected] = useState(null);
-  const pageRef  = useRef(null);
-  const wheelRef = useRef(null);
-  const leftRef  = useRef(null);
-  const rightRef = useRef(null);
-  const mainRef  = useRef(null);
-  const panelRef = useRef(null);
+  const pageRef   = useRef(null);
+  const wheelRef  = useRef(null);
+  const leftRef   = useRef(null);
+  const rightRef  = useRef(null);
+  const headerRef = useRef(null);
+  const footerRef = useRef(null);
+  const panelRef  = useRef(null);
 
   const programs = divData?.programs || [];
   const n        = programs.length;
@@ -200,15 +201,28 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         '-=0.45');
   }, []);
 
-  /* slide main left + panel in when a programme is selected */
+  /* hide everything except wheel + panel when a programme is selected */
   useEffect(() => {
-    if (!mainRef.current || !panelRef.current) return;
+    if (!panelRef.current) return;
     if (selected) {
-      gsap.to(mainRef.current,  { x: -240, duration: 0.42, ease: 'power3.out' });
-      gsap.to(panelRef.current, { x: 0,    duration: 0.42, ease: 'power3.out' });
+      /* fade out columns, header, footer */
+      gsap.to([leftRef.current, rightRef.current],
+        { opacity: 0, duration: 0.22, ease: 'power2.in' });
+      gsap.to(headerRef.current,
+        { opacity: 0, y: -8, duration: 0.22, ease: 'power2.in' });
+      gsap.to(footerRef.current,
+        { opacity: 0, y: 8,  duration: 0.22, ease: 'power2.in' });
+      /* slide panel in */
+      gsap.to(panelRef.current, { x: 0, duration: 0.40, ease: 'power3.out', delay: 0.05 });
     } else {
-      gsap.to(panelRef.current, { x: 400,  duration: 0.32, ease: 'power2.in' });
-      gsap.to(mainRef.current,  { x: 0,    duration: 0.38, ease: 'power2.out' });
+      /* slide panel out first, then restore the rest */
+      gsap.to(panelRef.current, { x: 420, duration: 0.28, ease: 'power2.in' });
+      gsap.to([leftRef.current, rightRef.current],
+        { opacity: 1, duration: 0.30, ease: 'power2.out', delay: 0.12 });
+      gsap.to(headerRef.current,
+        { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out', delay: 0.12 });
+      gsap.to(footerRef.current,
+        { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out', delay: 0.12 });
     }
   }, [selected]);
 
@@ -240,7 +254,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
       style={{ '--dc': division.color, '--dl': division.light }}
     >
       {/* ── Header ── */}
-      <header className="wpg-header">
+      <header className="wpg-header" ref={headerRef}>
         <button className="wpg-back-btn" onClick={close}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M19 12H5M12 5l-7 7 7 7"/>
@@ -432,7 +446,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
       </div>
 
       {/* ── Footer hint ── */}
-      <footer className="wpg-footer">
+      <footer className="wpg-footer" ref={footerRef}>
         Click a programme card or wheel segment to view Key Deliverables &nbsp;·&nbsp; Click the centre to view full division
       </footer>
     </div>
