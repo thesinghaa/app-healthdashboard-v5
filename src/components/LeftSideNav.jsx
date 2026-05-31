@@ -155,19 +155,12 @@ function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
 function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   const [hovered, setHovered]   = useState(null);
   const [selected, setSelected] = useState(null);
-  const pageRef   = useRef(null);
-  const wheelRef  = useRef(null);
-  const leftRef   = useRef(null);
-  const rightRef  = useRef(null);
-  const headerRef = useRef(null);
-  const footerRef = useRef(null);
-  const panelRef  = useRef(null);
+  const pageRef    = useRef(null);
+  const wheelRef   = useRef(null);
+  const panelRef   = useRef(null);
 
   const programs = divData?.programs || [];
   const n        = programs.length;
-  const half     = Math.floor(n / 2);
-  const leftProgs  = programs.slice(0, half);
-  const rightProgs = programs.slice(half);
 
   /* wheel geometry */
   const GAP    = n > 9 ? 2.5 : 3.5;
@@ -176,64 +169,33 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   const O_R    = n > 9 ? 240 : 250;
   const ICON_R = (I_R + O_R) / 2 + 2;
   const LBL_R  = ICON_R + 26;
-  const SIZE   = 600;
+  const SIZE   = 560;
 
-  /* lock body scroll while overlay is visible — do NOT touch .v4l-root
-     (setting overflow on it creates a stacking context that clips the fixed panel) */
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = prev; };
   }, []);
 
+  /* entry animation — wheel spins in from left */
   useEffect(() => {
-    gsap.set(panelRef.current, { x: 400 });
     pageRef.current?.focus({ preventScroll: true });
-
     const tl = gsap.timeline();
     tl.fromTo(pageRef.current,
-      { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' });
+      { opacity: 0 }, { opacity: 1, duration: 0.22, ease: 'power2.out' });
     tl.fromTo(wheelRef.current,
-      { opacity: 0, scale: 0.7, rotation: -25 },
-      { opacity: 1, scale: 1, rotation: 0, duration: 0.55, ease: 'back.out(1.4)', transformOrigin: '50% 50%' },
-      '-=0.1');
-    if (leftRef.current?.children)
-      tl.fromTo(Array.from(leftRef.current.children),
-        { opacity: 0, x: -30 },
-        { opacity: 1, x: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out' },
-        '-=0.35');
-    if (rightRef.current?.children)
-      tl.fromTo(Array.from(rightRef.current.children),
-        { opacity: 0, x: 30 },
-        { opacity: 1, x: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out' },
-        '-=0.45');
+      { opacity: 0, scale: 0.75, rotation: -20 },
+      { opacity: 1, scale: 1, rotation: 0, duration: 0.52, ease: 'back.out(1.4)', transformOrigin: '50% 50%' },
+      '-=0.08');
   }, []);
 
-  /* on select: fade columns, shift wheel left, slide panel in */
+  /* table content fades in when programme selected */
   useEffect(() => {
     if (!panelRef.current) return;
     if (selected) {
-      /* fade out side columns and footer */
-      gsap.to([leftRef.current, rightRef.current],
-        { opacity: 0, duration: 0.22, ease: 'power2.in' });
-      gsap.to(footerRef.current,
-        { opacity: 0, y: 8, duration: 0.22, ease: 'power2.in' });
-      /* header + wheel both shift left together — header stays centred above wheel */
-      gsap.to([headerRef.current, wheelRef.current],
-        { x: -210, duration: 0.42, ease: 'power3.out', delay: 0.05 });
-      /* KD panel slides in from right */
-      gsap.to(panelRef.current,
-        { x: 0, duration: 0.40, ease: 'power3.out', delay: 0.05 });
-    } else {
-      /* reverse everything */
-      gsap.to([headerRef.current, wheelRef.current],
-        { x: 0, duration: 0.30, ease: 'power3.out' });
-      gsap.to(panelRef.current,
-        { x: 420, duration: 0.28, ease: 'power2.in' });
-      gsap.to([leftRef.current, rightRef.current],
-        { opacity: 1, duration: 0.30, ease: 'power2.out', delay: 0.15 });
-      gsap.to(footerRef.current,
-        { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out', delay: 0.15 });
+      gsap.fromTo(panelRef.current,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.32, ease: 'power3.out' });
     }
   }, [selected]);
 
@@ -265,7 +227,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
       style={{ '--dc': division.color, '--dl': division.light }}
     >
       {/* ── Header ── */}
-      <header className="wpg-header" ref={headerRef}>
+      <header className="wpg-header">
         <button className="wpg-back-btn" onClick={close}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M19 12H5M12 5l-7 7 7 7"/>
@@ -286,19 +248,10 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         </div>
       </header>
 
-      {/* ── Main 3-column ── */}
+      {/* ── Main: 2-col — wheel left | bordered box right ── */}
       <main className="wpg-main">
 
-        {/* Left column */}
-        <div className="wpg-col wpg-col--left" ref={leftRef}>
-          {leftProgs.map(prog => (
-            <ProgItem key={prog.id} prog={prog} color={division.color}
-              hovered={hovered} setHovered={setHovered}
-              onSelect={handleSelect} side="left" />
-          ))}
-        </div>
-
-        {/* Centre wheel */}
+        {/* Left: wheel always centred */}
         <div className="wpg-wheel-wrap" ref={wheelRef}>
           <svg width={SIZE} height={SIZE} viewBox={`${-SIZE/2} ${-SIZE/2} ${SIZE} ${SIZE}`} overflow="visible">
 
@@ -380,20 +333,11 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
           </div>
         </div>
 
-        {/* Right column */}
-        <div className="wpg-col wpg-col--right" ref={rightRef}>
-          {rightProgs.map(prog => (
-            <ProgItem key={prog.id} prog={prog} color={division.color}
-              hovered={hovered} setHovered={setHovered}
-              onSelect={handleSelect} side="right" />
-          ))}
-        </div>
-
-      </main>
-
-      {/* KD panel — slides in from right, wheel shifts left */}
-      <div className="wpg-kd-panel" ref={panelRef}
-        style={{ '--dc': division.color, '--dl': division.light }}>
+        {/* Right: always-visible bordered box */}
+        <div className="wpg-right-box">
+          {selected ? (
+            /* ── Table content fades in ── */
+            <div className="wpg-right-inner" ref={panelRef}>
         {selected && (() => {
           const kdList = KD_TREE[division.id]?.programmes?.[selected.id]?.kds || [];
           return (
@@ -461,13 +405,25 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                   <path d="M9 18l6-6-6-6"/>
                 </svg>
               </button>
-            </>
-          );
-        })()}
-      </div>
+            </div>
+          ) : (
+            /* ── Empty state ── */
+            <div className="wpg-right-empty">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
+                stroke={division.color} strokeWidth="1.2" strokeLinecap="round">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 8v4l3 3"/>
+              </svg>
+              <p className="wpg-empty-title">Click a segment</p>
+              <p className="wpg-empty-sub">Select any programme on the wheel to view its indicators</p>
+            </div>
+          )}
+        </div>{/* end wpg-right-box */}
 
-      {/* ── Footer hint ── */}
-      <footer className="wpg-footer" ref={footerRef}>
+      </main>
+
+      {/* ── Footer ── */}
+      <footer className="wpg-footer">
         Click a wheel segment to view Key Deliverables &nbsp;·&nbsp; Click the centre to explore the full division
       </footer>
     </div>

@@ -4626,13 +4626,13 @@ td:last-child { padding: 8px 10px; }
 }
 .wpg-close-btn:hover { background: #DC2626; transform: scale(1.1); }
 
-/* ── Main layout ── */
+/* ── Main layout — 2 col: wheel | bordered box ── */
 .wpg-main {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 24px;
-  padding: 16px 48px;
+  grid-template-columns: 55% 45%;
+  align-items: stretch;
+  gap: 0;
+  padding: 16px 20px 16px 16px;
   overflow: hidden;
 }
 
@@ -4702,13 +4702,14 @@ td:last-child { padding: 8px 10px; }
 .wpg-prog-item--hov .wpg-prog-arrow,
 .wpg-prog-item:hover .wpg-prog-arrow { color: var(--dc, #1B6FF5); }
 
-/* ── Wheel center ── */
+/* ── Wheel — left column ── */
 .wpg-wheel-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  flex-shrink: 0;
+  height: 100%;
 }
 
 .wheel-seg { cursor: pointer; }
@@ -4751,21 +4752,49 @@ td:last-child { padding: 8px 10px; }
 }
 
 /* ── KD Detail Panel (slides in from right on programme select) ─────────── */
-/* ── KD Detail Panel (slides in from right, wheel shifts left) ── */
-.wpg-kd-panel {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 420px;
+/* ── Right bordered box — always visible ── */
+.wpg-right-box {
+  border: 2px solid var(--dc, #1B6FF5);
+  border-radius: 14px;
   background: #ffffff;
-  border-left: 3px solid var(--dc, #1B6FF5);
-  box-shadow: -6px 0 32px rgba(0,0,0,0.10);
   display: flex;
   flex-direction: column;
-  z-index: 20;
   overflow: hidden;
-  will-change: transform;
+  height: 100%;
+}
+/* inner content wrapper (animates on select) */
+.wpg-right-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+/* empty state */
+.wpg-right-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 32px;
+  pointer-events: none;
+}
+.wpg-empty-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+.wpg-empty-sub {
+  font-size: 13px;
+  color: #94A3B8;
+  margin: 0;
+  text-align: center;
+  line-height: 1.55;
+  font-family: 'Inter', sans-serif;
+  max-width: 220px;
 }
 
 .wpg-kd-hdr {
