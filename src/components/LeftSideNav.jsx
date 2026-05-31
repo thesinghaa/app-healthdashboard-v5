@@ -97,6 +97,11 @@ const PROG_ICON_KEY = {
   'medical-officer':'stethoscope','specialist':'badge','pm-abhim':'building',
 };
 
+/* ── Custom PNG icons per programme (override SVG fallback) ─────────────── */
+const PROG_ICON_IMG = {
+  'maternal-health': '/prog-icons/maternal-health.png',
+};
+
 /* ── SVG arc helpers ─────────────────────────────────────────────────────── */
 function toXY(r, deg) {
   const rad = ((deg - 90) * Math.PI) / 180;
@@ -136,9 +141,14 @@ function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
       onClick={() => onSelect(prog)}
     >
       <span className="wpg-prog-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-          <path d={ICON_PATHS[iconKey] || ''}/>
-        </svg>
+        {PROG_ICON_IMG[prog.id] ? (
+          <img src={PROG_ICON_IMG[prog.id]} width="22" height="22"
+            style={{ objectFit: 'contain', borderRadius: 4 }} alt="" />
+        ) : (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+            <path d={ICON_PATHS[iconKey] || ''}/>
+          </svg>
+        )}
       </span>
       <span className="wpg-prog-name">{prog.name || prog.id}</span>
       <span className="wpg-prog-arrow">
@@ -321,10 +331,15 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                              filter: isHov ? 'drop-shadow(0 4px 14px rgba(0,0,0,0.22))' : 'none' }}
                   />
                   <g transform={`translate(${ix-14},${iy-14})`} style={{ pointerEvents: 'none' }}>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
-                      stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                      <path d={ICON_PATHS[iconKey] || ''}/>
-                    </svg>
+                    {PROG_ICON_IMG[prog.id] ? (
+                      <image href={PROG_ICON_IMG[prog.id]} width="28" height="28"
+                        style={{ borderRadius: 4 }} />
+                    ) : (
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                        stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <path d={ICON_PATHS[iconKey] || ''}/>
+                      </svg>
+                    )}
                   </g>
                   {(() => {
                     const fs  = n > 9 ? 10 : 11;
@@ -394,10 +409,15 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
               <div className="wpg-kd-hdr">
                 <div className="wpg-kd-hdr-left">
                   <div className="wpg-kd-hdr-circle">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                      stroke={division.color} strokeWidth="2" strokeLinecap="round">
-                      <path d={ICON_PATHS[PROG_ICON_KEY[selected.id] || 'cross'] || ''}/>
-                    </svg>
+                    {PROG_ICON_IMG[selected.id] ? (
+                      <img src={PROG_ICON_IMG[selected.id]} width="28" height="28"
+                        style={{ objectFit: 'contain', borderRadius: 4 }} alt="" />
+                    ) : (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke={division.color} strokeWidth="2" strokeLinecap="round">
+                        <path d={ICON_PATHS[PROG_ICON_KEY[selected.id] || 'cross'] || ''}/>
+                      </svg>
+                    )}
                   </div>
                   <h2 className="wpg-kd-prog-title">{selected.name}</h2>
                 </div>
