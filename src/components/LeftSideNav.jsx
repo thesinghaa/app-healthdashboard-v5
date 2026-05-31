@@ -157,12 +157,17 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   const [selected, setSelected] = useState(null);
   const pageRef   = useRef(null);
   const wheelRef  = useRef(null);
+  const leftRef   = useRef(null);
+  const rightRef  = useRef(null);
   const headerRef = useRef(null);
   const footerRef = useRef(null);
   const panelRef  = useRef(null);
 
   const programs = divData?.programs || [];
   const n        = programs.length;
+  const half     = Math.floor(n / 2);
+  const leftProgs  = programs.slice(0, half);
+  const rightProgs = programs.slice(half);
 
   /* wheel geometry */
   const GAP    = n > 9 ? 2.5 : 3.5;
@@ -182,29 +187,56 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   }, []);
 
   useEffect(() => {
-    /* panel starts hidden right */
-    gsap.set(panelRef.current, { x: 60, opacity: 0 });
+    gsap.set(panelRef.current, { x: 400 });
     pageRef.current?.focus({ preventScroll: true });
 
-    /* wheel slides in from the left */
     const tl = gsap.timeline();
     tl.fromTo(pageRef.current,
       { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' });
     tl.fromTo(wheelRef.current,
-      { opacity: 0, x: -80, scale: 0.82, rotation: -20 },
-      { opacity: 1, x: 0, scale: 1, rotation: 0, duration: 0.58, ease: 'back.out(1.4)', transformOrigin: '50% 50%' },
+      { opacity: 0, scale: 0.7, rotation: -25 },
+      { opacity: 1, scale: 1, rotation: 0, duration: 0.55, ease: 'back.out(1.4)', transformOrigin: '50% 50%' },
       '-=0.1');
+    if (leftRef.current?.children)
+      tl.fromTo(Array.from(leftRef.current.children),
+        { opacity: 0, x: -30 },
+        { opacity: 1, x: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out' },
+        '-=0.35');
+    if (rightRef.current?.children)
+      tl.fromTo(Array.from(rightRef.current.children),
+        { opacity: 0, x: 30 },
+        { opacity: 1, x: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out' },
+        '-=0.45');
   }, []);
 
-  /* slide KD panel in/out when programme selected */
+  /* on select: fade columns, shift wheel left, slide panel in */
   useEffect(() => {
     if (!panelRef.current) return;
     if (selected) {
-      gsap.fromTo(panelRef.current,
-        { x: 60, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.38, ease: 'power3.out' });
+      gsap.to([leftRef.current, rightRef.current],
+        { opacity: 0, duration: 0.22, ease: 'power2.in' });
+      gsap.to(headerRef.current,
+        { opacity: 0, y: -8, duration: 0.22, ease: 'power2.in' });
+      gsap.to(footerRef.current,
+        { opacity: 0, y: 8, duration: 0.22, ease: 'power2.in' });
+      /* wheel slides to the left */
+      gsap.to(wheelRef.current,
+        { x: '-28vw', duration: 0.42, ease: 'power3.out', delay: 0.05 });
+      /* KD panel slides in from right */
+      gsap.to(panelRef.current,
+        { x: 0, duration: 0.40, ease: 'power3.out', delay: 0.05 });
     } else {
-      gsap.to(panelRef.current, { x: 60, opacity: 0, duration: 0.22, ease: 'power2.in' });
+      /* reverse: wheel returns to center, panel slides out */
+      gsap.to(wheelRef.current,
+        { x: 0, duration: 0.30, ease: 'power3.out' });
+      gsap.to(panelRef.current,
+        { x: 420, duration: 0.28, ease: 'power2.in' });
+      gsap.to([leftRef.current, rightRef.current],
+        { opacity: 1, duration: 0.30, ease: 'power2.out', delay: 0.15 });
+      gsap.to(headerRef.current,
+        { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out', delay: 0.15 });
+      gsap.to(footerRef.current,
+        { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out', delay: 0.15 });
     }
   }, [selected]);
 
@@ -257,10 +289,19 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         </div>
       </header>
 
-      {/* ── Main 2-column: wheel left | panel right ── */}
+      {/* ── Main 3-column ── */}
       <main className="wpg-main">
 
-        {/* Left: wheel */}
+        {/* Left column */}
+        <div className="wpg-col wpg-col--left" ref={leftRef}>
+          {leftProgs.map(prog => (
+            <ProgItem key={prog.id} prog={prog} color={division.color}
+              hovered={hovered} setHovered={setHovered}
+              onSelect={handleSelect} side="left" />
+          ))}
+        </div>
+
+        {/* Centre wheel */}
         <div className="wpg-wheel-wrap" ref={wheelRef}>
           <svg width={SIZE} height={SIZE} viewBox={`${-SIZE/2} ${-SIZE/2} ${SIZE} ${SIZE}`} overflow="visible">
 
@@ -342,24 +383,20 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
           </div>
         </div>
 
-        {/* Right: empty state + KD panel */}
-        <div className="wpg-right-col">
-          {/* Empty state — visible when nothing selected */}
-          {!selected && (
-            <div className="wpg-empty-state">
-              <svg width="56" height="56" viewBox="0 0 24 24" fill="none"
-                stroke={division.color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M12 8v4l3 3"/>
-              </svg>
-              <p className="wpg-empty-title">Select a Programme</p>
-              <p className="wpg-empty-sub">Click any segment on the wheel to view its Key Deliverables</p>
-            </div>
-          )}
+        {/* Right column */}
+        <div className="wpg-col wpg-col--right" ref={rightRef}>
+          {rightProgs.map(prog => (
+            <ProgItem key={prog.id} prog={prog} color={division.color}
+              hovered={hovered} setHovered={setHovered}
+              onSelect={handleSelect} side="right" />
+          ))}
+        </div>
 
-          {/* KD panel — slides in when programme selected */}
-          <div className="wpg-kd-panel" ref={panelRef}
-            style={{ '--dc': division.color, '--dl': division.light }}>
+      </main>
+
+      {/* KD panel — slides in from right, wheel shifts left */}
+      <div className="wpg-kd-panel" ref={panelRef}
+        style={{ '--dc': division.color, '--dl': division.light }}>
         {selected && (() => {
           const kdList = KD_TREE[division.id]?.programmes?.[selected.id]?.kds || [];
           return (
@@ -420,10 +457,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
             </>
           );
         })()}
-          </div>{/* end wpg-kd-panel */}
-        </div>{/* end wpg-right-col */}
-
-      </main>
+      </div>
 
       {/* ── Footer hint ── */}
       <footer className="wpg-footer" ref={footerRef}>
