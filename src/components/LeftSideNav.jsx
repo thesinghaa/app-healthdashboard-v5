@@ -398,12 +398,16 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
           const kdList = KD_TREE[division.id]?.programmes?.[selected.id]?.kds || [];
           return (
             <>
-              {/* panel header */}
+              {/* panel header — circle icon + name + close */}
               <div className="wpg-kd-hdr">
-                <div className="wpg-kd-hdr-text">
-                  <span className="wpg-kd-hdr-chip">{division.short}</span>
+                <div className="wpg-kd-hdr-left">
+                  <div className="wpg-kd-hdr-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                      stroke={division.color} strokeWidth="2" strokeLinecap="round">
+                      <path d={ICON_PATHS[PROG_ICON_KEY[selected.id] || 'cross'] || ''}/>
+                    </svg>
+                  </div>
                   <h2 className="wpg-kd-prog-title">{selected.name}</h2>
-                  <p className="wpg-kd-count">{kdList.length} Key Deliverables</p>
                 </div>
                 <button className="wpg-kd-close-btn" onClick={handlePanelClose} aria-label="Close panel">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
@@ -413,39 +417,32 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                 </button>
               </div>
 
-              {/* section bar */}
-              <div className="wpg-kd-section-bar">
-                <span>Key Deliverables</span>
-                <span className="wpg-kd-section-count">{kdList.length}</span>
-              </div>
-
-              {/* indicator table */}
-              <div className="wpg-kd-table-wrap">
+              {/* bordered grid table */}
+              <div className="wpg-kd-grid-wrap">
                 {kdList.length === 0 ? (
                   <p className="wpg-kd-empty">No indicators available for this programme.</p>
                 ) : (
-                  <div className="wpg-kd-table-scroll">
-                  <table className="wpg-kd-table">
+                  <table className="wpg-kd-grid">
                     <thead>
-                      <tr>
-                        <th className="wpg-kd-th wpg-kd-th--no">#</th>
-                        <th className="wpg-kd-th wpg-kd-th--indicator">Indicator</th>
-                        <th className="wpg-kd-th wpg-kd-th--achvd">Achieved</th>
-                        <th className="wpg-kd-th wpg-kd-th--target">Target</th>
-                        <th className="wpg-kd-th wpg-kd-th--status">Status</th>
+                      <tr className="wpg-kd-grid-hdr">
+                        <th className="wpg-kd-gh wpg-kd-gh--no">S.no</th>
+                        <th className="wpg-kd-gh wpg-kd-gh--indicator">Indicator</th>
+                        <th className="wpg-kd-gh wpg-kd-gh--target">Target</th>
+                        <th className="wpg-kd-gh wpg-kd-gh--achvd">Achievement</th>
+                        <th className="wpg-kd-gh wpg-kd-gh--status">Status</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {kdList.map(kd => {
+                      {kdList.map((kd, idx) => {
                         const st = kdStatus(kd);
                         const statusLabel = st === 'achieved' ? 'On Track' : st === 'close' ? 'Caution' : st === 'gap' ? 'Gap' : 'N/A';
                         return (
-                          <tr key={kd.no} className={`wpg-kd-tr wpg-kd-tr--${st}`}>
-                            <td className="wpg-kd-td wpg-kd-td--no">{kd.no}</td>
-                            <td className="wpg-kd-td wpg-kd-td--indicator">{kd.indicator}</td>
-                            <td className="wpg-kd-td wpg-kd-td--achvd">{kd.achievedLabel ?? kd.achievement ?? '—'}</td>
-                            <td className="wpg-kd-td wpg-kd-td--target">{kd.targetLabel ?? kd.target ?? '—'}</td>
-                            <td className="wpg-kd-td wpg-kd-td--status">
+                          <tr key={kd.no} className={`wpg-kd-gr wpg-kd-gr--${st}`}>
+                            <td className="wpg-kd-gd wpg-kd-gd--no">{idx + 1}</td>
+                            <td className="wpg-kd-gd wpg-kd-gd--indicator">{kd.indicator}</td>
+                            <td className="wpg-kd-gd wpg-kd-gd--target">{kd.targetLabel ?? kd.target ?? '—'}</td>
+                            <td className="wpg-kd-gd wpg-kd-gd--achvd">{kd.achievedLabel ?? kd.achievement ?? '—'}</td>
+                            <td className="wpg-kd-gd wpg-kd-gd--status">
                               <span className={`wpg-kd-badge wpg-kd-badge--${st}`}>{statusLabel}</span>
                             </td>
                           </tr>
@@ -453,7 +450,6 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                       })}
                     </tbody>
                   </table>
-                  </div>
                 )}
               </div>
 

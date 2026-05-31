@@ -4770,20 +4770,30 @@ td:last-child { padding: 8px 10px; }
 
 .wpg-kd-hdr {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 28px 22px 20px;
+  padding: 18px 20px 16px;
   border-bottom: 1px solid rgba(0,0,0,0.07);
   flex-shrink: 0;
-  background: linear-gradient(135deg, var(--dl, #DBEAFE) 0%, #ffffff 60%);
+  background: #ffffff;
 }
-
-.wpg-kd-hdr-text {
+.wpg-kd-hdr-left {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 12px;
   min-width: 0;
+}
+.wpg-kd-hdr-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid var(--dc, #1B6FF5);
+  background: var(--dl, #DBEAFE);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .wpg-kd-hdr-chip {
@@ -5079,3 +5089,63 @@ td:last-child { padding: 8px 10px; }
 .wpg-kd-td--target   { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12px; white-space: nowrap; }
 .wpg-kd-td--target   { color: #64748B; }
 .wpg-kd-td--status   { text-align: center; }
+
+/* ── KD bordered grid table (sketch reference) ───────────────────────────── */
+.wpg-kd-grid-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.12) transparent;
+}
+.wpg-kd-grid {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid var(--dc, #1B6FF5);
+  border-radius: 10px;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+}
+/* header row */
+.wpg-kd-gh {
+  background: var(--dl, #DBEAFE);
+  color: var(--dc, #1B6FF5);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 9px 10px;
+  text-align: left;
+  border-bottom: 2px solid var(--dc, #1B6FF5);
+  border-right: 1px solid rgba(0,0,0,0.10);
+  white-space: nowrap;
+}
+.wpg-kd-gh:last-child { border-right: none; }
+.wpg-kd-gh--no        { width: 36px; text-align: center; }
+.wpg-kd-gh--target,
+.wpg-kd-gh--achvd     { text-align: right; }
+.wpg-kd-gh--status    { text-align: center; }
+
+/* data rows */
+.wpg-kd-gr {
+  border-bottom: 1px solid #E2E8F0;
+  transition: background 0.1s;
+}
+.wpg-kd-gr:last-child { border-bottom: none; }
+.wpg-kd-gr:hover      { background: #F8FAFC; }
+
+.wpg-kd-gd {
+  padding: 9px 10px;
+  vertical-align: middle;
+  color: #1E293B;
+  border-right: 1px solid #E2E8F0;
+  line-height: 1.35;
+}
+.wpg-kd-gd:last-child  { border-right: none; }
+.wpg-kd-gd--no         { text-align: center; color: #94A3B8; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; }
+.wpg-kd-gd--target,
+.wpg-kd-gd--achvd      { text-align: right; font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+.wpg-kd-gd--target     { color: #64748B; }
+.wpg-kd-gd--achvd      { font-weight: 600; }
+.wpg-kd-gd--status     { text-align: center; }
