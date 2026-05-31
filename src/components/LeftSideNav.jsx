@@ -413,34 +413,46 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                 </button>
               </div>
 
-              {/* indicator list */}
-              <div className="wpg-kd-list">
+              {/* section bar */}
+              <div className="wpg-kd-section-bar">
+                <span>Key Deliverables</span>
+                <span className="wpg-kd-section-count">{kdList.length}</span>
+              </div>
+
+              {/* indicator table */}
+              <div className="wpg-kd-table-wrap">
                 {kdList.length === 0 ? (
                   <p className="wpg-kd-empty">No indicators available for this programme.</p>
-                ) : kdList.map(kd => {
-                  const st = kdStatus(kd);
-                  const statusLabel = st === 'achieved' ? 'On Track' : st === 'close' ? 'Caution' : st === 'gap' ? 'Gap' : 'N/A';
-                  return (
-                    <div key={kd.no} className={`wpg-kd-row wpg-kd-row--${st}`}>
-                      <div className="wpg-kd-row-top">
-                        <span className="wpg-kd-no">KD {kd.no}</span>
-                        <span className={`wpg-kd-badge wpg-kd-badge--${st}`}>{statusLabel}</span>
-                      </div>
-                      <div className="wpg-kd-indicator-name">{kd.indicator}</div>
-                      <div className="wpg-kd-vals">
-                        <div className="wpg-kd-val">
-                          <span className="wpg-kd-val-num">{kd.achievedLabel ?? kd.achievement ?? '—'}</span>
-                          <span className="wpg-kd-val-lbl">Achievement</span>
-                        </div>
-                        <div className="wpg-kd-divider"/>
-                        <div className="wpg-kd-val">
-                          <span className="wpg-kd-val-num">{kd.targetLabel ?? kd.target ?? '—'}</span>
-                          <span className="wpg-kd-val-lbl">Target</span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                ) : (
+                  <table className="wpg-kd-table">
+                    <thead>
+                      <tr>
+                        <th className="wpg-kd-th wpg-kd-th--no">#</th>
+                        <th className="wpg-kd-th wpg-kd-th--indicator">Indicator</th>
+                        <th className="wpg-kd-th wpg-kd-th--achvd">Achieved</th>
+                        <th className="wpg-kd-th wpg-kd-th--target">Target</th>
+                        <th className="wpg-kd-th wpg-kd-th--status">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {kdList.map(kd => {
+                        const st = kdStatus(kd);
+                        const statusLabel = st === 'achieved' ? 'On Track' : st === 'close' ? 'Caution' : st === 'gap' ? 'Gap' : 'N/A';
+                        return (
+                          <tr key={kd.no} className={`wpg-kd-tr wpg-kd-tr--${st}`}>
+                            <td className="wpg-kd-td wpg-kd-td--no">{kd.no}</td>
+                            <td className="wpg-kd-td wpg-kd-td--indicator">{kd.indicator}</td>
+                            <td className="wpg-kd-td wpg-kd-td--achvd">{kd.achievedLabel ?? kd.achievement ?? '—'}</td>
+                            <td className="wpg-kd-td wpg-kd-td--target">{kd.targetLabel ?? kd.target ?? '—'}</td>
+                            <td className="wpg-kd-td wpg-kd-td--status">
+                              <span className={`wpg-kd-badge wpg-kd-badge--${st}`}>{statusLabel}</span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
               </div>
 
               {/* navigate to full KD page */}

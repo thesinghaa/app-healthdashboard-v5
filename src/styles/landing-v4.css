@@ -4988,3 +4988,82 @@ td:last-child { padding: 8px 10px; }
   box-shadow: 0 2px 8px rgba(201, 130, 26, 0.18);
   box-sizing: border-box;
 }
+
+/* ── KD panel section bar ───────────────────────────────────────────────── */
+.wpg-kd-section-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--dc, #1B6FF5);
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 9px 18px;
+  flex-shrink: 0;
+}
+.wpg-kd-section-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.22);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* ── KD compact table ───────────────────────────────────────────────────── */
+.wpg-kd-table-wrap {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.12) transparent;
+}
+.wpg-kd-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+}
+.wpg-kd-th {
+  position: sticky;
+  top: 0;
+  background: #F8FAFC;
+  border-bottom: 2px solid #E2E8F0;
+  padding: 10px 10px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748B;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.wpg-kd-th--no       { width: 36px; }
+.wpg-kd-th--indicator { width: 100%; }
+.wpg-kd-th--achvd    { width: 72px; text-align: right; }
+.wpg-kd-th--target   { width: 64px; text-align: right; }
+.wpg-kd-th--status   { width: 76px; text-align: center; }
+
+.wpg-kd-tr {
+  border-bottom: 1px solid #F1F5F9;
+  transition: background 0.12s;
+}
+.wpg-kd-tr:hover { background: #F8FAFC; }
+.wpg-kd-tr--achieved { border-left: 3px solid #16A34A; }
+.wpg-kd-tr--close    { border-left: 3px solid #D97706; }
+.wpg-kd-tr--gap      { border-left: 3px solid #DC2626; }
+.wpg-kd-tr--neutral  { border-left: 3px solid #CBD5E1; }
+
+.wpg-kd-td {
+  padding: 10px 10px;
+  vertical-align: middle;
+  color: #1E293B;
+  line-height: 1.35;
+}
+.wpg-kd-td--no       { color: #94A3B8; font-size: 11px; font-family: 'JetBrains Mono', monospace; }
+.wpg-kd-td--achvd,
+.wpg-kd-td--target   { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12px; white-space: nowrap; }
+.wpg-kd-td--target   { color: #64748B; }
+.wpg-kd-td--status   { text-align: center; }
