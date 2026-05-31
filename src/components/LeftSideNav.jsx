@@ -255,7 +255,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
       style={{ '--dc': division.color, '--dl': division.light }}
     >
       {/* ── Header ── */}
-      <header className="wpg-header">
+      <header className="wpg-header" ref={headerRef}>
         <button className="wpg-back-btn" onClick={close}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M19 12H5M12 5l-7 7 7 7"/>
