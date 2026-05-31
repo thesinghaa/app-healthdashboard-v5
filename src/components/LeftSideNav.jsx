@@ -213,28 +213,25 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   useEffect(() => {
     if (!panelRef.current) return;
     if (selected) {
+      /* fade out side columns and footer */
       gsap.to([leftRef.current, rightRef.current],
         { opacity: 0, duration: 0.22, ease: 'power2.in' });
-      gsap.to(headerRef.current,
-        { opacity: 0, y: -8, duration: 0.22, ease: 'power2.in' });
       gsap.to(footerRef.current,
         { opacity: 0, y: 8, duration: 0.22, ease: 'power2.in' });
-      /* wheel slides left by half the panel width → stays centred in remaining space */
-      gsap.to(wheelRef.current,
+      /* header + wheel both shift left together — header stays centred above wheel */
+      gsap.to([headerRef.current, wheelRef.current],
         { x: -210, duration: 0.42, ease: 'power3.out', delay: 0.05 });
       /* KD panel slides in from right */
       gsap.to(panelRef.current,
         { x: 0, duration: 0.40, ease: 'power3.out', delay: 0.05 });
     } else {
-      /* reverse: wheel returns to center, panel slides out */
-      gsap.to(wheelRef.current,
+      /* reverse everything */
+      gsap.to([headerRef.current, wheelRef.current],
         { x: 0, duration: 0.30, ease: 'power3.out' });
       gsap.to(panelRef.current,
         { x: 420, duration: 0.28, ease: 'power2.in' });
       gsap.to([leftRef.current, rightRef.current],
         { opacity: 1, duration: 0.30, ease: 'power2.out', delay: 0.15 });
-      gsap.to(headerRef.current,
-        { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out', delay: 0.15 });
       gsap.to(footerRef.current,
         { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out', delay: 0.15 });
     }
