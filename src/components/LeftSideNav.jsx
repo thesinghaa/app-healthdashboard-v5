@@ -424,6 +424,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                 {kdList.length === 0 ? (
                   <p className="wpg-kd-empty">No indicators available for this programme.</p>
                 ) : (
+                  <div className="wpg-kd-table-scroll">
                   <table className="wpg-kd-table">
                     <thead>
                       <tr>
@@ -452,6 +453,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                       })}
                     </tbody>
                   </table>
+                  </div>
                 )}
               </div>
 

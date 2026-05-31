@@ -5017,6 +5017,18 @@ td:last-child { padding: 8px 10px; }
 .wpg-kd-table-wrap {
   flex: 1;
   overflow-y: auto;
+  margin: 12px 14px 0;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  background: #ffffff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.wpg-kd-table-scroll {
+  flex: 1;
+  overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(0,0,0,0.12) transparent;
 }
