@@ -189,14 +189,12 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
       '-=0.08');
   }, []);
 
-  /* table content fades in when programme selected */
+  /* box slides in from right when segment clicked */
   useEffect(() => {
     if (!panelRef.current) return;
-    if (selected) {
-      gsap.fromTo(panelRef.current,
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.32, ease: 'power3.out' });
-    }
+    gsap.fromTo(panelRef.current,
+      { x: 60, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.38, ease: 'power3.out' });
   }, [selected]);
 
   function close() {
@@ -333,11 +331,9 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
           </div>
         </div>
 
-        {/* Right: always-visible bordered box */}
-        <div className="wpg-right-box">
-          {selected ? (
-            /* ── Table content fades in ── */
-            <div className="wpg-right-inner" ref={panelRef}>
+        {/* Right: bordered box — only when programme selected */}
+        {selected && (
+          <div className="wpg-right-box" ref={panelRef}>
         {selected && (() => {
           const kdList = KD_TREE[division.id]?.programmes?.[selected.id]?.kds || [];
           return (
@@ -405,20 +401,8 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                   <path d="M9 18l6-6-6-6"/>
                 </svg>
               </button>
-            </div>
-          ) : (
-            /* ── Empty state ── */
-            <div className="wpg-right-empty">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
-                stroke={division.color} strokeWidth="1.2" strokeLinecap="round">
-                <circle cx="12" cy="12" r="9"/>
-                <path d="M12 8v4l3 3"/>
-              </svg>
-              <p className="wpg-empty-title">Click a segment</p>
-              <p className="wpg-empty-sub">Select any programme on the wheel to view its indicators</p>
-            </div>
-          )}
-        </div>{/* end wpg-right-box */}
+          </div>
+        )}
 
       </main>
 
