@@ -219,9 +219,9 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         { opacity: 0, y: -8, duration: 0.22, ease: 'power2.in' });
       gsap.to(footerRef.current,
         { opacity: 0, y: 8, duration: 0.22, ease: 'power2.in' });
-      /* wheel slides to the left */
+      /* wheel slides left by half the panel width → stays centred in remaining space */
       gsap.to(wheelRef.current,
-        { x: '-28vw', duration: 0.42, ease: 'power3.out', delay: 0.05 });
+        { x: -210, duration: 0.42, ease: 'power3.out', delay: 0.05 });
       /* KD panel slides in from right */
       gsap.to(panelRef.current,
         { x: 0, duration: 0.40, ease: 'power3.out', delay: 0.05 });
