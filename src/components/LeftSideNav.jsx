@@ -332,12 +332,10 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         </div>
 
         {/* Right: bordered box — only when programme selected */}
-        {selected && (
-          <div className="wpg-right-box" ref={panelRef}>
         {selected && (() => {
           const kdList = KD_TREE[division.id]?.programmes?.[selected.id]?.kds || [];
           return (
-            <>
+            <div className="wpg-right-box" ref={panelRef}>
               {/* panel header — circle icon + name + close */}
               <div className="wpg-kd-hdr">
                 <div className="wpg-kd-hdr-left">
@@ -401,8 +399,9 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                   <path d="M9 18l6-6-6-6"/>
                 </svg>
               </button>
-          </div>
-        )}
+            </div>
+          );
+        })()}
 
       </main>
 
