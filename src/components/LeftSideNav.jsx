@@ -99,7 +99,15 @@ const PROG_ICON_KEY = {
 
 /* ── Custom PNG icons per programme (override SVG fallback) ─────────────── */
 const PROG_ICON_IMG = {
-  'maternal-health': '/prog-icons/maternal-health.png',
+  'maternal-health':   '/prog-icons/maternal-health.png',
+  'jsy':               '/prog-icons/jsy.png',
+  'cac':               '/prog-icons/cac.png',
+  'pcpndt':            '/prog-icons/pcpndt.png',
+  'child-health':      '/prog-icons/child-health.png',
+  'immunization':      '/prog-icons/immunization.png',
+  'adolescent-health': '/prog-icons/adolescent-health.png',
+  'family-planning':   '/prog-icons/family-planning.png',
+  'nutrition':         '/prog-icons/nutrition.png',
 };
 
 /* ── SVG arc helpers ─────────────────────────────────────────────────────── */
