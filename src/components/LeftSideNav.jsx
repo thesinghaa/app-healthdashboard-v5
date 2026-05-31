@@ -148,10 +148,10 @@ function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
       onMouseLeave={() => setHovered(null)}
       onClick={() => onSelect(prog)}
     >
-      <span className="wpg-prog-icon">
+      <span className={`wpg-prog-icon${PROG_ICON_IMG[prog.id] ? ' wpg-prog-icon--img' : ''}`}>
         {PROG_ICON_IMG[prog.id] ? (
-          <img src={PROG_ICON_IMG[prog.id]} width="22" height="22"
-            style={{ objectFit: 'contain', borderRadius: 4 }} alt="" />
+          <img src={PROG_ICON_IMG[prog.id]}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 10, display: 'block' }} alt="" />
         ) : (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
             <path d={ICON_PATHS[iconKey] || ''}/>
@@ -338,12 +338,12 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                              transition: 'transform 0.2s ease, fill 0.2s', cursor: 'pointer',
                              filter: isHov ? 'drop-shadow(0 4px 14px rgba(0,0,0,0.22))' : 'none' }}
                   />
-                  <g transform={`translate(${ix-14},${iy-14})`} style={{ pointerEvents: 'none' }}>
+                  <g transform={`translate(${ix},${iy})`} style={{ pointerEvents: 'none' }}>
                     {PROG_ICON_IMG[prog.id] ? (
-                      <image href={PROG_ICON_IMG[prog.id]} width="28" height="28"
-                        style={{ borderRadius: 4 }} />
+                      <image href={PROG_ICON_IMG[prog.id]} width="34" height="34"
+                        x="-17" y="-17" style={{ borderRadius: 6 }} />
                     ) : (
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                      <svg x="-14" y="-14" width="28" height="28" viewBox="0 0 24 24" fill="none"
                         stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                         <path d={ICON_PATHS[iconKey] || ''}/>
                       </svg>
@@ -416,10 +416,10 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
               {/* panel header — circle icon + name + close */}
               <div className="wpg-kd-hdr">
                 <div className="wpg-kd-hdr-left">
-                  <div className="wpg-kd-hdr-circle">
+                  <div className={`wpg-kd-hdr-circle${PROG_ICON_IMG[selected.id] ? ' wpg-kd-hdr-circle--img' : ''}`}>
                     {PROG_ICON_IMG[selected.id] ? (
-                      <img src={PROG_ICON_IMG[selected.id]} width="28" height="28"
-                        style={{ objectFit: 'contain', borderRadius: 4 }} alt="" />
+                      <img src={PROG_ICON_IMG[selected.id]}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%', display: 'block' }} alt="" />
                     ) : (
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke={division.color} strokeWidth="2" strokeLinecap="round">
