@@ -4757,7 +4757,7 @@ td:last-child { padding: 8px 10px; }
   top: 72px;
   right: 16px;
   bottom: 48px;
-  width: 440px;
+  width: clamp(500px, 42vw, 600px);
   border: 2px solid var(--dc, #1B6FF5);
   border-radius: 14px;
   background: #ffffff;
@@ -5123,9 +5123,10 @@ td:last-child { padding: 8px 10px; }
 }
 .wpg-kd-gh:last-child { border-right: none; }
 .wpg-kd-gh--no        { width: 36px; text-align: center; }
-.wpg-kd-gh--target,
-.wpg-kd-gh--achvd     { text-align: right; }
-.wpg-kd-gh--status    { text-align: center; }
+.wpg-kd-gh--indicator { width: 100%; }
+.wpg-kd-gh--target    { width: 90px; text-align: right; }
+.wpg-kd-gh--achvd     { width: 110px; text-align: right; }
+.wpg-kd-gh--status    { width: 80px; text-align: center; }
 
 /* data rows */
 .wpg-kd-gr {
