@@ -4626,6 +4626,17 @@ td:last-child { padding: 8px 10px; }
 }
 .wpg-close-btn:hover { background: #DC2626; transform: scale(1.1); }
 
+/* ── Outer bordered frame ── */
+.wpg-frame {
+  position: relative;
+  flex: 1;
+  margin: 8px 16px 8px;
+  border: 2px solid rgba(0,0,0,0.10);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.60);
+}
+
 /* ── Main layout — 3 col: cards | wheel | cards ── */
 .wpg-main {
   display: grid;
@@ -4634,6 +4645,7 @@ td:last-child { padding: 8px 10px; }
   gap: 24px;
   padding: 16px 48px;
   overflow: hidden;
+  height: 100%;
 }
 
 /* ── Programme columns ── */
@@ -4754,10 +4766,10 @@ td:last-child { padding: 8px 10px; }
 /* ── Bordered table panel — absolute, slides in from right on click ── */
 .wpg-right-box {
   position: absolute;
-  top: 72px;
-  right: 16px;
-  bottom: 48px;
-  width: 55vw;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 55%;
   border: 2px solid var(--dc, #1B6FF5);
   border-radius: 14px;
   background: #ffffff;

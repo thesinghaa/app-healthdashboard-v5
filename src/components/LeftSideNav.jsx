@@ -276,6 +276,9 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         </div>
       </header>
 
+      {/* ── Outer frame — bordered container for wheel + table ── */}
+      <div className="wpg-frame">
+
       {/* ── Main: 3-col — cards | wheel | cards ── */}
       <main className="wpg-main">
 
@@ -453,6 +456,8 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
             </div>
           );
         })()}
+
+      </div>{/* end wpg-frame */}
 
       {/* ── Footer ── */}
       <footer className="wpg-footer" ref={footerRef}>
