@@ -4757,7 +4757,7 @@ td:last-child { padding: 8px 10px; }
   top: 72px;
   right: 16px;
   bottom: 48px;
-  width: clamp(500px, 42vw, 600px);
+  width: 55vw;
   border: 2px solid var(--dc, #1B6FF5);
   border-radius: 14px;
   background: #ffffff;

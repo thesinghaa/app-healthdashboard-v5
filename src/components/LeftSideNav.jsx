@@ -212,7 +212,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         { opacity: 0, y: 8, duration: 0.22, ease: 'power2.in' });
       /* shift wheel + header left */
       gsap.to([headerRef.current, wheelRef.current],
-        { x: -210, duration: 0.42, ease: 'power3.out', delay: 0.05 });
+        { x: '-27vw', duration: 0.42, ease: 'power3.out', delay: 0.05 });
       /* panel slides in from right — fromTo so no prior gsap.set needed */
       if (panelRef.current) {
         gsap.fromTo(panelRef.current,
