@@ -186,7 +186,6 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
 
   /* entry animation */
   useEffect(() => {
-    gsap.set(panelRef.current, { x: 500, opacity: 0 });
     pageRef.current?.focus({ preventScroll: true });
     const tl = gsap.timeline();
     tl.fromTo(pageRef.current,
@@ -205,19 +204,24 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
 
   /* on select: fade cards, shift wheel+header left, slide panel in */
   useEffect(() => {
-    if (!panelRef.current) return;
     if (selected) {
+      /* fade out cards + footer */
       gsap.to([leftRef.current, rightRef.current],
         { opacity: 0, duration: 0.22, ease: 'power2.in' });
       gsap.to(footerRef.current,
         { opacity: 0, y: 8, duration: 0.22, ease: 'power2.in' });
+      /* shift wheel + header left */
       gsap.to([headerRef.current, wheelRef.current],
         { x: -210, duration: 0.42, ease: 'power3.out', delay: 0.05 });
-      gsap.to(panelRef.current,
-        { x: 0, opacity: 1, duration: 0.40, ease: 'power3.out', delay: 0.08 });
+      /* panel slides in from right — fromTo so no prior gsap.set needed */
+      if (panelRef.current) {
+        gsap.fromTo(panelRef.current,
+          { x: 500, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.40, ease: 'power3.out', delay: 0.08 });
+      }
     } else {
+      /* reverse */
       gsap.to([headerRef.current, wheelRef.current], { x: 0, duration: 0.30, ease: 'power3.out' });
-      gsap.to(panelRef.current, { x: 500, opacity: 0, duration: 0.25, ease: 'power2.in' });
       gsap.to([leftRef.current, rightRef.current], { opacity: 1, duration: 0.30, ease: 'power2.out', delay: 0.15 });
       gsap.to(footerRef.current, { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out', delay: 0.15 });
     }
