@@ -500,10 +500,173 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   );
 }
 
+/* ── Division story data (per division) ─────────────────────────────────── */
+const DIVISION_STORIES = {
+  rch: {
+    title: 'Five health stories of the year',
+    subtitle: 'What happened to mothers, babies, women and families across Arunachal Pradesh in FY 2024-25',
+    intro: 'Every year, lakhs of people across Arunachal Pradesh walk into a public health centre, a sub-centre, or a hospital. These five stories follow the people the health system met this year — and what it did for them.',
+    topStats: [
+      { value: '27,132', label: 'Pregnant women cared for' },
+      { value: '21,019', label: 'Babies born safely' },
+      { value: '20,787', label: 'Children fully immunised by age 1' },
+      { value: '25',     label: 'Districts, every corner of the state' },
+    ],
+    stories: [
+      {
+        no: 1,
+        title: "The mother's journey",
+        question: 'Are pregnancies travelling safely from registration to delivery?',
+        hero: { value: '73%', text: 'of registered pregnancies ended in a facility delivery this year — 19,812 mothers gave birth in a hospital or health centre' },
+        bars: [
+          { label: 'Registered for care',    pct: 100, count: '27,132' },
+          { label: 'Registered early',        pct: 62,  count: '16,887' },
+          { label: 'Completed 4+ check-ups',  pct: 70,  count: '18,957' },
+          { label: 'Completed iron tablets',  pct: 90,  count: '24,514' },
+          { label: 'Delivered at facility',   pct: 73,  count: '19,812' },
+          { label: 'Stayed 48+ hours',        pct: 43,  count: '11,724' },
+        ],
+        insight: 'Most mothers reach a facility to deliver — a real win for the state. But only 4 in 10 stay for the recommended 48 hours, the window when most complications appear. That is the next mile.',
+      },
+    ],
+  },
+};
+
+/* ── Division Story Page ─────────────────────────────────────────────────── */
+function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
+  const story = DIVISION_STORIES[division.id];
+  const pageRef = useRef(null);
+
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
+  useEffect(() => {
+    gsap.fromTo(pageRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.32, ease: 'power3.out' });
+  }, []);
+
+  function close() {
+    gsap.to(pageRef.current, { opacity: 0, y: 10, duration: 0.2, onComplete: onClose });
+  }
+
+  function explore() {
+    gsap.to(pageRef.current, { opacity: 0, x: -40, duration: 0.22, ease: 'power2.in', onComplete: onExploreProgrammes });
+  }
+
+  if (!story) {
+    onExploreProgrammes();
+    return null;
+  }
+
+  return (
+    <div className="dsp-page" ref={pageRef} style={{ '--dc': division.color, '--dl': division.light }}>
+      {/* ── Header ── */}
+      <header className="dsp-header">
+        <button className="wpg-back-btn" onClick={close}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <path d="M19 12H5M12 5l-7 7 7 7"/>
+          </svg>
+          Back
+        </button>
+        <div className="wpg-header-center">
+          <span className="wpg-header-chip">{division.short}</span>
+          <h1 className="wpg-header-title">{division.name}</h1>
+        </div>
+        <button className="wpg-close-btn" onClick={close} aria-label="Close">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </header>
+
+      {/* ── Scrollable body ── */}
+      <div className="dsp-body">
+
+        {/* Hero text */}
+        <div className="dsp-hero">
+          <h2 className="dsp-title">{story.title}</h2>
+          <p className="dsp-subtitle">
+            <span className="dsp-subtitle-bar" style={{ background: division.color }} />
+            {story.subtitle}
+          </p>
+          <p className="dsp-intro">{story.intro}</p>
+        </div>
+
+        {/* Top stats row */}
+        <div className="dsp-top-stats">
+          {story.topStats.map((s, i) => (
+            <div key={i} className="dsp-top-stat">
+              <div className="dsp-top-stat-val" style={{ color: division.color }}>{s.value}</div>
+              <div className="dsp-top-stat-lbl">{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Stories */}
+        {story.stories.map(st => (
+          <div key={st.no} className="dsp-story">
+            {/* Story label + title */}
+            <div className="dsp-story-head">
+              <span className="dsp-story-no">STORY {st.no}</span>
+              <h3 className="dsp-story-title">{st.title}</h3>
+            </div>
+            <p className="dsp-story-question">{st.question}</p>
+
+            {/* Hero stat */}
+            <div className="dsp-story-hero" style={{ borderColor: division.color + '33', background: division.color + '08' }}>
+              <span className="dsp-story-hero-val" style={{ color: division.color }}>{st.hero.value}</span>
+              <span className="dsp-story-hero-text">{st.hero.text}</span>
+            </div>
+
+            {/* Progress bars */}
+            <div className="dsp-bars">
+              {st.bars.map((b, i) => (
+                <div key={i} className="dsp-bar-row">
+                  <span className="dsp-bar-label">{b.label}</span>
+                  <div className="dsp-bar-track">
+                    <div className="dsp-bar-fill"
+                      style={{ width: `${b.pct}%`, background: division.color + '33' }}>
+                      <span className="dsp-bar-pct" style={{ color: division.color }}>{b.pct}%</span>
+                    </div>
+                  </div>
+                  <span className="dsp-bar-count">{b.count}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Insight */}
+            <div className="dsp-insight" style={{ borderLeftColor: division.color }}>
+              {st.insight}
+            </div>
+          </div>
+        ))}
+
+        {/* Explore button */}
+        <div className="dsp-footer">
+          <button className="dsp-explore-btn" onClick={explore}
+            style={{ borderColor: division.color, color: division.color }}>
+            Explore Programmes
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 /* ── Left Nav panel ───────────────────────────────────────────────────────── */
 export default function LeftSideNav({ onSelectDivision, onSelectProgramme }) {
   const [open,      setOpen]      = useState(false);
   const [activeDiv, setActiveDiv] = useState(null);
+  const [showWheel, setShowWheel] = useState(false);
   const panelRef = useRef(null);
   const rowRefs  = useRef([]);
 
@@ -559,7 +722,7 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme }) {
             {DIVISIONS.map((div, i) => (
               <button key={div.id} ref={el => rowRefs.current[i] = el}
                 className="lsnav-div-row" style={{ '--dc': div.color, '--db': div.light }}
-                onClick={() => { setOpen(false); setActiveDiv(div); }}>
+                onClick={() => { setOpen(false); setShowWheel(false); setActiveDiv(div); }}>
                 <span className="lsnav-div-icon-bg">
                   <img src={`/sidebar/${div.short}.png`} alt="" />
                 </span>
@@ -580,12 +743,20 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme }) {
 
       {open && <div className="lsnav-backdrop" onClick={() => setOpen(false)} />}
 
-      {activeDiv && (
+      {activeDiv && !showWheel && (
+        <DivisionStoryPage
+          division={activeDiv}
+          onClose={() => setActiveDiv(null)}
+          onExploreProgrammes={() => setShowWheel(true)}
+        />
+      )}
+
+      {activeDiv && showWheel && (
         <ProgrammeWheelPage
           division={activeDiv}
           divData={getDivData(activeDiv.id)}
           onSelect={handleWheelSelect}
-          onClose={() => setActiveDiv(null)}
+          onClose={() => { setActiveDiv(null); setShowWheel(false); }}
         />
       )}
     </>
