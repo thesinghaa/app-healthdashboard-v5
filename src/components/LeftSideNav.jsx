@@ -341,15 +341,17 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                              filter: isHov ? 'drop-shadow(0 4px 14px rgba(0,0,0,0.22))' : 'none' }}
                   />
                   <g transform={`translate(${ix},${iy})`} style={{ pointerEvents: 'none' }}>
-                    {PROG_ICON_IMG[prog.id] ? (<>
-                      <defs>
-                        <clipPath id={`icon-clip-${prog.id}`}>
-                          <rect x="-24" y="-24" width="48" height="48" rx="8" ry="8" />
-                        </clipPath>
-                      </defs>
-                      <image href={PROG_ICON_IMG[prog.id]} width="48" height="48"
-                        x="-24" y="-24" clipPath={`url(#icon-clip-${prog.id})`} />
-                    </>) : (
+                    {PROG_ICON_IMG[prog.id] ? (
+                      <g>
+                        <defs>
+                          <clipPath id={`icon-clip-${prog.id}`}>
+                            <rect x="-24" y="-24" width="48" height="48" rx="8" ry="8" />
+                          </clipPath>
+                        </defs>
+                        <image href={PROG_ICON_IMG[prog.id]} width="48" height="48"
+                          x="-24" y="-24" clipPath={`url(#icon-clip-${prog.id})`} />
+                      </g>
+                    ) : (
                       <svg x="-14" y="-14" width="28" height="28" viewBox="0 0 24 24" fill="none"
                         stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                         <path d={ICON_PATHS[iconKey] || ''}/>
@@ -509,26 +511,81 @@ const DIVISION_STORIES = {
     subtitle: 'What happened to mothers, babies, women and families across Arunachal Pradesh in FY 2024-25',
     intro: 'Every year, lakhs of people across Arunachal Pradesh walk into a public health centre, a sub-centre, or a hospital. These five stories follow the people the health system met this year — and what it did for them.',
     topStats: [
-      { value: '27,132', label: 'Pregnant women cared for',           img: '/prog-icons/maternal-health.png', progId: 'maternal-health' },
-      { value: '21,019', label: 'Babies born safely',                 img: '/prog-icons/jsy.png',             progId: 'jsy' },
-      { value: '20,787', label: 'Children fully immunised by age 1',  img: '/prog-icons/immunization.png',   progId: 'immunization' },
-      { value: '25',     label: 'Districts, every corner of the state', img: '/prog-icons/child-health.png', progId: 'child-health' },
+      { value: '24,229', label: 'Pregnant women registered for care',  img: '/prog-icons/maternal-health.png', progId: 'maternal-health' },
+      { value: '16,947', label: 'Babies delivered in a facility',       img: '/prog-icons/jsy.png',             progId: 'jsy' },
+      { value: '18,024', label: 'Children fully immunised by age 1',    img: '/prog-icons/immunization.png',   progId: 'immunization' },
+      { value: '27',     label: 'Districts across the state',           img: '/prog-icons/child-health.png',   progId: 'child-health' },
     ],
     stories: [
       {
         no: 1,
+        icon: 'person',
         title: "The mother's journey",
         question: 'Are pregnancies travelling safely from registration to delivery?',
-        hero: { value: '73%', text: 'of registered pregnancies ended in a facility delivery this year — 19,812 mothers gave birth in a hospital or health centre' },
+        hero: { value: '70%', text: 'of registered pregnancies ended in a facility delivery this year — 16,947 mothers gave birth in a hospital or health centre' },
         bars: [
-          { label: 'Registered for care',    pct: 100, count: '27,132' },
-          { label: 'Registered early',        pct: 62,  count: '16,887' },
-          { label: 'Completed 4+ check-ups',  pct: 70,  count: '18,957' },
-          { label: 'Completed iron tablets',  pct: 90,  count: '24,514' },
-          { label: 'Delivered at facility',   pct: 73,  count: '19,812' },
-          { label: 'Stayed 48+ hours',        pct: 43,  count: '11,724' },
+          { label: 'Registered for ANC',         pct: 95, count: '24,229' },
+          { label: 'Registered early (1st tri.)', pct: 65, count: '15,704' },
+          { label: 'Completed 4+ check-ups',      pct: 68, count: '16,460' },
+          { label: 'Completed iron course',       pct: 88, count: '21,388' },
+          { label: 'Delivered at facility',       pct: 70, count: '16,947' },
         ],
-        insight: 'Most mothers reach a facility to deliver — a real win for the state. But only 4 in 10 stay for the recommended 48 hours, the window when most complications appear. That is the next mile.',
+        insight: 'Nearly every pregnancy is registered and most complete their full iron course — a strong foundation. But only 65% register in the first trimester and 68% complete 4+ check-ups, the visits that catch high-risk pregnancies early. Closing the early-registration gap is the next mile.',
+      },
+      {
+        no: 2,
+        icon: 'baby',
+        title: 'Safe first days',
+        question: "How safe are a baby's first days of life?",
+        hero: { value: '8.89', text: 'stillbirths per 1,000 births — comfortably below the target of 12, among the better rates in the region' },
+        bars: [
+          { label: 'Newborns screened at birth',  pct: 87, count: '—' },
+          { label: 'SNCU survival & discharge',   pct: 88, count: '—' },
+          { label: 'Breastfed within 1 hour',     pct: 85, count: '13,910' },
+          { label: 'Home newborn care (HBNC)',    pct: 54, count: '—' },
+        ],
+        insight: 'Arunachal beats the national stillbirth target and nearly 9 in 10 newborns are screened and survive intensive care. The weak link is follow-up at home — only about half of newborns receive the recommended HBNC visits, where early danger signs are caught.',
+      },
+      {
+        no: 3,
+        icon: 'syringe',
+        title: "A child's first year",
+        question: 'Are children getting their full set of vaccines on time?',
+        hero: { value: '91%', text: 'of children are fully immunised by their first birthday — 18,024 of 19,823 infants, with almost no drop-out between doses' },
+        bars: [
+          { label: 'Hep-B birth dose',            pct: 90, count: '14,018' },
+          { label: 'Fully immunised by age 1',    pct: 91, count: '18,024' },
+          { label: 'Measles-Rubella 2nd dose',    pct: 95, count: '17,098' },
+          { label: 'U-WIN digital capture',       pct: 95, count: '1,372' },
+        ],
+        insight: "Immunisation is the state's strongest performer — second-dose measles-rubella at 95% and drop-out from the first to third Pentavalent dose of just 0.3%. A quiet success of the frontline ASHA, ANM and cold-chain workforce.",
+      },
+      {
+        no: 4,
+        icon: 'drop',
+        title: 'Iron, from cradle to adulthood',
+        question: 'Is iron reaching every age group that needs it?',
+        hero: { value: '88%', text: 'of pregnant women completed their full iron course — 21,388 of 24,227 — but coverage drops sharply for the youngest children' },
+        bars: [
+          { label: 'Pregnant women (180 IFA)',    pct: 88, count: '21,388' },
+          { label: 'Children 5-9 yrs (tablets)',  pct: 93, count: '131,622' },
+          { label: 'Children 6-59 mo (syrup)',    pct: 20, count: '25,154' },
+        ],
+        insight: 'Iron reaches older children and pregnant women well, but only 1 in 5 young children (6-59 months) receive their IFA syrup — the very age when iron deficiency does the most lasting harm to brain development. This is the clearest, most fixable gap in the nutrition programme.',
+      },
+      {
+        no: 5,
+        icon: 'groups',
+        title: 'Family planning choices',
+        question: 'Do women and men share the family-planning responsibility?',
+        hero: { value: '0', text: 'additional male sterilisations were recorded this year. Family planning in Arunachal still rests almost entirely on women' },
+        barNote: 'Bars show progress against this year’s target',
+        bars: [
+          { label: 'Post-partum IUCD acceptance', pct: 33,  count: '361' },
+          { label: 'Supply chain (FPLMIS) live',  pct: 100, count: '—' },
+          { label: 'Saas-Bahu Sammelans held',    pct: 88,  count: '1,380' },
+        ],
+        insight: 'Long-acting and permanent methods remain rare — post-partum IUCD reached just a third of its target, and not a single additional male sterilisation was recorded. The supply chain is now live in 75% of facilities and 1,380 Saas-Bahu Sammelans built community awareness. The groundwork is laid; uptake of effective methods is the next push.',
       },
     ],
   },
@@ -556,7 +613,7 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
   }
 
   function explore() {
-    gsap.to(pageRef.current, { opacity: 0, x: -40, duration: 0.22, ease: 'power2.in', onComplete: onExploreProgrammes });
+    onExploreProgrammes();
   }
 
   if (!story) {
@@ -619,6 +676,14 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
             {/* Story label + title */}
             <div className="dsp-story-head">
               <span className="dsp-story-no">STORY {st.no}</span>
+              {st.icon && (
+                <span className="dsp-story-icon" style={{ background: division.light }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke={division.color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={ICON_PATHS[st.icon] || ''}/>
+                  </svg>
+                </span>
+              )}
               <h3 className="dsp-story-title">{st.title}</h3>
             </div>
             <p className="dsp-story-question">{st.question}</p>
@@ -685,6 +750,7 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
                 />
               </Suspense>
             </div>
+            {st.barNote && <p className="dsp-bar-note">{st.barNote}</p>}
 
             {/* Insight */}
             <div className="dsp-insight" style={{ borderLeftColor: division.color }}>
