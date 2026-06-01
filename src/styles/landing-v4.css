@@ -5412,6 +5412,20 @@ td:last-child { padding: 8px 10px; }
   font-weight: 600;
 }
 
+/* plotly chart wrapper */
+.dsp-chart-wrap {
+  margin-bottom: 20px;
+  margin-left: -8px;
+}
+.dsp-chart-loading {
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94A3B8;
+  font-size: 13px;
+}
+
 /* insight */
 .dsp-insight {
   border-left: 4px solid;

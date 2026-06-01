@@ -3,10 +3,12 @@
    Slide-in left panel → click division → full-page Programme Wheel.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
 import { gsap } from 'gsap';
 import { DIVISIONS as DIV_DATA } from '../data/programs';
 import { KD_TREE } from '../data/kdData';
+
+const Plot = lazy(() => import('react-plotly.js'));
 
 /* ── Division display meta ──────────────────────────────────────────────── */
 const DIVISIONS = [
@@ -627,20 +629,61 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
               <span className="dsp-story-hero-text">{st.hero.text}</span>
             </div>
 
-            {/* Progress bars */}
-            <div className="dsp-bars">
-              {st.bars.map((b, i) => (
-                <div key={i} className="dsp-bar-row">
-                  <span className="dsp-bar-label">{b.label}</span>
-                  <div className="dsp-bar-track">
-                    <div className="dsp-bar-fill"
-                      style={{ width: `${b.pct}%`, background: division.color + '33' }}>
-                      <span className="dsp-bar-pct" style={{ color: division.color }}>{b.pct}%</span>
-                    </div>
-                  </div>
-                  <span className="dsp-bar-count">{b.count}</span>
-                </div>
-              ))}
+            {/* Plotly horizontal bar chart */}
+            <div className="dsp-chart-wrap">
+              <Suspense fallback={<div className="dsp-chart-loading">Loading chart...</div>}>
+                <Plot
+                  data={[{
+                    type: 'bar',
+                    orientation: 'h',
+                    y: [...st.bars].reverse().map(b => b.label),
+                    x: [...st.bars].reverse().map(b => b.pct),
+                    text: [...st.bars].reverse().map(b => `${b.pct}%`),
+                    textposition: 'inside',
+                    insidetextanchor: 'start',
+                    textfont: { color: division.color, size: 12, family: 'JetBrains Mono, monospace', weight: 700 },
+                    customdata: [...st.bars].reverse().map(b => b.count),
+                    hovertemplate: '<b>%{y}</b><br>%{x}%  ·  %{customdata}<extra></extra>',
+                    marker: {
+                      color: division.color + '28',
+                      line: { color: division.color + '55', width: 1.5 },
+                    },
+                  }]}
+                  layout={{
+                    height: st.bars.length * 50 + 32,
+                    margin: { l: 0, r: 70, t: 8, b: 8, pad: 0 },
+                    paper_bgcolor: 'transparent',
+                    plot_bgcolor: 'transparent',
+                    xaxis: {
+                      range: [0, 108],
+                      showgrid: false,
+                      showticklabels: false,
+                      zeroline: false,
+                      fixedrange: true,
+                    },
+                    yaxis: {
+                      showgrid: false,
+                      zeroline: false,
+                      tickfont: { family: 'Inter, sans-serif', size: 13, color: '#4B5563' },
+                      automargin: true,
+                      fixedrange: true,
+                    },
+                    bargap: 0.28,
+                    annotations: [...st.bars].reverse().map((b, i) => ({
+                      x: b.pct + 1.5,
+                      y: i,
+                      xanchor: 'left',
+                      yanchor: 'middle',
+                      text: `<b>${b.count}</b>`,
+                      showarrow: false,
+                      font: { family: 'JetBrains Mono, monospace', size: 12, color: '#6B7280' },
+                    })),
+                  }}
+                  config={{ displayModeBar: false, responsive: true }}
+                  style={{ width: '100%' }}
+                  useResizeHandler
+                />
+              </Suspense>
             </div>
 
             {/* Insight */}
