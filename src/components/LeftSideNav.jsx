@@ -648,26 +648,6 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
         </button>
       </header>
 
-      {/* ── Story tab bar — pinned below header ── */}
-      <div className="dsp-tabs-bar">
-        {story.stories.map((st, i) => (
-          <button
-            key={st.no}
-            className={`dsp-tab${i === activeStory ? ' dsp-tab--active' : ''}`}
-            onClick={() => setActiveStory(i)}
-            style={i === activeStory ? { background: division.color, borderColor: division.color } : {}}
-          >
-            {st.icon && (
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d={ICON_PATHS[st.icon] || ''}/>
-              </svg>
-            )}
-            <span>{st.tab || st.title}</span>
-          </button>
-        ))}
-      </div>
-
       {/* ── Scrollable body ── */}
       <div className="dsp-body">
       <div className="dsp-body-inner">
@@ -682,24 +662,34 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
           <p className="dsp-intro">{story.intro}</p>
         </div>
 
-        {/* Top stats row */}
-        <div className="dsp-top-stats">
-          {story.topStats.map((s, i) => (
-            <div key={i} className="dsp-top-stat" onClick={explore}
-              title={`Explore ${s.label}`}>
-              {s.img && <img src={s.img} className="dsp-top-stat-img" alt="" />}
-              <div className="dsp-top-stat-content">
-                <div className="dsp-top-stat-val" style={{ color: division.color }}>{s.value}</div>
-                <div className="dsp-top-stat-lbl">{s.label}</div>
-              </div>
-            </div>
-          ))}
+        {/* Story tabs (inline, after hero) */}
+        <div className="dsp-tabs">
+          {story.stories.map((st, i) => {
+            const isActive = i === activeStory;
+            const tabImg = PROG_ICON_IMG[story.topStats?.[i]?.progId] || null;
+            return (
+              <button
+                key={st.no}
+                className={`dsp-tab${isActive ? ' dsp-tab--active' : ''}`}
+                onClick={() => setActiveStory(i)}
+                style={isActive ? { background: division.color, borderColor: division.color } : { borderColor: division.color + '55' }}
+              >
+                {st.icon && (
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={ICON_PATHS[st.icon] || ''}/>
+                  </svg>
+                )}
+                <span>{st.tab || st.title}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Active story */}
         {[story.stories[activeStory]].map(st => (
           <div key={st.no} className="dsp-story">
-            {/* Story label + title */}
+            {/* Story head — number badge + icon + title */}
             <div className="dsp-story-head">
               <span className="dsp-story-no">STORY {st.no}</span>
               {st.icon && (
@@ -714,88 +704,90 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
             </div>
             <p className="dsp-story-question">{st.question}</p>
 
-            {/* Hero stat */}
-            <div className="dsp-story-hero" style={{ borderColor: division.color + '33', background: division.color + '08' }}>
-              <span className="dsp-story-hero-val" style={{ color: division.color }}>{st.hero.value}</span>
-              <span className="dsp-story-hero-text">{st.hero.text}</span>
+            {/* 2-col layout: hero+visual (left)  |  chart (right) */}
+            <div className="dsp-story-grid">
+
+              {/* Left: hero stat + visual */}
+              <div className="dsp-story-left">
+                <div className="dsp-story-hero" style={{ borderColor: division.color + '33', background: division.color + '08' }}>
+                  <span className="dsp-story-hero-val" style={{ color: division.color }}>{st.hero.value}</span>
+                  <span className="dsp-story-hero-text">{st.hero.text}</span>
+                </div>
+                <div className="dsp-story-visual" style={{ background: division.light }}>
+                  {st.icon && (
+                    <svg width="84" height="84" viewBox="0 0 24 24" fill="none"
+                      stroke={division.color} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.85">
+                      <path d={ICON_PATHS[st.icon] || ''}/>
+                    </svg>
+                  )}
+                </div>
+              </div>
+
+              {/* Right: "What data tells?" + chart */}
+              <div className="dsp-story-right">
+                <div className="dsp-data-heading">What data tells?</div>
+                <div className="dsp-chart-wrap">
+                  <Suspense fallback={<div className="dsp-chart-loading">Loading chart...</div>}>
+                    <Plot
+                      data={[{
+                        type: 'bar',
+                        orientation: 'h',
+                        y: [...st.bars].reverse().map(b => b.label),
+                        x: [...st.bars].reverse().map(b => b.pct),
+                        text: [...st.bars].reverse().map(b => `${b.pct}%`),
+                        textposition: 'inside',
+                        insidetextanchor: 'start',
+                        textfont: { color: division.color, size: 12, family: 'JetBrains Mono, monospace', weight: 700 },
+                        customdata: [...st.bars].reverse().map(b => b.count),
+                        hovertemplate: '<b>%{y}</b><br>%{x}%  ·  %{customdata}<extra></extra>',
+                        marker: {
+                          color: division.color + '28',
+                          line: { color: division.color + '55', width: 1.5 },
+                        },
+                      }]}
+                      layout={{
+                        height: st.bars.length * 46 + 24,
+                        margin: { l: 0, r: 60, t: 4, b: 4, pad: 0 },
+                        paper_bgcolor: 'transparent',
+                        plot_bgcolor: 'transparent',
+                        xaxis: { range: [0, 108], showgrid: false, showticklabels: false, zeroline: false, fixedrange: true },
+                        yaxis: { showgrid: false, zeroline: false, tickfont: { family: 'Inter, sans-serif', size: 12, color: '#4B5563' }, automargin: true, fixedrange: true },
+                        bargap: 0.30,
+                        annotations: [...st.bars].reverse().map((b, i) => ({
+                          x: b.pct + 1.5, y: i,
+                          xanchor: 'left', yanchor: 'middle',
+                          text: `<b>${b.count}</b>`, showarrow: false,
+                          font: { family: 'JetBrains Mono, monospace', size: 11, color: '#6B7280' },
+                        })),
+                      }}
+                      config={{ displayModeBar: false, responsive: true }}
+                      style={{ width: '100%' }}
+                      useResizeHandler
+                    />
+                  </Suspense>
+                </div>
+                {st.barNote && <p className="dsp-bar-note">{st.barNote}</p>}
+              </div>
+
             </div>
 
-            {/* Plotly horizontal bar chart */}
-            <div className="dsp-chart-wrap">
-              <Suspense fallback={<div className="dsp-chart-loading">Loading chart...</div>}>
-                <Plot
-                  data={[{
-                    type: 'bar',
-                    orientation: 'h',
-                    y: [...st.bars].reverse().map(b => b.label),
-                    x: [...st.bars].reverse().map(b => b.pct),
-                    text: [...st.bars].reverse().map(b => `${b.pct}%`),
-                    textposition: 'inside',
-                    insidetextanchor: 'start',
-                    textfont: { color: division.color, size: 12, family: 'JetBrains Mono, monospace', weight: 700 },
-                    customdata: [...st.bars].reverse().map(b => b.count),
-                    hovertemplate: '<b>%{y}</b><br>%{x}%  ·  %{customdata}<extra></extra>',
-                    marker: {
-                      color: division.color + '28',
-                      line: { color: division.color + '55', width: 1.5 },
-                    },
-                  }]}
-                  layout={{
-                    height: st.bars.length * 50 + 32,
-                    margin: { l: 0, r: 70, t: 8, b: 8, pad: 0 },
-                    paper_bgcolor: 'transparent',
-                    plot_bgcolor: 'transparent',
-                    xaxis: {
-                      range: [0, 108],
-                      showgrid: false,
-                      showticklabels: false,
-                      zeroline: false,
-                      fixedrange: true,
-                    },
-                    yaxis: {
-                      showgrid: false,
-                      zeroline: false,
-                      tickfont: { family: 'Inter, sans-serif', size: 13, color: '#4B5563' },
-                      automargin: true,
-                      fixedrange: true,
-                    },
-                    bargap: 0.28,
-                    annotations: [...st.bars].reverse().map((b, i) => ({
-                      x: b.pct + 1.5,
-                      y: i,
-                      xanchor: 'left',
-                      yanchor: 'middle',
-                      text: `<b>${b.count}</b>`,
-                      showarrow: false,
-                      font: { family: 'JetBrains Mono, monospace', size: 12, color: '#6B7280' },
-                    })),
-                  }}
-                  config={{ displayModeBar: false, responsive: true }}
-                  style={{ width: '100%' }}
-                  useResizeHandler
-                />
-              </Suspense>
-            </div>
-            {st.barNote && <p className="dsp-bar-note">{st.barNote}</p>}
-
-            {/* Insight */}
-            <div className="dsp-insight" style={{ borderLeftColor: division.color }}>
-              {st.insight}
+            {/* Insights box — full width inside card */}
+            <div className="dsp-insights-box">
+              <div className="dsp-insights-label" style={{ color: division.color }}>Insights</div>
+              <p className="dsp-insights-text">{st.insight}</p>
             </div>
           </div>
         ))}
 
-        {/* Explore button */}
-        <div className="dsp-footer">
-          <button className="dsp-explore-btn" onClick={explore}
-            style={{ borderColor: division.color, color: division.color }}>
-            Explore Programmes
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <path d="M9 18l6-6-6-6"/>
-            </svg>
-          </button>
-        </div>
+        {/* Full-width Explore More button */}
+        <button className="dsp-explore-btn" onClick={explore}
+          style={{ background: division.color }}>
+          Explore More
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
 
       </div>{/* end dsp-body-inner */}
       </div>
