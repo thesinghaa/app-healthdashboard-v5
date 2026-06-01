@@ -5584,7 +5584,7 @@ td:last-child { padding: 8px 10px; }
   font-size: 14px;
 }
 
-/* visual placeholder (icon, faded — replaces 'TO be filled' image) */
+/* visual placeholder (legacy) */
 .dsp-story-visual {
   flex: 1;
   min-height: 160px;
@@ -5594,6 +5594,33 @@ td:last-child { padding: 8px 10px; }
   justify-content: center;
   position: relative;
   overflow: hidden;
+}
+
+/* "Why this story" narrative box — replaces the icon placeholder */
+.dsp-story-narrative {
+  flex: 1;
+  border: 1.5px solid;
+  border-radius: 12px;
+  padding: 14px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.dsp-narrative-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+}
+.dsp-narrative-text {
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.65;
+  margin: 0;
 }
 
 .dsp-story-right {

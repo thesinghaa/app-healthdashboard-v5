@@ -523,6 +523,7 @@ const DIVISION_STORIES = {
         tab: 'Mothers',
         title: "The mother's journey",
         question: 'Are pregnancies travelling safely from registration to delivery?',
+        narrative: "Every pregnancy begins as a registration at a sub-centre or PHC. We follow that pregnancy through five checkpoints — early registration in the first trimester, four full ante-natal check-ups, a complete iron course, and finally a safe institutional delivery. Each step is a chance to catch danger early. Together they tell us whether the mother and her baby reached a facility well.",
         hero: { value: '70%', text: 'of registered pregnancies ended in a facility delivery this year — 16,947 mothers gave birth in a hospital or health centre' },
         bars: [
           { label: 'Registered for ANC',         pct: 95, count: '24,229' },
@@ -539,6 +540,7 @@ const DIVISION_STORIES = {
         tab: 'Newborns',
         title: 'Safe first days',
         question: "How safe are a baby's first days of life?",
+        narrative: "A newborn's safety does not end at birth. We pair the headline outcome — the stillbirth rate — with four first-week interventions that decide whether a baby survives and thrives. Screening at birth catches treatable conditions, SNCUs save preterm and sick babies, breastfeeding within the first hour seeds lifelong immunity, and ASHA home visits in the days that follow catch danger signs no hospital sees. Together they paint the first week.",
         hero: { value: '8.89', text: 'stillbirths per 1,000 births — comfortably below the target of 12, among the better rates in the region' },
         bars: [
           { label: 'Newborns screened at birth',  pct: 87, count: '—' },
@@ -554,6 +556,7 @@ const DIVISION_STORIES = {
         tab: 'Immunisation',
         title: "A child's first year",
         question: 'Are children getting their full set of vaccines on time?',
+        narrative: "Every child should pass through a series of vaccines from the hour of birth to the first birthday. We anchor the story on four indicators that test the schedule end-to-end — Hep-B given at birth, the full Pentavalent course by nine months, the second measles-rubella dose, and U-WIN digital capture so no child is invisible. Together they tell us whether the cold chain is reaching every village and every household.",
         hero: { value: '91%', text: 'of children are fully immunised by their first birthday — 18,024 of 19,823 infants, with almost no drop-out between doses' },
         bars: [
           { label: 'Hep-B birth dose',            pct: 90, count: '14,018' },
@@ -569,6 +572,7 @@ const DIVISION_STORIES = {
         tab: 'Nutrition',
         title: 'Iron, from cradle to adulthood',
         question: 'Is iron reaching every age group that needs it?',
+        narrative: "Iron deficiency is the single biggest reversible cause of low energy, poor learning, and risky pregnancies in India. To see whether iron reaches everyone who needs it, we track three life stages — the youngest at-risk children (6-59 months), school-going children (5-9 years), and pregnant women. The three numbers reveal exactly where the supply chain works, and where it stops.",
         hero: { value: '88%', text: 'of pregnant women completed their full iron course — 21,388 of 24,227 — but coverage drops sharply for the youngest children' },
         bars: [
           { label: 'Pregnant women (180 IFA)',    pct: 88, count: '21,388' },
@@ -583,6 +587,7 @@ const DIVISION_STORIES = {
         tab: 'Family Planning',
         title: 'Family planning choices',
         question: 'Do women and men share the family-planning responsibility?',
+        narrative: "Family planning rests on choice — but right now the burden of that choice sits almost entirely on women. We picked three signals that reveal the shape of the conversation: post-partum IUCD shows whether women hear the option at delivery, the supply-chain indicator (FPLMIS) shows whether methods are actually on the shelf, and Saas-Bahu Sammelans measure how often families discuss it openly at home.",
         hero: { value: '0', text: 'additional male sterilisations were recorded this year. Family planning in Arunachal still rests almost entirely on women' },
         barNote: 'Bars show progress against this year’s target',
         bars: [
@@ -713,13 +718,17 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
                   <span className="dsp-story-hero-val" style={{ color: division.color }}>{st.hero.value}</span>
                   <span className="dsp-story-hero-text">{st.hero.text}</span>
                 </div>
-                <div className="dsp-story-visual" style={{ background: division.light }}>
-                  {st.icon && (
-                    <svg width="84" height="84" viewBox="0 0 24 24" fill="none"
-                      stroke={division.color} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.85">
-                      <path d={ICON_PATHS[st.icon] || ''}/>
-                    </svg>
-                  )}
+                <div className="dsp-story-narrative" style={{ background: division.light + 'AA', borderColor: division.color + '33' }}>
+                  <div className="dsp-narrative-head">
+                    {st.icon && (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke={division.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d={ICON_PATHS[st.icon] || ''}/>
+                      </svg>
+                    )}
+                    <span style={{ color: division.color }}>Why this story</span>
+                  </div>
+                  <p className="dsp-narrative-text">{st.narrative}</p>
                 </div>
               </div>
 
