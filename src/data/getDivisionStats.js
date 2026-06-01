@@ -30,11 +30,11 @@ function numeratorFrom(kd) {
 }
 
 const FACE0_PINNED = {
-  rch:  { no: 28,  progId: 'immunization',    label: 'Children fully immunised',                     fmt: kd => `${kd.achievement}%` },
-  ndcp: { no: 82,  progId: 'nvhcp',           label: 'Hepatitis C patients in treatment',             fmt: kd => `${kd.achievement}%` },
-  ncd:  { no: 125, progId: 'nppcd',           label: 'People rehabilitated with hearing aids',        fmt: kd => `${Math.round((kd.achievement / kd.target) * 100)}%` },
-  hss:  { no: 154, progId: null,              label: 'Ayushman Arogya Mandirs with full 12 services', fmt: kd => `${kd.achievement}%` },
-  hrh:  { no: 169, progId: 'medical-officer', label: 'Medical Officer (MBBS) positions filled per Indian Public Health Standards norms', fmt: () => '96%' },
+  rch:  { no: 28,  progId: 'immunization',    label: 'of registered children (9-11 months) fully immunised against HMIS target',       fmt: kd => `${kd.achievement}%` },
+  ndcp: { no: 82,  progId: 'nvhcp',           label: 'of Hep C treatment target met — 2,314 of 2,995 patients treated under NVHCP',    fmt: kd => `${kd.achievement}%` },
+  ncd:  { no: 125, progId: 'nppcd',           label: 'people given hearing aids — target of 251 exceeded under NPPCD',                  fmt: kd => `${kd.achievement}` },
+  hss:  { no: 154, progId: null,              label: 'of functional AAMs (408/412) delivering all 12 essential services',               fmt: kd => `${kd.achievement}%` },
+  hrh:  { no: 169, progId: 'medical-officer', label: 'MBBS MO posts filled (IPHS); overall NHM HR in position: 87%',                   fmt: () => '96%' },
 };
 
 /** Build pinned face-0 for a division, reading live value from KD_TREE. */
