@@ -5298,6 +5298,38 @@ td:last-child { padding: 8px 10px; }
   max-width: 100px;
 }
 
+/* ── Story tabs ── */
+.dsp-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.dsp-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: 99px;
+  border: 1.5px solid #E2E8F0;
+  background: #ffffff;
+  color: #475569;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.12s;
+  white-space: nowrap;
+}
+.dsp-tab:hover {
+  border-color: #CBD5E1;
+  transform: translateY(-1px);
+}
+.dsp-tab--active {
+  color: #ffffff;
+}
+.dsp-tab--active:hover { transform: none; }
+
 /* ── Story block ── */
 .dsp-story {
   background: #ffffff;

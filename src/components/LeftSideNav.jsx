@@ -520,6 +520,7 @@ const DIVISION_STORIES = {
       {
         no: 1,
         icon: 'person',
+        tab: 'Mothers',
         title: "The mother's journey",
         question: 'Are pregnancies travelling safely from registration to delivery?',
         hero: { value: '70%', text: 'of registered pregnancies ended in a facility delivery this year — 16,947 mothers gave birth in a hospital or health centre' },
@@ -535,6 +536,7 @@ const DIVISION_STORIES = {
       {
         no: 2,
         icon: 'baby',
+        tab: 'Newborns',
         title: 'Safe first days',
         question: "How safe are a baby's first days of life?",
         hero: { value: '8.89', text: 'stillbirths per 1,000 births — comfortably below the target of 12, among the better rates in the region' },
@@ -549,6 +551,7 @@ const DIVISION_STORIES = {
       {
         no: 3,
         icon: 'syringe',
+        tab: 'Immunisation',
         title: "A child's first year",
         question: 'Are children getting their full set of vaccines on time?',
         hero: { value: '91%', text: 'of children are fully immunised by their first birthday — 18,024 of 19,823 infants, with almost no drop-out between doses' },
@@ -563,6 +566,7 @@ const DIVISION_STORIES = {
       {
         no: 4,
         icon: 'drop',
+        tab: 'Nutrition',
         title: 'Iron, from cradle to adulthood',
         question: 'Is iron reaching every age group that needs it?',
         hero: { value: '88%', text: 'of pregnant women completed their full iron course — 21,388 of 24,227 — but coverage drops sharply for the youngest children' },
@@ -576,6 +580,7 @@ const DIVISION_STORIES = {
       {
         no: 5,
         icon: 'groups',
+        tab: 'Family Planning',
         title: 'Family planning choices',
         question: 'Do women and men share the family-planning responsibility?',
         hero: { value: '0', text: 'additional male sterilisations were recorded this year. Family planning in Arunachal still rests almost entirely on women' },
@@ -595,6 +600,7 @@ const DIVISION_STORIES = {
 function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
   const story = DIVISION_STORIES[division.id];
   const pageRef = useRef(null);
+  const [activeStory, setActiveStory] = useState(0);
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -670,8 +676,28 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
           ))}
         </div>
 
-        {/* Stories */}
-        {story.stories.map(st => (
+        {/* Story tabs */}
+        <div className="dsp-tabs">
+          {story.stories.map((st, i) => (
+            <button
+              key={st.no}
+              className={`dsp-tab${i === activeStory ? ' dsp-tab--active' : ''}`}
+              onClick={() => setActiveStory(i)}
+              style={i === activeStory ? { background: division.color, borderColor: division.color } : {}}
+            >
+              {st.icon && (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d={ICON_PATHS[st.icon] || ''}/>
+                </svg>
+              )}
+              <span>{st.tab || st.title}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Active story */}
+        {[story.stories[activeStory]].map(st => (
           <div key={st.no} className="dsp-story">
             {/* Story label + title */}
             <div className="dsp-story-head">
