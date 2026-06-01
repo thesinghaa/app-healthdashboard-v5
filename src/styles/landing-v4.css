@@ -5165,30 +5165,3 @@ td:last-child { padding: 8px 10px; }
 .wpg-kd-gd--target     { color: #64748B; }
 .wpg-kd-gd--achvd      { font-weight: 600; }
 .wpg-kd-gd--status     { text-align: center; }
-
-/* ── Stat card context line — target + status ───────────────────────────── */
-.v5-stat-context {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  margin-top: 4px;
-  margin-bottom: 2px;
-}
-.v5-stat-context-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.v5-stat-context-sep { color: #CBD5E1; }
-.v5-stat-context--achieved { color: #15803D; }
-.v5-stat-context--achieved .v5-stat-context-dot { background: #16A34A; }
-.v5-stat-context--close    { color: #B45309; }
-.v5-stat-context--close    .v5-stat-context-dot { background: #D97706; }
-.v5-stat-context--gap      { color: #B91C1C; }
-.v5-stat-context--gap      .v5-stat-context-dot { background: #DC2626; }
-.v5-stat-context--neutral  { color: #64748B; }
-.v5-stat-context--neutral  .v5-stat-context-dot { background: #94A3B8; }

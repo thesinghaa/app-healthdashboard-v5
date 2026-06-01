@@ -561,14 +561,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
               <img src={`/statcards/${div.label}.png`} className="v5-stat-card-img" alt="" />
               <div className="v5-stat-number">{face0?.value ?? '—'}</div>
               <div className={`v5-stat-label${(face0?.label ?? '').length > 50 ? ' v5-stat-label--sm' : ''}`}><MarkAbbrev text={face0?.label ?? ''} /></div>
-              {face0?.kd && (
-                <div className={`v5-stat-context v5-stat-context--${face0.status ?? 'neutral'}`}>
-                  <span className="v5-stat-context-dot" />
-                  <span>Target: {face0.kd.targetLabel ?? face0.kd.target ?? '—'}</span>
-                  <span className="v5-stat-context-sep">·</span>
-                  <span>{face0.status === 'achieved' ? 'On Track' : face0.status === 'close' ? 'Caution' : face0.status === 'gap' ? 'Gap' : '—'}</span>
-                </div>
-              )}
               <div className="v5-stat-prog" data-abbr={div.label}>
                 {(() => {
                   const w = div.fullName.split(' ');
