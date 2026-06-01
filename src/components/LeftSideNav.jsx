@@ -507,10 +507,10 @@ const DIVISION_STORIES = {
     subtitle: 'What happened to mothers, babies, women and families across Arunachal Pradesh in FY 2024-25',
     intro: 'Every year, lakhs of people across Arunachal Pradesh walk into a public health centre, a sub-centre, or a hospital. These five stories follow the people the health system met this year — and what it did for them.',
     topStats: [
-      { value: '27,132', label: 'Pregnant women cared for' },
-      { value: '21,019', label: 'Babies born safely' },
-      { value: '20,787', label: 'Children fully immunised by age 1' },
-      { value: '25',     label: 'Districts, every corner of the state' },
+      { value: '27,132', label: 'Pregnant women cared for',           img: '/prog-icons/maternal-health.png', progId: 'maternal-health' },
+      { value: '21,019', label: 'Babies born safely',                 img: '/prog-icons/jsy.png',             progId: 'jsy' },
+      { value: '20,787', label: 'Children fully immunised by age 1',  img: '/prog-icons/immunization.png',   progId: 'immunization' },
+      { value: '25',     label: 'Districts, every corner of the state', img: '/prog-icons/child-health.png', progId: 'child-health' },
     ],
     stories: [
       {
@@ -600,9 +600,13 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
         {/* Top stats row */}
         <div className="dsp-top-stats">
           {story.topStats.map((s, i) => (
-            <div key={i} className="dsp-top-stat">
-              <div className="dsp-top-stat-val" style={{ color: division.color }}>{s.value}</div>
-              <div className="dsp-top-stat-lbl">{s.label}</div>
+            <div key={i} className="dsp-top-stat" onClick={explore}
+              title={`Explore ${s.label}`}>
+              {s.img && <img src={s.img} className="dsp-top-stat-img" alt="" />}
+              <div className="dsp-top-stat-content">
+                <div className="dsp-top-stat-val" style={{ color: division.color }}>{s.value}</div>
+                <div className="dsp-top-stat-lbl">{s.label}</div>
+              </div>
             </div>
           ))}
         </div>
