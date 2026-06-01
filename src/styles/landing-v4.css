@@ -5175,10 +5175,9 @@ td:last-child { padding: 8px 10px; }
   z-index: 9999;
   background: #F8F9FB;
   display: grid;
-  grid-template-rows: 64px 1fr;
+  grid-template-rows: 64px auto 1fr;
   overflow: hidden;
   font-family: 'Inter', sans-serif;
-  /* force new stacking context so background is fully opaque */
   transform: translateZ(0);
   isolation: isolate;
 }
@@ -5298,7 +5297,20 @@ td:last-child { padding: 8px 10px; }
   max-width: 100px;
 }
 
-/* ── Story tabs ── */
+/* ── Story tabs bar — fixed strip below header ── */
+.dsp-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 32px;
+  background: #ffffff;
+  border-bottom: 1px solid #E2E8F0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+.dsp-tabs-bar::-webkit-scrollbar { display: none; }
+/* inline tabs (legacy, unused but keep) */
 .dsp-tabs {
   display: flex;
   gap: 8px;

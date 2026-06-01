@@ -648,6 +648,26 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
         </button>
       </header>
 
+      {/* ── Story tab bar — pinned below header ── */}
+      <div className="dsp-tabs-bar">
+        {story.stories.map((st, i) => (
+          <button
+            key={st.no}
+            className={`dsp-tab${i === activeStory ? ' dsp-tab--active' : ''}`}
+            onClick={() => setActiveStory(i)}
+            style={i === activeStory ? { background: division.color, borderColor: division.color } : {}}
+          >
+            {st.icon && (
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d={ICON_PATHS[st.icon] || ''}/>
+              </svg>
+            )}
+            <span>{st.tab || st.title}</span>
+          </button>
+        ))}
+      </div>
+
       {/* ── Scrollable body ── */}
       <div className="dsp-body">
       <div className="dsp-body-inner">
@@ -673,26 +693,6 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
                 <div className="dsp-top-stat-lbl">{s.label}</div>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Story tabs */}
-        <div className="dsp-tabs">
-          {story.stories.map((st, i) => (
-            <button
-              key={st.no}
-              className={`dsp-tab${i === activeStory ? ' dsp-tab--active' : ''}`}
-              onClick={() => setActiveStory(i)}
-              style={i === activeStory ? { background: division.color, borderColor: division.color } : {}}
-            >
-              {st.icon && (
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d={ICON_PATHS[st.icon] || ''}/>
-                </svg>
-              )}
-              <span>{st.tab || st.title}</span>
-            </button>
           ))}
         </div>
 
