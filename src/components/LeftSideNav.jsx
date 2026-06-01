@@ -151,7 +151,7 @@ function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
       <span className={`wpg-prog-icon${PROG_ICON_IMG[prog.id] ? ' wpg-prog-icon--img' : ''}`}>
         {PROG_ICON_IMG[prog.id] ? (
           <img src={PROG_ICON_IMG[prog.id]}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12, display: 'block' }} alt="" />
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12, display: 'block', filter: 'url(#icon-color-swap)' }} alt="" />
         ) : (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
             <path d={ICON_PATHS[iconKey] || ''}/>
@@ -263,15 +263,23 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
   }
 
   function segFill(i, id) {
-    const base = division.color;
-    if (hovered === id) return base;
-    return i % 2 === 0 ? base : base + 'CC';
+    if (hovered === id) return division.color;
+    return '#ffffff';
   }
 
   return (
     <div className="wpg-page" ref={pageRef} tabIndex="-1"
       style={{ '--dc': division.color, '--dl': division.light }}
     >
+      {/* Global color-swap filter for HTML img elements */}
+      <svg width="0" height="0" style={{ position: 'absolute' }}>
+        <defs>
+          <filter id="icon-color-swap" colorInterpolationFilters="sRGB">
+            <feColorMatrix type="matrix"
+              values="-1 0 0 0 1.106  0 -1 0 0 1.435  0 0 -1 0 1.961  0 0 0 1 0" />
+          </filter>
+        </defs>
+      </svg>
       {/* ── Header ── */}
       <header className="wpg-header" ref={headerRef}>
         <button className="wpg-back-btn" onClick={close}>
@@ -312,6 +320,16 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         {/* Centre wheel */}
         <div className="wpg-wheel-wrap" ref={wheelRef}>
           <svg width={SIZE} height={SIZE} viewBox={`${-SIZE/2} ${-SIZE/2} ${SIZE} ${SIZE}`} overflow="visible">
+            {/* Color-swap filter: converts blue-bg+white-lines → white-bg+blue-lines */}
+            <defs>
+              <filter id="icon-color-swap" colorInterpolationFilters="sRGB">
+                <feColorMatrix type="matrix"
+                  values="-1 0 0 0 1.106
+                           0 -1 0 0 1.435
+                           0  0 -1 0 1.961
+                           0  0  0 1 0" />
+              </filter>
+            </defs>
 
 {programs.map((prog, i) => {
               const a0   = i * (SEG + GAP);
@@ -334,6 +352,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                   onMouseLeave={() => setHovered(null)}
                 >
                   <path d={d} fill={segFill(i, prog.id)}
+                    stroke={division.color} strokeWidth="1.5"
                     style={{ transform: isHov ? 'scale(1.06)' : 'scale(1)', transformOrigin: '0 0',
                              transition: 'transform 0.2s ease, fill 0.2s', cursor: 'pointer',
                              filter: isHov ? 'drop-shadow(0 4px 14px rgba(0,0,0,0.22))' : 'none' }}
@@ -346,10 +365,11 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                         </clipPath>
                       </defs>
                       <image href={PROG_ICON_IMG[prog.id]} width="48" height="48"
-                        x="-24" y="-24" clipPath={`url(#icon-clip-${prog.id})`} />
+                        x="-24" y="-24" clipPath={`url(#icon-clip-${prog.id})`}
+                        filter="url(#icon-color-swap)" />
                     </>) : (
                       <svg x="-14" y="-14" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                        stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        stroke={division.color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                         <path d={ICON_PATHS[iconKey] || ''}/>
                       </svg>
                     )}
@@ -361,8 +381,8 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                     return (
                       <text x={lx} y={ly} textAnchor="middle"
                         transform={`rotate(${textRot},${lx},${ly})`}
-                        fontSize={fs} fontWeight="600"
-                        fontFamily="Inter,sans-serif" fill="white"
+                        fontSize={fs} fontWeight="700"
+                        fontFamily="Inter,sans-serif" fill={hovered === prog.id ? 'white' : division.color}
                         style={{ pointerEvents: 'none', userSelect: 'none' }}>
                         {lblLines.map((ln, li) => (
                           <tspan key={li} x={lx} dy={li === 0 ? off : lh}>{ln}</tspan>
@@ -424,7 +444,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                   <div className={`wpg-kd-hdr-circle${PROG_ICON_IMG[selected.id] ? ' wpg-kd-hdr-circle--img' : ''}`}>
                     {PROG_ICON_IMG[selected.id] ? (
                       <img src={PROG_ICON_IMG[selected.id]}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%', display: 'block' }} alt="" />
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%', display: 'block', filter: 'url(#icon-color-swap)' }} alt="" />
                     ) : (
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke={division.color} strokeWidth="2" strokeLinecap="round">

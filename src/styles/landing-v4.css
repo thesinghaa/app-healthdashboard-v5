@@ -4698,9 +4698,9 @@ td:last-child { padding: 8px 10px; }
 }
 .wpg-prog-item--hov .wpg-prog-icon,
 .wpg-prog-item:hover .wpg-prog-icon { opacity: 1; }
-/* when PNG fills the container — remove background, let image show */
-.wpg-prog-icon--img { background: none; padding: 0; overflow: hidden; }
-.wpg-kd-hdr-circle--img { background: none; border: none; padding: 0; overflow: hidden; }
+/* when PNG fills the container */
+.wpg-prog-icon--img { background: #ffffff; padding: 0; overflow: hidden; border: 1.5px solid var(--dc, #1B6FF5); }
+.wpg-kd-hdr-circle--img { background: #ffffff; border: 2px solid var(--dc, #1B6FF5); padding: 0; overflow: hidden; }
 
 .wpg-prog-name {
   flex: 1;
