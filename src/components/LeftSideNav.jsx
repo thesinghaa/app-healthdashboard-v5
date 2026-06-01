@@ -585,6 +585,7 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
 
       {/* ── Scrollable body ── */}
       <div className="dsp-body">
+      <div className="dsp-body-inner">
 
         {/* Hero text */}
         <div className="dsp-hero">
@@ -657,6 +658,7 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
           </button>
         </div>
 
+      </div>{/* end dsp-body-inner */}
       </div>
     </div>
   );
