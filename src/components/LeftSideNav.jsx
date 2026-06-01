@@ -340,8 +340,8 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                   />
                   <g transform={`translate(${ix},${iy})`} style={{ pointerEvents: 'none' }}>
                     {PROG_ICON_IMG[prog.id] ? (
-                      <image href={PROG_ICON_IMG[prog.id]} width="34" height="34"
-                        x="-17" y="-17" style={{ borderRadius: 6 }} />
+                      <image href={PROG_ICON_IMG[prog.id]} width="46" height="46"
+                        x="-23" y="-23" style={{ borderRadius: 8, mixBlendMode: 'multiply' }} />
                     ) : (
                       <svg x="-14" y="-14" width="28" height="28" viewBox="0 0 24 24" fill="none"
                         stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
