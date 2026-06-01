@@ -151,7 +151,7 @@ function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
       <span className={`wpg-prog-icon${PROG_ICON_IMG[prog.id] ? ' wpg-prog-icon--img' : ''}`}>
         {PROG_ICON_IMG[prog.id] ? (
           <img src={PROG_ICON_IMG[prog.id]}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 10, display: 'block' }} alt="" />
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12, display: 'block' }} alt="" />
         ) : (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
             <path d={ICON_PATHS[iconKey] || ''}/>

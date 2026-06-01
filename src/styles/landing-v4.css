@@ -4684,10 +4684,10 @@ td:last-child { padding: 8px 10px; }
 .wpg-prog-item--right { flex-direction: row-reverse; }
 
 .wpg-prog-icon {
-  width: 42px;
-  height: 42px;
-  min-width: 42px;
-  border-radius: 12px;
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  border-radius: 14px;
   background: var(--dc, #1B6FF5);
   color: #fff;
   display: flex;
