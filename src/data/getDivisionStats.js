@@ -30,11 +30,11 @@ function numeratorFrom(kd) {
 }
 
 const FACE0_PINNED = {
-  rch:  { no: 28,  progId: 'immunization',    label: '91% of the full immunisation target achieved for children aged 9 to 11 months',         fmt: kd => `${kd.achievement}%` },
-  ndcp: { no: 82,  progId: 'nvhcp',           label: '77% of the Hepatitis C treatment target met, covering 2,314 of 2,995 patients',         fmt: kd => `${kd.achievement}%` },
-  ncd:  { no: 125, progId: 'nppcd',           label: '255 persons provided with hearing aids, exceeding the annual target of 251',            fmt: kd => `${kd.achievement}` },
-  hss:  { no: 154, progId: null,              label: '99% of Ayushman Arogya Mandirs delivering all 12 essential health services',            fmt: kd => `${kd.achievement}%` },
-  hrh:  { no: 169, progId: 'medical-officer', label: '96% of MBBS Medical Officer posts filled as per IPHS norms',                            fmt: () => '96%' },
+  rch:  { no: 28,  progId: 'immunization',    label: 'Full immunisation target achieved for children aged 9 to 11 months',      fmt: kd => `${kd.achievement}%` },
+  ndcp: { no: 82,  progId: 'nvhcp',           label: 'Hepatitis C treatment target met, covering 2,314 of 2,995 patients',      fmt: kd => `${kd.achievement}%` },
+  ncd:  { no: 125, progId: 'nppcd',           label: 'Persons provided with hearing aids, exceeding the annual target of 251',  fmt: kd => `${kd.achievement}` },
+  hss:  { no: 154, progId: null,              label: 'Ayushman Arogya Mandirs delivering all 12 essential health services',     fmt: kd => `${kd.achievement}%` },
+  hrh:  { no: 169, progId: 'medical-officer', label: 'MBBS Medical Officer posts filled as per IPHS norms',                    fmt: () => '96%' },
 };
 
 /** Build pinned face-0 for a division, reading live value from KD_TREE. */
