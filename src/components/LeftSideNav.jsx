@@ -507,7 +507,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
 /* ── Division story data (per division) ─────────────────────────────────── */
 const DIVISION_STORIES = {
   rch: {
-    title: 'Five health stories of the year',
+    title: 'The health stories of the year',
     subtitle: 'What happened to mothers, babies, women and families across Arunachal Pradesh in FY 2024-25',
     intro: 'Every year, lakhs of people across Arunachal Pradesh walk into a public health centre, a sub-centre, or a hospital. These five stories follow the people the health system met this year — and what it did for them.',
     topStats: [
