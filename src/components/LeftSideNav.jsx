@@ -312,11 +312,6 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         {/* Centre wheel */}
         <div className="wpg-wheel-wrap" ref={wheelRef}>
           <svg width={SIZE} height={SIZE} viewBox={`${-SIZE/2} ${-SIZE/2} ${SIZE} ${SIZE}`} overflow="visible">
-            <defs>
-              <clipPath id="icon-clip">
-                <rect x="-24" y="-24" width="48" height="48" rx="8" ry="8" />
-              </clipPath>
-            </defs>
 
 {programs.map((prog, i) => {
               const a0   = i * (SEG + GAP);
@@ -344,10 +339,15 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
                              filter: isHov ? 'drop-shadow(0 4px 14px rgba(0,0,0,0.22))' : 'none' }}
                   />
                   <g transform={`translate(${ix},${iy})`} style={{ pointerEvents: 'none' }}>
-                    {PROG_ICON_IMG[prog.id] ? (
+                    {PROG_ICON_IMG[prog.id] ? (<>
+                      <defs>
+                        <clipPath id={`icon-clip-${prog.id}`}>
+                          <rect x="-24" y="-24" width="48" height="48" rx="8" ry="8" />
+                        </clipPath>
+                      </defs>
                       <image href={PROG_ICON_IMG[prog.id]} width="48" height="48"
-                        x="-24" y="-24" clipPath="url(#icon-clip)" />
-                    ) : (
+                        x="-24" y="-24" clipPath={`url(#icon-clip-${prog.id})`} />
+                    </>) : (
                       <svg x="-14" y="-14" width="28" height="28" viewBox="0 0 24 24" fill="none"
                         stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                         <path d={ICON_PATHS[iconKey] || ''}/>
