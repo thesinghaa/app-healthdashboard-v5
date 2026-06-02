@@ -6499,12 +6499,7 @@ td:last-child { padding: 8px 10px; }
   line-height: 1.3;
 }
 
-/* ── Performance: GPU hints for animated elements ───────────────────────── */
-.wpg-wheel-wrap      { will-change: transform; contain: layout style; }
-.wpg-right-box       { will-change: transform, opacity; }
-.lsnav-panel         { will-change: transform; }
-.wpg-page            { will-change: opacity; }
-.v5-bio-modal,
-.v5-login-gate,
-.v5-login-popup      { will-change: opacity; }
-.wheel-seg path      { will-change: transform, fill; }
+/* ── Performance: GPU layer hints (safe — no contain, no will-change on GSAP targets) */
+.wpg-right-box  { transform: translateZ(0); }
+.lsnav-panel    { transform: translateZ(0); }
+.wheel-seg path { transform: translateZ(0); }
