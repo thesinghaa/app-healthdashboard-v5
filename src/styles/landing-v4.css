@@ -6251,3 +6251,24 @@ td:last-child { padding: 8px 10px; }
 @keyframes check-draw {
   to { stroke-dashoffset: 0; }
 }
+
+/* ── Logout button ──────────────────────────────────────────────────────── */
+.v5-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  margin-left: 8px;
+}
+.v5-logout-btn:hover {
+  background: rgba(255,255,255,0.22);
+  color: #fff;
+}
