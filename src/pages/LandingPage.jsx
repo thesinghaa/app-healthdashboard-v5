@@ -3,7 +3,7 @@
    Light-mode scrollable: Programme Overview → NHM Flow (Sankey) → Alerts
    ═══════════════════════════════════════════════════════════════════════════ */
 
-import { useState, useEffect, useMemo, useRef, lazy, Suspense, createContext, useContext } from 'react';
+import { useState, useEffect, useMemo, useRef, lazy, Suspense, createContext, useContext, memo } from 'react';
 import { gsap } from 'gsap';
 import { DIVISIONS } from '../data/programs';
 import { KD_TREE } from '../data/kdData';
@@ -685,6 +685,31 @@ function EnableBioPrompt({ onEnable, onSkip }) {
   );
 }
 
+/* ── Isolated banner carousel — own state, never re-renders parent ───────── */
+const BANNERS = [
+  { n: 1, pos: 'right 42%' },
+  { n: 2, pos: 'right 36%' },
+  { n: 3, pos: 'right 50%' },
+  { n: 4, pos: 'right 35%' },
+  { n: 5, pos: 'right 52%' },
+  { n: 6, pos: 'right 20%' },
+  { n: 8, pos: 'right 45%' },
+];
+const NavBanner = memo(function NavBanner() {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setIdx(i => (i + 1) % BANNERS.length), 5000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div className="v4l-nav-banner-dissolve">
+      <img key={BANNERS[idx].n} src={`/banners/banner${BANNERS[idx].n}.png`} alt=""
+        className="v4l-nav-banner-slide"
+        style={{ objectPosition: BANNERS[idx].pos, opacity: 1 }} />
+    </div>
+  );
+});
+
 const LOGIN_DIVS = [
   { id: 'rch',  short: 'RCH',  name: 'Reproductive & Child Health', color: '#1B6FF5', icon: '/sidebar/RCH.png' },
   { id: 'ndcp', short: 'NDCP', name: 'National Disease Control',     color: '#D97706', icon: '/sidebar/NDCP.png' },
@@ -749,23 +774,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
   useReveal(flowRef);
   useReveal(alertsRef);
 
-  /* nav banner — instant switch, no crossfade */
-  const BANNERS = [
-    { n: 1, pos: 'right 42%' },   // health camp — faces at ~40% from top
-    { n: 2, pos: 'right 36%' },   // mobile van — doctor+patient faces at ~35%
-    { n: 3, pos: 'right 50%' },   // Ziro stilt houses — landscape, center crop
-    { n: 4, pos: 'right 35%' },   // tribal mother+baby — faces at ~33%
-    { n: 5, pos: 'right 52%' },   // ASHA worker — face at ~50%, skip bright sky at top
-    { n: 6, pos: 'right 20%' },   // 5 health workers portrait — faces at ~18%
-    { n: 8, pos: 'right 45%' },   // Tawang monastery — building at ~45%
-  ];
-  const [bannerIdx, setBannerIdx] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => {
-      setBannerIdx(i => (i + 1) % BANNERS.length);
-    }, 5000);
-    return () => clearInterval(id);
-  }, []);
 
   /* overall totals for the hero strip */
   const totals = useMemo(() => {
@@ -791,16 +799,8 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       {/* ── Navbar ──────────────────────────────────────────────────────── */}
       <header className="v4l-nav">
         <div className="v4l-nav-inner">
-          {/* ── Banner — instant switch ──────────────────────────────────── */}
-          <div className="v4l-nav-banner-dissolve">
-            <img
-              key={BANNERS[bannerIdx].n}
-              src={`/banners/banner${BANNERS[bannerIdx].n}.png`}
-              alt=""
-              className="v4l-nav-banner-slide"
-              style={{ objectPosition: BANNERS[bannerIdx].pos, opacity: 1 }}
-            />
-          </div>
+          {/* ── Banner — isolated component, no parent re-render ─────────── */}
+          <NavBanner />
           {/* Gradient so brand text stays readable over images */}
           <div className="v4l-nav-banner-overlay" />
 

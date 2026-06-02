@@ -189,14 +189,28 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) 
   const leftProgs  = programs.slice(0, half);
   const rightProgs = programs.slice(half);
 
-  /* wheel geometry */
-  const GAP    = n > 9 ? 2.5 : 3.5;
-  const SEG    = (360 - n * GAP) / n;
-  const I_R    = 105;
-  const O_R    = n > 9 ? 240 : 250;
-  const ICON_R = (I_R + O_R) / 2 + 2;
-  const LBL_R  = ICON_R + 26;
-  const SIZE   = 600;
+  /* wheel geometry — memoized, only recomputes when program count changes */
+  const { GAP, SEG, I_R, O_R, ICON_R, LBL_R, SIZE, segData } = useMemo(() => {
+    const GAP    = n > 9 ? 2.5 : 3.5;
+    const SEG    = (360 - n * GAP) / n;
+    const I_R    = 105;
+    const O_R    = n > 9 ? 240 : 250;
+    const ICON_R = (I_R + O_R) / 2 + 2;
+    const LBL_R  = ICON_R + 26;
+    const SIZE   = 600;
+    const segData = programs.map((prog, i) => {
+      const a0   = i * (SEG + GAP);
+      const a1   = a0 + SEG;
+      const midA = (a0 + a1) / 2;
+      const d    = ringPath(I_R, O_R, a0, a1);
+      const [ix, iy] = toXY(ICON_R, midA);
+      const [lx, ly] = toXY(LBL_R, midA);
+      let textRot = midA;
+      if (midA > 90 && midA < 270) textRot = midA + 180;
+      return { prog, i, a0, a1, midA, d, ix, iy, lx, ly, textRot };
+    });
+    return { GAP, SEG, I_R, O_R, ICON_R, LBL_R, SIZE, segData };
+  }, [n, programs]);
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -315,19 +329,10 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) 
         <div className="wpg-wheel-wrap" ref={wheelRef}>
           <svg width={SIZE} height={SIZE} viewBox={`${-SIZE/2} ${-SIZE/2} ${SIZE} ${SIZE}`} overflow="visible">
 
-{programs.map((prog, i) => {
-              const a0   = i * (SEG + GAP);
-              const a1   = a0 + SEG;
-              const midA = (a0 + a1) / 2;
-              const d    = ringPath(I_R, O_R, a0, a1);
-              const isHov = hovered === prog.id;
-              const [ix, iy] = toXY(ICON_R, midA);
-              const [lx, ly] = toXY(LBL_R, midA);
+{segData.map(({ prog, i, d, ix, iy, lx, ly, textRot }) => {
+              const isHov    = hovered === prog.id;
               const iconKey  = PROG_ICON_KEY[prog.id] || 'cross';
               const lblLines = PROG_FULL[prog.id] || [prog.name?.split(' ')[0] || prog.id];
-              /* rotate label: flip text on bottom half so it's always readable */
-              let textRot = midA;
-              if (midA > 90 && midA < 270) textRot = midA + 180;
 
               return (
                 <g key={prog.id} className={`wheel-seg${isHov ? ' wheel-seg--hov' : ''}`}
@@ -337,8 +342,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) 
                 >
                   <path d={d} fill={segFill(i, prog.id)}
                     style={{ transform: isHov ? 'scale(1.06)' : 'scale(1)', transformOrigin: '0 0',
-                             transition: 'transform 0.2s ease, fill 0.2s', cursor: 'pointer',
-                             filter: isHov ? 'drop-shadow(0 4px 14px rgba(0,0,0,0.22))' : 'none' }}
+                             transition: 'transform 0.18s ease, fill 0.18s', cursor: 'pointer' }}
                   />
                   <g transform={`translate(${ix},${iy})`} style={{ pointerEvents: 'none' }}>
                     {PROG_ICON_IMG[prog.id] ? (
