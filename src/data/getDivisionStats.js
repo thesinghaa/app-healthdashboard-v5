@@ -30,11 +30,11 @@ function numeratorFrom(kd) {
 }
 
 const FACE0_PINNED = {
-  rch:  { no: 28,  progId: 'immunization',    label: 'Full immunisation target achieved for children aged 9 to 11 months',      fmt: kd => `${kd.achievement}%` },
-  ndcp: { no: 82,  progId: 'nvhcp',           label: 'Hepatitis C treatment target met, covering 2,314 of 2,995 patients',      fmt: kd => `${kd.achievement}%` },
-  ncd:  { no: 125, progId: 'nppcd',           label: 'Persons provided with hearing aids against a target of 251',             fmt: kd => `${kd.achievement}` },
-  hss:  { no: 154, progId: null,              label: 'Ayushman Arogya Mandirs delivering all 12 essential health services',     fmt: kd => `${kd.achievement}%` },
-  hrh:  { no: 169, progId: 'medical-officer', label: 'MBBS Medical Officer positions filled as per IPHS norms',                fmt: () => '96%' },
+  rch:  { no: 28,  progId: 'immunization',    label: 'Children fully immunised against a target of 19,823',                    fmt: kd => (kd.numerator||kd.achievement).toLocaleString('en-IN') },
+  ndcp: { no: 82,  progId: 'nvhcp',           label: 'Hepatitis C patients in treatment against a target of 2,995',           fmt: kd => (kd.numerator||kd.achievement).toLocaleString('en-IN') },
+  ncd:  { no: 125, progId: 'nppcd',           label: 'Persons provided with hearing aids against a target of 251',            fmt: kd => (kd.numerator||kd.achievement).toLocaleString('en-IN') },
+  hss:  { no: 154, progId: null,              label: 'Ayushman Arogya Mandirs delivering all 12 essential health services',   fmt: kd => (kd.numerator||kd.achievement).toLocaleString('en-IN') },
+  hrh:  { no: 169, progId: 'medical-officer', label: 'MBBS Medical Officer positions filled as per IPHS norms',               fmt: () => '96%' },
 };
 
 /** Build pinned face-0 for a division, reading live value from KD_TREE. */

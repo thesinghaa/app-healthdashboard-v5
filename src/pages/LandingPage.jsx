@@ -436,6 +436,182 @@ function useReveal(ref) {
 /* ═══════════════════════════════════════════════════════════════════════════
    MAIN COMPONENT
    ═══════════════════════════════════════════════════════════════════════════ */
+const CAPTCHA_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+function genCaptcha() {
+  let text = '';
+  for (let i = 0; i < 6; i++) text += CAPTCHA_CHARS[Math.floor(Math.random() * CAPTCHA_CHARS.length)];
+  return text;
+}
+
+function CaptchaCanvas({ text }) {
+  const canvasRef = useRef(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    // Background
+    ctx.fillStyle = '#f0f4ff';
+    ctx.fillRect(0, 0, W, H);
+    // Noise dots
+    for (let i = 0; i < 80; i++) {
+      ctx.beginPath();
+      ctx.arc(Math.random()*W, Math.random()*H, Math.random()*1.5+0.3, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${Math.random()*100|0},${Math.random()*100|0},${Math.random()*200|0},0.5)`;
+      ctx.fill();
+    }
+    // Noise lines
+    for (let i = 0; i < 5; i++) {
+      ctx.beginPath();
+      ctx.moveTo(Math.random()*W, Math.random()*H);
+      ctx.lineTo(Math.random()*W, Math.random()*H);
+      ctx.strokeStyle = `rgba(${Math.random()*150|0},${Math.random()*150|0},${Math.random()*220|0},0.4)`;
+      ctx.lineWidth = Math.random()*1.2+0.5;
+      ctx.stroke();
+    }
+    // Characters
+    const charW = W / (text.length + 1);
+    const fonts = ['Arial','Georgia','Courier New','Verdana'];
+    text.split('').forEach((ch, i) => {
+      ctx.save();
+      const x = charW * (i + 0.8) + Math.random()*4-2;
+      const y = H/2 + Math.random()*6-3;
+      ctx.translate(x, y);
+      ctx.rotate((Math.random()-0.5)*0.45);
+      ctx.font = `bold ${24+Math.random()*6|0}px ${fonts[i%fonts.length]}`;
+      const r = 20+Math.random()*80|0, g = 20+Math.random()*60|0, b = 80+Math.random()*120|0;
+      ctx.fillStyle = `rgb(${r},${g},${b})`;
+      ctx.fillText(ch, 0, 0);
+      ctx.restore();
+    });
+  }, [text]);
+  return <canvas ref={canvasRef} width={200} height={56} style={{ borderRadius:'8px', display:'block' }} />;
+}
+
+/* ── WebAuthn helpers ────────────────────────────────────────────────────── */
+const WEBAUTHN_SUPPORTED = typeof window !== 'undefined' && !!window.PublicKeyCredential;
+
+async function registerBiometric() {
+  const cred = await navigator.credentials.create({
+    publicKey: {
+      challenge: crypto.getRandomValues(new Uint8Array(32)),
+      rp: { name: 'PIF Health Dashboard', id: location.hostname },
+      user: { id: new Uint8Array(16), name: 'pif-admin', displayName: 'PIF Admin' },
+      pubKeyCredParams: [{ alg: -7, type: 'public-key' }, { alg: -257, type: 'public-key' }],
+      authenticatorSelection: { userVerification: 'required', residentKey: 'preferred' },
+      timeout: 60000,
+    }
+  });
+  const id = btoa(String.fromCharCode(...new Uint8Array(cred.rawId)));
+  localStorage.setItem('bio_cred', JSON.stringify({ id }));
+  return id;
+}
+
+async function authenticateBiometric() {
+  const stored = JSON.parse(localStorage.getItem('bio_cred') || '{}');
+  const raw = Uint8Array.from(atob(stored.id), c => c.charCodeAt(0));
+  await navigator.credentials.get({
+    publicKey: {
+      challenge: crypto.getRandomValues(new Uint8Array(32)),
+      allowCredentials: [{ id: raw, type: 'public-key' }],
+      userVerification: 'required',
+      timeout: 60000,
+    }
+  });
+}
+
+/* ── BiometricModal ──────────────────────────────────────────────────────── */
+function BiometricModal({ status, onUsePassword, onClose }) {
+  const isScanning = status === 'scanning';
+  const isSuccess  = status === 'success';
+  const isError    = status === 'error';
+
+  const statusText = {
+    idle:     'Authenticating…',
+    scanning: 'Touch sensor or look at camera',
+    success:  'Identity verified',
+    error:    'Biometric failed. Try again or use password.',
+  }[status] || '';
+
+  return (
+    <>
+      <div className="v5-login-backdrop" onClick={onClose} />
+      <div className="v5-bio-modal">
+        <img src="/ap-emblem.svg" alt="AP" className="v5-bio-emblem" />
+        <h2 className="v5-bio-title">Biometric Login</h2>
+        <p className="v5-bio-sub">NHM Arunachal Pradesh · FY 2025-26</p>
+
+        <div className="v5-bio-icons">
+          {/* Fingerprint */}
+          <div className={`v5-bio-icon-wrap${isScanning ? ' v5-bio--scanning' : ''}${isSuccess ? ' v5-bio--success' : ''}${isError ? ' v5-bio--error' : ''}`}>
+            <svg className="v5-bio-fp" viewBox="0 0 80 80" fill="none">
+              <path d="M40 12C24.5 12 12 24.5 12 40" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+              <path d="M40 12C55.5 12 68 24.5 68 40" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+              <path d="M22 40c0-9.9 8.1-18 18-18" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+              <path d="M58 40c0-9.9-8.1-18-18-18" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+              <path d="M30 40c0-5.5 4.5-10 10-10s10 4.5 10 10" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+              <path d="M40 30v10" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+              <path d="M20 52c2.5 8 10.5 14 20 14s17.5-6 20-14" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+              <path d="M28 46c2 5 6.5 8 12 8" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+              {isScanning && <line className="v5-bio-scanline" x1="10" y1="40" x2="70" y2="40" stroke="currentColor" strokeWidth="2" opacity="0.7"/>}
+            </svg>
+            <span className="v5-bio-icon-lbl">Fingerprint</span>
+          </div>
+
+          <div className="v5-bio-divider">or</div>
+
+          {/* Face */}
+          <div className={`v5-bio-icon-wrap${isScanning ? ' v5-bio--scanning' : ''}${isSuccess ? ' v5-bio--success' : ''}${isError ? ' v5-bio--error' : ''}`}>
+            <svg className="v5-bio-face" viewBox="0 0 80 80" fill="none">
+              {/* Face outline corners */}
+              <path d="M12 28V16h12" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" className="v5-bio-corner"/>
+              <path d="M56 16h12v12" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" className="v5-bio-corner"/>
+              <path d="M68 52v12H56" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" className="v5-bio-corner"/>
+              <path d="M24 64H12V52" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" className="v5-bio-corner"/>
+              {/* Face features */}
+              <circle cx="31" cy="36" r="3" fill="currentColor" opacity="0.7"/>
+              <circle cx="49" cy="36" r="3" fill="currentColor" opacity="0.7"/>
+              <path d="M32 50c2 3 6 5 8 5s6-2 8-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+              {isScanning && <line className="v5-bio-scanline" x1="12" y1="40" x2="68" y2="40" stroke="currentColor" strokeWidth="2" opacity="0.7"/>}
+            </svg>
+            <span className="v5-bio-icon-lbl">Face ID</span>
+          </div>
+        </div>
+
+        <div className={`v5-bio-status${isSuccess ? ' v5-bio-status--ok' : ''}${isError ? ' v5-bio-status--err' : ''}`}>
+          {isScanning && <span className="v5-bio-spinner" />}
+          {isSuccess && <span className="v5-bio-tick">✓</span>}
+          {isError   && <span className="v5-bio-tick v5-bio-tick--err">✗</span>}
+          <span>{statusText}</span>
+        </div>
+
+        <button className="v5-bio-fallback" onClick={onUsePassword}>
+          Use password instead
+        </button>
+      </div>
+    </>
+  );
+}
+
+/* ── Enable Biometric prompt ─────────────────────────────────────────────── */
+function EnableBioPrompt({ onEnable, onSkip }) {
+  return (
+    <>
+      <div className="v5-login-backdrop" />
+      <div className="v5-bio-modal v5-enable-bio">
+        <img src="/ap-emblem.svg" alt="AP" className="v5-bio-emblem" />
+        <h2 className="v5-bio-title">Enable Biometric Login?</h2>
+        <p className="v5-enable-bio-desc">Register your fingerprint or face for faster, secure access next time.</p>
+        <div className="v5-enable-bio-btns">
+          <button className="v5-gate-btn" onClick={onEnable}>Enable Now</button>
+          <button className="v5-bio-fallback" onClick={onSkip}>Skip for now</button>
+        </div>
+      </div>
+    </>
+  );
+}
+
 const LOGIN_DIVS = [
   { id: 'rch',  short: 'RCH',  name: 'Reproductive & Child Health', color: '#1B6FF5', icon: '/sidebar/RCH.png' },
   { id: 'ndcp', short: 'NDCP', name: 'National Disease Control',     color: '#D97706', icon: '/sidebar/NDCP.png' },
@@ -447,7 +623,17 @@ const LOGIN_DIVS = [
 export default function LandingPage({ onSelectDivision, onViewSummary, onDirectKD, onSelectProgramme }) {
   const [reportDiv, setReportDiv] = useState(null);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
-  const [wheelTarget, setWheelTarget] = useState(null);
+  const [showLoginGate, setShowLoginGate]   = useState(false);
+  const [loginUser, setLoginUser]           = useState('');
+  const [loginPass, setLoginPass]           = useState('');
+  const [loginError, setLoginError]         = useState('');
+  const [captchaAns, setCaptchaAns]         = useState('');
+  const [captchaText, setCaptchaText]       = useState(() => genCaptcha());
+  const [wheelTarget, setWheelTarget]       = useState(null);
+  const [showBioModal, setShowBioModal]     = useState(false);
+  const [bioStatus, setBioStatus]           = useState('idle');
+  const [bioStored, setBioStored]           = useState(() => !!localStorage.getItem('bio_cred'));
+  const [showEnableBio, setShowEnableBio]   = useState(false);
   const divStats = useDivStats();
 
   /* section refs for scroll-reveal */
@@ -532,7 +718,19 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           <h1 className="v5-hero-title">Our state's health, district by district</h1>
         </div>
         <div className="v5-hero-right">
-          <button className="v5-login-btn" onClick={() => setShowLoginPopup(p => !p)}>
+          <button className="v5-login-btn" onClick={() => {
+            if (bioStored && WEBAUTHN_SUPPORTED) {
+              // Return visitor — go straight to biometric
+              setBioStatus('scanning');
+              setShowBioModal(true);
+              authenticateBiometric()
+                .then(() => { setBioStatus('success'); setTimeout(() => { setShowBioModal(false); setShowLoginPopup(true); setBioStatus('idle'); }, 800); })
+                .catch(() => { setBioStatus('error'); });
+            } else {
+              // First visit — password gate
+              setShowLoginGate(true); setLoginUser(''); setLoginPass(''); setLoginError(''); setCaptchaAns(''); setCaptchaText(genCaptcha());
+            }
+          }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
             Login
           </button>
@@ -743,7 +941,82 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         <ReportModal division={reportDiv} onClose={() => setReportDiv(null)} />
       )}
 
-      {/* ── Login popup — fixed, outside nav overflow ─────────────────── */}
+      {/* ── Biometric modal ───────────────────────────────────────────── */}
+      {showBioModal && (
+        <BiometricModal
+          status={bioStatus}
+          onClose={() => { setShowBioModal(false); setBioStatus('idle'); }}
+          onUsePassword={() => {
+            setShowBioModal(false); setBioStatus('idle');
+            setShowLoginGate(true); setLoginUser(''); setLoginPass(''); setLoginError(''); setCaptchaAns(''); setCaptchaText(genCaptcha());
+          }}
+        />
+      )}
+
+      {/* ── Enable biometric prompt ───────────────────────────────────── */}
+      {showEnableBio && (
+        <EnableBioPrompt
+          onEnable={async () => {
+            try {
+              await registerBiometric();
+              setBioStored(true);
+            } catch (e) { /* user cancelled — ignore */ }
+            setShowEnableBio(false); setShowLoginPopup(true);
+          }}
+          onSkip={() => { setShowEnableBio(false); setShowLoginPopup(true); }}
+        />
+      )}
+
+      {/* ── Login gate ───────────────────────────────────────────────── */}
+      {showLoginGate && (
+        <>
+          <div className="v5-login-backdrop" onClick={() => setShowLoginGate(false)} />
+          <div className="v5-login-gate">
+            <div className="v5-gate-logo">
+              <img src="/ap-emblem.svg" alt="Arunachal Pradesh" />
+            </div>
+            <h2 className="v5-gate-title">Admin Login</h2>
+            <div className="v5-gate-fields">
+              <div className="v5-gate-field">
+                <label className="v5-gate-label">Username</label>
+                <input className="v5-gate-input" type="text" placeholder="Enter username"
+                  value={loginUser} onChange={e => { setLoginUser(e.target.value); setLoginError(''); }} />
+              </div>
+              <div className="v5-gate-field">
+                <label className="v5-gate-label">Password</label>
+                <input className="v5-gate-input" type="password" placeholder="Enter password"
+                  value={loginPass} onChange={e => { setLoginPass(e.target.value); setLoginError(''); }} />
+              </div>
+              <div className="v5-gate-field">
+                <label className="v5-gate-label">Enter the characters shown below</label>
+                <div className="v5-gate-captcha-row">
+                  <CaptchaCanvas text={captchaText} />
+                  <button className="v5-gate-captcha-refresh" title="Refresh captcha" onClick={() => { setCaptchaText(genCaptcha()); setCaptchaAns(''); }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                  </button>
+                </div>
+                <input className="v5-gate-input" type="text" placeholder="Type characters above"
+                  value={captchaAns} onChange={e => { setCaptchaAns(e.target.value); setLoginError(''); }}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      const ok = loginUser.trim() === 'PIF' && loginPass === '2047' && captchaAns.trim().toLowerCase() === captchaText.toLowerCase();
+                      if (ok) { setShowLoginGate(false); WEBAUTHN_SUPPORTED && !bioStored ? setShowEnableBio(true) : setShowLoginPopup(true); }
+                      else { setLoginError('Invalid credentials or captcha. Try again.'); setCaptchaText(genCaptcha()); setCaptchaAns(''); }
+                    }
+                  }} />
+              </div>
+              {loginError && <p className="v5-gate-error">{loginError}</p>}
+              <button className="v5-gate-btn" onClick={() => {
+                const ok = loginUser.trim() === 'PIF' && loginPass === '2047' && captchaAns.trim().toLowerCase() === captchaText.toLowerCase();
+                if (ok) { setShowLoginGate(false); WEBAUTHN_SUPPORTED && !bioStored ? setShowEnableBio(true) : setShowLoginPopup(true); }
+                else { setLoginError('Invalid credentials or captcha. Try again.'); setCaptchaText(genCaptcha()); setCaptchaAns(''); }
+              }}>Sign In</button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ── Division popup — fixed, outside nav overflow ──────────────── */}
       {showLoginPopup && (
         <>
           <div className="v5-login-backdrop" onClick={() => setShowLoginPopup(false)} />
