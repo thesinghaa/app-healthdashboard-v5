@@ -6428,3 +6428,42 @@ td:last-child { padding: 8px 10px; }
   font-weight: 600;
   color: #94a3b8;
 }
+
+/* ── Pill column header ─────────────────────────────────────────────────── */
+.wpg-pill-hdr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 12px 5px 10px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.wpg-pill-hdr-num {
+  flex-shrink: 0;
+  width: 22px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.wpg-pill-hdr-name {
+  flex: 1;
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.wpg-pill-hdr-right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}

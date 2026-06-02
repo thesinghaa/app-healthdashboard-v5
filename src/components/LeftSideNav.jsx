@@ -451,6 +451,14 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) 
                 {kdList.length === 0 ? (
                   <p className="wpg-kd-empty">No indicators available for this programme.</p>
                 ) : (
+                  <div className="wpg-pill-hdr">
+                    <span className="wpg-pill-hdr-num">#</span>
+                    <span className="wpg-pill-hdr-name">Indicator</span>
+                    <div className="wpg-pill-hdr-right">
+                      <span>Achievement / Target</span>
+                      <span>Status</span>
+                    </div>
+                  </div>
                   <div className="wpg-kd-pills">
                     {kdList.map((kd, idx) => {
                       const st = kdStatus(kd);
