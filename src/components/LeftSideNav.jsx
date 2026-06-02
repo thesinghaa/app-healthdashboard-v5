@@ -436,7 +436,10 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) 
                       </svg>
                     )}
                   </div>
-                  <h2 className="wpg-kd-prog-title">{selected.name}</h2>
+                  <div className="wpg-kd-title-wrap">
+                    <h2 className="wpg-kd-prog-title">{selected.name}</h2>
+                    <span className="wpg-kd-subtitle">Click on an indicator to explore more</span>
+                  </div>
                 </div>
                 <button className="wpg-kd-close-btn" onClick={handlePanelClose} aria-label="Close panel">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
