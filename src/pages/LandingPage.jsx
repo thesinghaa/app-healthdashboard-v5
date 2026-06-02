@@ -793,6 +793,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
 
       {/* ── Left side navigation panel ──────────────────────────────────── */}
       <LeftSideNav onSelectDivision={onSelectDivision} onSelectProgramme={onSelectProgramme} openWheelDirect={wheelTarget}
+        onDirectKD={onDirectKD}
         isLoggedIn={isLoggedIn}
         onLogout={() => { setIsLoggedIn(false); setShowLoginPopup(false); }} />
 

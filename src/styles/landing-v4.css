@@ -6621,3 +6621,23 @@ td:last-child { padding: 8px 10px; }
   transition: opacity 0.15s;
 }
 .wpg-pill-explore-btn:hover { opacity: 0.85; }
+
+/* ── Pill direct-navigation style ─────────────────────────────────────────── */
+.wpg-pill--link {
+  transition: transform 0.13s ease, box-shadow 0.13s ease;
+}
+.wpg-pill--link:hover {
+  transform: translateX(3px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.wpg-pill-arrow {
+  opacity: 0;
+  flex-shrink: 0;
+  color: currentColor;
+  transition: opacity 0.13s ease, transform 0.13s ease;
+  margin-left: 4px;
+}
+.wpg-pill--link:hover .wpg-pill-arrow {
+  opacity: 0.55;
+  transform: translateX(2px);
+}

@@ -172,10 +172,9 @@ function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
 }
 
 /* ── Full-page Programme Wheel ────────────────────────────────────────────── */
-function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) {
-  const [hovered, setHovered]       = useState(null);
-  const [selected, setSelected]     = useState(null);
-  const [expandedPill, setExpandedPill] = useState(null);
+function ProgrammeWheelPage({ division, divData, onSelect, onSelectKD, onClose, onLogout }) {
+  const [hovered, setHovered]   = useState(null);
+  const [selected, setSelected] = useState(null);
   const pageRef   = useRef(null);
   const wheelRef  = useRef(null);
   const leftRef   = useRef(null);
@@ -268,12 +267,10 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) 
 
   function handleSelect(prog) {
     setSelected(prev => prev?.id === prog.id ? null : prog);
-    setExpandedPill(null);
   }
 
   function handlePanelClose() {
     setSelected(null);
-    setExpandedPill(null);
   }
 
   function handleViewAll(prog) {
@@ -475,15 +472,12 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) 
                       const st = kdStatus(kd);
                       const statusLabel = st === 'achieved' ? 'On Track' : st === 'close' ? 'Caution' : st === 'gap' ? 'Gap' : 'N/A';
                       const pct = kd.target > 0 ? Math.round((kd.achievement / kd.target) * 100) : null;
-                      const isExpanded = expandedPill === kd.no;
-                      const barPct = pct !== null ? Math.min(pct, 100) : 0;
                       return (
                         <div key={kd.no}
-                          className={`wpg-pill wpg-pill--${st}${isExpanded ? ' wpg-pill--open' : ''}`}
-                          onClick={() => setExpandedPill(isExpanded ? null : kd.no)}
+                          className={`wpg-pill wpg-pill--${st} wpg-pill--link`}
+                          onClick={() => onSelectKD && onSelectKD(kd, selected, divData)}
                           style={{ cursor: 'pointer' }}
                         >
-                          {/* ── Collapsed row ── */}
                           <span className="wpg-pill-num">{idx + 1}</span>
                           <span className="wpg-pill-name">{kd.indicator}</span>
                           <div className="wpg-pill-right">
@@ -494,44 +488,8 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) 
                               {pct !== null && <span className="wpg-pill-pct">{pct}%</span>}
                             </span>
                             <span className={`wpg-kd-badge wpg-kd-badge--${st}`}>{statusLabel}</span>
+                            <svg className="wpg-pill-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 18l6-6-6-6"/></svg>
                           </div>
-                          {/* ── Expanded detail ── */}
-                          {isExpanded && (
-                            <div className="wpg-pill-detail">
-                              <p className="wpg-pill-detail-name">{kd.indicator}</p>
-                              {/* progress bar */}
-                              <div className="wpg-pill-bar-wrap">
-                                <div className={`wpg-pill-bar wpg-pill-bar--${st}`} style={{ width: `${barPct}%` }} />
-                                <span className="wpg-pill-bar-pct">{pct !== null ? `${pct}%` : '—'}</span>
-                              </div>
-                              {/* stats row */}
-                              <div className="wpg-pill-stats">
-                                <div className="wpg-pill-stat">
-                                  <span className="wpg-pill-stat-val">{kd.achievedLabel ?? kd.achievement ?? '—'}</span>
-                                  <span className="wpg-pill-stat-lbl">Achievement</span>
-                                </div>
-                                <div className="wpg-pill-stat">
-                                  <span className="wpg-pill-stat-val">{kd.targetLabel ?? kd.target ?? '—'}</span>
-                                  <span className="wpg-pill-stat-lbl">Target</span>
-                                </div>
-                                <div className="wpg-pill-stat">
-                                  <span className={`wpg-kd-badge wpg-kd-badge--${st}`}>{statusLabel}</span>
-                                  <span className="wpg-pill-stat-lbl">Status</span>
-                                </div>
-                              </div>
-                              {kd.hmisCode && (
-                                <p className="wpg-pill-hmis">HMIS Code: <strong>{kd.hmisCode}</strong></p>
-                              )}
-                              {kd.lowerIsBetter && (
-                                <p className="wpg-pill-note">Lower value is better for this indicator</p>
-                              )}
-                              <button className="wpg-pill-explore-btn"
-                                onClick={e => { e.stopPropagation(); handleViewAll(selected); }}>
-                                View All Indicators
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 18l6-6-6-6"/></svg>
-                              </button>
-                            </div>
-                          )}
                         </div>
                       );
                     })}
@@ -862,7 +820,7 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes, onLogout })
 }
 
 /* ── Left Nav panel ───────────────────────────────────────────────────────── */
-export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect, isLoggedIn, onLogout }) {
+export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect, onDirectKD, isLoggedIn, onLogout }) {
   const [open,      setOpen]      = useState(false);
   const [activeDiv, setActiveDiv] = useState(null);
   const [showWheel, setShowWheel] = useState(false);
@@ -898,6 +856,13 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openW
     if (!divData) return;
     if (prog && onSelectProgramme) onSelectProgramme(prog, divData);
     else if (onSelectDivision)     onSelectDivision(divData);
+  }
+
+  function handleKDSelect(kd, prog, divData) {
+    setOpen(false);
+    setActiveDiv(null);
+    setShowWheel(false);
+    if (onDirectKD) onDirectKD(divData, prog.id, kd);
   }
 
   return (
@@ -963,6 +928,7 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openW
           division={activeDiv}
           divData={getDivData(activeDiv.id)}
           onSelect={handleWheelSelect}
+          onSelectKD={handleKDSelect}
           onClose={() => { setActiveDiv(null); setShowWheel(false); }}
           onLogout={onLogout ? () => { setActiveDiv(null); setShowWheel(false); onLogout(); } : null}
         />
