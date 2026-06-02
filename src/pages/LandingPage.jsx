@@ -603,7 +603,7 @@ function BiometricModal({ status, onUsePassword, onClose }) {
 
   return (
     <>
-      <div className="v5-login-backdrop" onClick={onClose} />
+      <div className="v5-login-backdrop" onClick={onClose || undefined} />
       <div className={`v5-bio-modal v5-bio-modal--${bioType}`}>
         <img src="/ap-emblem.svg" alt="AP" className="v5-bio-emblem" />
         <h2 className="v5-bio-title">{bioType === 'fingerprint' ? 'Touch ID' : 'Face ID'}</h2>
@@ -696,8 +696,10 @@ const LOGIN_DIVS = [
 
 export default function LandingPage({ onSelectDivision, onViewSummary, onDirectKD, onSelectProgramme }) {
   const [reportDiv, setReportDiv] = useState(null);
+  /* ── Auth gate — mandatory on every page load ─────────────────────────── */
+  const [isLoggedIn, setIsLoggedIn]         = useState(() => sessionStorage.getItem('pif_auth') === '1');
   const [showLoginPopup, setShowLoginPopup] = useState(false);
-  const [showLoginGate, setShowLoginGate]   = useState(false);
+  const [showLoginGate, setShowLoginGate]   = useState(() => sessionStorage.getItem('pif_auth') !== '1');
   const [loginUser, setLoginUser]           = useState('');
   const [loginPass, setLoginPass]           = useState('');
   const [loginError, setLoginError]         = useState('');
@@ -709,6 +711,48 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
   const [bioStored, setBioStored]           = useState(() => !!localStorage.getItem('bio_cred'));
   const [showEnableBio, setShowEnableBio]   = useState(false);
   const divStats = useDivStats();
+
+  /* ── Login success handler ────────────────────────────────────────────── */
+  function handleLoginSuccess() {
+    sessionStorage.setItem('pif_auth', '1');
+    setIsLoggedIn(true);
+    setShowLoginGate(false);
+    if (WEBAUTHN_SUPPORTED && !bioStored) {
+      setShowEnableBio(true);
+    } else {
+      setShowLoginPopup(true);
+    }
+  }
+
+  /* ── Auto-trigger biometric on load if credential registered ─────────── */
+  useEffect(() => {
+    if (isLoggedIn) return;
+    if (bioStored && WEBAUTHN_SUPPORTED) {
+      setShowLoginGate(false);
+      setBioStatus('scanning');
+      setShowBioModal(true);
+      authenticateBiometric()
+        .then(() => {
+          setBioStatus('success');
+          setTimeout(() => {
+            setShowBioModal(false);
+            setBioStatus('idle');
+            handleLoginSuccess();
+          }, 800);
+        })
+        .catch(() => {
+          setBioStatus('error');
+          /* on failure, fall back to password gate */
+          setTimeout(() => {
+            setShowBioModal(false);
+            setBioStatus('idle');
+            setShowLoginGate(true);
+          }, 1400);
+        });
+    }
+    /* else: password gate already open via initial state */
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /* section refs for scroll-reveal */
   const overviewRef = useRef(null);
@@ -750,7 +794,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
 
   return (
     <AbbrevProvider>
-      <div className="v4l-root">
+      <div className="v4l-root" style={isLoggedIn ? {} : { overflow: 'hidden', pointerEvents: 'none', userSelect: 'none', filter: 'blur(6px)' }}>
 
       {/* ── Left side navigation panel ──────────────────────────────────── */}
       <LeftSideNav onSelectDivision={onSelectDivision} onSelectProgramme={onSelectProgramme} openWheelDirect={wheelTarget} />
@@ -792,21 +836,9 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           <h1 className="v5-hero-title">Our state's health, district by district</h1>
         </div>
         <div className="v5-hero-right">
-          <button className="v5-login-btn" onClick={() => {
-            if (bioStored && WEBAUTHN_SUPPORTED) {
-              // Return visitor — go straight to biometric
-              setBioStatus('scanning');
-              setShowBioModal(true);
-              authenticateBiometric()
-                .then(() => { setBioStatus('success'); setTimeout(() => { setShowBioModal(false); setShowLoginPopup(true); setBioStatus('idle'); }, 800); })
-                .catch(() => { setBioStatus('error'); });
-            } else {
-              // First visit — password gate
-              setShowLoginGate(true); setLoginUser(''); setLoginPass(''); setLoginError(''); setCaptchaAns(''); setCaptchaText(genCaptcha());
-            }
-          }}>
+          <button className="v5-login-btn" onClick={() => setShowLoginPopup(true)}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-            Login
+            Select Division
           </button>
         </div>
       </div>
@@ -1019,7 +1051,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       {showBioModal && (
         <BiometricModal
           status={bioStatus}
-          onClose={() => { setShowBioModal(false); setBioStatus('idle'); }}
+          onClose={null /* mandatory — cannot dismiss */}
           onUsePassword={() => {
             setShowBioModal(false); setBioStatus('idle');
             setShowLoginGate(true); setLoginUser(''); setLoginPass(''); setLoginError(''); setCaptchaAns(''); setCaptchaText(genCaptcha());
@@ -1044,7 +1076,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       {/* ── Login gate ───────────────────────────────────────────────── */}
       {showLoginGate && (
         <>
-          <div className="v5-login-backdrop" onClick={() => setShowLoginGate(false)} />
+          <div className="v5-login-backdrop" /* mandatory — no dismiss on click */ />
           <div className="v5-login-gate">
             <div className="v5-gate-logo">
               <img src="/ap-emblem.svg" alt="Arunachal Pradesh" />
@@ -1074,7 +1106,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
                   onKeyDown={e => {
                     if (e.key === 'Enter') {
                       const ok = loginUser.trim() === 'PIF' && loginPass === '2047' && captchaAns.trim().toLowerCase() === captchaText.toLowerCase();
-                      if (ok) { setShowLoginGate(false); WEBAUTHN_SUPPORTED && !bioStored ? setShowEnableBio(true) : setShowLoginPopup(true); }
+                      if (ok) { handleLoginSuccess(); }
                       else { setLoginError('Invalid credentials or captcha. Try again.'); setCaptchaText(genCaptcha()); setCaptchaAns(''); }
                     }
                   }} />
@@ -1082,7 +1114,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
               {loginError && <p className="v5-gate-error">{loginError}</p>}
               <button className="v5-gate-btn" onClick={() => {
                 const ok = loginUser.trim() === 'PIF' && loginPass === '2047' && captchaAns.trim().toLowerCase() === captchaText.toLowerCase();
-                if (ok) { setShowLoginGate(false); WEBAUTHN_SUPPORTED && !bioStored ? setShowEnableBio(true) : setShowLoginPopup(true); }
+                if (ok) { handleLoginSuccess(); }
                 else { setLoginError('Invalid credentials or captcha. Try again.'); setCaptchaText(genCaptcha()); setCaptchaAns(''); }
               }}>Sign In</button>
             </div>
