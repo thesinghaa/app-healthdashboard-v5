@@ -6256,19 +6256,21 @@ td:last-child { padding: 8px 10px; }
 .v5-logout-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
   background: rgba(255,255,255,0.12);
   border: 1px solid rgba(255,255,255,0.25);
   border-radius: 8px;
   color: rgba(255,255,255,0.85);
-  font-size: 13px;
-  font-weight: 500;
   cursor: pointer;
-  transition: background 0.18s, color 0.18s;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
   margin-left: 8px;
+  flex-shrink: 0;
 }
 .v5-logout-btn:hover {
-  background: rgba(255,255,255,0.22);
+  background: rgba(220,50,50,0.45);
+  border-color: rgba(255,120,120,0.5);
   color: #fff;
 }
