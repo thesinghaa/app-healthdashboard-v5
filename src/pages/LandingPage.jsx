@@ -607,7 +607,6 @@ function BiometricModal({ status, onUsePassword, onClose }) {
       <div className={`v5-bio-modal v5-bio-modal--${bioType}`}>
         <img src="/ap-emblem.svg" alt="AP" className="v5-bio-emblem" />
         <h2 className="v5-bio-title">{bioType === 'fingerprint' ? 'Touch ID' : 'Face ID'}</h2>
-        <p className="v5-bio-sub">NHM Arunachal Pradesh · FY 2025-26</p>
 
         <div className="v5-bio-icon-single">
           {bioType === 'fingerprint' ? (
