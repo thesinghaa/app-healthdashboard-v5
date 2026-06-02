@@ -3,7 +3,7 @@
    Slide-in left panel → click division → full-page Programme Wheel.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-import { useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo, lazy, Suspense } from 'react';
 import { gsap } from 'gsap';
 import { DIVISIONS as DIV_DATA } from '../data/programs';
 import { KD_TREE } from '../data/kdData';
