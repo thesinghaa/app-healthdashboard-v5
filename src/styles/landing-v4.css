@@ -6434,16 +6434,17 @@ td:last-child { padding: 8px 10px; }
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 5px 12px 5px 10px;
-  margin-bottom: 6px;
-  border-bottom: 1px solid #e2e8f0;
+  padding: 7px 12px 7px 10px;
+  margin-bottom: 8px;
+  background: var(--dc, #1B6FF5);
+  border-radius: 8px;
 }
 .wpg-pill-hdr-num {
   flex-shrink: 0;
   width: 22px;
   font-size: 10px;
   font-weight: 700;
-  color: #94a3b8;
+  color: rgba(255,255,255,0.85);
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -6452,7 +6453,7 @@ td:last-child { padding: 8px 10px; }
   flex: 1;
   font-size: 10px;
   font-weight: 700;
-  color: #94a3b8;
+  color: rgba(255,255,255,0.85);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -6463,7 +6464,7 @@ td:last-child { padding: 8px 10px; }
   gap: 16px;
   font-size: 10px;
   font-weight: 700;
-  color: #94a3b8;
+  color: rgba(255,255,255,0.85);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
