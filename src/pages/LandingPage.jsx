@@ -696,10 +696,9 @@ const LOGIN_DIVS = [
 
 export default function LandingPage({ onSelectDivision, onViewSummary, onDirectKD, onSelectProgramme }) {
   const [reportDiv, setReportDiv] = useState(null);
-  /* ── Auth gate — mandatory on every page load ─────────────────────────── */
   const [isLoggedIn, setIsLoggedIn]         = useState(() => sessionStorage.getItem('pif_auth') === '1');
   const [showLoginPopup, setShowLoginPopup] = useState(false);
-  const [showLoginGate, setShowLoginGate]   = useState(() => sessionStorage.getItem('pif_auth') !== '1');
+  const [showLoginGate, setShowLoginGate]   = useState(false);
   const [loginUser, setLoginUser]           = useState('');
   const [loginPass, setLoginPass]           = useState('');
   const [loginError, setLoginError]         = useState('');
@@ -724,35 +723,25 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
     }
   }
 
-  /* ── Auto-trigger biometric on load if credential registered ─────────── */
-  useEffect(() => {
-    if (isLoggedIn) return;
+  /* ── Login button handler — triggers biometric or password gate ──────── */
+  function handleLoginClick() {
     if (bioStored && WEBAUTHN_SUPPORTED) {
-      setShowLoginGate(false);
       setBioStatus('scanning');
       setShowBioModal(true);
       authenticateBiometric()
         .then(() => {
           setBioStatus('success');
-          setTimeout(() => {
-            setShowBioModal(false);
-            setBioStatus('idle');
-            handleLoginSuccess();
-          }, 800);
+          setTimeout(() => { setShowBioModal(false); setBioStatus('idle'); handleLoginSuccess(); }, 800);
         })
         .catch(() => {
           setBioStatus('error');
-          /* on failure, fall back to password gate */
-          setTimeout(() => {
-            setShowBioModal(false);
-            setBioStatus('idle');
-            setShowLoginGate(true);
-          }, 1400);
+          setTimeout(() => { setShowBioModal(false); setBioStatus('idle'); setShowLoginGate(true); }, 1400);
         });
+    } else {
+      setLoginUser(''); setLoginPass(''); setLoginError(''); setCaptchaAns(''); setCaptchaText(genCaptcha());
+      setShowLoginGate(true);
     }
-    /* else: password gate already open via initial state */
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }
 
   /* section refs for scroll-reveal */
   const overviewRef = useRef(null);
@@ -794,7 +783,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
 
   return (
     <AbbrevProvider>
-      <div className="v4l-root" style={isLoggedIn ? {} : { overflow: 'hidden', pointerEvents: 'none', userSelect: 'none', filter: 'blur(6px)' }}>
+      <div className="v4l-root">
 
       {/* ── Left side navigation panel ──────────────────────────────────── */}
       <LeftSideNav onSelectDivision={onSelectDivision} onSelectProgramme={onSelectProgramme} openWheelDirect={wheelTarget} />
@@ -836,10 +825,17 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           <h1 className="v5-hero-title">Our state's health, district by district</h1>
         </div>
         <div className="v5-hero-right">
-          <button className="v5-login-btn" onClick={() => setShowLoginPopup(true)}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-            Select Division
-          </button>
+          {isLoggedIn ? (
+            <button className="v5-login-btn" onClick={() => setShowLoginPopup(true)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              Select Division
+            </button>
+          ) : (
+            <button className="v5-login-btn" onClick={handleLoginClick}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              Login
+            </button>
+          )}
         </div>
       </div>
 
@@ -1076,7 +1072,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       {/* ── Login gate ───────────────────────────────────────────────── */}
       {showLoginGate && (
         <>
-          <div className="v5-login-backdrop" /* mandatory — no dismiss on click */ />
+          <div className="v5-login-backdrop" onClick={() => setShowLoginGate(false)} />
           <div className="v5-login-gate">
             <div className="v5-gate-logo">
               <img src="/ap-emblem.svg" alt="Arunachal Pradesh" />
@@ -1152,7 +1148,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       {/* ── Logout — fixed top-right, always visible ──────────────────── */}
       {isLoggedIn && (
         <button className="v5-logout-fixed" title="Logout / Lock session"
-          onClick={() => { sessionStorage.removeItem('pif_auth'); location.reload(); }}>
+          onClick={() => { sessionStorage.removeItem('pif_auth'); setIsLoggedIn(false); setShowLoginPopup(false); }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
             <polyline points="16 17 21 12 16 7"/>
