@@ -6300,3 +6300,24 @@ td:last-child { padding: 8px 10px; }
   border-color: rgba(255,120,120,0.5);
   color: #fff;
 }
+
+/* ── Wheel/Story page header logout button ──────────────────────────────── */
+.wpg-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 7px;
+  color: rgba(255,255,255,0.85);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
+}
+.wpg-logout-btn:hover {
+  background: rgba(220,50,50,0.55);
+  border-color: rgba(255,120,120,0.4);
+  color: #fff;
+}

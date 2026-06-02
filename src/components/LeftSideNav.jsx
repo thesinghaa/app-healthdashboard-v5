@@ -172,7 +172,7 @@ function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
 }
 
 /* ── Full-page Programme Wheel ────────────────────────────────────────────── */
-function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
+function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) {
   const [hovered, setHovered]   = useState(null);
   const [selected, setSelected] = useState(null);
   const pageRef   = useRef(null);
@@ -288,6 +288,16 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
         </div>
         <div className="wpg-header-right">
           <span className="wpg-prog-count">{n} Programmes</span>
+          {onLogout && (
+            <button className="wpg-logout-btn" title="Logout" onClick={onLogout}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+              Logout
+            </button>
+          )}
           <button className="wpg-close-btn" onClick={close} aria-label="Close">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M18 6L6 18M6 6l12 12"/>
@@ -602,7 +612,7 @@ const DIVISION_STORIES = {
 };
 
 /* ── Division Story Page ─────────────────────────────────────────────────── */
-function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
+function DivisionStoryPage({ division, onClose, onExploreProgrammes, onLogout }) {
   const story = DIVISION_STORIES[division.id];
   const pageRef = useRef(null);
   const [activeStory, setActiveStory] = useState(0);
@@ -646,11 +656,23 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
           <span className="wpg-header-chip">{division.short}</span>
           <h1 className="wpg-header-title">{division.name}</h1>
         </div>
-        <button className="wpg-close-btn" onClick={close} aria-label="Close">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M18 6L6 18M6 6l12 12"/>
-          </svg>
-        </button>
+        <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
+          {onLogout && (
+            <button className="wpg-logout-btn" title="Logout" onClick={onLogout}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+              Logout
+            </button>
+          )}
+          <button className="wpg-close-btn" onClick={close} aria-label="Close">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
       </header>
 
       {/* ── Scrollable body ── */}
@@ -804,7 +826,7 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
 }
 
 /* ── Left Nav panel ───────────────────────────────────────────────────────── */
-export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect }) {
+export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect, isLoggedIn, onLogout }) {
   const [open,      setOpen]      = useState(false);
   const [activeDiv, setActiveDiv] = useState(null);
   const [showWheel, setShowWheel] = useState(false);
@@ -896,6 +918,7 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openW
           division={activeDiv}
           onClose={() => setActiveDiv(null)}
           onExploreProgrammes={() => setShowWheel(true)}
+          onLogout={onLogout}
         />
       )}
 
@@ -905,6 +928,7 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openW
           divData={getDivData(activeDiv.id)}
           onSelect={handleWheelSelect}
           onClose={() => { setActiveDiv(null); setShowWheel(false); }}
+          onLogout={onLogout}
         />
       )}
     </>
