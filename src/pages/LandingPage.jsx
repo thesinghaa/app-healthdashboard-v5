@@ -1102,7 +1102,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
                   value={captchaAns} onChange={e => { setCaptchaAns(e.target.value); setLoginError(''); }}
                   onKeyDown={e => {
                     if (e.key === 'Enter') {
-                      const ok = loginUser.trim() === 'PIF' && loginPass === '2047' && captchaAns.trim().toLowerCase() === captchaText.toLowerCase();
+                      const ok = loginUser.trim() === 'PIF' && loginPass === '3000' && captchaAns.trim().toLowerCase() === captchaText.toLowerCase();
                       if (ok) { handleLoginSuccess(); }
                       else { setLoginError('Invalid credentials or captcha. Try again.'); setCaptchaText(genCaptcha()); setCaptchaAns(''); }
                     }
@@ -1110,7 +1110,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
               </div>
               {loginError && <p className="v5-gate-error">{loginError}</p>}
               <button className="v5-gate-btn" onClick={() => {
-                const ok = loginUser.trim() === 'PIF' && loginPass === '2047' && captchaAns.trim().toLowerCase() === captchaText.toLowerCase();
+                const ok = loginUser.trim() === 'PIF' && loginPass === '3000' && captchaAns.trim().toLowerCase() === captchaText.toLowerCase();
                 if (ok) { handleLoginSuccess(); }
                 else { setLoginError('Invalid credentials or captcha. Try again.'); setCaptchaText(genCaptcha()); setCaptchaAns(''); }
               }}>Sign In</button>
