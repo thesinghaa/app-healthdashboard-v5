@@ -6097,3 +6097,157 @@ td:last-child { padding: 8px 10px; }
   flex-direction: column;
   gap: 10px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Biometric Modal v2 — platform-specific fingerprint / face animations
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Large single-icon layout ──────────────────────────────────────────── */
+.v5-bio-icon-single {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0 16px;
+}
+
+/* ── Fingerprint wrapper ────────────────────────────────────────────────── */
+.v5-bio-fp-wrap {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+}
+.v5-bio-fp-svg {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  z-index: 2;
+}
+
+/* pulsing rings behind fingerprint */
+.v5-bio-fp-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(59,130,246,0.18);
+  animation: bio-ring-pulse 2.4s ease-in-out infinite;
+}
+.v5-bio-fp-ring--2 {
+  inset: -14px;
+  animation-delay: 1.2s;
+  border-color: rgba(59,130,246,0.10);
+}
+
+/* ridge paths default */
+.v5-fpr { opacity: 0.55; transition: stroke 0.4s, opacity 0.4s; }
+
+/* scanning state — ridges glow blue in wave */
+.v5-bio-fp-wrap.v5-bio--scanning { color: #3b82f6; }
+.v5-bio-fp-wrap.v5-bio--scanning .v5-fpr { opacity: 1; }
+.v5-bio-fp-wrap.v5-bio--scanning .v5-fpr--1 { animation: fp-ridge-wave 1.8s ease-in-out infinite 0.0s; }
+.v5-bio-fp-wrap.v5-bio--scanning .v5-fpr--2 { animation: fp-ridge-wave 1.8s ease-in-out infinite 0.18s; }
+.v5-bio-fp-wrap.v5-bio--scanning .v5-fpr--3 { animation: fp-ridge-wave 1.8s ease-in-out infinite 0.36s; }
+.v5-bio-fp-wrap.v5-bio--scanning .v5-fpr--4 { animation: fp-ridge-wave 1.8s ease-in-out infinite 0.54s; }
+.v5-bio-fp-wrap.v5-bio--scanning .v5-fpr--5 { animation: fp-ridge-wave 1.8s ease-in-out infinite 0.72s; }
+
+/* scan line */
+.v5-bio-fp-scanline {
+  animation: fp-scanline 1.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px #3b82f6);
+}
+
+/* success state */
+.v5-bio-fp-wrap.v5-bio--success { color: #00C97A; }
+.v5-bio-fp-wrap.v5-bio--success .v5-fpr { opacity: 0.25; }
+
+/* error state */
+.v5-bio-fp-wrap.v5-bio--error { color: #ef4444; }
+
+/* ── Face wrapper ───────────────────────────────────────────────────────── */
+.v5-bio-face-wrap {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+}
+.v5-bio-face-svg {
+  width: 130px;
+  height: 130px;
+}
+
+/* corners default */
+.v5-fc { opacity: 0.5; transition: stroke 0.3s, opacity 0.3s; }
+/* landmark dots default */
+.v5-fld { opacity: 0.4; transition: opacity 0.3s; }
+
+/* scanning state */
+.v5-bio-face-wrap.v5-bio--scanning { color: #3b82f6; }
+.v5-bio-face-wrap.v5-bio--scanning .v5-fc { opacity: 1; animation: face-corner-pulse 1.6s ease-in-out infinite; }
+.v5-bio-face-wrap.v5-bio--scanning .v5-fc--tl { animation-delay: 0.0s; }
+.v5-bio-face-wrap.v5-bio--scanning .v5-fc--tr { animation-delay: 0.2s; }
+.v5-bio-face-wrap.v5-bio--scanning .v5-fc--br { animation-delay: 0.4s; }
+.v5-bio-face-wrap.v5-bio--scanning .v5-fc--bl { animation-delay: 0.6s; }
+.v5-bio-face-wrap.v5-bio--scanning .v5-fld { animation: face-dot-pop 0.8s ease forwards; opacity: 1; }
+.v5-bio-face-wrap.v5-bio--scanning .v5-fld--nose  { animation-delay: 0.15s; }
+.v5-bio-face-wrap.v5-bio--scanning .v5-fld--mouth { animation-delay: 0.25s; }
+
+/* face scan line */
+.v5-bio-face-scanline {
+  animation: face-scanline 1.6s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px #3b82f6);
+}
+
+/* success */
+.v5-bio-face-wrap.v5-bio--success { color: #00C97A; }
+.v5-bio-face-wrap.v5-bio--success .v5-fc  { opacity: 1; }
+.v5-bio-face-wrap.v5-bio--success .v5-fld { opacity: 0.2; }
+
+/* error */
+.v5-bio-face-wrap.v5-bio--error { color: #ef4444; }
+
+/* ── Success checkmark draw-on ──────────────────────────────────────────── */
+.v5-bio-checkmark {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: check-draw 0.45s ease forwards;
+}
+
+/* ── Keyframes ──────────────────────────────────────────────────────────── */
+@keyframes bio-ring-pulse {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.12); opacity: 0.4; }
+}
+@keyframes fp-ridge-wave {
+  0%, 100% { opacity: 0.45; filter: none; }
+  50%       { opacity: 1;   filter: drop-shadow(0 0 3px #3b82f6); }
+}
+@keyframes fp-scanline {
+  0%   { transform: translateY(-42px); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(42px);  opacity: 0; }
+}
+@keyframes face-corner-pulse {
+  0%, 100% { opacity: 0.55; filter: none; }
+  50%       { opacity: 1;   filter: drop-shadow(0 0 4px #3b82f6); }
+}
+@keyframes face-dot-pop {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+@keyframes face-scanline {
+  0%   { transform: translateY(-38px); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(38px);  opacity: 0; }
+}
+@keyframes check-draw {
+  to { stroke-dashoffset: 0; }
+}

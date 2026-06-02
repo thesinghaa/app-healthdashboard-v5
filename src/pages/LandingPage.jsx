@@ -489,6 +489,64 @@ function CaptchaCanvas({ text }) {
   return <canvas ref={canvasRef} width={200} height={56} style={{ borderRadius:'8px', display:'block' }} />;
 }
 
+/* ── Platform / biometric type detection ────────────────────────────────── */
+function detectBioType() {
+  const plat = (navigator.platform || '').toLowerCase();
+  const ua   = (navigator.userAgent || '').toLowerCase();
+  if (/mac|iphone|ipad|ipod/.test(plat) || /macintosh/.test(ua)) return 'fingerprint';
+  if (/win/.test(plat) || /windows/.test(ua)) return 'face';
+  return 'fingerprint';
+}
+
+/* ── Bio sounds via Web Audio API (no external files) ────────────────────── */
+function playBioSound(type) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (type === 'touch-id') {
+      /* Mac Touch ID: two soft click tones */
+      [0, 0.10].forEach((t, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const lp = ctx.createBiquadFilter();
+        lp.type = 'lowpass'; lp.frequency.value = 2200;
+        osc.connect(lp); lp.connect(gain); gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.value = i === 0 ? 820 : 1100;
+        gain.gain.setValueAtTime(0, ctx.currentTime + t);
+        gain.gain.linearRampToValueAtTime(0.28, ctx.currentTime + t + 0.009);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.09);
+        osc.start(ctx.currentTime + t);
+        osc.stop(ctx.currentTime + t + 0.12);
+      });
+    } else if (type === 'face-id') {
+      /* Windows Face ID: soft ascending sweep */
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(420, ctx.currentTime);
+      osc.frequency.linearRampToValueAtTime(1100, ctx.currentTime + 0.18);
+      gain.gain.setValueAtTime(0.18, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.3);
+    } else if (type === 'error') {
+      /* Error: descending double tone */
+      [0, 0.14].forEach((t, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.value = i === 0 ? 580 : 380;
+        gain.gain.setValueAtTime(0.2, ctx.currentTime + t);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.16);
+        osc.start(ctx.currentTime + t);
+        osc.stop(ctx.currentTime + t + 0.2);
+      });
+    }
+  } catch(_) { /* silent fail on restricted AudioContext */ }
+}
+
 /* ── WebAuthn helpers ────────────────────────────────────────────────────── */
 const WEBAUTHN_SUPPORTED = typeof window !== 'undefined' && !!window.PublicKeyCredential;
 
@@ -523,66 +581,82 @@ async function authenticateBiometric() {
 
 /* ── BiometricModal ──────────────────────────────────────────────────────── */
 function BiometricModal({ status, onUsePassword, onClose }) {
+  const [bioType] = useState(() => detectBioType()); /* 'fingerprint' | 'face' */
   const isScanning = status === 'scanning';
   const isSuccess  = status === 'success';
   const isError    = status === 'error';
 
+  /* play sound on status change */
+  useEffect(() => {
+    if (status === 'success') playBioSound(bioType === 'fingerprint' ? 'touch-id' : 'face-id');
+    if (status === 'error')   playBioSound('error');
+  }, [status, bioType]);
+
   const statusText = {
-    idle:     'Authenticating…',
-    scanning: 'Touch sensor or look at camera',
+    idle:     'Preparing biometric…',
+    scanning: bioType === 'fingerprint' ? 'Place finger on Touch ID sensor' : 'Look directly at the camera',
     success:  'Identity verified',
     error:    'Biometric failed. Try again or use password.',
   }[status] || '';
 
+  const stateClass = isScanning ? ' v5-bio--scanning' : isSuccess ? ' v5-bio--success' : isError ? ' v5-bio--error' : '';
+
   return (
     <>
       <div className="v5-login-backdrop" onClick={onClose} />
-      <div className="v5-bio-modal">
+      <div className={`v5-bio-modal v5-bio-modal--${bioType}`}>
         <img src="/ap-emblem.svg" alt="AP" className="v5-bio-emblem" />
-        <h2 className="v5-bio-title">Biometric Login</h2>
+        <h2 className="v5-bio-title">{bioType === 'fingerprint' ? 'Touch ID' : 'Face ID'}</h2>
         <p className="v5-bio-sub">NHM Arunachal Pradesh · FY 2025-26</p>
 
-        <div className="v5-bio-icons">
-          {/* Fingerprint */}
-          <div className={`v5-bio-icon-wrap${isScanning ? ' v5-bio--scanning' : ''}${isSuccess ? ' v5-bio--success' : ''}${isError ? ' v5-bio--error' : ''}`}>
-            <svg className="v5-bio-fp" viewBox="0 0 80 80" fill="none">
-              <path d="M40 12C24.5 12 12 24.5 12 40" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
-              <path d="M40 12C55.5 12 68 24.5 68 40" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
-              <path d="M22 40c0-9.9 8.1-18 18-18" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
-              <path d="M58 40c0-9.9-8.1-18-18-18" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
-              <path d="M30 40c0-5.5 4.5-10 10-10s10 4.5 10 10" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
-              <path d="M40 30v10" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
-              <path d="M20 52c2.5 8 10.5 14 20 14s17.5-6 20-14" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
-              <path d="M28 46c2 5 6.5 8 12 8" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
-              {isScanning && <line className="v5-bio-scanline" x1="10" y1="40" x2="70" y2="40" stroke="currentColor" strokeWidth="2" opacity="0.7"/>}
-            </svg>
-            <span className="v5-bio-icon-lbl">Fingerprint</span>
-          </div>
-
-          <div className="v5-bio-divider">or</div>
-
-          {/* Face */}
-          <div className={`v5-bio-icon-wrap${isScanning ? ' v5-bio--scanning' : ''}${isSuccess ? ' v5-bio--success' : ''}${isError ? ' v5-bio--error' : ''}`}>
-            <svg className="v5-bio-face" viewBox="0 0 80 80" fill="none">
-              {/* Face outline corners */}
-              <path d="M12 28V16h12" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" className="v5-bio-corner"/>
-              <path d="M56 16h12v12" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" className="v5-bio-corner"/>
-              <path d="M68 52v12H56" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" className="v5-bio-corner"/>
-              <path d="M24 64H12V52" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" className="v5-bio-corner"/>
-              {/* Face features */}
-              <circle cx="31" cy="36" r="3" fill="currentColor" opacity="0.7"/>
-              <circle cx="49" cy="36" r="3" fill="currentColor" opacity="0.7"/>
-              <path d="M32 50c2 3 6 5 8 5s6-2 8-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
-              {isScanning && <line className="v5-bio-scanline" x1="12" y1="40" x2="68" y2="40" stroke="currentColor" strokeWidth="2" opacity="0.7"/>}
-            </svg>
-            <span className="v5-bio-icon-lbl">Face ID</span>
-          </div>
+        <div className="v5-bio-icon-single">
+          {bioType === 'fingerprint' ? (
+            /* ── Fingerprint ── */
+            <div className={`v5-bio-fp-wrap${stateClass}`}>
+              <div className="v5-bio-fp-ring" />
+              <div className="v5-bio-fp-ring v5-bio-fp-ring--2" />
+              <svg className="v5-bio-fp-svg" viewBox="0 0 100 100" fill="none">
+                <path className="v5-fpr v5-fpr--1" d="M50 14 C28 14 14 28 14 50" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                <path className="v5-fpr v5-fpr--1" d="M50 14 C72 14 86 28 86 50" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                <path className="v5-fpr v5-fpr--2" d="M24 50 C24 35 35 24 50 24" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                <path className="v5-fpr v5-fpr--2" d="M76 50 C76 35 65 24 50 24" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                <path className="v5-fpr v5-fpr--3" d="M34 50 C34 41 41 34 50 34" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                <path className="v5-fpr v5-fpr--3" d="M66 50 C66 41 59 34 50 34" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                <path className="v5-fpr v5-fpr--4" d="M50 34 L50 50" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                <path className="v5-fpr v5-fpr--5" d="M16 63 C20 78 34 86 50 86 C66 86 80 78 84 63" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                <path className="v5-fpr v5-fpr--5" d="M28 58 C32 70 40 76 50 76" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                {isScanning && <line className="v5-bio-fp-scanline" x1="8" y1="50" x2="92" y2="50" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>}
+                {isSuccess  && <path className="v5-bio-checkmark" d="M28 50 L44 66 L72 34" stroke="#00C97A" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>}
+              </svg>
+            </div>
+          ) : (
+            /* ── Face ── */
+            <div className={`v5-bio-face-wrap${stateClass}`}>
+              <svg className="v5-bio-face-svg" viewBox="0 0 100 100" fill="none">
+                {/* Corner brackets */}
+                <path className="v5-fc v5-fc--tl" d="M14 36V16h20" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                <path className="v5-fc v5-fc--tr" d="M66 16h20v20" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                <path className="v5-fc v5-fc--br" d="M86 64v20H66"  stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                <path className="v5-fc v5-fc--bl" d="M34 84H14V64"  stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                {/* Face oval */}
+                <ellipse cx="50" cy="52" rx="22" ry="26" stroke="currentColor" strokeWidth="2" strokeDasharray="5 3" opacity="0.3"/>
+                {/* Landmark dots */}
+                <circle className="v5-fld" cx="38" cy="45" r="3.5" fill="currentColor"/>
+                <circle className="v5-fld" cx="62" cy="45" r="3.5" fill="currentColor"/>
+                <circle className="v5-fld v5-fld--nose" cx="50" cy="56" r="2.5" fill="currentColor" opacity="0.7"/>
+                <path  className="v5-fld v5-fld--mouth" d="M40 65 C44 71 56 71 60 65" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none"/>
+                {/* Scan line */}
+                {isScanning && <line className="v5-bio-face-scanline" x1="14" y1="50" x2="86" y2="50" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>}
+                {isSuccess  && <path className="v5-bio-checkmark" d="M28 52 L44 68 L72 36" stroke="#00C97A" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>}
+              </svg>
+            </div>
+          )}
         </div>
 
         <div className={`v5-bio-status${isSuccess ? ' v5-bio-status--ok' : ''}${isError ? ' v5-bio-status--err' : ''}`}>
           {isScanning && <span className="v5-bio-spinner" />}
-          {isSuccess && <span className="v5-bio-tick">✓</span>}
-          {isError   && <span className="v5-bio-tick v5-bio-tick--err">✗</span>}
+          {isSuccess  && <span className="v5-bio-tick">✓</span>}
+          {isError    && <span className="v5-bio-tick v5-bio-tick--err">✗</span>}
           <span>{statusText}</span>
         </div>
 
