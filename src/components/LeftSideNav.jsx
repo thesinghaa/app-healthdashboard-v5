@@ -446,39 +446,33 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) 
                 </button>
               </div>
 
-              {/* bordered grid table */}
-              <div className="wpg-kd-grid-wrap">
+              {/* pill rows */}
+              <div className="wpg-kd-pills-wrap">
                 {kdList.length === 0 ? (
                   <p className="wpg-kd-empty">No indicators available for this programme.</p>
                 ) : (
-                  <table className="wpg-kd-grid">
-                    <thead>
-                      <tr className="wpg-kd-grid-hdr">
-                        <th className="wpg-kd-gh wpg-kd-gh--no">S.no</th>
-                        <th className="wpg-kd-gh wpg-kd-gh--indicator">Indicator</th>
-                        <th className="wpg-kd-gh wpg-kd-gh--target">Target</th>
-                        <th className="wpg-kd-gh wpg-kd-gh--achvd">Achievement</th>
-                        <th className="wpg-kd-gh wpg-kd-gh--status">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {kdList.map((kd, idx) => {
-                        const st = kdStatus(kd);
-                        const statusLabel = st === 'achieved' ? 'On Track' : st === 'close' ? 'Caution' : st === 'gap' ? 'Gap' : 'N/A';
-                        return (
-                          <tr key={kd.no} className={`wpg-kd-gr wpg-kd-gr--${st}`}>
-                            <td className="wpg-kd-gd wpg-kd-gd--no">{idx + 1}</td>
-                            <td className="wpg-kd-gd wpg-kd-gd--indicator">{kd.indicator}</td>
-                            <td className="wpg-kd-gd wpg-kd-gd--target">{kd.targetLabel ?? kd.target ?? '—'}</td>
-                            <td className="wpg-kd-gd wpg-kd-gd--achvd">{kd.achievedLabel ?? kd.achievement ?? '—'}</td>
-                            <td className="wpg-kd-gd wpg-kd-gd--status">
-                              <span className={`wpg-kd-badge wpg-kd-badge--${st}`}>{statusLabel}</span>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                  <div className="wpg-kd-pills">
+                    {kdList.map((kd, idx) => {
+                      const st = kdStatus(kd);
+                      const statusLabel = st === 'achieved' ? 'On Track' : st === 'close' ? 'Caution' : st === 'gap' ? 'Gap' : 'N/A';
+                      const pct = kd.target > 0 ? Math.round((kd.achievement / kd.target) * 100) : null;
+                      return (
+                        <div key={kd.no} className={`wpg-pill wpg-pill--${st}`}>
+                          <span className="wpg-pill-num">{idx + 1}</span>
+                          <span className="wpg-pill-name">{kd.indicator}</span>
+                          <div className="wpg-pill-right">
+                            <span className="wpg-pill-vals">
+                              <span className="wpg-pill-achvd">{kd.achievedLabel ?? kd.achievement ?? '—'}</span>
+                              <span className="wpg-pill-sep">/</span>
+                              <span className="wpg-pill-target">{kd.targetLabel ?? kd.target ?? '—'}</span>
+                              {pct !== null && <span className="wpg-pill-pct">{pct}%</span>}
+                            </span>
+                            <span className={`wpg-kd-badge wpg-kd-badge--${st}`}>{statusLabel}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 )}
               </div>
 
