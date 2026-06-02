@@ -696,7 +696,7 @@ const LOGIN_DIVS = [
 
 export default function LandingPage({ onSelectDivision, onViewSummary, onDirectKD, onSelectProgramme }) {
   const [reportDiv, setReportDiv] = useState(null);
-  const [isLoggedIn, setIsLoggedIn]         = useState(() => sessionStorage.getItem('pif_auth') === '1');
+  const [isLoggedIn, setIsLoggedIn]         = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [showLoginGate, setShowLoginGate]   = useState(false);
   const [loginUser, setLoginUser]           = useState('');
@@ -713,7 +713,6 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
 
   /* ── Login success handler ────────────────────────────────────────────── */
   function handleLoginSuccess() {
-    sessionStorage.setItem('pif_auth', '1');
     setIsLoggedIn(true);
     setShowLoginGate(false);
     if (WEBAUTHN_SUPPORTED && !bioStored) {
@@ -1148,7 +1147,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       {/* ── Logout — fixed top-right, always visible ──────────────────── */}
       {isLoggedIn && (
         <button className="v5-logout-fixed" title="Logout / Lock session"
-          onClick={() => { sessionStorage.removeItem('pif_auth'); setIsLoggedIn(false); setShowLoginPopup(false); }}>
+          onClick={() => { setIsLoggedIn(false); setShowLoginPopup(false); }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
             <polyline points="16 17 21 12 16 7"/>
