@@ -89,7 +89,7 @@ function AppInner() {
 
   const renderPage = () => {
     if (view.page === 'home') {
-      return <LandingPage onSelectDivision={goToDivision} onViewSummary={goToSummary} onDirectKD={goToKDDirect} />;
+      return <LandingPage onSelectDivision={goToDivision} onViewSummary={goToSummary} onDirectKD={goToKDDirect} onSelectProgramme={goToDetail} />;
     }
     if (view.page === 'summary') {
       return <HomePage onSelectProgram={goToDetail} onSelectDivision={goToDivision} onBack={goHome} />;

@@ -436,8 +436,18 @@ function useReveal(ref) {
 /* ═══════════════════════════════════════════════════════════════════════════
    MAIN COMPONENT
    ═══════════════════════════════════════════════════════════════════════════ */
+const LOGIN_DIVS = [
+  { id: 'rch',  short: 'RCH',  name: 'Reproductive & Child Health', color: '#1B6FF5', icon: '/sidebar/RCH.png' },
+  { id: 'ndcp', short: 'NDCP', name: 'National Disease Control',     color: '#D97706', icon: '/sidebar/NDCP.png' },
+  { id: 'ncd',  short: 'NCD',  name: 'Non-Communicable Diseases',   color: '#7C3AED', icon: '/sidebar/NCD.png' },
+  { id: 'hss',  short: 'HSS',  name: 'Health Systems Strengthening', color: '#0F9B82', icon: '/sidebar/HSS.png' },
+  { id: 'hrh',  short: 'HRH',  name: 'Human Resources for Health',  color: '#DC4B2A', icon: '/sidebar/HRH.png' },
+];
+
 export default function LandingPage({ onSelectDivision, onViewSummary, onDirectKD, onSelectProgramme }) {
   const [reportDiv, setReportDiv] = useState(null);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [wheelTarget, setWheelTarget] = useState(null);
   const divStats = useDivStats();
 
   /* section refs for scroll-reveal */
@@ -483,7 +493,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       <div className="v4l-root">
 
       {/* ── Left side navigation panel ──────────────────────────────────── */}
-      <LeftSideNav onSelectDivision={onSelectDivision} onSelectProgramme={onSelectProgramme} />
+      <LeftSideNav onSelectDivision={onSelectDivision} onSelectProgramme={onSelectProgramme} openWheelDirect={wheelTarget} />
 
       {/* ── Navbar ──────────────────────────────────────────────────────── */}
       <header className="v4l-nav">
@@ -522,20 +532,10 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           <h1 className="v5-hero-title">Our state's health, district by district</h1>
         </div>
         <div className="v5-hero-right">
-          <div className="v5-role-btns">
-            <button className="v5-role-btn v5-role-btn--active">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="19" cy="7" r="2"/><path d="M23 21v-1a3 3 0 0 0-3-3"/></svg>
-              Public
-            </button>
-            <button className="v5-role-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
-              Programme Officers
-            </button>
-            <button className="v5-role-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              Administrators
-            </button>
-          </div>
+          <button className="v5-login-btn" onClick={() => setShowLoginPopup(p => !p)}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Login
+          </button>
         </div>
       </div>
 
@@ -742,6 +742,34 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       {reportDiv && (
         <ReportModal division={reportDiv} onClose={() => setReportDiv(null)} />
       )}
+
+      {/* ── Login popup — fixed, outside nav overflow ─────────────────── */}
+      {showLoginPopup && (
+        <>
+          <div className="v5-login-backdrop" onClick={() => setShowLoginPopup(false)} />
+          <div className="v5-login-popup">
+            <p className="v5-login-popup-label">Select your division to begin</p>
+            <div className="v5-login-popup-row">
+              {LOGIN_DIVS.map(d => (
+                <button key={d.id} className="v5-login-div-btn"
+                  style={{ '--dlc': d.color }}
+                  onClick={() => {
+                    setShowLoginPopup(false);
+                    setWheelTarget(null);
+                    setTimeout(() => setWheelTarget(d.id), 50);
+                  }}>
+                  <span className="v5-login-div-icon">
+                    <img src={d.icon} alt={d.short} />
+                  </span>
+                  <span className="v5-login-div-short">{d.short}</span>
+                  <span className="v5-login-div-name">{d.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
       </div>
     </AbbrevProvider>
   );

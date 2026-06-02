@@ -124,6 +124,10 @@ export default function ProgrammeProgressChart() {
 
   return (
     <section className="ppc-section">
+      <div className="v4l-section-header">
+        <div className="v4l-section-tag">Programme Progress</div>
+        <h2 className="v4l-section-title">Health Programme Progress</h2>
+      </div>
       <div className="ppc-card">
 
         {/* ── Header ─────────────────────────────────────────────────────── */}
@@ -143,8 +147,6 @@ export default function ProgrammeProgressChart() {
               ))}
             </select>
           </div>
-
-          <h3 className="ppc-title">Programme progress</h3>
 
           {/* FY selector */}
           <div className="ppc-fy-wrap">
@@ -168,19 +170,19 @@ export default function ProgrammeProgressChart() {
           <div className="ppc-chart-col">
             {chartRows ? (
               <>
-                <ResponsiveContainer width="100%" height={380}>
-                  <BarChart data={chartRows} barSize={26} margin={{ top:8, right:8, left:0, bottom:8 }}>
+                <ResponsiveContainer width="100%" height={440}>
+                  <BarChart data={chartRows} barSize={42} margin={{ top:8, right:8, left:0, bottom:8 }}>
                     <CartesianGrid vertical={false} stroke="rgba(0,0,0,0.06)" strokeWidth={0.5} />
                     <XAxis
                       dataKey="month"
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fontSize:13, fill:'#6B7280', fontFamily:'Inter,sans-serif' }}
+                      tick={{ fontSize:14, fill:'#374151', fontFamily:'Inter,sans-serif', fontWeight:600 }}
                     />
                     <YAxis
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fontSize:12, fill:'#9CA3AF', fontFamily:'Inter,sans-serif' }}
+                      tick={{ fontSize:13, fill:'#6B7280', fontFamily:'Inter,sans-serif' }}
                       tickFormatter={fmtK}
                       width={40}
                     />

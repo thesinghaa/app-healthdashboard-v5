@@ -508,8 +508,8 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose }) {
 const DIVISION_STORIES = {
   rch: {
     title: 'The health stories of the year',
-    subtitle: 'What happened to mothers, babies, women and families across Arunachal Pradesh in FY 2024-25',
-    intro: 'Every year, lakhs of people across Arunachal Pradesh walk into a public health centre, a sub-centre, or a hospital. These five stories follow the people the health system met this year — and what it did for them.',
+    subtitle: 'Select a story below to explore what FY 2025-26 data revealed across maternal health, newborn care, immunisation, nutrition and family planning in Arunachal Pradesh.',
+    intro: '',
     topStats: [
       { value: '24,229', label: 'Pregnant women registered for care',  img: '/prog-icons/maternal-health.png', progId: 'maternal-health' },
       { value: '16,947', label: 'Babies delivered in a facility',       img: '/prog-icons/jsy.png',             progId: 'jsy' },
@@ -658,13 +658,12 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
       <div className="dsp-body-inner">
 
         {/* Hero text */}
-        <div className="dsp-hero">
+        <div className="dsp-hero" style={{ '--dsp-div-color': division.color }}>
           <h2 className="dsp-title">{story.title}</h2>
           <p className="dsp-subtitle">
             <span className="dsp-subtitle-bar" style={{ background: division.color }} />
             {story.subtitle}
           </p>
-          <p className="dsp-intro">{story.intro}</p>
         </div>
 
         {/* Story tabs (inline, after hero) */}
@@ -714,10 +713,6 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
 
               {/* Left: hero stat + visual */}
               <div className="dsp-story-left">
-                <div className="dsp-story-hero" style={{ borderColor: division.color + '33', background: division.color + '08' }}>
-                  <span className="dsp-story-hero-val" style={{ color: division.color }}>{st.hero.value}</span>
-                  <span className="dsp-story-hero-text">{st.hero.text}</span>
-                </div>
                 <div className="dsp-story-narrative" style={{ background: division.light + 'AA', borderColor: division.color + '33' }}>
                   <div className="dsp-narrative-head">
                     {st.icon && (
@@ -729,6 +724,10 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
                     <span style={{ color: division.color }}>Why this story</span>
                   </div>
                   <p className="dsp-narrative-text">{st.narrative}</p>
+                </div>
+                <div className="dsp-story-hero" style={{ borderColor: division.color + '33', background: division.color + '08' }}>
+                  <span className="dsp-story-hero-val" style={{ color: division.color }}>{st.hero.value}</span>
+                  <span className="dsp-story-hero-text">{st.hero.text}</span>
                 </div>
               </div>
 
@@ -755,7 +754,7 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
                         },
                       }]}
                       layout={{
-                        height: st.bars.length * 46 + 24,
+                        height: st.bars.length * 38 + 20,
                         margin: { l: 0, r: 60, t: 4, b: 4, pad: 0 },
                         paper_bgcolor: 'transparent',
                         plot_bgcolor: 'transparent',
@@ -805,10 +804,17 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes }) {
 }
 
 /* ── Left Nav panel ───────────────────────────────────────────────────────── */
-export default function LeftSideNav({ onSelectDivision, onSelectProgramme }) {
+export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect }) {
   const [open,      setOpen]      = useState(false);
   const [activeDiv, setActiveDiv] = useState(null);
   const [showWheel, setShowWheel] = useState(false);
+
+  // Called from Login popup to skip story and go straight to wheel
+  useEffect(() => {
+    if (!openWheelDirect) return;
+    const div = DIVISIONS.find(d => d.id === openWheelDirect);
+    if (div) { setActiveDiv(div); setShowWheel(true); }
+  }, [openWheelDirect]);
   const panelRef = useRef(null);
   const rowRefs  = useRef([]);
 
