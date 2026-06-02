@@ -314,14 +314,89 @@ Clicking any programme card or wheel segment opens an inline KD panel; clicking 
 - "View All Indicators" button at bottom navigates to full KD list page
 
 **CSS namespace:** `.wpg-kd-*` (appended at bottom of `landing-v4.css`)
-- `.wpg-kd-panel`: `position:absolute; top:72px; right:0; bottom:48px; width:360px; z-index:20` — dark navy background, spans only the content row of the grid
-- `.wpg-kd-hdr`, `.wpg-kd-hdr-chip`, `.wpg-kd-prog-title`, `.wpg-kd-count`, `.wpg-kd-close-btn`
-- `.wpg-kd-list`: scrollable flex column, thin custom scrollbar
-- `.wpg-kd-row` + modifier `--achieved` / `--close` / `--gap` / `--neutral` — left border color-coded
-- `.wpg-kd-row-top`, `.wpg-kd-no`, `.wpg-kd-badge` + modifiers
-- `.wpg-kd-indicator-name`, `.wpg-kd-vals`, `.wpg-kd-val`, `.wpg-kd-val-num`, `.wpg-kd-val-lbl`, `.wpg-kd-divider`
-- `.wpg-kd-empty`: shown when no KDs in tree
-- `.wpg-kd-view-all`: CTA button using `--dc` division color
+- `.wpg-kd-panel`: compact table (replaced old card list) — `position:absolute; top:24px; right:0; bottom:24px; width:55vw; z-index:20` inside `.wpg-frame`
+- `.wpg-kd-grid`: Plotly-free compact HTML `<table>` with `border: 2px solid var(--dc)`, `border-collapse: collapse`
+- Columns: S.no | Indicator | Target | Achievement | Status — `wpg-kd-gh` header cells, `wpg-kd-gd` data cells
+- `.wpg-kd-section-bar`: division-colored full-width bar between panel header and table
+- `.wpg-kd-hdr-circle`: 42px circle with programme PNG icon (or SVG fallback)
+
+**Wheel layout (updated June 2026):**
+- 3-column grid: `1fr auto 1fr` (left cards | wheel | right cards)
+- On segment click: cards fade out, header + wheel shift left `x: -210px`, table panel slides in from right (`x: 500 → 0`)
+- `.wpg-frame`: outer bordered container (`border: 2px solid rgba(0,0,0,0.10); border-radius:18px`) wrapping main grid + table panel
+- `wpg-right-box`: table panel, `position:absolute; top:24px; right:0; bottom:24px; width:55%`
+
+**Programme icons (added June 2026):**
+- All 9 RCH icons in `/public/prog-icons/` — `maternal-health.png`, `jsy.png`, `cac.png`, `pcpndt.png`, `child-health.png`, `immunization.png`, `adolescent-health.png`, `family-planning.png`, `nutrition.png`
+- `PROG_ICON_IMG` map in `LeftSideNav.jsx` — keyed by programme id, value = `/prog-icons/<id>.png`
+- Icons render in: wheel segment (`<image>` with `<clipPath>` per-segment), side card (`<img>` filling `wpg-prog-icon`), and KD panel header circle
+- Icon size: 48×48 on wheel (with `rx=8` clip), 58×58 container on cards
+
+### DivisionStoryPage (added June 2026)
+
+Full-screen overlay shown BEFORE `ProgrammeWheelPage` when a division has story data. Navigation: click division → story page → "Explore More" → wheel.
+
+**Data:** `DIVISION_STORIES` object in `LeftSideNav.jsx`. Only `rch` has data currently. Schema per division:
+```js
+{
+  title, subtitle, intro,   // hero block text
+  topStats: [{ value, label, img, progId }],  // 4-tile strip (currently hidden in new design)
+  stories: [{
+    no, icon, tab, title, question, narrative, hero: { value, text },
+    bars: [{ label, pct, count }], barNote?, insight
+  }]
+}
+```
+
+**RCH stories (real KD_TREE data, June 2026):**
+1. "Safe pregnancy, safe delivery" — ANC funnel (95%→65%→68%→88%→70%)
+2. "The first week of life" — stillbirth 8.89, SNCU 88%, breastfed 85%, HBNC 54%
+3. "Full immunisation by year one" — Hep-B 90%, full 91%, MR-2 95%, U-WIN 95%
+4. "Iron for every age" — PW 88%, 5-9y 93%, 6-59mo 20%
+5. "An unequal burden" — IUCD 33%, FPLMIS 100%, Saas-Bahu 88%
+
+**Layout (June 2026 redesign):**
+- `dsp-page` grid: `64px 1fr` (header | scrollable body)
+- Hero block: centered title + subtitle + intro
+- Tab bar: 5 inline tabs with SVG icons, centered below hero, active tab fills with division color
+- Story card (`.dsp-story`): 2-column grid inside — left: hero stat + "Why this story" narrative box; right: "What data tells?" heading + Plotly horizontal bar chart
+- Insights box: full-width bordered box below the 2-col grid
+- "Explore More": full-width filled button at bottom
+
+**CSS namespace:** `.dsp-*` (appended at bottom of `landing-v4.css`)
+- `.dsp-page`, `.dsp-header`, `.dsp-body`, `.dsp-body-inner` (max-width 1100px)
+- `.dsp-hero` (centered), `.dsp-title`, `.dsp-subtitle`, `.dsp-intro`
+- `.dsp-tabs` (centered flex), `.dsp-tab`, `.dsp-tab--active`
+- `.dsp-story` (white card), `.dsp-story-head`, `.dsp-story-no`, `.dsp-story-icon`, `.dsp-story-title`, `.dsp-story-question`
+- `.dsp-story-grid` (2-col: `1fr 1.25fr`), `.dsp-story-left`, `.dsp-story-right`
+- `.dsp-story-hero`, `.dsp-story-hero-val`, `.dsp-story-hero-text`
+- `.dsp-story-narrative` (Why this story box, division-tinted), `.dsp-narrative-head`, `.dsp-narrative-text`
+- `.dsp-data-heading`, `.dsp-chart-wrap`
+- `.dsp-insights-box`, `.dsp-insights-label`, `.dsp-insights-text`
+- `.dsp-explore-btn` (full-width, division color background)
+
+**Plotly chart in stories:** Same `react-plotly.js` lazy-loaded `<Plot>` as elsewhere. `orientation:'h'`, bars reversed, count annotations right, transparent background.
+
+### V5 Stat strip cards — label changes (June 2026)
+
+`getDivisionStats.js` `FACE0_PINNED` labels updated to professional plain-text (no abbreviation footnotes, no em dashes):
+- RCH: "Full immunisation target achieved for children aged 9 to 11 months" (91%)
+- NDCP: "Hepatitis C treatment target met, covering 2,314 of 2,995 patients" (77%)
+- NCD: "Persons provided with hearing aids against a target of 251" (255 count, not %)
+- HSS: "Ayushman Arogya Mandirs delivering all 12 essential health services" (99%)
+- HRH: "MBBS Medical Officer positions filled as per IPHS norms" (96%)
+
+Stat strip also has: heading pill "Highlights from Financial Year 2025-26" (golden border, full-width, inside `.v5-stat-strip` grid).
+
+`LandingPage.jsx` stat label now renders plain text (not `<MarkAbbrev>`) to prevent footnote generation.
+
+### Deferred items (June 2026)
+
+- Story page: `dsp-subtitle` and `dsp-intro` max-width removal (user requested "extend to full width") — NOT YET DONE
+- District sex-ratio map for Story 2 — awaiting data
+- Family planning method-mix bar for Story 5 — awaiting data
+- NDCP, NCD, HSS, HRH stories — awaiting story data from user
+- Story page: hero section subtitle/intro width constraint still at max-width 700-720px
 
 ---
 
