@@ -6503,3 +6503,121 @@ td:last-child { padding: 8px 10px; }
 .wpg-right-box  { transform: translateZ(0); }
 .lsnav-panel    { transform: translateZ(0); }
 .wheel-seg path { transform: translateZ(0); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Expandable pill — detail panel
+   ═══════════════════════════════════════════════════════════════════════════ */
+.wpg-pill--open {
+  border-radius: 14px;
+  grid-template-columns: 28px 1fr 150px 68px;
+  align-items: start;
+  padding-bottom: 12px;
+}
+.wpg-pill--open .wpg-pill-num  { margin-top: 2px; }
+.wpg-pill--open .wpg-pill-name { font-weight: 600; }
+
+/* detail block spans all 4 columns */
+.wpg-pill-detail {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: pill-expand 0.2s ease;
+}
+@keyframes pill-expand {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.wpg-pill-detail-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* progress bar */
+.wpg-pill-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 99px;
+  overflow: visible;
+  position: relative;
+}
+.wpg-pill-bar {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+  min-width: 4px;
+}
+.wpg-pill-bar--achieved { background: #00C97A; }
+.wpg-pill-bar--close    { background: #FFB020; }
+.wpg-pill-bar--gap      { background: #FF3B5C; }
+.wpg-pill-bar--neutral  { background: #94a3b8; }
+.wpg-pill-bar-pct {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  margin-left: 4px;
+}
+
+/* stats row */
+.wpg-pill-stats {
+  display: flex;
+  gap: 16px;
+}
+.wpg-pill-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.wpg-pill-stat-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+.wpg-pill-stat-lbl {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* meta */
+.wpg-pill-hmis {
+  font-size: 11px;
+  color: #64748b;
+  margin: 0;
+}
+.wpg-pill-note {
+  font-size: 10px;
+  color: #94a3b8;
+  margin: 0;
+  font-style: italic;
+}
+
+/* explore button */
+.wpg-pill-explore-btn {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  background: var(--dc, #1B6FF5);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.wpg-pill-explore-btn:hover { opacity: 0.85; }
