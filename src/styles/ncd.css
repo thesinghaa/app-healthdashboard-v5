@@ -7100,3 +7100,39 @@ h1, h2, h3, h4 {
   .kdi-compare-grid { grid-template-columns: 1fr; }
 }
 
+
+/* ── KDIndicatorDetail — division-themed topbar (--dc from inline style) ──── */
+
+/* Dark mode */
+.ncd-root .ncd-topbar {
+  border-bottom: 3px solid var(--dc, #1B6FF5) !important;
+}
+.ncd-root .ncd-topbar .detail-div-tag {
+  background: var(--dc, #1B6FF5) !important;
+  color: #fff !important;
+}
+.ncd-root .ncd-topbar .back-btn:hover {
+  background: color-mix(in srgb, var(--dc, #1B6FF5) 16%, transparent) !important;
+  border-color: color-mix(in srgb, var(--dc, #1B6FF5) 42%, transparent) !important;
+}
+
+/* Light mode overrides */
+[data-theme="light"] .ncd-root .ncd-topbar {
+  border-bottom: 3px solid var(--dc, #1B6FF5) !important;
+}
+[data-theme="light"] .ncd-root .ncd-topbar .detail-div-tag,
+[data-theme="light"] .ncd-root .detail-div-tag {
+  background: var(--dc, #1B6FF5) !important;
+  color: #fff !important;
+}
+[data-theme="light"] .ncd-root .ncd-topbar .back-btn:hover {
+  background: color-mix(in srgb, var(--dc, #1B6FF5) 10%, transparent) !important;
+  border-color: color-mix(in srgb, var(--dc, #1B6FF5) 35%, transparent) !important;
+}
+
+/* Section card headers — thin left accent using division color */
+.ncd-root .ncd-card-header h3 {
+  border-left: 3px solid var(--dc, #1B6FF5);
+  padding-left: 10px;
+  margin-left: -10px;
+}

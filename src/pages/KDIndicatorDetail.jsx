@@ -16,6 +16,15 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
+/* ── Division accent colors ──────────────────────────────────────── */
+const DIVISION_COLORS = {
+  rch:  '#1B6FF5',
+  ndcp: '#D97706',
+  ncd:  '#7C3AED',
+  hss:  '#0F9B82',
+  hrh:  '#DC4B2A',
+};
+
 /* ── Sheet config ────────────────────────────────────────────────── */
 const SHEET_ID = '1vsCSdPZpBK5SQw9gppRLEEKDLhj19DHk';
 const CSV_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Sheet1`;
@@ -519,6 +528,7 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
   const isLight   = theme === 'light';
   const st        = kdStatus(indicator ?? {});
   const stColor   = S_COLOR[st];
+  const divColor  = DIVISION_COLORS[division?.id] || '#1B6FF5';
 
   /* FY stats */
   const gapVal = (indicator?.achievement != null && indicator?.target != null)
@@ -601,7 +611,7 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
   const YEAR_COLORS = ['#FF5500', '#B45309', '#7C3AED'];
 
   return (
-    <div className="ncd-root" ref={wrapRef}>
+    <div className="ncd-root" ref={wrapRef} style={{ '--dc': divColor }}>
 
       {/* ── Topbar ───────────────────────────────────────────────── */}
       <div className="ncd-topbar">
