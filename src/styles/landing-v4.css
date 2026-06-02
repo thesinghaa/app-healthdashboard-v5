@@ -4772,7 +4772,7 @@ td:last-child { padding: 8px 10px; }
   top: 24px;
   right: 12px;
   bottom: 24px;
-  width: 65%;
+  width: 52%;
   border: 2px solid var(--dc, #1B6FF5);
   border-radius: 14px;
   background: #ffffff;
@@ -6371,7 +6371,7 @@ td:last-child { padding: 8px 10px; }
 .wpg-pill,
 .wpg-pill-hdr {
   display: grid;
-  grid-template-columns: 32px 1fr 170px 74px;
+  grid-template-columns: 28px 1fr 150px 68px;
   align-items: center;
   gap: 0;
 }
