@@ -6917,3 +6917,186 @@ h1, h2, h3, h4 {
   margin-left: auto !important;
 }
 
+/* ── KDIndicatorDetail v2 — Top grid (meta + perf card side by side) ──────── */
+.kdi-top-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 20px;
+  align-items: start;
+}
+.kdi-meta-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.kdi-meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+}
+.kdi-hmis-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #64748B;
+  background: rgba(100,116,139,0.1);
+  border: 1px solid rgba(100,116,139,0.2);
+  border-radius: 5px;
+  padding: 2px 8px;
+}
+.kdi-lib-note {
+  font-size: 11px;
+  color: #D97706;
+  font-weight: 600;
+  padding: 4px 10px;
+  background: rgba(217,119,6,0.08);
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* ── District Map section ─────────────────────────────────────────────────── */
+.kdi-map-insight-row {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 20px;
+  align-items: start;
+}
+.kdi-map-main {
+  position: relative;
+}
+.kdi-map-caption {
+  font-size: 10px;
+  color: #94A3B8;
+  text-align: center;
+  margin-top: 6px;
+  font-style: italic;
+}
+.kdi-map-hint {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: rgba(255,255,255,0.85);
+  background: rgba(15,23,42,0.65);
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ── District Comparison grid ─────────────────────────────────────────────── */
+.kdi-compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* ── ComparePanel (.kdi-cp) ───────────────────────────────────────────────── */
+.kdi-cp {
+  border: 1.5px solid rgba(148,163,184,0.18);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(248,250,252,0.5);
+  display: flex;
+  flex-direction: column;
+}
+.kdi-cp-hdr {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-left: 4px solid transparent;
+  background: rgba(255,255,255,0.65);
+  border-bottom: 1px solid rgba(148,163,184,0.12);
+}
+.kdi-cp-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.kdi-cp-select {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  border: 1.5px solid rgba(148,163,184,0.28);
+  border-radius: 7px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  color: #1E293B;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+}
+.kdi-cp-select:focus {
+  border-color: #3B82F6;
+}
+.kdi-cp-map {
+  position: relative;
+  border-bottom: 1px solid rgba(148,163,184,0.1);
+}
+.kdi-cp-spark {
+  padding: 10px 14px 6px;
+  border-bottom: 1px solid rgba(148,163,184,0.1);
+}
+.kdi-cp-section-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #94A3B8;
+  margin-bottom: 6px;
+}
+.kdi-spark-empty {
+  padding: 20px 14px;
+  font-size: 11px;
+  color: #94A3B8;
+  text-align: center;
+}
+.kdi-cp-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(148,163,184,0.1);
+  border-top: 1px solid rgba(148,163,184,0.1);
+  margin-top: auto;
+}
+.kdi-cp-stat {
+  padding: 10px 8px;
+  background: rgba(248,250,252,0.95);
+  text-align: center;
+}
+.kdi-cp-stat-val {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.2;
+}
+.kdi-cp-stat-lbl {
+  font-size: 9px;
+  color: #94A3B8;
+  margin-top: 2px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.kdi-cp-no-data {
+  padding: 20px 14px;
+  font-size: 11px;
+  color: #94A3B8;
+  text-align: center;
+  margin-top: auto;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .kdi-top-grid { grid-template-columns: 1fr; }
+  .kdi-map-insight-row { grid-template-columns: 1fr; }
+  .kdi-compare-grid { grid-template-columns: 1fr; }
+}
+
