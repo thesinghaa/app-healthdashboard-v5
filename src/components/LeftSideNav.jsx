@@ -288,17 +288,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onClose, onLogout }) 
         </div>
         <div className="wpg-header-right">
           <span className="wpg-prog-count">{n} Programmes</span>
-          {onLogout && (
-            <button className="wpg-logout-btn" title="Logout" onClick={onLogout}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                <polyline points="16 17 21 12 16 7"/>
-                <line x1="21" y1="12" x2="9" y2="12"/>
-              </svg>
-              Logout
-            </button>
-          )}
-          <button className="wpg-close-btn" onClick={close} aria-label="Close">
+          <button className="wpg-close-btn" onClick={onLogout || close} aria-label="Close">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M18 6L6 18M6 6l12 12"/>
             </svg>
@@ -656,23 +646,11 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes, onLogout })
           <span className="wpg-header-chip">{division.short}</span>
           <h1 className="wpg-header-title">{division.name}</h1>
         </div>
-        <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
-          {onLogout && (
-            <button className="wpg-logout-btn" title="Logout" onClick={onLogout}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                <polyline points="16 17 21 12 16 7"/>
-                <line x1="21" y1="12" x2="9" y2="12"/>
-              </svg>
-              Logout
-            </button>
-          )}
-          <button className="wpg-close-btn" onClick={close} aria-label="Close">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
+        <button className="wpg-close-btn" onClick={onLogout || close} aria-label="Close">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
       </header>
 
       {/* ── Scrollable body ── */}
