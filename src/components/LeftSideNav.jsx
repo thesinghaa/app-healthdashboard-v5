@@ -820,7 +820,7 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes, onLogout })
 }
 
 /* ── Left Nav panel ───────────────────────────────────────────────────────── */
-export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect, onDirectKD, isLoggedIn, onLogout }) {
+export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect, onNeedLogin, onDirectKD, isLoggedIn, onLogout }) {
   const [open,      setOpen]      = useState(false);
   const [activeDiv, setActiveDiv] = useState(null);
   const [showWheel, setShowWheel] = useState(false);
@@ -831,6 +831,7 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openW
     const div = DIVISIONS.find(d => d.id === openWheelDirect);
     if (div) { setActiveDiv(div); setShowWheel(true); }
   }, [openWheelDirect]);
+
   const panelRef = useRef(null);
   const rowRefs  = useRef([]);
 
@@ -859,6 +860,10 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openW
   }
 
   function handleKDSelect(kd, prog, divData) {
+    if (!isLoggedIn) {
+      onNeedLogin?.({ kd, prog, divData });
+      return;
+    }
     setOpen(false);
     setActiveDiv(null);
     setShowWheel(false);

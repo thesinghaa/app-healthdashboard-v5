@@ -729,6 +729,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
   const [captchaAns, setCaptchaAns]         = useState('');
   const [captchaText, setCaptchaText]       = useState(() => genCaptcha());
   const [wheelTarget, setWheelTarget]       = useState(null);
+  const [pendingDiv,  setPendingDiv]        = useState(null);
   const [showBioModal, setShowBioModal]     = useState(false);
   const [bioStatus, setBioStatus]           = useState('idle');
   const [bioStored, setBioStored]           = useState(() => !!localStorage.getItem('bio_cred'));
@@ -739,11 +740,23 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
   function handleLoginSuccess() {
     setIsLoggedIn(true);
     setShowLoginGate(false);
-    if (WEBAUTHN_SUPPORTED && !bioStored) {
+    if (pendingDiv) {
+      // came from an indicator click — go straight to that KD's detail page
+      const { kd, prog, divData } = pendingDiv;
+      setPendingDiv(null);
+      if (onDirectKD) onDirectKD(divData, prog.id, kd);
+    } else if (WEBAUTHN_SUPPORTED && !bioStored) {
       setShowEnableBio(true);
     } else {
       setShowLoginPopup(true);
     }
+  }
+
+  /* ── Indicator-triggered login (pill clicked while not logged in) ─────── */
+  function handleNeedLogin(payload) {
+    setPendingDiv(payload);          // payload = { kd, prog, divData }
+    setLoginUser(''); setLoginPass(''); setLoginError(''); setCaptchaAns(''); setCaptchaText(genCaptcha());
+    setShowLoginGate(true);
   }
 
   /* ── Login button handler — triggers biometric or password gate ──────── */
@@ -792,7 +805,9 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       <div className="v4l-root">
 
       {/* ── Left side navigation panel ──────────────────────────────────── */}
-      <LeftSideNav onSelectDivision={onSelectDivision} onSelectProgramme={onSelectProgramme} openWheelDirect={wheelTarget}
+      <LeftSideNav onSelectDivision={onSelectDivision} onSelectProgramme={onSelectProgramme}
+        openWheelDirect={wheelTarget}
+        onNeedLogin={handleNeedLogin}
         onDirectKD={onDirectKD}
         isLoggedIn={isLoggedIn}
         onLogout={() => { setIsLoggedIn(false); setShowLoginPopup(false); }} />
@@ -1078,7 +1093,11 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
             <div className="v5-gate-logo">
               <img src="/ap-emblem.svg" alt="Arunachal Pradesh" />
             </div>
-            <h2 className="v5-gate-title">Admin Login</h2>
+            <h2 className="v5-gate-title">
+              {pendingDiv?.kd
+                ? `Login to view: ${pendingDiv.kd.indicator}`
+                : 'Admin Login'}
+            </h2>
             <div className="v5-gate-fields">
               <div className="v5-gate-field">
                 <label className="v5-gate-label">Username</label>

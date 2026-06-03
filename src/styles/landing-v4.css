@@ -5727,7 +5727,7 @@ td:last-child { padding: 8px 10px; }
 .v5-login-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 10000;
   background: rgba(15, 23, 42, 0.45);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -5737,7 +5737,7 @@ td:last-child { padding: 8px 10px; }
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1001;
+  z-index: 10001;
   background: #ffffff;
   border: 1px solid #E2E8F0;
   border-radius: 20px;
@@ -5811,7 +5811,7 @@ td:last-child { padding: 8px 10px; }
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1001;
+  z-index: 10001;
   background: #ffffff;
   border: 1px solid #E2E8F0;
   border-radius: 20px;
