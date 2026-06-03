@@ -172,7 +172,7 @@ function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
 }
 
 /* ── Full-page Programme Wheel ────────────────────────────────────────────── */
-function ProgrammeWheelPage({ division, divData, onSelect, onSelectKD, onClose, onLogout }) {
+function ProgrammeWheelPage({ division, divData, onSelect, onSelectKD, isLoggedIn, loggedInUser, onLogin, onClose, onLogout }) {
   const [hovered, setHovered]   = useState(null);
   const [selected, setSelected] = useState(null);
   const pageRef   = useRef(null);
@@ -244,8 +244,8 @@ function ProgrammeWheelPage({ division, divData, onSelect, onSelectKD, onClose, 
         { opacity: 0, duration: 0.22, ease: 'power2.in' });
       gsap.to(footerRef.current,
         { opacity: 0, y: 8, duration: 0.22, ease: 'power2.in' });
-      /* shift wheel + header left */
-      gsap.to([headerRef.current, wheelRef.current],
+      /* shift wheel only — header stays fixed */
+      gsap.to(wheelRef.current,
         { x: '-27vw', duration: 0.42, ease: 'power3.out', delay: 0.05 });
       /* panel slides in from right — fromTo so no prior gsap.set needed */
       if (panelRef.current) {
@@ -255,7 +255,7 @@ function ProgrammeWheelPage({ division, divData, onSelect, onSelectKD, onClose, 
       }
     } else {
       /* reverse */
-      gsap.to([headerRef.current, wheelRef.current], { x: 0, duration: 0.30, ease: 'power3.out' });
+      gsap.to(wheelRef.current, { x: 0, duration: 0.30, ease: 'power3.out' });
       gsap.to([leftRef.current, rightRef.current], { opacity: 1, duration: 0.30, ease: 'power2.out', delay: 0.15 });
       gsap.to(footerRef.current, { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out', delay: 0.15 });
     }
@@ -297,18 +297,40 @@ function ProgrammeWheelPage({ division, divData, onSelect, onSelectKD, onClose, 
           Back
         </button>
         <div className="wpg-header-center">
-          <span className="wpg-header-chip">{division.short}</span>
-          <h1 className="wpg-header-title">{division.name}</h1>
-        </div>
-        <div className="wpg-header-right">
-          <span className="wpg-prog-count">{n} Programmes</span>
-          <button className="wpg-close-btn" onClick={onLogout || close} aria-label="Close">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
-          </button>
+          {/* Identity — fades out on login */}
+          <div className={`wpg-header-identity${isLoggedIn ? ' wpg-header-identity--out' : ''}`}>
+            <span className="wpg-header-chip">{division.short}</span>
+            <h1 className="wpg-header-title">{division.name}</h1>
+          </div>
+          {/* Welcome message — fades in on login */}
+          <div className={`wpg-header-welcome${isLoggedIn ? ' wpg-header-welcome--in' : ''}`}>
+            <span className="wpg-welcome-name" style={{ color: division.color }}>
+              {loggedInUser || 'PIF'}
+            </span>
+            <span className="wpg-welcome-sep">·</span>
+            <span className="wpg-welcome-div">{division.name}</span>
+            <span className="wpg-welcome-cta">ready to explore</span>
+          </div>
+          {/* Login button — visible only when not logged in */}
+          {!isLoggedIn && (
+            <button
+              className="wpg-login-btn"
+              style={{ '--dc': division.color }}
+              onClick={onLogin}
+            >
+              Login to access
+            </button>
+          )}
         </div>
       </header>
+      <div className="wpg-header-right wpg-header-right--fixed">
+        <span className="wpg-prog-count">{n} Programmes</span>
+        <button className="wpg-close-btn" onClick={onLogout || close} aria-label="Close">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
 
       {/* ── Outer frame — bordered container for wheel + table ── */}
       <div className="wpg-frame">
@@ -820,7 +842,7 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes, onLogout })
 }
 
 /* ── Left Nav panel ───────────────────────────────────────────────────────── */
-export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect, onNeedLogin, onDirectKD, isLoggedIn, onLogout }) {
+export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect, onNeedLogin, onDirectKD, isLoggedIn, loggedInUser, onLogout }) {
   const [open,      setOpen]      = useState(false);
   const [activeDiv, setActiveDiv] = useState(null);
   const [showWheel, setShowWheel] = useState(false);
@@ -861,7 +883,7 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openW
 
   function handleKDSelect(kd, prog, divData) {
     if (!isLoggedIn) {
-      onNeedLogin?.({ kd, prog, divData });
+      if (onNeedLogin) onNeedLogin(null);
       return;
     }
     setOpen(false);
@@ -934,6 +956,9 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openW
           divData={getDivData(activeDiv.id)}
           onSelect={handleWheelSelect}
           onSelectKD={handleKDSelect}
+          isLoggedIn={isLoggedIn}
+          loggedInUser={loggedInUser}
+          onLogin={() => onNeedLogin && onNeedLogin(null)}
           onClose={() => { setActiveDiv(null); setShowWheel(false); }}
           onLogout={onLogout ? () => { setActiveDiv(null); setShowWheel(false); onLogout(); } : null}
         />

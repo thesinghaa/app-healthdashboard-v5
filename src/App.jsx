@@ -77,6 +77,7 @@ function AppInner() {
   const goBack = useCallback(() => {
     const cur = viewRef.current;
     if (cur.page === 'kd-indicator') {
+      if (cur.origin === 'home') { goHome(); return; }
       transitionTo({ ...cur, page: 'kd-list', indicator: null });
     } else if (cur.page === 'current-status') {
       transitionTo({ page: 'division', program: null, division: cur.division, indicator: null, origin: 'home' });

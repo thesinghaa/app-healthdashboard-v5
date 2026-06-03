@@ -25,6 +25,15 @@ const DIVISION_COLORS = {
   hrh:  '#DC4B2A',
 };
 
+/* ── Per-division choropleth colorscales (light mode) ────────────── */
+const DIVISION_SCALES = {
+  rch:  [[0,'#DBEAFE'],[0.33,'#93C5FD'],[0.66,'#3B82F6'],[1,'#1E40AF']],
+  ndcp: [[0,'#FEF3C7'],[0.33,'#FCD34D'],[0.66,'#F59E0B'],[1,'#92400E']],
+  ncd:  [[0,'#EDE9FE'],[0.33,'#C4B5FD'],[0.66,'#7C3AED'],[1,'#4C1D95']],
+  hss:  [[0,'#CCFBF1'],[0.33,'#5EEAD4'],[0.66,'#0F9B82'],[1,'#065F46']],
+  hrh:  [[0,'#FEE2E2'],[0.33,'#FCA5A5'],[0.66,'#EF4444'],[1,'#7F1D1D']],
+};
+
 /* ── Sheet config ────────────────────────────────────────────────── */
 const SHEET_ID = '1vsCSdPZpBK5SQw9gppRLEEKDLhj19DHk';
 const CSV_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Sheet1`;
@@ -156,7 +165,7 @@ const AP_ZOOM = [
    DistrictChoropleth
    AP choropleth — works in full-size (state map) and compact (compare panels)
    ══════════════════════════════════════════════════════════════════ */
-function DistrictChoropleth({ distData, selectedDistrict, onSelectDistrict, isLight, compact }) {
+function DistrictChoropleth({ distData, selectedDistrict, onSelectDistrict, isLight, compact, divId }) {
   const [zoom, setZoom] = useState(1);
 
   const valueMap = useMemo(() =>
@@ -167,7 +176,7 @@ function DistrictChoropleth({ distData, selectedDistrict, onSelectDistrict, isLi
   const validVals = values.filter(v => v != null);
   const maxVal    = validVals.length > 0 ? Math.max(...validVals) : 1;
 
-  const SCALE_LIGHT = [[0, '#D97706'], [0.33, '#C2410C'], [0.66, '#9A3412'], [1, '#1C0500']];
+  const SCALE_LIGHT = DIVISION_SCALES[divId] || DIVISION_SCALES.rch;
   const SCALE_DARK  = [[0, '#93C5FD'], [0.33, '#A5B4FC'], [0.66, '#C7D2FE'], [1, '#F8FAFC']];
 
   const choropleth = {
@@ -335,7 +344,7 @@ function DistrictSparkline({ rawRows, district, accentColor }) {
 /* ══════════════════════════════════════════════════════════════════
    ComparePanel — one side of the district comparison section
    ══════════════════════════════════════════════════════════════════ */
-function ComparePanel({ label, accentColor, rawRows, distData, district, onSetDistrict, isLight }) {
+function ComparePanel({ label, accentColor, rawRows, distData, district, onSetDistrict, isLight, divId }) {
   const distStats = useMemo(() => {
     if (!district || !distData?.length) return null;
     const sorted     = [...distData].sort((a, b) => b.value - a.value);
@@ -370,6 +379,7 @@ function ComparePanel({ label, accentColor, rawRows, distData, district, onSetDi
           onSelectDistrict={onSetDistrict}
           isLight={isLight}
           compact
+          divId={divId || 'rch'}
         />
       </div>
 
@@ -528,7 +538,8 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
   const isLight   = theme === 'light';
   const st        = kdStatus(indicator ?? {});
   const stColor   = S_COLOR[st];
-  const divColor  = DIVISION_COLORS[division?.id] || '#1B6FF5';
+  const divId     = division?.id;
+  const divColor  = DIVISION_COLORS[divId] || '#1B6FF5';
 
   /* FY stats */
   const gapVal = (indicator?.achievement != null && indicator?.target != null)
@@ -595,8 +606,24 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
     if (distData.length >= 2 && !compDistB) setCompDistB(distData[1].district);
   }, [distData]);
 
-  /* NFHS data */
-  const nfhsRows = (program?.nfhsData ?? []).filter(d => d.nfhs4 != null || d.nfhs5 != null);
+  /* NFHS data — fuzzy-match to this specific indicator only */
+  const STOP = new Set(['of','in','for','and','the','a','an','by','to','with','at','on','per','its']);
+  function nfhsScore(indName, rowLabel) {
+    const tok = s => s.toLowerCase().split(/\W+/).filter(w => w.length > 2 && !STOP.has(w));
+    const a = tok(indName), b = tok(rowLabel);
+    if (!a.length || !b.length) return 0;
+    const hits = a.filter(w => b.some(w2 => w2.startsWith(w) || w.startsWith(w2))).length;
+    return hits / Math.min(a.length, b.length);
+  }
+  const allNfhs   = (program?.nfhsData ?? []).filter(d => d.nfhs4 != null || d.nfhs5 != null);
+  const nfhsMatch = indicator?.indicator
+    ? allNfhs.reduce((best, row) => {
+        const s = nfhsScore(indicator.indicator, row.label);
+        return s > best.score ? { row, score: s } : best;
+      }, { row: null, score: 0 })
+    : { row: null, score: 0 };
+  /* Only show if match confidence > 40% */
+  const nfhsRow   = nfhsMatch.score >= 0.4 ? nfhsMatch.row : null;
 
   /* GSAP entry */
   useEffect(() => {
@@ -608,7 +635,8 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
     return () => ctx.revert();
   }, [indicator?.no]);
 
-  const YEAR_COLORS = ['#FF5500', '#B45309', '#7C3AED'];
+  const scale = DIVISION_SCALES[divId] || DIVISION_SCALES.rch;
+  const YEAR_COLORS = [scale[3][1], scale[2][1], scale[1][1]];
 
   return (
     <div className="ncd-root" ref={wrapRef} style={{ '--dc': divColor }}>
@@ -639,101 +667,84 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
 
       <div className="ncd-content">
 
-        {/* ══ SECTION 1: Indicator Meta + FY Performance ══════════════ */}
-        <div className="kdi-section">
-          <div className="kdi-top-grid">
-
-            {/* Left: meta */}
-            <div className="kdi-meta-card">
-              <div className="kdi-meta-tags">
-                <span className="kdi-no-badge" style={{ background: `${stColor}18`, color: stColor }}>
-                  KD #{indicator?.no}
-                </span>
-                {indicator?.type && (
-                  <span className="kdi-type-pill">{indicator.type}</span>
-                )}
-                {indicator?.hmisCode && (
-                  <span className="kdi-hmis-tag">HMIS {indicator.hmisCode}</span>
-                )}
-              </div>
-              <div className="kdi-name">{indicator?.indicator}</div>
-              {indicator?.statement && (
-                <div className="kdi-statement">{indicator.statement}</div>
-              )}
-              {indicator?.lowerIsBetter && (
-                <div className="kdi-lib-note">Lower value is better</div>
-              )}
+        {/* ══ HERO BAND ══ */}
+        <div className="kdi-hero-band">
+          {/* Left: identity */}
+          <div className="kdi-hero-left">
+            <div className="kdi-meta-tags">
+              <span className="kdi-no-badge" style={{ background: `${divColor}18`, color: divColor, borderColor: `${divColor}30` }}>
+                KD #{indicator?.no}
+              </span>
+              {indicator?.type && <span className="kdi-type-pill">{indicator.type}</span>}
+              {indicator?.hmisCode && <span className="kdi-hmis-tag">HMIS {indicator.hmisCode}</span>}
             </div>
-
-            {/* Right: FY performance card */}
-            <div className="perf-card" style={{ borderLeftColor: stColor }}>
-              <div className="perf-card-header">
-                <span className="perf-card-title">FY 2025-26 Performance</span>
-                <span className="perf-status-badge" style={{ background: S_BG[st], color: stColor }}>
-                  {S_LABEL[st]}
-                </span>
-              </div>
-
-              <div className="perf-stats">
-                <div className="perf-stat">
-                  <div className="perf-stat-label">Target</div>
-                  <div className="perf-stat-val perf-stat-target">
-                    {indicator?.targetLabel ?? (indicator?.target != null ? `${indicator.target}${indicator?.unit ?? ''}` : '—')}
-                  </div>
+            <div className="kdi-name">{indicator?.indicator}</div>
+            {indicator?.statement && <div className="kdi-statement">{indicator.statement}</div>}
+            {indicator?.lowerIsBetter && <div className="kdi-lib-note">Lower value is better</div>}
+            {/* Quick stat strip */}
+            {indicator?.numerator != null && indicator?.denominator != null && (
+              <div className="kdi-quick-strip">
+                <div className="kdi-qs-item">
+                  <div className="kdi-qs-val">{fmt(indicator.numerator)}</div>
+                  <div className="kdi-qs-lbl">Numerator</div>
                 </div>
-                <div className="perf-stat-divider" />
-                <div className="perf-stat perf-stat--featured">
-                  <div className="perf-stat-label">Achievement</div>
-                  <div className="perf-stat-ach" style={{ color: stColor }}>
-                    {indicator?.achievedLabel ?? (indicator?.achievement != null ? `${indicator.achievement}${indicator?.unit ?? ''}` : '—')}
-                  </div>
+                <div className="kdi-qs-div" />
+                <div className="kdi-qs-item">
+                  <div className="kdi-qs-val">{fmt(indicator.denominator)}</div>
+                  <div className="kdi-qs-lbl">Denominator</div>
                 </div>
-                {gapVal != null && (
+                {pct != null && (
                   <>
-                    <div className="perf-stat-divider" />
-                    <div className="perf-stat">
-                      <div className="perf-stat-label">{gapVal >= 0 ? 'Surplus' : 'Deficit'}</div>
-                      <div className="perf-stat-val" style={{ color: gapVal >= 0 ? '#059669' : stColor }}>
-                        {gapVal >= 0 ? '+' : ''}{gapVal.toFixed(1)}{indicator?.unit ?? ''}
-                      </div>
+                    <div className="kdi-qs-div" />
+                    <div className="kdi-qs-item">
+                      <div className="kdi-qs-val" style={{ color: divColor }}>{pct.toFixed(1)}%</div>
+                      <div className="kdi-qs-lbl">of Target</div>
                     </div>
                   </>
                 )}
               </div>
+            )}
+          </div>
 
-              {pct != null && (
-                <div className="perf-progress-wrap">
-                  <div className="perf-progress-track">
-                    <div className="perf-progress-fill" style={{ width: `${pct}%`, background: stColor }} />
-                  </div>
-                  <div className="perf-progress-labels">
-                    <span className="perf-prog-ach-label" style={{ color: stColor }}>
-                      {indicator?.achievedLabel ?? `${indicator.achievement}${indicator?.unit ?? ''}`}
-                      <span className="perf-prog-pct"> · {pct.toFixed(1)}% of target</span>
-                    </span>
-                    <span className="perf-prog-target-label">
-                      Target {indicator?.targetLabel ?? `${indicator.target}${indicator?.unit ?? ''}`}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {indicator?.numerator != null && indicator?.denominator != null && (
-                <div className="perf-fraction">
-                  <span className="perf-fraction-label">Numerator</span>
-                  <span className="perf-fraction-val">{fmt(indicator.numerator)}</span>
-                  <span className="perf-fraction-sep">/</span>
-                  <span className="perf-fraction-label">Denominator</span>
-                  <span className="perf-fraction-val">{fmt(indicator.denominator)}</span>
-                </div>
+          {/* Right: achievement */}
+          <div className="kdi-hero-right">
+            <div className="kdi-hero-right-top">
+              <span className="kdi-perf-year">FY 2025-26 Performance</span>
+              <span className="perf-status-badge" style={{ background: S_BG[st], color: stColor }}>{S_LABEL[st]}</span>
+            </div>
+            <div className="kdi-ach-display" style={{ color: divColor }}>
+              {indicator?.achievedLabel ?? (indicator?.achievement != null ? `${indicator.achievement}${indicator?.unit ?? ''}` : '—')}
+            </div>
+            <div className="kdi-ach-sub">
+              <span>Target <strong>{indicator?.targetLabel ?? (indicator?.target != null ? `${indicator.target}${indicator?.unit ?? ''}` : '—')}</strong></span>
+              {gapVal != null && (
+                <span className="kdi-ach-gap" style={{ color: gapVal >= 0 ? '#059669' : stColor }}>
+                  {gapVal >= 0 ? '▲' : '▼'} {Math.abs(gapVal).toFixed(1)}{indicator?.unit ?? ''} {gapVal >= 0 ? 'surplus' : 'deficit'}
+                </span>
               )}
             </div>
-
+            {pct != null && (
+              <div className="kdi-hero-progress">
+                <div className="perf-progress-track">
+                  <div className="perf-progress-fill" style={{ width: `${Math.min(pct, 100)}%`, background: divColor }} />
+                </div>
+                <div className="kdi-hero-prog-label">
+                  <span style={{ color: divColor }}>{pct.toFixed(1)}% of target achieved</span>
+                  <span>Target {indicator?.targetLabel ?? `${indicator?.target}${indicator?.unit ?? ''}`}</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {/* ══ SECTION 2: District Performance Map ══════════════════════ */}
         {(distData.length > 0 || hmisLoading) && (
+          <>
+          <div className="kdi-step-label">
+            <span className="kdi-step-num" style={{ background: divColor }}>01</span>
+            <span className="kdi-step-title">District Performance</span>
+            <div className="kdi-step-line" />
+          </div>
           <div className="kdi-section">
             <div className="ncd-card">
               <div className="ncd-card-header">
@@ -745,7 +756,7 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
 
               {hmisLoading && (
                 <div className="hmis-loading">
-                  <div className="hmis-spinner" style={{ borderTopColor: stColor }} />
+                  <div className="hmis-spinner" style={{ borderTopColor: divColor }} />
                   Loading district data…
                 </div>
               )}
@@ -759,6 +770,7 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
                       selectedDistrict={compDistA}
                       onSelectDistrict={setCompDistA}
                       isLight={isLight}
+                      divId={division?.id}
                     />
                     <div className="kdi-map-caption">
                       Click any district to select it for comparison below
@@ -782,7 +794,7 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
                       <div className="dist-insight-panel">
                         <div className="dist-insight-block">
                           <div className="dist-insight-label">State Total ({years.at(-1)})</div>
-                          <div className="dist-insight-value" style={{ color: stColor }}>
+                          <div className="dist-insight-value" style={{ color: divColor }}>
                             {fmt(stateTotal)}
                           </div>
                           <div className="dist-insight-sub">
@@ -795,7 +807,7 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
                           <div className="dist-rank-list">
                             {top3.map((d, i) => (
                               <div key={d.district} className="dist-rank-row">
-                                <span className="dist-rank-no" style={{ color: stColor }}>#{i + 1}</span>
+                                <span className="dist-rank-no" style={{ color: divColor }}>#{i + 1}</span>
                                 <span className="dist-rank-name">{d.district}</span>
                                 <span className="dist-rank-val">{fmt(d.value)}</span>
                                 <span className="dist-rank-pct">
@@ -839,10 +851,17 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
               )}
             </div>
           </div>
+          </>
         )}
 
         {/* ══ SECTION 3: Monthly Trends (State Level) ══════════════════ */}
         {indicator?.hmisCode && (
+          <>
+          <div className="kdi-step-label">
+            <span className="kdi-step-num" style={{ background: divColor }}>02</span>
+            <span className="kdi-step-title">Monthly Trends</span>
+            <div className="kdi-step-line" />
+          </div>
           <div className="kdi-section">
             <div className="ncd-card">
               <div className="ncd-card-header">
@@ -854,7 +873,7 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
 
               {hmisLoading && (
                 <div className="hmis-loading">
-                  <div className="hmis-spinner" style={{ borderTopColor: stColor }} />
+                  <div className="hmis-spinner" style={{ borderTopColor: divColor }} />
                   Loading HMIS data…
                 </div>
               )}
@@ -901,10 +920,17 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
               )}
             </div>
           </div>
+          </>
         )}
 
         {/* ══ SECTION 4: District Comparison — Two Maps ════════════════ */}
         {rawRows?.length > 0 && distData.length > 0 && (
+          <>
+          <div className="kdi-step-label">
+            <span className="kdi-step-num" style={{ background: divColor }}>03</span>
+            <span className="kdi-step-title">District Comparison</span>
+            <div className="kdi-step-line" />
+          </div>
           <div className="kdi-section">
             <div className="ncd-card">
               <div className="ncd-card-header">
@@ -917,100 +943,84 @@ export default function KDIndicatorDetail({ indicator, program, division, onBack
               <div className="kdi-compare-grid">
                 <ComparePanel
                   label="District A"
-                  accentColor="#3B82F6"
+                  accentColor={divColor}
                   rawRows={rawRows}
                   distData={distData}
                   district={compDistA}
                   onSetDistrict={setCompDistA}
                   isLight={isLight}
+                  divId={divId}
                 />
                 <ComparePanel
                   label="District B"
-                  accentColor="#F59E0B"
+                  accentColor={divColor}
                   rawRows={rawRows}
                   distData={distData}
                   district={compDistB}
                   onSetDistrict={setCompDistB}
                   isLight={isLight}
+                  divId={divId}
                 />
               </div>
             </div>
           </div>
+          </>
         )}
 
         {/* ══ SECTION 5: NFHS Baseline ════════════════════════════════ */}
-        {nfhsRows.length > 0 && (
-          <div className="kdi-section">
-            <div className="ncd-card">
-              <div className="ncd-card-header">
-                <h3>NFHS Baseline — {program?.name}</h3>
-                <span className="ncd-card-note">NFHS-4 (2015-16) vs NFHS-5 (2019-21) · Arunachal Pradesh</span>
-              </div>
-
-              {/* NFHS comparison chart */}
-              <PlotlyNFHSChart indicator={indicator} nfhsRows={nfhsRows} />
-
-              {/* NFHS table */}
-              <div className="kdi-nfhs-table">
-                <div className="kdi-nfhs-head">
-                  <div className="kdi-nfhs-head-label">Indicator</div>
-                  <div className="kdi-nfhs-head-vals">
-                    <span className="kdi-nfhs-head-change">Change</span>
-                  </div>
+        {nfhsRow && (() => {
+          const diff     = nfhsRow.nfhs4 != null && nfhsRow.nfhs5 != null ? (nfhsRow.nfhs5 - nfhsRow.nfhs4) : null;
+          const improved = diff != null ? (nfhsRow.lowerIsBetter ? diff < 0 : diff > 0) : null;
+          const rowMax   = Math.max(nfhsRow.nfhs4 ?? 0, nfhsRow.nfhs5 ?? 0) || 1;
+          const pct4     = nfhsRow.nfhs4 != null ? Math.round((nfhsRow.nfhs4 / rowMax) * 100) : 0;
+          const pct5     = nfhsRow.nfhs5 != null ? Math.round((nfhsRow.nfhs5 / rowMax) * 100) : 0;
+          const diffStr  = diff != null ? `${diff > 0 ? '+' : ''}${diff.toFixed(1)}${nfhsRow.unit}` : null;
+          const trendColor = improved === true ? '#059669' : improved === false ? '#DC2626' : '#64748B';
+          return (
+            <>
+            <div className="kdi-step-label">
+              <span className="kdi-step-num" style={{ background: divColor }}>04</span>
+              <span className="kdi-step-title">NFHS Baseline</span>
+              <div className="kdi-step-line" />
+            </div>
+            <div className="kdi-section">
+              <div className="ncd-card">
+                <div className="ncd-card-header">
+                  <h3>Survey Baseline</h3>
+                  <span className="ncd-card-note">NFHS-4 (2015-16) vs NFHS-5 (2019-21) · Arunachal Pradesh</span>
                 </div>
-                {nfhsRows.map((d, i) => {
-                  const diff     = d.nfhs4 != null && d.nfhs5 != null ? (d.nfhs5 - d.nfhs4).toFixed(1) : null;
-                  const absDiff  = diff != null ? Math.abs(parseFloat(diff)) : 0;
-                  const improved = diff != null
-                    ? (d.lowerIsBetter ? d.nfhs5 < d.nfhs4 : d.nfhs5 > d.nfhs4) : null;
-                  const rowMax = Math.max(d.nfhs4 ?? 0, d.nfhs5 ?? 0) || 1;
-                  const pct4   = d.nfhs4 != null ? Math.round((d.nfhs4 / rowMax) * 100) : 0;
-                  const pct5   = d.nfhs5 != null ? Math.round((d.nfhs5 / rowMax) * 100) : 0;
-                  const intensity = Math.min(absDiff / 20, 1);
-                  let heatBg = 'rgba(148,163,184,.14)';
-                  if (improved === true)  heatBg = `hsl(142,${Math.round(40 + intensity * 52)}%,${Math.round(88 - intensity * 40)}%)`;
-                  if (improved === false) heatBg = `hsl(4,${Math.round(40 + intensity * 52)}%,${Math.round(88 - intensity * 40)}%)`;
-
-                  return (
-                    <div key={i} className="kdi-nfhs-row">
-                      <div className="kdi-nfhs-label">{d.label}</div>
-                      <div className="kdi-nfhs-vals">
-                        <div className="nfhs-bars">
-                          <div className="nfhs-bar-row">
-                            <span className="nfhs-bar-tag nfhs-bar-tag--4">N4</span>
-                            <div className="nfhs-bar-track">
-                              <div className="nfhs-bar nfhs-bar--4" style={{ width: `${pct4}%` }} />
-                            </div>
-                            <span className="nfhs-bar-num">
-                              {d.nfhs4 != null ? `${d.nfhs4}${d.unit}` : '—'}
-                            </span>
-                          </div>
-                          <div className="nfhs-bar-row">
-                            <span className="nfhs-bar-tag nfhs-bar-tag--5">N5</span>
-                            <div className="nfhs-bar-track">
-                              <div className="nfhs-bar nfhs-bar--5" style={{ width: `${pct5}%` }} />
-                            </div>
-                            <span className="nfhs-bar-num">
-                              {d.nfhs5 != null ? `${d.nfhs5}${d.unit}` : '—'}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="nfhs-diff--heat" style={{ background: heatBg }}>
-                          {diff != null
-                            ? `${parseFloat(diff) > 0 ? '+' : ''}${diff}${d.unit}`
-                            : '—'}
-                        </div>
+                <div className="kdi-nfhs-single">
+                  <div className="kdi-nfhs-single-label">{nfhsRow.label}</div>
+                  <div className="kdi-nfhs-single-bars">
+                    <div className="kdi-nfhs-single-row">
+                      <span className="nfhs-bar-tag nfhs-bar-tag--4">NFHS-4</span>
+                      <div className="nfhs-bar-track">
+                        <div className="nfhs-bar nfhs-bar--4" style={{ width: `${pct4}%` }} />
                       </div>
+                      <span className="kdi-nfhs-single-num">{nfhsRow.nfhs4 != null ? `${nfhsRow.nfhs4}${nfhsRow.unit}` : '—'}</span>
                     </div>
-                  );
-                })}
-              </div>
-              <div className="nfhs-source-note">
-                Source: NFHS-4 (2015-16) &amp; NFHS-5 (2019-21) State Fact Sheet — Arunachal Pradesh, IIPS Mumbai.
+                    <div className="kdi-nfhs-single-row">
+                      <span className="nfhs-bar-tag nfhs-bar-tag--5">NFHS-5</span>
+                      <div className="nfhs-bar-track">
+                        <div className="nfhs-bar nfhs-bar--5" style={{ width: `${pct5}%` }} />
+                      </div>
+                      <span className="kdi-nfhs-single-num">{nfhsRow.nfhs5 != null ? `${nfhsRow.nfhs5}${nfhsRow.unit}` : '—'}</span>
+                    </div>
+                  </div>
+                  {diffStr && (
+                    <div className="kdi-nfhs-single-change" style={{ color: trendColor }}>
+                      {improved === true ? '▲' : improved === false ? '▼' : ''} {diffStr} since NFHS-4
+                    </div>
+                  )}
+                </div>
+                <div className="nfhs-source-note">
+                  Source: NFHS-4 (2015-16) &amp; NFHS-5 (2019-21) State Fact Sheet — Arunachal Pradesh, IIPS Mumbai.
+                </div>
               </div>
             </div>
-          </div>
-        )}
+            </>
+          );
+        })()}
 
       </div>
 

@@ -604,7 +604,7 @@ function BiometricModal({ status, onUsePassword, onClose }) {
   return (
     <>
       <div className="v5-login-backdrop" onClick={onClose || undefined} />
-      <div className={`v5-bio-modal v5-bio-modal--${bioType}`}>
+      <div className={`v5-bio-modal v5-bio-modal--${bioType}`} style={{ zIndex: 10001 }}>
         <img src="/ap-emblem.svg" alt="AP" className="v5-bio-emblem" />
         <h2 className="v5-bio-title">{bioType === 'fingerprint' ? 'Touch ID' : 'Face ID'}</h2>
 
@@ -671,8 +671,8 @@ function BiometricModal({ status, onUsePassword, onClose }) {
 function EnableBioPrompt({ onEnable, onSkip }) {
   return (
     <>
-      <div className="v5-login-backdrop" />
-      <div className="v5-bio-modal v5-enable-bio">
+      <div className="v5-login-backdrop" onClick={onSkip} />
+      <div className="v5-bio-modal v5-enable-bio" style={{ zIndex: 10001 }}>
         <img src="/ap-emblem.svg" alt="AP" className="v5-bio-emblem" />
         <h2 className="v5-bio-title">Enable Biometric Login?</h2>
         <p className="v5-enable-bio-desc">Register your fingerprint or face for faster, secure access next time.</p>
@@ -734,17 +734,18 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
   const [bioStatus, setBioStatus]           = useState('idle');
   const [bioStored, setBioStored]           = useState(() => !!localStorage.getItem('bio_cred'));
   const [showEnableBio, setShowEnableBio]   = useState(false);
+  const [loggedInUser,  setLoggedInUser]    = useState(null);
   const divStats = useDivStats();
 
   /* ── Login success handler ────────────────────────────────────────────── */
-  function handleLoginSuccess() {
+  /* pending is { kd, prog, divData } or null — passed explicitly to avoid stale closure */
+  function handleLoginSuccess(pending) {
+    const p = pending ?? pendingDiv;
     setIsLoggedIn(true);
     setShowLoginGate(false);
-    if (pendingDiv) {
-      // came from an indicator click — go straight to that KD's detail page
-      const { kd, prog, divData } = pendingDiv;
-      setPendingDiv(null);
-      if (onDirectKD) onDirectKD(divData, prog.id, kd);
+    setPendingDiv(null);
+    if (p) {
+      if (onDirectKD) onDirectKD(p.divData, p.prog.id, p.kd);
     } else if (WEBAUTHN_SUPPORTED && !bioStored) {
       setShowEnableBio(true);
     } else {
@@ -754,9 +755,27 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
 
   /* ── Indicator-triggered login (pill clicked while not logged in) ─────── */
   function handleNeedLogin(payload) {
-    setPendingDiv(payload);          // payload = { kd, prog, divData }
-    setLoginUser(''); setLoginPass(''); setLoginError(''); setCaptchaAns(''); setCaptchaText(genCaptcha());
-    setShowLoginGate(true);
+    setPendingDiv(payload);
+    if (bioStored && WEBAUTHN_SUPPORTED) {
+      setBioStatus('scanning');
+      setShowBioModal(true);
+      authenticateBiometric()
+        .then(() => {
+          setBioStatus('success');
+          setTimeout(() => { setShowBioModal(false); setBioStatus('idle'); setLoggedInUser('PIF'); handleLoginSuccess(payload); }, 800);
+        })
+        .catch(() => {
+          setBioStatus('error');
+          setTimeout(() => {
+            setShowBioModal(false); setBioStatus('idle');
+            setLoginUser(''); setLoginPass(''); setLoginError(''); setCaptchaAns(''); setCaptchaText(genCaptcha());
+            setShowLoginGate(true);
+          }, 1400);
+        });
+    } else {
+      setLoginUser(''); setLoginPass(''); setLoginError(''); setCaptchaAns(''); setCaptchaText(genCaptcha());
+      setShowLoginGate(true);
+    }
   }
 
   /* ── Login button handler — triggers biometric or password gate ──────── */
@@ -767,7 +786,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       authenticateBiometric()
         .then(() => {
           setBioStatus('success');
-          setTimeout(() => { setShowBioModal(false); setBioStatus('idle'); handleLoginSuccess(); }, 800);
+          setTimeout(() => { setShowBioModal(false); setBioStatus('idle'); setLoggedInUser('PIF'); handleLoginSuccess(null); }, 800);
         })
         .catch(() => {
           setBioStatus('error');
@@ -810,7 +829,8 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         onNeedLogin={handleNeedLogin}
         onDirectKD={onDirectKD}
         isLoggedIn={isLoggedIn}
-        onLogout={() => { setIsLoggedIn(false); setShowLoginPopup(false); }} />
+        loggedInUser={loggedInUser}
+        onLogout={() => { setIsLoggedIn(false); setShowLoginPopup(false); setLoggedInUser(null); }} />
 
       {/* ── Navbar ──────────────────────────────────────────────────────── */}
       <header className="v4l-nav">
@@ -1122,7 +1142,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
                   onKeyDown={e => {
                     if (e.key === 'Enter') {
                       const ok = loginUser.trim() === 'PIF' && loginPass === '3000' && captchaAns.trim().toLowerCase() === captchaText.toLowerCase();
-                      if (ok) { handleLoginSuccess(); }
+                      if (ok) { setLoggedInUser(loginUser || 'PIF'); handleLoginSuccess(); }
                       else { setLoginError('Invalid credentials or captcha. Try again.'); setCaptchaText(genCaptcha()); setCaptchaAns(''); }
                     }
                   }} />
@@ -1130,7 +1150,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
               {loginError && <p className="v5-gate-error">{loginError}</p>}
               <button className="v5-gate-btn" onClick={() => {
                 const ok = loginUser.trim() === 'PIF' && loginPass === '3000' && captchaAns.trim().toLowerCase() === captchaText.toLowerCase();
-                if (ok) { handleLoginSuccess(); }
+                if (ok) { setLoggedInUser(loginUser || 'PIF'); handleLoginSuccess(); }
                 else { setLoginError('Invalid credentials or captcha. Try again.'); setCaptchaText(genCaptcha()); setCaptchaAns(''); }
               }}>Sign In</button>
             </div>

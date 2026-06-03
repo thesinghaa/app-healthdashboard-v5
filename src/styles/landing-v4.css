@@ -4553,10 +4553,13 @@ td:last-child { padding: 8px 10px; }
 
 /* ── Header ── */
 .wpg-header {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 16px;
   padding: 0 32px;
+  padding-right: 200px;
   border-bottom: 1px solid rgba(0,0,0,0.07);
   background: rgba(255,255,255,0.82);
   backdrop-filter: none;
@@ -6640,4 +6643,93 @@ td:last-child { padding: 8px 10px; }
 .wpg-pill--link:hover .wpg-pill-arrow {
   opacity: 0.55;
   transform: translateX(2px);
+}
+
+/* Header-right pinned to top-right — unaffected by header GSAP shift */
+.wpg-header-right--fixed {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 24px;
+  z-index: 10;
+}
+
+/* Wheel header login + welcome animation */
+.wpg-header-center {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.wpg-header-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  flex-shrink: 0;
+}
+.wpg-header-identity--out {
+  opacity: 0;
+  transform: translateX(-18px);
+  pointer-events: none;
+}
+.wpg-header-welcome {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateX(18px);
+  pointer-events: none;
+  transition: opacity 0.32s ease 0.18s, transform 0.32s ease 0.18s;
+  white-space: nowrap;
+}
+.wpg-header-welcome--in {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+.wpg-welcome-name {
+  font-size: 15px;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.01em;
+}
+.wpg-welcome-sep { color: #CBD5E1; font-size: 14px; }
+.wpg-welcome-div {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1E293B;
+}
+[data-theme="dark"] .wpg-welcome-div { color: #E2E8F0; }
+.wpg-welcome-cta {
+  font-size: 12px;
+  font-weight: 500;
+  color: #94A3B8;
+  font-style: italic;
+}
+.wpg-login-btn {
+  background: none;
+  border: 1.5px solid var(--dc, #1B6FF5);
+  color: var(--dc, #1B6FF5);
+  padding: 5px 16px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+  font-family: 'Inter', sans-serif;
+  flex-shrink: 0;
+}
+.wpg-login-btn:hover {
+  background: color-mix(in srgb, var(--dc, #1B6FF5) 10%, transparent);
 }
