@@ -10,7 +10,7 @@ const STEPS = [
   { label: 'Finalising',            pct: 100 },
 ];
 
-export default function ReportModal({ divisionId, divisionName, onClose }) {
+export default function ReportModal({ divisionId, divisionName, divisionColor, onClose }) {
   const [phase,   setPhase]   = useState('idle'); // idle | loading | done | error
   const [stepIdx, setStepIdx] = useState(0);
   const [html,    setHtml]    = useState('');
@@ -67,8 +67,10 @@ export default function ReportModal({ divisionId, divisionName, onClose }) {
 
   const step = STEPS[Math.min(stepIdx, STEPS.length - 1)];
 
+  const accent = divisionColor || '#FF5500';
+
   return (
-    <div className="rpt-overlay" onClick={onClose}>
+    <div className="rpt-overlay" style={{ '--rpt-accent': accent }} onClick={onClose}>
       <div className="rpt-modal" onClick={e => e.stopPropagation()}>
 
         {/* Header */}
@@ -97,10 +99,10 @@ export default function ReportModal({ divisionId, divisionName, onClose }) {
             <div className="rpt-idle">
               <div className="rpt-idle-icon">
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <rect x="8" y="6" width="32" height="36" rx="4" stroke="#FF5500" strokeWidth="2"/>
-                  <path d="M16 16h16M16 22h16M16 28h10" stroke="#FF5500" strokeWidth="2" strokeLinecap="round"/>
-                  <circle cx="36" cy="36" r="8" fill="#051c2c" stroke="#FF5500" strokeWidth="1.5"/>
-                  <path d="M33 36l2 2 4-4" stroke="#FF5500" strokeWidth="1.5" strokeLinecap="round"/>
+                  <rect x="8" y="6" width="32" height="36" rx="4" stroke={accent} strokeWidth="2"/>
+                  <path d="M16 16h16M16 22h16M16 28h10" stroke={accent} strokeWidth="2" strokeLinecap="round"/>
+                  <circle cx="36" cy="36" r="8" fill="#051c2c" stroke={accent} strokeWidth="1.5"/>
+                  <path d="M33 36l2 2 4-4" stroke={accent} strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               </div>
               <h3 className="rpt-idle-title">Generate Division Report</h3>

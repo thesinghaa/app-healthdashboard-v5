@@ -5102,7 +5102,7 @@ h1, h2, h3, h4 {
    ═══════════════════════════════════════════════════════════════════ */
 
 .rpt-overlay {
-  position: fixed; inset: 0; z-index: 900;
+  position: fixed; inset: 0; z-index: 10002;
   background: rgba(5,6,15,0.82);
   backdrop-filter: blur(12px);
   display: flex; align-items: center; justify-content: center;
@@ -7256,3 +7256,34 @@ h1, h2, h3, h4 {
 .nfhs-bar-track { flex: 1; height: 10px; background: rgba(148,163,184,0.15); border-radius: 99px; overflow: hidden; }
 .nfhs-bar--4 { height: 100%; background: #94A3B8; border-radius: 99px; transition: width 0.6s ease; }
 .nfhs-bar--5 { height: 100%; background: #6366F1; border-radius: 99px; transition: width 0.6s ease; }
+
+/* ── ReportModal — division color theming via --rpt-accent ─────────── */
+.rpt-modal {
+  border: 1px solid color-mix(in srgb, var(--rpt-accent, #FF5500) 30%, transparent);
+  border-top: 3px solid var(--rpt-accent, #FF5500);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.70), 0 0 40px color-mix(in srgb, var(--rpt-accent, #FF5500) 8%, transparent);
+}
+.rpt-header-label { color: var(--rpt-accent, #FF5500); }
+.rpt-btn--generate {
+  background: var(--rpt-accent, #FF5500);
+}
+.rpt-btn--generate:hover {
+  background: color-mix(in srgb, var(--rpt-accent, #FF5500) 85%, #000);
+}
+.rpt-pill {
+  background: color-mix(in srgb, var(--rpt-accent, #FF5500) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rpt-accent, #FF5500) 25%, transparent);
+  color: color-mix(in srgb, var(--rpt-accent, #FF5500) 90%, #fff);
+}
+.rpt-spinner {
+  border-color: color-mix(in srgb, var(--rpt-accent, #FF5500) 20%, transparent);
+  border-top-color: var(--rpt-accent, #FF5500);
+}
+.rpt-progress-bar {
+  background: color-mix(in srgb, var(--rpt-accent, #FF5500) 15%, transparent);
+}
+.rpt-progress-fill { background: var(--rpt-accent, #FF5500); }
+.rpt-agent-step--active .rpt-agent-dot {
+  background: var(--rpt-accent, #FF5500);
+  box-shadow: 0 0 6px var(--rpt-accent, #FF5500);
+}

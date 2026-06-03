@@ -6717,19 +6717,47 @@ td:last-child { padding: 8px 10px; }
   font-style: italic;
 }
 .wpg-login-btn {
-  background: none;
-  border: 1.5px solid var(--dc, #1B6FF5);
-  color: var(--dc, #1B6FF5);
-  padding: 5px 16px;
+  background: var(--dc, #1B6FF5);
+  border: 2px solid var(--dc, #1B6FF5);
+  color: #fff;
+  padding: 9px 24px;
   border-radius: 99px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.15s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease;
   font-family: 'Inter', sans-serif;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--dc, #1B6FF5) 35%, transparent);
   flex-shrink: 0;
 }
 .wpg-login-btn:hover {
-  background: color-mix(in srgb, var(--dc, #1B6FF5) 10%, transparent);
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+/* ── AI Report button in wheel header ─────────────────────────────────── */
+.wpg-report-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1.5px solid var(--dc, #1B6FF5);
+  color: var(--dc, #1B6FF5);
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.01em;
+  flex-shrink: 0;
+}
+.wpg-report-btn:hover {
+  background: var(--dc, #1B6FF5);
+  color: #fff;
+  transform: translateY(-1px);
 }

@@ -830,7 +830,8 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
         onDirectKD={onDirectKD}
         isLoggedIn={isLoggedIn}
         loggedInUser={loggedInUser}
-        onLogout={() => { setIsLoggedIn(false); setShowLoginPopup(false); setLoggedInUser(null); }} />
+        onLogout={() => { setIsLoggedIn(false); setShowLoginPopup(false); setLoggedInUser(null); }}
+        onReport={(divId, divName, divColor) => setReportDiv({ id: divId, name: divName, color: divColor })} />
 
       {/* ── Navbar ──────────────────────────────────────────────────────── */}
       <header className="v4l-nav">
@@ -1076,7 +1077,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       </footer>
 
       {reportDiv && (
-        <ReportModal division={reportDiv} onClose={() => setReportDiv(null)} />
+        <ReportModal divisionId={reportDiv.id} divisionName={reportDiv.name} divisionColor={reportDiv.color} onClose={() => setReportDiv(null)} />
       )}
 
       {/* ── Biometric modal ───────────────────────────────────────────── */}

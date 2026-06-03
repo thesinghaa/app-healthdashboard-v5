@@ -172,7 +172,7 @@ function ProgItem({ prog, color, hovered, setHovered, onSelect, side }) {
 }
 
 /* ── Full-page Programme Wheel ────────────────────────────────────────────── */
-function ProgrammeWheelPage({ division, divData, onSelect, onSelectKD, isLoggedIn, loggedInUser, onLogin, onClose, onLogout }) {
+function ProgrammeWheelPage({ division, divData, onSelect, onSelectKD, isLoggedIn, loggedInUser, onLogin, onClose, onLogout, onReport }) {
   const [hovered, setHovered]   = useState(null);
   const [selected, setSelected] = useState(null);
   const pageRef   = useRef(null);
@@ -324,6 +324,18 @@ function ProgrammeWheelPage({ division, divData, onSelect, onSelectKD, isLoggedI
         </div>
       </header>
       <div className="wpg-header-right wpg-header-right--fixed">
+        {isLoggedIn && onReport && (
+          <button className="wpg-report-btn" style={{ '--dc': division.color }} onClick={onReport}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14,2 14,8 20,8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <line x1="10" y1="9" x2="8" y2="9"/>
+            </svg>
+            AI Report
+          </button>
+        )}
         <span className="wpg-prog-count">{n} Programmes</span>
         <button className="wpg-close-btn" onClick={onLogout || close} aria-label="Close">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -842,7 +854,7 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes, onLogout })
 }
 
 /* ── Left Nav panel ───────────────────────────────────────────────────────── */
-export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect, onNeedLogin, onDirectKD, isLoggedIn, loggedInUser, onLogout }) {
+export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect, onNeedLogin, onDirectKD, isLoggedIn, loggedInUser, onLogout, onReport }) {
   const [open,      setOpen]      = useState(false);
   const [activeDiv, setActiveDiv] = useState(null);
   const [showWheel, setShowWheel] = useState(false);
@@ -961,6 +973,7 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openW
           onLogin={() => onNeedLogin && onNeedLogin(null)}
           onClose={() => { setActiveDiv(null); setShowWheel(false); }}
           onLogout={onLogout ? () => { setActiveDiv(null); setShowWheel(false); onLogout(); } : null}
+          onReport={onReport ? () => onReport(activeDiv.id, activeDiv.name, activeDiv.color) : null}
         />
       )}
     </>
