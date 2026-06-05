@@ -22,7 +22,7 @@ const ProgrammeProgressChart = lazy(() => import('../components/ProgrammeProgres
 /* ── Division nav bar data ──────────────────────────────────────────────── */
 const DIV_NAV = [
   { id: 'rch',  short: 'RCH',  name: 'Reproductive & Child Health',  color: '#1B6FF5', light: '#DBEAFE' },
-  { id: 'ndcp', short: 'NDCP', name: 'National Disease Control',      color: '#D97706', light: '#FEF3C7' },
+  { id: 'ndcp', short: 'NDCP', name: 'National Disease Control Programmes', color: '#D97706', light: '#FEF3C7' },
   { id: 'ncd',  short: 'NCD',  name: 'Non-Communicable Diseases',     color: '#7C3AED', light: '#EDE9FE' },
   { id: 'hss',  short: 'HSS',  name: 'Health Systems Strengthening',  color: '#0F9B82', light: '#CCFBF1' },
   { id: 'hrh',  short: 'HRH',  name: 'Human Resources for Health',    color: '#DC4B2A', light: '#FEE2E2' },
@@ -1097,7 +1097,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
           <nav className="v4l-footer-nav">
             {DIVISIONS.map(div => (
               <button key={div.id} className="v4l-footer-link" data-abbr={div.label}
-                      onClick={() => onSelectDivision(div)}>
+                      onClick={() => setDivPillTarget(div.id)}>
                 {div.label}
               </button>
             ))}

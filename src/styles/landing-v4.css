@@ -6792,7 +6792,7 @@ td:last-child { padding: 8px 10px; }
 }
 .v5-div-pill-divider {
   width: 2.5px;
-  height: 32px;
+  align-self: stretch;
   background: color-mix(in srgb, var(--dc) 50%, transparent);
   flex-shrink: 0;
   margin: 0 12px;
@@ -6831,8 +6831,23 @@ td:last-child { padding: 8px 10px; }
   font-size: 11px;
   font-weight: 700;
   color: #475569;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
   line-height: 1.2;
+}
+
+.v5-div-bar-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.v5-div-bar-label-row {
+  display: flex;
+  justify-content: center;
+  padding: 6px 48px 0;
+  background: #fff;
 }
