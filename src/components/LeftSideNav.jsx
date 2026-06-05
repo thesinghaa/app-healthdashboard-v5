@@ -573,7 +573,7 @@ const DIVISION_STORIES = {
         tab: 'Mothers',
         title: "Safe pregnancy, safe delivery",
         question: 'Is every registered pregnancy reaching a safe, supported delivery?',
-        narrative: "Every pregnancy begins as a registration at a sub-centre or PHC. We follow that pregnancy through five checkpoints — early registration in the first trimester, four full ante-natal check-ups, a complete iron course, and finally a safe institutional delivery. Each step is a chance to catch danger early. Together they tell us whether the mother and her baby reached a facility well.",
+        narrative: "A pregnancy registered late is a pregnancy where early danger signs go unseen. In Arunachal Pradesh, nearly every pregnancy gets registered — but when it happens, how often a mother comes back for check-ups, and whether she finally delivers in a hospital rather than at home: these are the four steps that tell us whether the health system truly walks with her. Together, they answer one question: does registration become safety?",
         hero: { value: '70%', text: 'of registered pregnancies ended in a facility delivery this year — 16,947 mothers gave birth in a hospital or health centre' },
         bars: [
           { label: 'Registered for ANC',         pct: 95, count: '24,229' },
@@ -590,7 +590,7 @@ const DIVISION_STORIES = {
         tab: 'Newborns',
         title: 'The first week of life',
         question: 'Are newborns getting the care they need during their most critical days?',
-        narrative: "A newborn's safety does not end at birth. We pair the headline outcome — the stillbirth rate — with four first-week interventions that decide whether a baby survives and thrives. Screening at birth catches treatable conditions, SNCUs save preterm and sick babies, breastfeeding within the first hour seeds lifelong immunity, and ASHA home visits in the days that follow catch danger signs no hospital sees. Together they paint the first week.",
+        narrative: "More babies die in their first seven days than at any other point in childhood. A quick screen at birth catches the ones born too small or too soon. A nurse in the SNCU saves those who wouldn't survive without care. A feed within the first hour gives lifelong protection that no medicine can replicate. And an ASHA visit at home in the days after discharge catches the danger signs no hospital ever sees. These four numbers together tell us whether Arunachal's newborns are truly safe — or just born.",
         hero: { value: '8.89', text: 'stillbirths per 1,000 births — comfortably below the target of 12, among the better rates in the region' },
         bars: [
           { label: 'Newborns screened at birth',  pct: 87, count: '—' },
@@ -606,7 +606,7 @@ const DIVISION_STORIES = {
         tab: 'Immunisation',
         title: 'Full immunisation by year one',
         question: 'Is every child completing the full vaccine schedule by their first birthday?',
-        narrative: "Every child should pass through a series of vaccines from the hour of birth to the first birthday. We anchor the story on four indicators that test the schedule end-to-end — Hep-B given at birth, the full Pentavalent course by nine months, the second measles-rubella dose, and U-WIN digital capture so no child is invisible. Together they tell us whether the cold chain is reaching every village and every household.",
+        narrative: "Every vaccine on the schedule exists because a child died without it. The first dose is given at birth. The last arrives just before the first birthday. In between, a cold chain must hold, a health worker must show up, and a family must return — again and again. We follow four checkpoints across that first year: birth dose, full immunisation, the second measles shot, and whether the child is registered digitally so no one falls through the cracks. Together they tell us whether protection is truly universal — or just nearly so.",
         hero: { value: '91%', text: 'of children are fully immunised by their first birthday — 18,024 of 19,823 infants, with almost no drop-out between doses' },
         bars: [
           { label: 'Hep-B birth dose',            pct: 90, count: '14,018' },
@@ -622,7 +622,7 @@ const DIVISION_STORIES = {
         tab: 'Nutrition',
         title: 'Iron for every age',
         question: 'Is iron supplementation reaching every at-risk group — from infants to pregnant women?',
-        narrative: "Iron deficiency is the single biggest reversible cause of low energy, poor learning, and risky pregnancies in India. To see whether iron reaches everyone who needs it, we track three life stages — the youngest at-risk children (6-59 months), school-going children (5-9 years), and pregnant women. The three numbers reveal exactly where the supply chain works, and where it stops.",
+        narrative: "Iron deficiency doesn't announce itself. It shows up quietly — as a child who can't concentrate, a teenager who tires easily, a pregnancy that turns dangerous. The damage it does earliest in life is also the hardest to undo. Arunachal's programme reaches three groups who need iron the most: pregnant women, school-age children, and infants under five. Each group gets a different form — tablets or syrup — through a different delivery system. Tracking all three tells us not just whether iron is being distributed, but whether it's actually reaching the youngest, most vulnerable hands.",
         hero: { value: '88%', text: 'of pregnant women completed their full iron course — 21,388 of 24,227 — but coverage drops sharply for the youngest children' },
         bars: [
           { label: 'Pregnant women (180 IFA)',    pct: 88, count: '21,388' },
@@ -637,7 +637,7 @@ const DIVISION_STORIES = {
         tab: 'Family Planning',
         title: 'An unequal burden',
         question: 'Is family planning a shared responsibility — or does it still fall on women alone?',
-        narrative: "Family planning rests on choice — but right now the burden of that choice sits almost entirely on women. We picked three signals that reveal the shape of the conversation: post-partum IUCD shows whether women hear the option at delivery, the supply-chain indicator (FPLMIS) shows whether methods are actually on the shelf, and Saas-Bahu Sammelans measure how often families discuss it openly at home.",
+        narrative: "In most households in Arunachal Pradesh, the decision to space or limit births falls almost entirely on women — and so does the physical burden of acting on it. Whether a woman hears about long-acting options at the moment of delivery, whether those options are actually stocked at her nearest facility, and whether families are having open conversations about planning: these three signals reveal how shared the responsibility really is. One number, sitting at zero, answers the question most directly.",
         hero: { value: '0', text: 'additional male sterilisations were recorded this year. Family planning in Arunachal still rests almost entirely on women' },
         barNote: 'Bars show progress against this year’s target',
         bars: [
@@ -854,7 +854,7 @@ function DivisionStoryPage({ division, onClose, onExploreProgrammes, onLogout })
 }
 
 /* ── Left Nav panel ───────────────────────────────────────────────────────── */
-export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect, onNeedLogin, onDirectKD, isLoggedIn, loggedInUser, onLogout, onReport }) {
+export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openWheelDirect, openDivDirect, onNeedLogin, onDirectKD, isLoggedIn, loggedInUser, onLogout, onReport }) {
   const [open,      setOpen]      = useState(false);
   const [activeDiv, setActiveDiv] = useState(null);
   const [showWheel, setShowWheel] = useState(false);
@@ -865,6 +865,13 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openW
     const div = DIVISIONS.find(d => d.id === openWheelDirect);
     if (div) { setActiveDiv(div); setShowWheel(true); }
   }, [openWheelDirect]);
+
+  // Called from landing page division pills — mirrors row click (story first for RCH, wheel for others)
+  useEffect(() => {
+    if (!openDivDirect) return;
+    const div = DIVISIONS.find(d => d.id === openDivDirect);
+    if (div) { setActiveDiv(div); setShowWheel(false); }
+  }, [openDivDirect]);
 
   const panelRef = useRef(null);
   const rowRefs  = useRef([]);
@@ -906,52 +913,6 @@ export default function LeftSideNav({ onSelectDivision, onSelectProgramme, openW
 
   return (
     <>
-      <div className="lsnav-panel" ref={panelRef}>
-        <button className={`lsnav-tab${open ? ' lsnav-tab--open' : ''}`}
-          onClick={() => setOpen(o => !o)}
-          aria-label={open ? 'Close navigation' : 'Open division navigation'}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            {open ? <path d="M15 18l-6-6 6-6"/> : <path d="M9 18l6-6-6-6"/>}
-          </svg>
-        </button>
-
-        <div className="lsnav-inner">
-          <div className="lsnav-header-banner">
-            <img src="/banners/banner1.jpeg" className="lsnav-banner-img" alt="" />
-            <div className="lsnav-header-content">
-              <div className="lsnav-heading-row">
-                <img src="/nhm-logo.png" className="lsnav-heading-logo" alt="NHM" />
-                <span className="lsnav-heading-divider" />
-                <p className="lsnav-heading">NHM Divisions</p>
-              </div>
-              <p className="lsnav-sub">Select a division to explore</p>
-            </div>
-          </div>
-
-          <div className="lsnav-divlist">
-            {DIVISIONS.map((div, i) => (
-              <button key={div.id} ref={el => rowRefs.current[i] = el}
-                className="lsnav-div-row" style={{ '--dc': div.color, '--db': div.light }}
-                onClick={() => { setOpen(false); setShowWheel(false); setActiveDiv(div); }}>
-                <span className="lsnav-div-icon-bg">
-                  <img src={`/sidebar/${div.short}.png`} alt="" />
-                </span>
-                <span className="lsnav-div-text">
-                  <span className="lsnav-div-short">{div.short}</span>
-                  <span className="lsnav-div-name">{div.name}</span>
-                </span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M9 18l6-6-6-6"/>
-                </svg>
-              </button>
-            ))}
-          </div>
-
-          <p className="lsnav-footer">NHM Arunachal Pradesh · FY 2025-26</p>
-        </div>
-      </div>
-
-      {open && <div className="lsnav-backdrop" onClick={() => setOpen(false)} />}
 
       {activeDiv && !showWheel && (
         <DivisionStoryPage

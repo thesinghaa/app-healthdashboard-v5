@@ -47,7 +47,7 @@ React 18 + Vite · GSAP · Plotly.js (`react-plotly.js`, lazy) · Recharts · @n
 | `src/data/kdData.js` | `KD_TREE` — all ~157 KDs |
 | `src/data/getDivisionStats.js` | `FACE0_PINNED` — pinned face-0 stat per division |
 | `src/data/programs.js` | Division → programme metadata |
-| `src/data/districtDemography.js` | 27 AP districts: pop, area, density |
+| `src/data/districtDemography.js` | 25 districts (GeoJSON mapped; 27 in demography data, 2 missing boundary shapes) AP districts: pop, area, density |
 | `src/components/DistrictMap.jsx` | AP choropleth (react-simple-maps + GSAP panel) |
 | `src/components/StatCard3D.jsx` | 3-face GSAP prism — frozen on face 0 |
 | `api/report/[divisionId].js` | Vercel serverless report (3 Groq calls) |

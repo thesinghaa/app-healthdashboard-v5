@@ -19,6 +19,15 @@ const DistrictMap            = lazy(() => import('../components/DistrictMap'));
 const ProgrammeProgressChart = lazy(() => import('../components/ProgrammeProgressChart'));
 
 
+/* ── Division nav bar data ──────────────────────────────────────────────── */
+const DIV_NAV = [
+  { id: 'rch',  short: 'RCH',  name: 'Reproductive & Child Health',  color: '#1B6FF5', light: '#DBEAFE' },
+  { id: 'ndcp', short: 'NDCP', name: 'National Disease Control',      color: '#D97706', light: '#FEF3C7' },
+  { id: 'ncd',  short: 'NCD',  name: 'Non-Communicable Diseases',     color: '#7C3AED', light: '#EDE9FE' },
+  { id: 'hss',  short: 'HSS',  name: 'Health Systems Strengthening',  color: '#0F9B82', light: '#CCFBF1' },
+  { id: 'hrh',  short: 'HRH',  name: 'Human Resources for Health',    color: '#DC4B2A', light: '#FEE2E2' },
+];
+
 /* ── Abbreviation hover context ─────────────────────────────────────────── */
 const AbbrevCtx = createContext({ hovered: null, hoveredEl: null, setAbbrev: () => {} });
 
@@ -730,6 +739,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
   const [captchaText, setCaptchaText]       = useState(() => genCaptcha());
   const [wheelTarget, setWheelTarget]       = useState(null);
   const [pendingDiv,  setPendingDiv]        = useState(null);
+  const [divPillTarget, setDivPillTarget]  = useState(null);
   const [showBioModal, setShowBioModal]     = useState(false);
   const [bioStatus, setBioStatus]           = useState('idle');
   const [bioStored, setBioStored]           = useState(() => !!localStorage.getItem('bio_cred'));
@@ -826,6 +836,7 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
       {/* ── Left side navigation panel ──────────────────────────────────── */}
       <LeftSideNav onSelectDivision={onSelectDivision} onSelectProgramme={onSelectProgramme}
         openWheelDirect={wheelTarget}
+        openDivDirect={divPillTarget}
         onNeedLogin={handleNeedLogin}
         onDirectKD={onDirectKD}
         isLoggedIn={isLoggedIn}
@@ -874,6 +885,27 @@ export default function LandingPage({ onSelectDivision, onViewSummary, onDirectK
             </button>
           )}
         </div>
+      </div>
+
+      {/* ── Division nav bar ────────────────────────────────────────────── */}
+      <div className="v5-div-bar">
+        {DIV_NAV.map(div => (
+          <button
+            key={div.id}
+            className="v5-div-pill"
+            style={{ '--dc': div.color, '--dl': div.light }}
+            onClick={() => setDivPillTarget(div.id)}
+          >
+            <span className="v5-div-pill-icon-wrap">
+              <img src={`/sidebar/${div.short}.png`} alt="" className="v5-div-pill-icon" />
+            </span>
+            <span className="v5-div-pill-divider" />
+            <span className="v5-div-pill-text">
+              <span className="v5-div-pill-short">{div.short}</span>
+              <span className="v5-div-pill-name">{div.name}</span>
+            </span>
+          </button>
+        ))}
       </div>
 
       {/* ── Stat Strip — static cards ────────────────────────────────────── */}

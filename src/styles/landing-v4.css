@@ -2515,7 +2515,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 40px;
-  padding: 32px 48px;
+  padding: 20px 48px;
   background: #fff;
   position: relative;
 }
@@ -2524,9 +2524,9 @@
   position: absolute;
   bottom: 0;
   left: 48px;
-  width: 50%;
+  width: calc(100% - 96px);
   height: 2px;
-  background: linear-gradient(to right, #17823e 0%, rgba(23,130,62,0.15) 100%);
+  background: linear-gradient(to right, #17823e 0%, #17823e 25%, transparent 50%, #17823e 75%, #17823e 100%);
   border-radius: 2px;
 }
 .v5-hero-left {
@@ -6760,4 +6760,79 @@ td:last-child { padding: 8px 10px; }
   background: var(--dc, #1B6FF5);
   color: #fff;
   transform: translateY(-1px);
+}
+
+/* ── v5-div-bar — horizontal division selector on landing page ────────── */
+.v5-div-bar {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  padding: 12px 48px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+.v5-div-pill {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 6px 14px 6px 6px;
+  border: 2px solid color-mix(in srgb, var(--dc) 40%, transparent);
+  border-radius: 50px;
+  background: var(--dl);
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, transform 0.12s, box-shadow 0.18s;
+  text-align: left;
+}
+.v5-div-pill:hover {
+  border-color: var(--dc);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--dc) 20%, transparent);
+}
+.v5-div-pill-divider {
+  width: 2.5px;
+  height: 32px;
+  background: color-mix(in srgb, var(--dc) 50%, transparent);
+  flex-shrink: 0;
+  margin: 0 12px;
+  border-radius: 2px;
+}
+.v5-div-pill-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--dc) 12%, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 0;
+}
+.v5-div-pill-icon {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.v5-div-pill-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.v5-div-pill-short {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--dc);
+  line-height: 1;
+}
+.v5-div-pill-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
