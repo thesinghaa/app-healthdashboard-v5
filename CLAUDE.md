@@ -1,6 +1,6 @@
 # PIF Health Dashboard V5 — CLAUDE.md
 
-> **V5 only.** Local: `/Users/thesinghaa/PIFHealthDashboard-v5/`. V1–V4 frozen — never touch.
+> **V5 only.** Local: `/Users/thesinghaa/PIFHealthDashboard-v5/`. V1–V4 frozen — never touch. V6 is at `/Users/thesinghaa/PIFHealthDashboard-v6` (cloned from V5, June 2026).
 
 ---
 
